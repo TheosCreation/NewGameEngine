@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GrapicsEngine.h"
 #include "Prerequisites.h"
+#include "VertexArrayObject.h"
 
 class Game
 {
@@ -20,6 +21,6 @@ protected:
 	GrapicsEngine* m_graphicsEngine;
 	GLFWwindow* Window = nullptr;
 
-	VertexArrayObjectPtr m_triangleVAO;
+	std::shared_ptr<VertexArrayObject> m_triangleVAO;
 };
 

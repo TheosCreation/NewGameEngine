@@ -28,7 +28,6 @@ Game::Game()
         onQuit();
     }
 
-    m_graphicsEngine->InitialSetup();
     m_graphicsEngine->SetViewport(Rect(0, 0, 800, 800));
 }
 
@@ -50,7 +49,7 @@ void Game::onCreate()
         0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,   // Cyan
     };
 
-    m_graphicsEngine->createVertexArrayObject({ (void*)Vertices_Tri0, sizeof(float) * 3, 3 });
+    m_triangleVAO = m_graphicsEngine->createVertexArrayObject({ (void*)Vertices_Tri0, sizeof(float) * 3, 3 });
 }
 
 void Game::onUpdate()
@@ -65,6 +64,7 @@ void Game::onUpdate()
 
 void Game::onQuit()
 {
+    quit();
 }
 
 void Game::run()

@@ -29,7 +29,6 @@ public:
 public:	
 	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferData& data);
 public:
-	void InitialSetup();
 	void SetViewport(const Rect& size);
 	void setVertexArrayObject(const VertexArrayObjectPtr& vao);
 	//void MakeTriangle(GLuint* VB0, GLuint* VA0, GLfloat* vertices, GLsizei numVertices);

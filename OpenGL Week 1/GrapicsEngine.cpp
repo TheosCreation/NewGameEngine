@@ -50,20 +50,20 @@ void GrapicsEngine::drawTriangles(unsigned int vertexCount, unsigned int offset)
     glDrawArrays(GL_TRIANGLES, offset, vertexCount);
 }
 
-void GrapicsEngine::InitialSetup()
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    //glViewport(0, 0, 800, 800);
-
-    //Program_FixedTri = ShaderLoader::CreateProgram("Resources/Shaders/FixedTriangle.vert", "Resources/Shaders/FixedColor.frag");
-    //Program_PositionOnly = ShaderLoader::CreateProgram("Resources/Shaders/PositionOnly.vert", "Resources/Shaders/FixedColor.frag");
-    //Program_VertexColor = ShaderLoader::CreateProgram("Resources/Shaders/VertexColor.vert", "Resources/Shaders/VertexColor.frag");
-    //Program_ColorFade = ShaderLoader::CreateProgram("Resources/Shaders/VertexColor.vert", "Resources/Shaders/VertexColorFade.frag");
-
-    //MakeTriangle(&VBO_Tri0, &VAO_Tri0, Vertices_Tri0, sizeof(Vertices_Tri0) / sizeof(GLfloat));
-
-    //MakeTriangle(&VBO_Tri1, &VAO_Tri1, Vertices_Tri1, sizeof(Vertices_Tri1) / sizeof(GLfloat));
-}
+//void GrapicsEngine::InitialSetup()
+//{
+//    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+//    //glViewport(0, 0, 800, 800);
+//
+//    //Program_FixedTri = ShaderLoader::CreateProgram("Resources/Shaders/FixedTriangle.vert", "Resources/Shaders/FixedColor.frag");
+//    //Program_PositionOnly = ShaderLoader::CreateProgram("Resources/Shaders/PositionOnly.vert", "Resources/Shaders/FixedColor.frag");
+//    //Program_VertexColor = ShaderLoader::CreateProgram("Resources/Shaders/VertexColor.vert", "Resources/Shaders/VertexColor.frag");
+//    //Program_ColorFade = ShaderLoader::CreateProgram("Resources/Shaders/VertexColor.vert", "Resources/Shaders/VertexColorFade.frag");
+//
+//    //MakeTriangle(&VBO_Tri0, &VAO_Tri0, Vertices_Tri0, sizeof(Vertices_Tri0) / sizeof(GLfloat));
+//
+//    //MakeTriangle(&VBO_Tri1, &VAO_Tri1, Vertices_Tri1, sizeof(Vertices_Tri1) / sizeof(GLfloat));
+//}
 
 //void GrapicsEngine::MakeTriangle(GLuint* VB0, GLuint* VA0, GLfloat* vertices, GLsizei numVertices) {
 //    glGenBuffers(1, *&VB0);
