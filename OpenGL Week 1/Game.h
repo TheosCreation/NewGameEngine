@@ -21,6 +21,7 @@ protected:
 	GrapicsEngine* m_graphicsEngine;
 	GLFWwindow* Window = nullptr;
 
-	std::shared_ptr<VertexArrayObject> m_triangleVAO;
+	VertexArrayObjectPtr m_triangleVAO;
+	//VertexArrayObjectPtr m_triangleVAO1;
 };
 
