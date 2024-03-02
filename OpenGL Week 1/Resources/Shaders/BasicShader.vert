@@ -1,17 +1,22 @@
 #version 460 core
 
-uniform UniformData
+layout (row_major) uniform UniformData
 {
-    float scale;
+    mat4 world;
+	mat4 projection;
 };
 
 layout (location = 0) in vec3 Position;
-layout (location = 1) in vec3 Color;
+layout (location = 1) in vec2 texcoord;
 
 layout (location = 0) out vec3 FragColor;
 
 void main()
 {
-	gl_Position = vec4(Position * scale, 1.0f);
-	FragColor = Color;
+	vec4 pos = vec4(Position, 1.0f) * world;
+	pos = pos * projection;
+
+	gl_Position = pos;
+
+	FragColor = vec3(texcoord.x, texcoord.y, 0);
 }

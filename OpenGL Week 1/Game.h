@@ -3,6 +3,7 @@
 #include <chrono>
 #include "GrapicsEngine.h"
 #include "Prerequisites.h"
+#include "Rect.h"
 
 class Game
 {
@@ -20,6 +21,7 @@ protected:
 	bool m_isRunning = true;
 	GrapicsEngine* m_graphicsEngine;
 	GLFWwindow* Window = nullptr;
+	Rect displaySize = Rect(1000, 1000);
 
 	VertexArrayObjectPtr m_polygonVAO;
 	UniformBufferPtr m_uniform;

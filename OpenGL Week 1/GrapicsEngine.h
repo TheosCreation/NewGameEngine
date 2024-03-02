@@ -14,18 +14,21 @@ public:
 	~GrapicsEngine();
 
 public:	
-	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& data);
+	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc);
+	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc);
 	UniformBufferPtr createUniform(const UniformBufferDesc& desc);
 	ShaderProgramPtr createShaderProgram(const ShaderProgramDesc& desc);
 public:
+	void clear(const Vec4& color);
+	void setFaceCulling(const CullType& type);
+	void setWindingOrder(const WindingOrder& type);
 	void SetViewport(const Rect& size);
+	void Render(GLFWwindow* WindowToRenderTo);
 	void setVertexArrayObject(const VertexArrayObjectPtr& vao);
 	void setUniformBuffer(const UniformBufferPtr& buffer, uint slot);
 	void setShaderProgram(const ShaderProgramPtr& program);
 	void drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset);
-	void Render(GLFWwindow* WindowToRenderTo);
-	void clear(const Vec4& color);
-	void Update();
+	void drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount);
 
 private:
 };

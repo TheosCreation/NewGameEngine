@@ -4,9 +4,14 @@
 #include "ShaderProgram.h"
 
 //float CurrentTime;
-VertexArrayObjectPtr GrapicsEngine::createVertexArrayObject(const VertexBufferDesc& data)
+VertexArrayObjectPtr GrapicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
 {
-    return std::make_shared<VertexArrayObject>(data);
+    return std::make_shared<VertexArrayObject>(vbDesc);
+}
+
+VertexArrayObjectPtr GrapicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc)
+{
+    return std::make_shared<VertexArrayObject>(vbDesc, ibDesc);
 }
 
 UniformBufferPtr GrapicsEngine::createUniform(const UniformBufferDesc& desc)
@@ -19,9 +24,42 @@ ShaderProgramPtr GrapicsEngine::createShaderProgram(const ShaderProgramDesc& des
     return std::make_shared<ShaderProgram>(desc);
 }
 
+void GrapicsEngine::clear(const Vec4& color)
+{
+    glClearColor(color.x, color.y, color.z, color.w);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void GrapicsEngine::setFaceCulling(const CullType& type)
+{
+    auto cullType = GL_BACK;
+
+    if (type == CullType::FrontFace) cullType = GL_FRONT;
+    else if (type == CullType::BackFace) cullType = GL_BACK;
+    else if (type == CullType::Both) cullType = GL_FRONT_AND_BACK;
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(cullType);
+}
+
+void GrapicsEngine::setWindingOrder(const WindingOrder& type)
+{
+    auto orderType = GL_CW;
+
+    if (type == WindingOrder::ClockWise) orderType = GL_CW;
+    else if (type == WindingOrder::CounterClockWise) orderType = GL_CCW;
+
+    glFrontFace(orderType);
+}
+
 void GrapicsEngine::SetViewport(const Rect& size)
 {
     glViewport(size.left, size.top, size.width, size.height);
+}
+
+void GrapicsEngine::Render(GLFWwindow* WindowToRenderTo)
+{
+    glfwSwapBuffers(WindowToRenderTo);
 }
 
 GrapicsEngine::GrapicsEngine()
@@ -53,24 +91,20 @@ void GrapicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexC
 
     switch (triangleType)
     {
-        case TriangleList: { glTriType = GL_TRIANGLES; break; }
-        case TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+        case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
+        case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
     }
     glDrawArrays(glTriType, offset, vertexCount);
 }
 
-void GrapicsEngine::Render(GLFWwindow* WindowToRenderTo)
+void GrapicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount)
 {
-    glfwSwapBuffers(WindowToRenderTo);
-}
+    auto glTriType = GL_TRIANGLES;
 
-void GrapicsEngine::clear(const Vec4& color)
-{
-	glClearColor(color.x, color.y, color.z, color.w);
-	glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void GrapicsEngine::Update()
-{
-    //CurrentTime = (float)glfwGetTime();
+    switch (triangleType)
+    {
+        case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
+        case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+    }
+    glDrawElements(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr);
 }

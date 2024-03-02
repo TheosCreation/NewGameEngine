@@ -7,8 +7,8 @@
 ShaderProgram::ShaderProgram(const ShaderProgramDesc& desc)
 {
 	m_programId = glCreateProgram();
-	attach(desc.vertexShaderFileName, VertexShader);
-	attach(desc.fragmentShaderFileName, FragmentShader);
+	attach(desc.vertexShaderFileName, ShaderType::VertexShader);
+	attach(desc.fragmentShaderFileName, ShaderType::FragmentShader);
 	link();
 }
 
@@ -32,11 +32,11 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	std::ifstream shaderStream;
 	std::string shaderCode;
 
-	if (type == VertexShader)
+	if (type == ShaderType::VertexShader)
 	{
 		filePath = L"Resources/Shaders/" + wstr + L".vert";
 	}
-	else if (type == FragmentShader)
+	else if (type == ShaderType::FragmentShader)
 	{
 		filePath = L"Resources/Shaders/" + wstr + L".frag";
 	}
@@ -68,11 +68,11 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 
 	// Attach shaders with unique ids to the program
 	uint shaderId = 0;
-	if (type == VertexShader)
+	if (type == ShaderType::VertexShader)
 	{
 		shaderId = glCreateShader(GL_VERTEX_SHADER);
 	}
-	else if (type == FragmentShader)
+	else if (type == ShaderType::FragmentShader)
 	{
 		shaderId = glCreateShader(GL_FRAGMENT_SHADER);
 	}
@@ -92,7 +92,7 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	}
 
 	glAttachShader(m_programId, shaderId);
-	m_attachedShaders[type] = shaderId;
+	m_attachedShaders[(uint)type] = shaderId;
 
 	OGL3D_INFO("ShaderProgram | " << filename << " compiled successfully");
 }

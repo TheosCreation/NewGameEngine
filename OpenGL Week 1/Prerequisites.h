@@ -3,7 +3,6 @@
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
-#include <glew.h>
 
 class VertexArrayObject;
 class UniformBuffer;
@@ -29,6 +28,12 @@ struct VertexBufferDesc
 	uint attributesListSize = 0;
 };
 
+struct IndexBufferDesc
+{
+	void* indicesList = nullptr;
+	uint listSize = 0;
+};
+
 struct ShaderProgramDesc
 {
 	const wchar_t* vertexShaderFileName;
@@ -40,13 +45,26 @@ struct UniformBufferDesc
 	uint size = 0;
 };
 
-enum TriangleType
+enum class TriangleType
 {
 	TriangleList = 0,
 	TriangleStrip
+}; 
+
+enum class CullType
+{
+	BackFace = 0,
+	FrontFace,
+	Both
 };
 
-enum ShaderType
+enum class WindingOrder
+{
+	ClockWise = 0,
+	CounterClockWise
+};
+
+enum class ShaderType
 {
 	VertexShader = 0,
 	FragmentShader

@@ -1,20 +1,20 @@
 #pragma once
 #include "Prerequisites.h"
-#include <glew.h>
-#include <glfw3.h>
-#include <iostream>
 
 class VertexArrayObject
 {
 public:
 	VertexArrayObject(const VertexBufferDesc& data);
+	VertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc);
 	~VertexArrayObject();
 
 	uint getId();
-	int getVertexBufferSize();
+	uint getVertexBufferSize();
+	uint getVertexSize();
 private:
 	uint m_vertexBufferID = 0;
-	uint m_vetexArrayObjectID = 0;
+	uint m_elementBufferId = 0;
+	uint m_vertexArrayObjectID = 0;
 	VertexBufferDesc m_vertexBufferData;
 };
 
