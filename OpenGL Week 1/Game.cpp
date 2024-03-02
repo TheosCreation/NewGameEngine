@@ -1,10 +1,12 @@
 #include "Game.h"
+#include "GraphicsEngine.h"
 #include "VertexArrayObject.h"
 #include "UniformBuffer.h"
 #include "ShaderProgram.h"
 #include "Mat4.h"
 #include "Vec3.h"
 #include "Vec2.h"
+#include "EntitySystem.h"
 
 struct UniformData
 {
@@ -43,7 +45,8 @@ Game::Game()
 
         onQuit();
     }
-
+    m_graphicsEngine = std::make_unique<GraphicsEngine>();
+    m_entitySystem = std::make_unique<EntitySystem>();
     m_graphicsEngine->SetViewport(Rect(0, 0, displaySize.width, displaySize.height));
 }
 
@@ -178,7 +181,7 @@ void Game::onCreate()
     m_shader->setUniformBufferSlot("UniformData", 0);
 }
 
-void Game::onUpdate()
+void Game::onUpdateInternal()
 {
     // delta time
     auto currentTime = std::chrono::system_clock::now();
@@ -190,6 +193,9 @@ void Game::onUpdate()
     m_previousTime = currentTime;
 
     auto deltaTime = (float)elapsedSeconds.count();
+
+    onUpdate(deltaTime);
+    m_entitySystem->update(deltaTime);
 
 
     // applying deltaTime to data
@@ -245,7 +251,7 @@ void Game::run()
     //run funcs while window open
     while (glfwWindowShouldClose(Window) == false)
     {
-        onUpdate();
+        onUpdateInternal();
 
         m_graphicsEngine->Render(Window);
     }
@@ -256,6 +262,11 @@ void Game::run()
 void Game::quit()
 {
     glfwTerminate();
+}
+
+EntitySystem* Game::getEntitySystem()
+{
+    return m_entitySystem.get();
 }
 
 

@@ -1,36 +1,36 @@
-#include "GrapicsEngine.h"
+#include "GraphicsEngine.h"
 #include "VertexArrayObject.h"
 #include "UniformBuffer.h"
 #include "ShaderProgram.h"
 
 //float CurrentTime;
-VertexArrayObjectPtr GrapicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
+VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
 {
     return std::make_shared<VertexArrayObject>(vbDesc);
 }
 
-VertexArrayObjectPtr GrapicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc)
+VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc)
 {
     return std::make_shared<VertexArrayObject>(vbDesc, ibDesc);
 }
 
-UniformBufferPtr GrapicsEngine::createUniform(const UniformBufferDesc& desc)
+UniformBufferPtr GraphicsEngine::createUniform(const UniformBufferDesc& desc)
 {
     return std::make_shared<UniformBuffer>(desc);
 }
 
-ShaderProgramPtr GrapicsEngine::createShaderProgram(const ShaderProgramDesc& desc)
+ShaderProgramPtr GraphicsEngine::createShaderProgram(const ShaderProgramDesc& desc)
 {
     return std::make_shared<ShaderProgram>(desc);
 }
 
-void GrapicsEngine::clear(const Vec4& color)
+void GraphicsEngine::clear(const Vec4& color)
 {
     glClearColor(color.x, color.y, color.z, color.w);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void GrapicsEngine::setFaceCulling(const CullType& type)
+void GraphicsEngine::setFaceCulling(const CullType& type)
 {
     auto cullType = GL_BACK;
 
@@ -42,7 +42,7 @@ void GrapicsEngine::setFaceCulling(const CullType& type)
     glCullFace(cullType);
 }
 
-void GrapicsEngine::setWindingOrder(const WindingOrder& type)
+void GraphicsEngine::setWindingOrder(const WindingOrder& type)
 {
     auto orderType = GL_CW;
 
@@ -52,40 +52,40 @@ void GrapicsEngine::setWindingOrder(const WindingOrder& type)
     glFrontFace(orderType);
 }
 
-void GrapicsEngine::SetViewport(const Rect& size)
+void GraphicsEngine::SetViewport(const Rect& size)
 {
     glViewport(size.left, size.top, size.width, size.height);
 }
 
-void GrapicsEngine::Render(GLFWwindow* WindowToRenderTo)
+void GraphicsEngine::Render(GLFWwindow* WindowToRenderTo)
 {
     glfwSwapBuffers(WindowToRenderTo);
 }
 
-GrapicsEngine::GrapicsEngine()
+GraphicsEngine::GraphicsEngine()
 {
 }
 
-GrapicsEngine::~GrapicsEngine()
+GraphicsEngine::~GraphicsEngine()
 {
 }
 
-void GrapicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
+void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
 {
     glBindVertexArray(vao->getId());
 }
 
-void GrapicsEngine::setUniformBuffer(const UniformBufferPtr& buffer, uint slot)
+void GraphicsEngine::setUniformBuffer(const UniformBufferPtr& buffer, uint slot)
 {
     glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer->getId());
 }
 
-void GrapicsEngine::setShaderProgram(const ShaderProgramPtr& program)
+void GraphicsEngine::setShaderProgram(const ShaderProgramPtr& program)
 {
     glUseProgram(program->getId());
 }
 
-void GrapicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)
+void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)
 {
     auto glTriType = GL_TRIANGLES;
 
@@ -97,7 +97,7 @@ void GrapicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexC
     glDrawArrays(glTriType, offset, vertexCount);
 }
 
-void GrapicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount)
+void GraphicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount)
 {
     auto glTriType = GL_TRIANGLES;
 

@@ -28,12 +28,18 @@
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{47458695-4ff2-4e17-ad7b-38d0f092cdff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{d4a1eae2-3236-48dd-a7c1-c8ec5a55bf87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{ee3e5477-0159-4a96-9768-ab4c008cda19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GrapicsEngine.cpp">
+    <ClCompile Include="GraphicsEngine.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
@@ -50,6 +56,18 @@
     </ClCompile>
     <ClCompile Include="Vec2.h">
       <Filter>Header Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySystem.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MyPlayer.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +100,7 @@
     <ClInclude Include="Rect.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="GrapicsEngine.h">
+    <ClInclude Include="GraphicsEngine.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Vec4.h">
@@ -108,6 +126,21 @@
     </ClInclude>
     <ClInclude Include="Vec3.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySystem.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="All.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyPlayer.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

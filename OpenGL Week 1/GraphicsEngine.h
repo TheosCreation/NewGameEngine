@@ -7,11 +7,11 @@
 
 //extern float CurrentTime;
 
-class GrapicsEngine
+class GraphicsEngine
 {
 public:
-	GrapicsEngine();
-	~GrapicsEngine();
+	GraphicsEngine();
+	~GraphicsEngine();
 
 public:	
 	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc);

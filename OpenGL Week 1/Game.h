@@ -1,26 +1,36 @@
 #pragma once
 #include <iostream>
 #include <chrono>
-#include "GrapicsEngine.h"
 #include "Prerequisites.h"
+#include <glew.h>
+#include <glfw3.h>
 #include "Rect.h"
 
+class GraphicsEngine;
+class EntitySystem;
 class Game
 {
 public:
 	Game();
-	~Game();
-
-	virtual void onCreate();
-	virtual void onUpdate();
-	virtual void onQuit();
+	virtual ~Game();
 
 	void run();
 	void quit();
+
+	EntitySystem* getEntitySystem();
+
+protected:
+	virtual void onCreate();
+	virtual void onUpdate(float deltaTime) {};
+	virtual void onQuit();
+private:
+	void onUpdateInternal();
+
 protected:
 	bool m_isRunning = true;
-	GrapicsEngine* m_graphicsEngine;
+	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
 	GLFWwindow* Window = nullptr;
+	std::unique_ptr<EntitySystem> m_entitySystem;
 	Rect displaySize = Rect(1000, 1000);
 
 	VertexArrayObjectPtr m_polygonVAO;

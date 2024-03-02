@@ -140,9 +140,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GrapicsEngine.cpp" />
+    <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="UniformBuffer.cpp" />
     <ClCompile Include="Vec2.h" />
@@ -159,9 +163,14 @@
     <None Include="Resources\Shaders\VertexColorFade.frag" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="All.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntitySystem.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GrapicsEngine.h" />
+    <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="Mat4.h" />
+    <ClInclude Include="MyGame.h" />
+    <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="ShaderProgram.h" />

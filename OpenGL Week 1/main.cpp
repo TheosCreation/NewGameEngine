@@ -1,10 +1,10 @@
-#include "Game.h"
+#include "MyGame.h"
 
 int main()
 {
     try
     {
-        Game game;
+        MyGame game;
         game.run();
     }
     catch (const std::exception& e)
