@@ -22,6 +22,7 @@ protected:
 	GLFWwindow* Window = nullptr;
 
 	VertexArrayObjectPtr m_triangleVAO;
+	ShaderProgramPtr m_shader;
 	//VertexArrayObjectPtr m_triangleVAO1;
 };
 

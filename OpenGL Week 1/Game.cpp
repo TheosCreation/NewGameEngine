@@ -39,17 +39,34 @@ void Game::onCreate()
 {
     //m_graphicsEngine->clear(Vec4(0,1,0,1));
     const float Vertices_Tri0[] = { // First triangle (top-left, bottom-left, bottom-right)
-        -0.8f, 0.8f, 0.0f,  //1.0f, 0.0f, 0.0f,  // Red
-        -0.8f, -0.8f, 0.0f, //0.0f, 1.0f, 0.0f,  // Green
-        0.8f, -0.8f, 0.0f,  //0.0f, 0.0f, 1.0f,  // Blue
-    };                      
-    const float Vertices_Tri1[] = { // Second triangle (bottom-right, top-left, top-right)
-        -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f,  // Blue
-        0.8f, 0.8f, 0.0f,   0.0f, 1.0f, 0.0f,  // Red
-        0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,   // Cyan
-    };
+        -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f, 
+        -0.8f, -0.8f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,
+    };    
 
-    m_triangleVAO = m_graphicsEngine->createVertexArrayObject({ (void*)Vertices_Tri0, sizeof(float) * 3, 3 });
+    VertexAttribute attribsList[] =
+    {
+        3, //Position
+        3 //Color
+    };
+    //const float Vertices_Tri1[] = { // Second triangle (bottom-right, top-left, top-right)
+    //    -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f,  // Blue
+    //    0.8f, 0.8f, 0.0f,   0.0f, 1.0f, 0.0f,  // Red
+    //    0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,   // Cyan
+    //};
+
+    m_triangleVAO = m_graphicsEngine->createVertexArrayObject({ 
+        (void*)Vertices_Tri0, 
+        sizeof(float) * (3+3),
+        3,
+
+        attribsList,
+        2
+        });
+    m_shader = m_graphicsEngine->createShaderProgram({ 
+            L"BasicShader",
+            L"BasicShader"
+        });
     //m_triangleVAO1 = m_graphicsEngine->createVertexArrayObject({ (void*)Vertices_Tri1, sizeof(float) * 3, 3 });
 }
 
@@ -58,6 +75,7 @@ void Game::onUpdate()
     glfwPollEvents();
 
     m_graphicsEngine->setVertexArrayObject(m_triangleVAO);
+    m_graphicsEngine->setShaderProgram(m_shader);
 
     m_graphicsEngine->drawTriangles(3, 0);
 }

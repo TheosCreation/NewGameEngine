@@ -1,21 +1,27 @@
 #include "VertexArrayObject.h"
 
-VertexArrayObject::VertexArrayObject(const VertexBufferData& data)
+VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 {
-	glGenBuffers(1, &m_vertexBufferID);
 	
 	glGenVertexArrays(1, &m_vetexArrayObjectID);
-	
 	glBindVertexArray(m_vetexArrayObjectID);
 
+	glGenBuffers(1, &m_vertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, data.vertexSize * data.listSize, data.verticesList, GL_STATIC_DRAW);
 
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	//glEnableVertexAttribArray(1);
+	for (unsigned int i = 0; i < data.attributesListSize; i++)
+	{
+		glVertexAttribPointer(
+			i, 
+			data.attributesList[1].numElements,
+			GL_FLOAT, 
+			GL_FALSE,
+			data.vertexSize, 
+			(void*)((i==0)?0: data.attributesList[i-1].numElements*sizeof(float))
+		);
+		glEnableVertexAttribArray(i);
+	}
 
 	glBindVertexArray(0);
 

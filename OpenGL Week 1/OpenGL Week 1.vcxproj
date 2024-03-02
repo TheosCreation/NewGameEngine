@@ -141,10 +141,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GrapicsEngine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ShaderLoader.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="VertexArrayObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shaders\BasicShader.frag" />
+    <None Include="Resources\Shaders\BasicShader.vert" />
     <None Include="Resources\Shaders\FixedColor.frag" />
     <None Include="Resources\Shaders\FixedTriangle.vert" />
     <None Include="Resources\Shaders\VertexColor.vert" />
@@ -157,7 +159,7 @@
     <ClInclude Include="GrapicsEngine.h" />
     <ClInclude Include="Prerequisites.h" />
     <ClInclude Include="Rect.h" />
-    <ClInclude Include="ShaderLoader.h" />
+    <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Vec4.h" />
     <ClInclude Include="VertexArrayObject.h" />
   </ItemGroup>

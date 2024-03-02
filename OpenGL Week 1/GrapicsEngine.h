@@ -1,7 +1,8 @@
 #pragma once
 #include "Prerequisites.h"
+#include <glew.h>
+#include <glfw3.h>
 #include "Vec4.h"
-#include "ShaderLoader.h"
 #include "Rect.h"
 
 //extern GLfloat Vertices_Tri0[];
@@ -27,11 +28,12 @@ public:
 	~GrapicsEngine();
 
 public:	
-	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferData& data);
+	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& data);
+	ShaderProgramPtr createShaderProgram(const ShaderProgramDesc& desc);
 public:
 	void SetViewport(const Rect& size);
 	void setVertexArrayObject(const VertexArrayObjectPtr& vao);
-	//void MakeTriangle(GLuint* VB0, GLuint* VA0, GLfloat* vertices, GLsizei numVertices);
+	void setShaderProgram(const ShaderProgramPtr& program);
 	void drawTriangles(unsigned int vertexCount, unsigned int offset);
 	void Render(GLFWwindow* WindowToRenderTo);
 	void clear(const Vec4& color);

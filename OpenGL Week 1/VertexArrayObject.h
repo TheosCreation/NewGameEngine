@@ -7,13 +7,13 @@
 class VertexArrayObject
 {
 public:
-	VertexArrayObject(const VertexBufferData& data);
+	VertexArrayObject(const VertexBufferDesc& data);
 	~VertexArrayObject();
 
 	GLuint getId();
 private:
 	GLuint m_vertexBufferID = 0;
 	GLuint m_vetexArrayObjectID = 0;
-	VertexBufferData m_vertexBufferData;
+	VertexBufferDesc m_vertexBufferData;
 };
 
