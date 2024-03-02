@@ -8,12 +8,13 @@ class ShaderProgram
 public:
 	ShaderProgram(const ShaderProgramDesc& desc);
 	~ShaderProgram();
-	unsigned int getId();
+	uint getId();
+	void setUniformBufferSlot(const char* name, uint slot);
 private:
 	void attach(const wchar_t* filename, const ShaderType& type);
 	void link();
 private:
-	unsigned int m_programId = 0;
-	unsigned int m_attachedShaders[2] = {};
+	uint m_programId = 0;
+	uint m_attachedShaders[2] = {};
 };
 

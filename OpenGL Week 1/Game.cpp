@@ -1,4 +1,12 @@
 #include "Game.h"
+#include "VertexArrayObject.h"
+#include "UniformBuffer.h"
+#include "ShaderProgram.h"
+
+struct UniformData
+{
+    float scale;
+};
 
 Game::Game()
 {
@@ -12,8 +20,7 @@ Game::Game()
     Window = glfwCreateWindow(1000, 1000, "First OpenGL Window", NULL, NULL);
     if (Window == NULL)
     {
-        std::cout << "GLFW failed to initialize properly. Terminating program." << std::endl;
-        system("pause");
+        OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
 
         onQuit();
     }
@@ -22,8 +29,7 @@ Game::Game()
     //init GLEW
     if (glewInit() != GLEW_OK)
     {
-        std::cout << "GLFW failed to initialize properly. Terminating program." << std::endl;
-        system("pause");
+        OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
 
         onQuit();
     }
@@ -42,6 +48,13 @@ void Game::onCreate()
         -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f, 
         -0.8f, -0.8f, 0.0f, 0.0f, 1.0f, 0.0f,
         0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,
+    };  
+    
+    const float Vertices_Polygon0[] = {
+        -0.8f, -0.8f, 0.0f,  1.0f, 0.0f, 0.0f, 
+        -0.8f, 0.8f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,
+        0.8f, 0.8f, 0.0f,  0.0f, 1.0f, 0.0f,
     };    
 
     VertexAttribute attribsList[] =
@@ -49,35 +62,61 @@ void Game::onCreate()
         3, //Position
         3 //Color
     };
-    //const float Vertices_Tri1[] = { // Second triangle (bottom-right, top-left, top-right)
-    //    -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f,  // Blue
-    //    0.8f, 0.8f, 0.0f,   0.0f, 1.0f, 0.0f,  // Red
-    //    0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,   // Cyan
-    //};
 
-    m_triangleVAO = m_graphicsEngine->createVertexArrayObject({ 
-        (void*)Vertices_Tri0, 
+    m_polygonVAO = m_graphicsEngine->createVertexArrayObject({
+        (void*)Vertices_Polygon0,
         sizeof(float) * (3+3),
-        3,
+        4,                          // number of vertices
 
         attribsList,
         2
         });
+
+    m_uniform = m_graphicsEngine->createUniform({
+        sizeof(UniformData)
+        });
+
     m_shader = m_graphicsEngine->createShaderProgram({ 
             L"BasicShader",
             L"BasicShader"
         });
-    //m_triangleVAO1 = m_graphicsEngine->createVertexArrayObject({ (void*)Vertices_Tri1, sizeof(float) * 3, 3 });
+
+    m_shader->setUniformBufferSlot("UniformData", 0);
 }
 
 void Game::onUpdate()
 {
+    // delta time
+    auto currentTime = std::chrono::system_clock::now();
+    auto elapsedSeconds = std::chrono::duration<double>();
+    if (m_previousTime.time_since_epoch().count())
+    {
+        elapsedSeconds = currentTime - m_previousTime;
+    }
+    m_previousTime = currentTime;
+
+    auto deltaTime = (float)elapsedSeconds.count();
+
+
+    // applying deltaTime to data
+    m_scale += 0.707f * deltaTime;
+    auto currentScale = abs(sin(m_scale));
+
+
+    // passing data into shaders using uniform
+    UniformData data = { currentScale };
+    m_uniform->setData(&data);
+
+
+    m_graphicsEngine->clear(Vec4(0, 0, 0, 1));
+
     glfwPollEvents();
 
-    m_graphicsEngine->setVertexArrayObject(m_triangleVAO);
+    m_graphicsEngine->setVertexArrayObject(m_polygonVAO);
+    m_graphicsEngine->setUniformBuffer(m_uniform, 0);
     m_graphicsEngine->setShaderProgram(m_shader);
 
-    m_graphicsEngine->drawTriangles(3, 0);
+    m_graphicsEngine->drawTriangles(TriangleStrip, m_polygonVAO->getVertexBufferSize(), 0);
 }
 
 void Game::onQuit()

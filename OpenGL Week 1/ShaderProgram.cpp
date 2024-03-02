@@ -2,6 +2,7 @@
 #include<iostream>
 #include<fstream>
 #include<sstream>
+#include <vector>
 
 ShaderProgram::ShaderProgram(const ShaderProgramDesc& desc)
 {
@@ -13,7 +14,7 @@ ShaderProgram::ShaderProgram(const ShaderProgramDesc& desc)
 
 ShaderProgram::~ShaderProgram()
 {
-	for (unsigned int i = 0; i < 2; i++)
+	for (uint i = 0; i < 2; i++)
 	{
 		glDetachShader(m_programId, m_attachedShaders[i]);
 		glDeleteShader(m_attachedShaders[i]);
@@ -41,14 +42,15 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	}
 	else
 	{
-		std::cout << "Invalid shader type for file: " << filename << std::endl;
+		OGL3D_WARNING("ShaderProgram | Cannot find file: " << filename << std::endl);
+
 		return;
 	}
 
 	shaderStream.open(filePath.c_str(), std::ios::in);
 
 	if (!shaderStream.good()) {
-		std::cout << "Cannot read file:  " << filename << std::endl;
+		OGL3D_WARNING("ShaderProgram | Cannot read file: " << filename << std::endl);
 
 		shaderStream.close();
 		return;
@@ -56,7 +58,7 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 
 	// Determine the size of of the file in characters and resize the string variable to accomodate
 	shaderStream.seekg(0, std::ios::end);
-	shaderCode.resize((unsigned int)shaderStream.tellg());
+	shaderCode.resize((uint)shaderStream.tellg());
 
 	// Set the position of the next character to be read back to the beginning
 	shaderStream.seekg(0, std::ios::beg);
@@ -65,7 +67,7 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	shaderStream.close();
 
 	// Attach shaders with unique ids to the program
-	unsigned int shaderId = 0;
+	uint shaderId = 0;
 	if (type == VertexShader)
 	{
 		shaderId = glCreateShader(GL_VERTEX_SHADER);
@@ -78,16 +80,46 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	glShaderSource(shaderId, 1, &sourcePointer, NULL);
 	glCompileShader(shaderId);
 
+	//get compile errors
+	int logLength = 0;
+	glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+	if (logLength > 0)
+	{
+		std::vector<char> errorMessage(logLength + 1);
+		glGetShaderInfoLog(shaderId, logLength, NULL, &errorMessage[0]);
+		OGL3D_WARNING("ShaderProgram | " << filename << " compiled with errors:" << std::endl << &errorMessage[0]);
+		return;
+	}
+
 	glAttachShader(m_programId, shaderId);
 	m_attachedShaders[type] = shaderId;
+
+	OGL3D_INFO("ShaderProgram | " << filename << " compiled successfully");
 }
 
 void ShaderProgram::link()
 {
 	glLinkProgram(m_programId);
+
+	//get compile errors
+	int logLength = 0;
+	glGetShaderiv(m_programId, GL_INFO_LOG_LENGTH, &logLength);
+	if (logLength > 0)
+	{
+		std::vector<char> errorMessage(logLength + 1);
+		glGetShaderInfoLog(m_programId, logLength, NULL, &errorMessage[0]);
+		OGL3D_WARNING("ShaderProgram | " << &errorMessage[0]);
+		return;
+	}
 }
 
-unsigned int ShaderProgram::getId()
+uint ShaderProgram::getId()
 {
 	return m_programId;
+}
+
+void ShaderProgram::setUniformBufferSlot(const char* name, uint slot)
+{
+	uint index = glGetUniformBlockIndex(m_programId, name);
+	glUniformBlockBinding(m_programId, index, slot);
 }

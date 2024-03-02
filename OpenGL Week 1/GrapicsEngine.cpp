@@ -1,31 +1,17 @@
 #include "GrapicsEngine.h"
 #include "VertexArrayObject.h"
+#include "UniformBuffer.h"
 #include "ShaderProgram.h"
 
-//GLuint VBO_Tri0, VAO_Tri0;
-//GLuint VBO_Tri1, VAO_Tri1;
-//
-//GLfloat Vertices_Tri0[] = { // First triangle (top-left, bottom-left, bottom-right)
-//  -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f,  // Red
-//  -0.8f, -0.8f, 0.0f, 0.0f, 1.0f, 0.0f,  // Green
-//  0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,  // Blue
-//};
-//
-//GLfloat Vertices_Tri1[] = { // Second triangle (bottom-right, top-left, top-right)
-//  -0.8f, 0.8f, 0.0f,  1.0f, 0.0f, 0.0f,  // Blue
-//  0.8f, 0.8f, 0.0f,   0.0f, 1.0f, 0.0f,  // Red
-//  0.8f, -0.8f, 0.0f,  0.0f, 0.0f, 1.0f,   // Cyan
-//};
-//
-//GLuint Program_FixedTri = 0;
-//GLuint Program_PositionOnly = 0;
-//GLuint Program_VertexColor = 0;
-//GLuint Program_ColorFade = 0;
-//
 //float CurrentTime;
 VertexArrayObjectPtr GrapicsEngine::createVertexArrayObject(const VertexBufferDesc& data)
 {
     return std::make_shared<VertexArrayObject>(data);
+}
+
+UniformBufferPtr GrapicsEngine::createUniform(const UniformBufferDesc& desc)
+{
+    return std::make_shared<UniformBuffer>(desc);
 }
 
 ShaderProgramPtr GrapicsEngine::createShaderProgram(const ShaderProgramDesc& desc)
@@ -51,14 +37,26 @@ void GrapicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
     glBindVertexArray(vao->getId());
 }
 
+void GrapicsEngine::setUniformBuffer(const UniformBufferPtr& buffer, uint slot)
+{
+    glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer->getId());
+}
+
 void GrapicsEngine::setShaderProgram(const ShaderProgramPtr& program)
 {
     glUseProgram(program->getId());
 }
 
-void GrapicsEngine::drawTriangles(unsigned int vertexCount, unsigned int offset)
+void GrapicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)
 {
-    glDrawArrays(GL_TRIANGLES, offset, vertexCount);
+    auto glTriType = GL_TRIANGLES;
+
+    switch (triangleType)
+    {
+        case TriangleList: { glTriType = GL_TRIANGLES; break; }
+        case TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+    }
+    glDrawArrays(glTriType, offset, vertexCount);
 }
 
 void GrapicsEngine::Render(GLFWwindow* WindowToRenderTo)

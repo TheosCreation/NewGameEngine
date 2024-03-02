@@ -10,10 +10,11 @@ public:
 	VertexArrayObject(const VertexBufferDesc& data);
 	~VertexArrayObject();
 
-	GLuint getId();
+	uint getId();
+	int getVertexBufferSize();
 private:
-	GLuint m_vertexBufferID = 0;
-	GLuint m_vetexArrayObjectID = 0;
+	uint m_vertexBufferID = 0;
+	uint m_vetexArrayObjectID = 0;
 	VertexBufferDesc m_vertexBufferData;
 };
 

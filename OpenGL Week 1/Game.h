@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
+#include <chrono>
 #include "GrapicsEngine.h"
 #include "Prerequisites.h"
-#include "VertexArrayObject.h"
 
 class Game
 {
@@ -21,8 +21,11 @@ protected:
 	GrapicsEngine* m_graphicsEngine;
 	GLFWwindow* Window = nullptr;
 
-	VertexArrayObjectPtr m_triangleVAO;
+	VertexArrayObjectPtr m_polygonVAO;
+	UniformBufferPtr m_uniform;
 	ShaderProgramPtr m_shader;
-	//VertexArrayObjectPtr m_triangleVAO1;
+
+	std::chrono::system_clock::time_point m_previousTime;
+	float m_scale = 0;
 };
 

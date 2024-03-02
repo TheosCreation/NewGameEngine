@@ -2,7 +2,10 @@
 
 VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 {
-	
+	if (!data.listSize) OGL3D_ERROR("VertexArrayObject | listSize is NULL");
+	if (!data.vertexSize) OGL3D_ERROR("VertexArrayObject | vertexSize is NULL");
+	if (!data.verticesList) OGL3D_ERROR("VertexArrayObject | verticesList is NULL");
+
 	glGenVertexArrays(1, &m_vetexArrayObjectID);
 	glBindVertexArray(m_vetexArrayObjectID);
 
@@ -10,7 +13,7 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, data.vertexSize * data.listSize, data.verticesList, GL_STATIC_DRAW);
 
-	for (unsigned int i = 0; i < data.attributesListSize; i++)
+	for (uint i = 0; i < data.attributesListSize; i++)
 	{
 		glVertexAttribPointer(
 			i, 
@@ -34,7 +37,12 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteVertexArrays(1, &m_vetexArrayObjectID);
 }
 
-GLuint VertexArrayObject::getId()
+uint VertexArrayObject::getId()
 {
 	return m_vetexArrayObjectID;
+}
+
+int VertexArrayObject::getVertexBufferSize()
+{
+	return sizeof(m_vertexBufferData.vertexSize);
 }
