@@ -70,10 +70,11 @@ void Game::onCreate()
     
     Vec2 texcoordsList[] =
     {
-        Vec2(0,0),
-        Vec2(0,1),
-        Vec2(1,0),
-        Vec2(1,1)
+           //U      V
+        Vec2(0,     0.5),
+        Vec2(0.5,   1),
+        Vec2(1,     0.5),
+        Vec2(1,     1)
     };
 
     Vertex verticesList[] =
@@ -229,7 +230,7 @@ void Game::onUpdate()
     m_graphicsEngine->setUniformBuffer(m_uniform, 0);
     m_graphicsEngine->setShaderProgram(m_shader);
 
-    m_graphicsEngine->drawIndexedTriangles(TriangleType::TriangleStrip, 36);
+    m_graphicsEngine->drawIndexedTriangles(TriangleType::TriangleList, 36);
 }
 
 void Game::onQuit()
