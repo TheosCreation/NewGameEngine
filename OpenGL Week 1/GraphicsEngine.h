@@ -23,7 +23,6 @@ public:
 	void setFaceCulling(const CullType& type);
 	void setWindingOrder(const WindingOrder& type);
 	void SetViewport(const Rect& size);
-	void Render(GLFWwindow* WindowToRenderTo);
 	void setVertexArrayObject(const VertexArrayObjectPtr& vao);
 	void setUniformBuffer(const UniformBufferPtr& buffer, uint slot);
 	void setShaderProgram(const ShaderProgramPtr& program);

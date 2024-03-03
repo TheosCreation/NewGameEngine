@@ -7,10 +7,13 @@
 #include "Vec3.h"
 #include "Vec2.h"
 #include "EntitySystem.h"
+#include "GraphicsEntity.h"
+#include "Camera.h"
 
 struct UniformData
 {
     Mat4 world;
+    Mat4 view;
     Mat4 projection;
 };
 
@@ -27,16 +30,16 @@ Game::Game()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-
     //init window
-    Window = glfwCreateWindow(displaySize.width, displaySize.height, "First OpenGL Window", NULL, NULL);
-    if (Window == NULL)
+    m_Window = glfwCreateWindow(displaySize.width, displaySize.height, "First OpenGL Window", NULL, NULL);
+    getWindow()->copy();
+    if (m_Window == NULL)
     {
         OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
 
         onQuit();
     }
-    glfwMakeContextCurrent(Window);
+    glfwMakeContextCurrent(getWindow());
 
     //init GLEW
     if (glewInit() != GLEW_OK)
@@ -47,7 +50,10 @@ Game::Game()
     }
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
     m_entitySystem = std::make_unique<EntitySystem>();
+    m_inputManager = std::make_unique<InputManager>();
     m_graphicsEngine->SetViewport(Rect(0, 0, displaySize.width, displaySize.height));
+    m_graphicsEngine->setFaceCulling(CullType::BackFace);
+    m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
 }
 
 Game::~Game()
@@ -224,19 +230,72 @@ void Game::onUpdateInternal()
     // passing data into shaders using uniform
     UniformData data = { world , projection };
     m_uniform->setData(&data);
-
-
-    m_graphicsEngine->clear(Vec4(0, 0, 0, 1));
+    
+    onGraphicsUpdate(deltaTime);
 
     glfwPollEvents();
 
-    m_graphicsEngine->setFaceCulling(CullType::BackFace);
-    m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
     m_graphicsEngine->setVertexArrayObject(m_polygonVAO);
     m_graphicsEngine->setUniformBuffer(m_uniform, 0);
-    m_graphicsEngine->setShaderProgram(m_shader);
 
     m_graphicsEngine->drawIndexedTriangles(TriangleType::TriangleList, 36);
+}
+
+void Game::onGraphicsUpdate(float deltaTime)
+{
+    m_graphicsEngine->clear(Vec4(0, 0, 0, 1));
+    
+    UniformData data = {};
+    
+    
+    
+    auto camId = typeid(Camera).hash_code();
+    
+    auto it = m_entitySystem->m_entities.find(camId);
+    
+    
+    //let's set the camera data to the uniformdata structure, in order to pass them to the shaders for the final rendering
+    if (it != m_entitySystem->m_entities.end())
+    {
+        for (auto& [key, camera] : it->second)
+        {
+            //the camera data are the view and projection
+            //view is simply the world matrix of the camera inverted
+            Mat4 w;
+            auto cam = dynamic_cast<Camera*>(camera.get());
+            cam->getViewMatrix(data.view);
+            cam->setScreenArea(displaySize);
+            cam->getProjectionMatrix(data.projection);
+        }
+    }
+    
+    for (auto& [key, entities] : m_entitySystem->m_entities)
+    {
+        //for each graphics entity
+        for (auto& [key, entity] : entities)
+        {
+            auto e = dynamic_cast<GraphicsEntity*>(entity.get());
+    
+            if (e)
+            {
+                //let's retrive the world matrix and let's pass it to the uniform buffer
+                e->getWorldMatrix(data.world);
+    
+                m_uniform->setData(&data);
+                m_graphicsEngine->setShaderProgram(m_shader); //bind shaders to graphics pipeline
+                m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
+    
+                //call internal graphcis update of the entity in order to handle specific graphics data/functions 
+                e->onGraphicsUpdate(deltaTime);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    // Render to window
+    glfwSwapBuffers(m_Window);
 }
 
 void Game::onQuit()
@@ -249,11 +308,9 @@ void Game::run()
 	onCreate();
 
     //run funcs while window open
-    while (glfwWindowShouldClose(Window) == false)
+    while (glfwWindowShouldClose(m_Window) == false)
     {
         onUpdateInternal();
-
-        m_graphicsEngine->Render(Window);
     }
 
     onQuit();
@@ -267,6 +324,21 @@ void Game::quit()
 EntitySystem* Game::getEntitySystem()
 {
     return m_entitySystem.get();
+}
+
+GraphicsEngine* Game::getGraphicsEngine()
+{
+    return m_graphicsEngine.get();
+}
+
+InputManager* Game::getInputManager()
+{
+    return m_inputManager.get();
+}
+
+GLFWwindow* Game::getWindow()
+{
+    return Window.get();
 }
 
 

@@ -21,6 +21,7 @@ public:
 			return e;
 		return nullptr;
 	}
+
 private:
 	bool createEntityInternal(Entity* entity, size_t id);
 	void removeEntity(Entity* entity);
@@ -32,5 +33,4 @@ private:
 
 	friend class Entity;
 	friend class Game;
-
 };

@@ -140,10 +140,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CubeEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GraphicsEngine.cpp" />
+    <ClCompile Include="GraphicsEntity.cpp" />
+    <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
@@ -151,6 +155,7 @@
     <ClCompile Include="UniformBuffer.cpp" />
     <ClCompile Include="Vec2.h" />
     <ClCompile Include="VertexArrayObject.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\BasicShader.frag" />
@@ -164,10 +169,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CubeEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntitySystem.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GraphicsEngine.h" />
+    <ClInclude Include="GraphicsEntity.h" />
+    <ClInclude Include="InputManager.h" />
     <ClInclude Include="Mat4.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="MyPlayer.h" />
@@ -178,6 +187,7 @@
     <ClInclude Include="Vec3.h" />
     <ClInclude Include="Vec4.h" />
     <ClInclude Include="VertexArrayObject.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

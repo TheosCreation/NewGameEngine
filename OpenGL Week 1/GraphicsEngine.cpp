@@ -57,11 +57,6 @@ void GraphicsEngine::SetViewport(const Rect& size)
     glViewport(size.left, size.top, size.width, size.height);
 }
 
-void GraphicsEngine::Render(GLFWwindow* WindowToRenderTo)
-{
-    glfwSwapBuffers(WindowToRenderTo);
-}
-
 GraphicsEngine::GraphicsEngine()
 {
 }
