@@ -1,7 +1,5 @@
 #pragma once
 #include "Prerequisites.h"
-#include <glew.h>
-#include <glfw3.h>
 #include "Vec4.h"
 #include "UniformBuffer.h"
 #include "VertexArrayObject.h"

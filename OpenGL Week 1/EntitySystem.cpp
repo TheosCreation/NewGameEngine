@@ -9,11 +9,24 @@ EntitySystem::~EntitySystem()
 {
 }
 
-bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
+//bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
+//{
+//	auto ptr = std::unique_ptr<Entity>(entity);
+//	m_entities[id].emplace(entity, std::move(ptr));
+//	//entity->m_game = this;
+//	entity->m_id = id;
+//	entity->m_entitySystem = this;
+//
+//	entity->onCreate();
+//
+//	return true;
+//}
+
+bool EntitySystem::createEntityInternal(Entity* entity, size_t id, Game* game)
 {
 	auto ptr = std::unique_ptr<Entity>(entity);
 	m_entities[id].emplace(entity, std::move(ptr));
-
+	entity->m_game = game;
 	entity->m_id = id;
 	entity->m_entitySystem = this;
 

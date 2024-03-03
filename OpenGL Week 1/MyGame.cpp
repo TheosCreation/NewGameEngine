@@ -13,7 +13,7 @@ void MyGame::onCreate()
 	Game::onCreate();
 	
 	
-	auto cube = getEntitySystem()->createEntity<CubeEntity>();
+	auto cube = getEntitySystem()->createEntity<CubeEntity>(this);
 	cube->setScale(Vec3(6.8f, 0.1f, 6.8f));
 	cube->setPosition(Vec3(0, -1, 0));
 
@@ -23,7 +23,7 @@ void MyGame::onCreate()
 	{
 		for (auto x = -2; x < 3; x++)
 		{
-			auto cube = getEntitySystem()->createEntity<CubeEntity>();
+			auto cube = getEntitySystem()->createEntity<CubeEntity>(this);
 			auto height = (rand() % 120) + (80.0f);
 			height /= 100.0f;
 
@@ -38,7 +38,7 @@ void MyGame::onCreate()
 
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
-	m_player = getEntitySystem()->createEntity<MyPlayer>();
+	m_player = getEntitySystem()->createEntity<MyPlayer>(this);
 	m_player->setPosition(Vec3(0, 0, 0));
 
 	//enabling play mode

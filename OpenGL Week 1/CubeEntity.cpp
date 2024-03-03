@@ -9,10 +9,6 @@ struct Vertex
     Vec2 texCoords;
 };
 
-
-
-
-
 //during the oncreate method of this entity, we initialize the graphics data of the cube
 void CubeEntity::onCreate()
 {
@@ -106,8 +102,9 @@ void CubeEntity::onCreate()
         { 3 }, //numElements position attribute
         { 2 } //numElements texture coordinates attribute
     };
-    
-    m_game->getGraphicsEngine()->createVertexArrayObject(
+
+    //seems as though m_game is null
+    m_mesh = m_game->getGraphicsEngine()->createVertexArrayObject(
         //vertex buffer
         {
                 (void*)verticesList,

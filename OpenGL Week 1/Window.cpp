@@ -3,16 +3,11 @@
 
 Window::Window()
 {
-    if (!glfwInit())
-    {
-        OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
-        return;
-    }
-
     // Set GLFW window hints
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+
     // Create a GLFW window
     m_windowPtr = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr));
     if (!m_windowPtr)
@@ -21,16 +16,20 @@ Window::Window()
         glfwTerminate();
         return;
     }
-
-    // Make the window's OpenGL context current
+    
+    // Make the context current before initializing GLEW
     glfwMakeContextCurrent(getWindow());
 
     // Initialize GLEW or GLAD here if needed
+    if (glewInit() != GLEW_OK)
+    {
+        OGL3D_ERROR("GLEW failed to initialize properly. Terminating program.");
+        glfwTerminate();
+        return;
+    }
 
     // Set GLFW user pointer to 'this' for access in callback functions
     glfwSetWindowUserPointer(getWindow(), this);
-
-    // Set GLFW callbacks if needed (e.g., for input handling)
 
     // Show the window
     glfwShowWindow(getWindow());

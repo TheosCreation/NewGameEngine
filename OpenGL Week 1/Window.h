@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
-#include "glfw3.h"
+
+#include <glew.h>
+#include <glfw3.h>
 #include "Rect.h"
 
 class Window

@@ -114,9 +114,11 @@ void InputManager::update()
 	double currentMouseX, currentMouseY;
 	glfwGetCursorPos(WindowPtr, &currentMouseX, &currentMouseY);
 
-	if (currentMouseX != m_old_mouse_pos.x || currentMouseY != m_old_mouse_pos.y)
+	const double MOUSE_MOVEMENT_THRESHOLD = 0.01;
+
+	if (std::abs(currentMouseX - m_old_mouse_pos.x) > MOUSE_MOVEMENT_THRESHOLD || std::abs(currentMouseY - m_old_mouse_pos.y) > MOUSE_MOVEMENT_THRESHOLD)
 	{
-		m_deltaMouse = Vec2((float)currentMouseX - m_old_mouse_pos.x, (float)currentMouseY - m_old_mouse_pos.y);
+		m_deltaMouse = Vec2((float)(currentMouseX - m_old_mouse_pos.x), (float)(currentMouseY - m_old_mouse_pos.y));
 	}
 	else
 	{
@@ -155,5 +157,5 @@ void InputManager::update()
 		}
 	}
 
-	std::memcpy(m_old_keys_state, m_keys_state_res, sizeof(int) * GLFW_KEY_LAST);
+	std::memcpy(m_old_keys_state, m_keys_state_res, sizeof(int) * std::min(GLFW_KEY_LAST, ARRAY_SIZE));
 }

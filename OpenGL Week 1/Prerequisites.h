@@ -1,16 +1,16 @@
 #pragma once
-#include <memory>
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+#include <memory>
 
-class VertexArrayObject;
 class UniformBuffer;
+class VertexArrayObject;
 class ShaderProgram;
 
 typedef unsigned int uint;
-typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<UniformBuffer> UniformBufferPtr;
+typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
 
 struct VertexAttribute

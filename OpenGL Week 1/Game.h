@@ -4,8 +4,7 @@
 #include "Prerequisites.h"
 #include "InputManager.h"
 #include "GraphicsEngine.h"
-#include <glew.h>
-#include <glfw3.h>
+#include "Entity.h"
 #include "Rect.h"
 
 class Window;

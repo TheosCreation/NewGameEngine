@@ -6,6 +6,7 @@
 #include <glew.h>
 #include <glfw3.h>
 
+constexpr int ARRAY_SIZE = GLFW_KEY_LAST;
 class Game;
 class InputManager
 {
@@ -39,9 +40,9 @@ public:
 
 private:
 	GLFWwindow* WindowPtr = nullptr;
-	short m_keys_state[256] = {};
-	short m_old_keys_state[256] = {};
-	short m_keys_state_res[256] = {};
+	short m_keys_state[ARRAY_SIZE] = {};
+	short m_old_keys_state[ARRAY_SIZE] = {};
+	short m_keys_state_res[ARRAY_SIZE] = {};
 
 	bool m_playEnable = false;
 	Vec2 m_old_mouse_pos;

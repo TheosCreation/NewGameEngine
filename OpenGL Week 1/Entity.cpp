@@ -53,6 +53,11 @@ EntitySystem* Entity::getEntitySystem()
 	return m_entitySystem;
 }
 
+Game* Entity::getGame()
+{
+	return m_game;
+}
+
 void Entity::getWorldMatrix(Mat4& world)
 {
 	world = m_world;

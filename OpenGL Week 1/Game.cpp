@@ -9,6 +9,8 @@
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "Camera.h"
+#include <glew.h>
+#include <glfw3.h>
 
 struct UniformData
 {
@@ -26,31 +28,35 @@ struct Vertex
 Game::Game()
 {
     //init GLFW ver 4.6
-    glfwInit();
+    if (!glfwInit())
+    {
+        OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
+        return;
+    }
 
-    m_display = std::make_unique<Window>();
+    m_display = std::make_unique<Window>(); 
+     
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
-    m_entitySystem = std::make_unique<EntitySystem>();
-    m_inputManager = std::make_unique<InputManager>();
-
-    m_inputManager->SetGameWindow(m_display->getWindow());
-    m_display->makeCurrentContext();
-
     m_graphicsEngine->SetViewport(m_display->getInnerSize());
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
 
-    getInputManager()->setScreenArea(m_display->getInnerSize());
-    //m_uniform = m_graphicsEngine->createUniform({
-    //    sizeof(UniformData)
-    //});
-    //
-    //m_shader = m_graphicsEngine->createShaderProgram({
-    //        L"BasicShader",
-    //        L"BasicShader"
-    //});
-    //
-    //m_shader->setUniformBufferSlot("UniformData", 0);
+    m_entitySystem = std::make_unique<EntitySystem>();
+
+    m_inputManager = std::make_unique<InputManager>();
+    m_inputManager->SetGameWindow(m_display->getWindow());
+    m_inputManager->setScreenArea(m_display->getInnerSize());
+    
+    m_uniform = m_graphicsEngine->createUniform({
+        sizeof(UniformData)
+    });
+    
+    m_shader = m_graphicsEngine->createShaderProgram({
+            L"BasicShader",
+            L"BasicShader"
+    });
+    
+    m_shader->setUniformBufferSlot("UniformData", 0);
 }
 
 Game::~Game()
@@ -77,8 +83,8 @@ void Game::onUpdateInternal()
 
     onUpdate(deltaTime);
     m_entitySystem->update(deltaTime);
-
-
+    //make inputmanager part of entitySystem?
+    m_inputManager->update();
     // applying deltaTime to data
     m_scale += 0.707f * deltaTime;
     auto currentScale = abs(sin(m_scale));

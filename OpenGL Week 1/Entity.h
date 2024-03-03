@@ -2,6 +2,7 @@
 #include "Prerequisites.h"
 #include "Vec3.h"
 #include "Mat4.h"
+#include "Game.h"
 
 class EntitySystem;
 class Game;
@@ -19,12 +20,13 @@ public:
 	Vec3 getScale();
 
 	EntitySystem* getEntitySystem();
+	Game* getGame();
 	void getWorldMatrix(Mat4& world);
-	void processWorldMatrix();
 	void release();
 protected:
 	virtual void onCreate() {}
 	virtual void onUpdate(float deltaTime) {}
+	void processWorldMatrix();
 
 protected:
 	Mat4 m_world; 
