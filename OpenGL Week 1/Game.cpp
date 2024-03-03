@@ -70,6 +70,9 @@ void Game::onCreate()
 
 void Game::onUpdateInternal()
 {
+    //make inputmanager part of entitySystem?
+    m_inputManager->update();
+
     // delta time
     auto currentTime = std::chrono::system_clock::now();
     auto elapsedSeconds = std::chrono::duration<double>();
@@ -81,31 +84,13 @@ void Game::onUpdateInternal()
 
     auto deltaTime = (float)elapsedSeconds.count();
 
+    
+    
     onUpdate(deltaTime);
     m_entitySystem->update(deltaTime);
-    //make inputmanager part of entitySystem?
-    m_inputManager->update();
-    // applying deltaTime to data
-    m_scale += 0.707f * deltaTime;
-    auto currentScale = abs(sin(m_scale));
 
-    Mat4 world, projection, temp;
-    temp.setIdentity();
-    temp.setScale(Vec3(1, 1, 1));
-    world *= temp;
+    Mat4 world, projection;
 
-    temp.setIdentity();
-    temp.setRotationX(m_scale);
-    world *= temp;
-    
-    temp.setIdentity();
-    temp.setRotationY(m_scale);
-    world *= temp;
-    
-    temp.setIdentity();
-    temp.setRotationZ(m_scale);
-    world *= temp;
-    
     Rect displaysize = m_display->getInnerSize();
     projection.setOrthoLH(displaysize.width * 0.004f, displaysize.height * 0.004f, 0.1f, 100.0f);
 
@@ -116,11 +101,6 @@ void Game::onUpdateInternal()
     onGraphicsUpdate(deltaTime);
 
     glfwPollEvents();
-
-    //m_graphicsEngine->setVertexArrayObject(m_polygonVAO);
-    //m_graphicsEngine->setUniformBuffer(m_uniform, 0);
-
-    //m_graphicsEngine->drawIndexedTriangles(TriangleType::TriangleList, 36);
 }
 
 void Game::onGraphicsUpdate(float deltaTime)
@@ -146,7 +126,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             Mat4 w;
             auto cam = dynamic_cast<Camera*>(camera.get());
             cam->getViewMatrix(data.view);
-            cam->setScreenArea(m_display->getInnerSize());
+            cam->setScreenArea(this->m_display->getInnerSize());
             cam->getProjectionMatrix(data.projection);
         }
     }

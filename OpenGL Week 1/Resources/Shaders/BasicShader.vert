@@ -12,7 +12,7 @@ layout (location = 1) in vec2 texcoord;
 
 layout (location = 0) out vec3 FragColor;
 
-void main()
+void main(void)
 {
 	vec4 pos = vec4(Position, 1.0f) * world;
 	pos = pos * view;

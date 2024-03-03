@@ -1,5 +1,6 @@
 #include "EntitySystem.h"
 #include "Entity.h"
+#include "Camera.h"
 
 EntitySystem::EntitySystem()
 {
@@ -25,8 +26,25 @@ EntitySystem::~EntitySystem()
 bool EntitySystem::createEntityInternal(Entity* entity, size_t id, Game* game)
 {
 	auto ptr = std::unique_ptr<Entity>(entity);
-	m_entities[id].emplace(entity, std::move(ptr));
+	auto camId = typeid(Camera).hash_code();
 	entity->m_game = game;
+	if (id == camId)
+	{
+		auto it = m_entities.find(camId);
+		if (it != m_entities.end())
+		{
+			if (it->second.size()) return false;
+			it->second.emplace(entity, std::move(ptr));
+		}
+		else 
+		{
+			m_entities[id].emplace(entity, std::move(ptr));
+		}
+	}
+	else
+	{
+		m_entities[id].emplace(entity, std::move(ptr));
+	}
 	entity->m_id = id;
 	entity->m_entitySystem = this;
 

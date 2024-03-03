@@ -42,7 +42,9 @@ void MyGame::onCreate()
 	m_player->setPosition(Vec3(0, 0, 0));
 
 	//enabling play mode
+	/* Remove after DEBUG
 	getInputManager()->enablePlayMode(true);
+	*/
 }
 
 void MyGame::onUpdate(float deltaTime)
