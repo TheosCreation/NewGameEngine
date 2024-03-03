@@ -4,6 +4,7 @@
 UniformBuffer::UniformBuffer(const UniformBufferDesc& desc)
 {
 	glGenBuffers(1, &m_id);
+	
 	glBindBuffer(GL_UNIFORM_BUFFER, m_id);
 	glBufferData(GL_UNIFORM_BUFFER, desc.size, nullptr, GL_STATIC_DRAW);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);

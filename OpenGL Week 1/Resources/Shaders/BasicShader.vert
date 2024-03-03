@@ -3,6 +3,7 @@
 layout (row_major) uniform UniformData
 {
     mat4 world;
+	mat4 view;
 	mat4 projection;
 };
 
@@ -14,6 +15,7 @@ layout (location = 0) out vec3 FragColor;
 void main()
 {
 	vec4 pos = vec4(Position, 1.0f) * world;
+	pos = pos * view;
 	pos = pos * projection;
 
 	gl_Position = pos;

@@ -3,12 +3,12 @@
 #include <chrono>
 #include "Prerequisites.h"
 #include "InputManager.h"
+#include "GraphicsEngine.h"
 #include <glew.h>
 #include <glfw3.h>
 #include "Rect.h"
 
 class Window;
-class GraphicsEngine;
 class EntitySystem;
 class Game
 {
@@ -22,7 +22,7 @@ public:
 	EntitySystem* getEntitySystem();
 	GraphicsEngine* getGraphicsEngine();
 	InputManager* getInputManager();
-	GLFWwindow* getWindow();
+	Window* getWindow();
 
 protected:
 	virtual void onCreate();
@@ -38,9 +38,6 @@ protected:
 	std::unique_ptr<InputManager> m_inputManager;
 	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
 	std::unique_ptr<EntitySystem> m_entitySystem;
-
-	GLFWwindow* m_Window = nullptr;
-	Rect displaySize = Rect(1000, 1000);
 
 	VertexArrayObjectPtr m_polygonVAO;
 	UniformBufferPtr m_uniform;

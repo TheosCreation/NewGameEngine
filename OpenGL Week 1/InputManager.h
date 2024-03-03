@@ -15,6 +15,8 @@ public:
 
 	~InputManager();
 
+	void SetGameWindow(GLFWwindow* window);
+
 	bool isKeyDown(Key key);
 
 	bool isKeyUp(Key key);
@@ -36,7 +38,7 @@ public:
 	void update();
 
 private:
-	GLFWwindow* Window;
+	GLFWwindow* WindowPtr = nullptr;
 	short m_keys_state[256] = {};
 	short m_old_keys_state[256] = {};
 	short m_keys_state_res[256] = {};

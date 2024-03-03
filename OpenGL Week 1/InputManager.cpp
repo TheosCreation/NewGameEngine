@@ -3,11 +3,15 @@
 
 InputManager::InputManager()
 {
-	Window = m_game->getWindow();
 }
 
 InputManager::~InputManager()
 {
+}
+
+void InputManager::SetGameWindow(GLFWwindow* window)
+{
+	WindowPtr = window;
 }
 
 bool InputManager::isKeyDown(Key key)
@@ -23,7 +27,7 @@ bool InputManager::isKeyDown(Key key)
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
 	
-	return (glfwGetKey(Window, keyGLFW) == GLFW_PRESS);
+	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
 }
 
 bool InputManager::isKeyUp(Key key)
@@ -39,7 +43,7 @@ bool InputManager::isKeyUp(Key key)
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
 
-	return (glfwGetKey(Window, keyGLFW) == GLFW_PRESS);
+	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
 }
 
 bool InputManager::isMouseDown(MouseButton button)
@@ -54,7 +58,7 @@ bool InputManager::isMouseDown(MouseButton button)
 		buttonGLFW = GLFW_MOUSE_BUTTON_RIGHT;
 
 	if (buttonGLFW != -1) {
-		return (glfwGetMouseButton(Window, buttonGLFW) == GLFW_PRESS);
+		return (glfwGetMouseButton(WindowPtr, buttonGLFW) == GLFW_PRESS);
 	}
 
 	return false;
@@ -72,7 +76,7 @@ bool InputManager::isMouseUp(MouseButton button)
 		buttonGLFW = GLFW_MOUSE_BUTTON_RIGHT;
 
 	if (buttonGLFW != -1) {
-		return (glfwGetMouseButton(Window, buttonGLFW) == GLFW_RELEASE);
+		return (glfwGetMouseButton(WindowPtr, buttonGLFW) == GLFW_RELEASE);
 	}
 
 	return false;
@@ -93,10 +97,10 @@ void InputManager::enablePlayMode(bool enable)
 	m_playEnable = enable;
 
 	if (enable) {
-		glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(WindowPtr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 	else {
-		glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		glfwSetInputMode(WindowPtr, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 }
 
@@ -108,7 +112,7 @@ void InputManager::setScreenArea(const Rect& area)
 void InputManager::update()
 {
 	double currentMouseX, currentMouseY;
-	glfwGetCursorPos(Window, &currentMouseX, &currentMouseY);
+	glfwGetCursorPos(WindowPtr, &currentMouseX, &currentMouseY);
 
 	if (currentMouseX != m_old_mouse_pos.x || currentMouseY != m_old_mouse_pos.y)
 	{
@@ -126,13 +130,13 @@ void InputManager::update()
 	else
 	{
 		Vec2 center_screen = Vec2(m_screenArea.left + (float)m_screenArea.width / 2.0f, m_screenArea.top + (float)m_screenArea.height / 2.0f);
-		glfwSetCursorPos(Window, center_screen.x, center_screen.y);
+		glfwSetCursorPos(WindowPtr, center_screen.x, center_screen.y);
 		m_old_mouse_pos = center_screen;
 	}
 
 	for (int i = 0; i < GLFW_KEY_LAST; ++i)
 	{
-		int keyState = glfwGetKey(Window, i);
+		int keyState = glfwGetKey(WindowPtr, i);
 
 		if (keyState == GLFW_PRESS)
 		{

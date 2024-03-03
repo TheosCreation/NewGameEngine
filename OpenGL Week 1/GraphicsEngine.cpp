@@ -1,7 +1,5 @@
 #include "GraphicsEngine.h"
-#include "VertexArrayObject.h"
-#include "UniformBuffer.h"
-#include "ShaderProgram.h"
+
 
 //float CurrentTime;
 VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
