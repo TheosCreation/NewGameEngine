@@ -41,17 +41,16 @@ Game::Game()
     m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
 
     getInputManager()->setScreenArea(m_display->getInnerSize());
-
-    m_uniform = m_graphicsEngine->createUniform({
-        sizeof(UniformData)
-    });
-
-    m_shader = m_graphicsEngine->createShaderProgram({
-            L"BasicShader",
-            L"BasicShader"
-    });
-
-    m_shader->setUniformBufferSlot("UniformData", 0);
+    //m_uniform = m_graphicsEngine->createUniform({
+    //    sizeof(UniformData)
+    //});
+    //
+    //m_shader = m_graphicsEngine->createShaderProgram({
+    //        L"BasicShader",
+    //        L"BasicShader"
+    //});
+    //
+    //m_shader->setUniformBufferSlot("UniformData", 0);
 }
 
 Game::~Game()
@@ -112,10 +111,10 @@ void Game::onUpdateInternal()
 
     glfwPollEvents();
 
-    m_graphicsEngine->setVertexArrayObject(m_polygonVAO);
-    m_graphicsEngine->setUniformBuffer(m_uniform, 0);
+    //m_graphicsEngine->setVertexArrayObject(m_polygonVAO);
+    //m_graphicsEngine->setUniformBuffer(m_uniform, 0);
 
-    m_graphicsEngine->drawIndexedTriangles(TriangleType::TriangleList, 36);
+    //m_graphicsEngine->drawIndexedTriangles(TriangleType::TriangleList, 36);
 }
 
 void Game::onGraphicsUpdate(float deltaTime)
