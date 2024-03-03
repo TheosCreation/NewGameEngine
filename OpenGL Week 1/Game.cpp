@@ -48,12 +48,19 @@ Game::Game()
 
         onQuit();
     }
+
+    m_display = std::make_unique<Window>();
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
     m_entitySystem = std::make_unique<EntitySystem>();
     m_inputManager = std::make_unique<InputManager>();
+
+    m_display->makeCurrentContext();
+
     m_graphicsEngine->SetViewport(Rect(0, 0, displaySize.width, displaySize.height));
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
+
+    getInputManager()->setScreenArea(m_display->getInnerSize());
 }
 
 Game::~Game()

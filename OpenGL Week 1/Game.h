@@ -7,6 +7,7 @@
 #include <glfw3.h>
 #include "Rect.h"
 
+class Window;
 class GraphicsEngine;
 class EntitySystem;
 class Game
@@ -33,13 +34,12 @@ private:
 
 protected:
 	bool m_isRunning = true; 
-	std::unique_ptr<GLFWwindow> Window = nullptr;
+	std::unique_ptr<Window> m_display;
 	std::unique_ptr<InputManager> m_inputManager;
 	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
 	std::unique_ptr<EntitySystem> m_entitySystem;
 
 	GLFWwindow* m_Window = nullptr;
-	Window m_display = nullptr;
 	Rect displaySize = Rect(1000, 1000);
 
 	VertexArrayObjectPtr m_polygonVAO;
