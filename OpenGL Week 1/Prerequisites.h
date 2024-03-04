@@ -43,7 +43,7 @@ struct ShaderProgramDesc
 struct UniformBufferDesc
 {
 	uint size = 0;
-};
+}; 
 
 enum class CameraType
 {

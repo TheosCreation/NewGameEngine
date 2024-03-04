@@ -83,20 +83,10 @@ void Game::onUpdateInternal()
     m_previousTime = currentTime;
 
     auto deltaTime = (float)elapsedSeconds.count();
-
-    
     
     onUpdate(deltaTime);
+
     m_entitySystem->update(deltaTime);
-
-    Mat4 world, projection;
-
-    Rect displaysize = m_display->getInnerSize();
-    projection.setOrthoLH(displaysize.width * 0.004f, displaysize.height * 0.004f, 0.1f, 100.0f);
-
-    // passing data into shaders using uniform
-    UniformData data = { world , projection };
-    m_uniform->setData(&data);
     
     onGraphicsUpdate(deltaTime);
 
@@ -106,11 +96,9 @@ void Game::onUpdateInternal()
 void Game::onGraphicsUpdate(float deltaTime)
 {
     m_graphicsEngine->clear(Vec4(0, 0, 0, 1));
-    
+
     UniformData data = {};
-    
-    
-    
+
     auto camId = typeid(Camera).hash_code();
     
     auto it = m_entitySystem->m_entities.find(camId);
@@ -130,23 +118,23 @@ void Game::onGraphicsUpdate(float deltaTime)
             cam->getProjectionMatrix(data.projection);
         }
     }
-    
+
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
         //for each graphics entity
         for (auto& [key, entity] : entities)
         {
             auto e = dynamic_cast<GraphicsEntity*>(entity.get());
-    
+
             if (e)
             {
                 //let's retrive the world matrix and let's pass it to the uniform buffer
                 e->getWorldMatrix(data.world);
-    
+
                 m_uniform->setData(&data);
                 m_graphicsEngine->setShaderProgram(m_shader); //bind shaders to graphics pipeline
                 m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
-    
+
                 //call internal graphcis update of the entity in order to handle specific graphics data/functions 
                 e->onGraphicsUpdate(deltaTime);
             }

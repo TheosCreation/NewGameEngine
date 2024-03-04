@@ -103,7 +103,6 @@ void CubeEntity::onCreate()
         { 2 } //numElements texture coordinates attribute
     };
 
-    //seems as though m_game is null
     m_mesh = m_game->getGraphicsEngine()->createVertexArrayObject(
         //vertex buffer
         {

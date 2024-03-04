@@ -1,6 +1,7 @@
 #include "EntitySystem.h"
 #include "Entity.h"
 #include "Camera.h"
+#include "GraphicsEntity.h"
 
 EntitySystem::EntitySystem()
 {
@@ -74,7 +75,5 @@ void EntitySystem::update(float deltaTime)
 			entity->onUpdate(deltaTime);
 		}
 	}
-
-
-
 }
+
