@@ -1,6 +1,5 @@
 #pragma once
 #include "All.h"
-#include "MyPlayer.h"
 
 class MyGame : public Game
 {
@@ -13,6 +12,6 @@ public:
 
 private:
 	float m_elapsedSeconds = 0.0f;
-	MyPlayer* m_player = nullptr;
+	CubeEntity* m_player = nullptr;
 };
 

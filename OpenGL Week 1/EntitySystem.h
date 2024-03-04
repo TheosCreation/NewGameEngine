@@ -9,21 +9,23 @@ class EntitySystem
 {
 public:
 	EntitySystem();
+	EntitySystem(Game* game);
 	~EntitySystem();
 
 public:
 	template <typename T>
-	T* createEntity(Game* game)
+	T* createEntity()
 	{
 		static_assert(std::is_base_of<Entity, T>::value, "T must derive from Entity class");
 		auto id = typeid(T).hash_code();
 		auto e = new T();
-		if (createEntityInternal(e, id, game))
+		if (createEntityInternal(e, id))
 			return e;
 		return nullptr;
 	}
+	Game* getGame();
 private:
-	bool createEntityInternal(Entity* entity, size_t id, Game* game);
+	bool createEntityInternal(Entity* entity, size_t id);
 	void removeEntity(Entity* entity);
 
 	void update(float deltaTime);

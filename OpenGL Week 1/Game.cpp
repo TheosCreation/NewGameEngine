@@ -41,7 +41,7 @@ Game::Game()
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
 
-    m_entitySystem = std::make_unique<EntitySystem>();
+    m_entitySystem = std::make_unique<EntitySystem>(this);
 
     m_inputManager = std::make_unique<InputManager>();
     m_inputManager->SetGameWindow(m_display->getWindow());
@@ -83,10 +83,10 @@ void Game::onUpdateInternal()
     m_previousTime = currentTime;
 
     auto deltaTime = (float)elapsedSeconds.count();
-    
-    onUpdate(deltaTime);
 
     m_entitySystem->update(deltaTime);
+
+    onUpdate(deltaTime);
     
     onGraphicsUpdate(deltaTime);
 
@@ -96,7 +96,6 @@ void Game::onUpdateInternal()
 void Game::onGraphicsUpdate(float deltaTime)
 {
     m_graphicsEngine->clear(Vec4(0, 0, 0, 1));
-
     UniformData data = {};
 
     auto camId = typeid(Camera).hash_code();

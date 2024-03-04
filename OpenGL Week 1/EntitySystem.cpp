@@ -7,28 +7,24 @@ EntitySystem::EntitySystem()
 {
 }
 
+EntitySystem::EntitySystem(Game* game)
+{
+	m_game = game;
+}
+
 EntitySystem::~EntitySystem()
 {
 }
 
-//bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
-//{
-//	auto ptr = std::unique_ptr<Entity>(entity);
-//	m_entities[id].emplace(entity, std::move(ptr));
-//	//entity->m_game = this;
-//	entity->m_id = id;
-//	entity->m_entitySystem = this;
-//
-//	entity->onCreate();
-//
-//	return true;
-//}
+Game* EntitySystem::getGame()
+{
+	return m_game;
+}
 
-bool EntitySystem::createEntityInternal(Entity* entity, size_t id, Game* game)
+bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
 {
 	auto ptr = std::unique_ptr<Entity>(entity);
 	auto camId = typeid(Camera).hash_code();
-	entity->m_game = game;
 	if (id == camId)
 	{
 		auto it = m_entities.find(camId);

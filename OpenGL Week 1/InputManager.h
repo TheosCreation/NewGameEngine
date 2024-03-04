@@ -7,7 +7,6 @@
 #include <glfw3.h>
 
 constexpr int ARRAY_SIZE = GLFW_KEY_LAST;
-class Game;
 class InputManager
 {
 public:
@@ -50,8 +49,5 @@ private:
 	Rect m_screenArea;
 	Vec2 m_deltaMouse;
 	int states_index = 0;
-	Game* m_game = nullptr;
-
-	friend class Game;
 };
 

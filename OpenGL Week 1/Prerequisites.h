@@ -7,11 +7,13 @@
 class UniformBuffer;
 class VertexArrayObject;
 class ShaderProgram;
+class Game;
 
 typedef unsigned int uint;
 typedef std::shared_ptr<UniformBuffer> UniformBufferPtr;
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
+typedef std::shared_ptr<Game> GamePtr;
 
 struct VertexAttribute
 {

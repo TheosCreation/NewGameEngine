@@ -102,8 +102,8 @@ void CubeEntity::onCreate()
         { 3 }, //numElements position attribute
         { 2 } //numElements texture coordinates attribute
     };
-
-    m_mesh = m_game->getGraphicsEngine()->createVertexArrayObject(
+    
+    m_mesh = getGame()->getGraphicsEngine()->createVertexArrayObject(
         //vertex buffer
         {
                 (void*)verticesList,
@@ -124,6 +124,6 @@ void CubeEntity::onCreate()
 void CubeEntity::onGraphicsUpdate(float deltaTime)
 {
     //during the graphcis update, we call the draw function
-    m_game->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
-    m_game->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, 36);//draw triangles through the usage of index buffer
+    getGame()->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, 36);//draw triangles through the usage of index buffer
 }

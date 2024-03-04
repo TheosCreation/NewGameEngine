@@ -5,7 +5,6 @@
 #include "Game.h"
 
 class EntitySystem;
-class Game;
 class Entity
 {
 public:
@@ -20,9 +19,10 @@ public:
 	Vec3 getScale();
 
 	EntitySystem* getEntitySystem();
-	Game* getGame();
 	void getWorldMatrix(Mat4& world);
 	void release();
+
+	Game* getGame();
 protected:
 	virtual void onCreate() {}
 	virtual void onUpdate(float deltaTime) {}
@@ -37,8 +37,6 @@ protected:
 
 	size_t m_id = 0;
 	EntitySystem* m_entitySystem = nullptr;
-	Game* m_game = nullptr;
 
 	friend class EntitySystem;
-	friend class Game;
 };

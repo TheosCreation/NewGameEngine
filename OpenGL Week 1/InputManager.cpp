@@ -1,5 +1,4 @@
 #include "InputManager.h"
-#include "Game.h"
 
 InputManager::InputManager()
 {

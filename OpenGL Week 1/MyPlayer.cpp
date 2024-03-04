@@ -10,14 +10,14 @@ MyPlayer::~MyPlayer()
 
 void MyPlayer::onCreate()
 {
-	m_entity = getEntitySystem()->createEntity<Entity>(m_game);
-	m_cam = getEntitySystem()->createEntity<Camera>(m_game);
+	m_entity = getEntitySystem()->createEntity<Entity>();
+	m_cam = getEntitySystem()->createEntity<Camera>();
 	m_cam->setPosition(Vec3(0, 0, 0));
 }
 
 void MyPlayer::onUpdate(float deltaTime)
 {
-	auto input = m_game->getInputManager();
+	auto input = getGame()->getInputManager();
 
 	//rotating the camera thorugh mouse movements
 	m_camRotY += input->getMouseXAxis() * 0.01f;
