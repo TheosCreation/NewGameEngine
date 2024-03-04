@@ -25,11 +25,10 @@ ShaderProgramPtr GraphicsEngine::createShaderProgram(const ShaderProgramDesc& de
 
 void GraphicsEngine::clear(const Vec4& color)
 {
-    //glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
     glClearColor(color.x, color.y, color.z, color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
-    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    //glDepthFunc(GL_LESS);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDepthFunc(GL_LESS);
 }
 
 void GraphicsEngine::setFaceCulling(const CullType& type)

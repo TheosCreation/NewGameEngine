@@ -4,26 +4,26 @@
 Window::Window()
 {
     // Set GLFW window hints
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
-    // Specify whether to create a forward-compatible context
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    //
-    //// Set the number of samples for multisampling
-    //glfwWindowHint(GLFW_SAMPLES, 4);
-    //
-    //glfwWindowHint(GLFW_RED_BITS, 8);
-    //glfwWindowHint(GLFW_GREEN_BITS, 8);
-    //glfwWindowHint(GLFW_BLUE_BITS, 8);
-    //glfwWindowHint(GLFW_ALPHA_BITS, 8);
-    //
-    //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-    //
-    ////glfwWindowHint(GLFW_DEPTH_BITS, 24);
-    //glfwWindowHint(GLFW_STENCIL_BITS, 8);
+    //Specify whether to create a forward-compatible context
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    
+    // Set the number of samples for multisampling
+    glfwWindowHint(GLFW_SAMPLES, 4);
+    
+    glfwWindowHint(GLFW_RED_BITS, 8);
+    glfwWindowHint(GLFW_GREEN_BITS, 8);
+    glfwWindowHint(GLFW_BLUE_BITS, 8);
+    glfwWindowHint(GLFW_ALPHA_BITS, 8);
+    
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+    
+    glfwWindowHint(GLFW_DEPTH_BITS, 24);
+    glfwWindowHint(GLFW_STENCIL_BITS, 8);
 
     
 
