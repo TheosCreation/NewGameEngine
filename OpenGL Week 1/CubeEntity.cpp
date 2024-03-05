@@ -1,39 +1,38 @@
 #include "CubeEntity.h"
 #include "GraphicsEngine.h"
-#include "Vec2.h"
 #include "Game.h"
 #include "Texture.h"
 
 struct Vertex
 {
-    Vec3 position;
-    Vec2 texCoords;
+    glm::vec3 position;
+    glm::vec2 texCoords;
 };
 
 //during the oncreate method of this entity, we initialize the graphics data of the cube
 void CubeEntity::onCreate()
 {
-    Vec3 position_list[] =
+    glm::vec3 position_list[] =
     {
         //front face
-        { Vec3(-0.5f,-0.5f,-0.5f)},
-        { Vec3(-0.5f,0.5f,-0.5f) },
-        { Vec3(0.5f,0.5f,-0.5f) },
-        { Vec3(0.5f,-0.5f,-0.5f)},
+        { glm::vec3(-0.5f,-0.5f,-0.5f)},
+        { glm::vec3(-0.5f,0.5f,-0.5f) },
+        { glm::vec3(0.5f,0.5f,-0.5f) },
+        { glm::vec3(0.5f,-0.5f,-0.5f)},
 
         //back face
-        { Vec3(0.5f,-0.5f,0.5f) },
-        { Vec3(0.5f,0.5f,0.5f) },
-        { Vec3(-0.5f,0.5f,0.5f)},
-        { Vec3(-0.5f,-0.5f,0.5f) }
+        { glm::vec3(0.5f,-0.5f,0.5f) },
+        { glm::vec3(0.5f,0.5f,0.5f) },
+        { glm::vec3(-0.5f,0.5f,0.5f)},
+        { glm::vec3(-0.5f,-0.5f,0.5f) }
     };
 
-    Vec2 texcoord_list[] =
+    glm::vec2 texcoord_list[] =
     {
-        { Vec2(0.0f,0.0f) },
-        { Vec2(0.0f,1.0f) },
-        { Vec2(1.0f,0.0f) },
-        { Vec2(1.0f,1.0f) }
+        { glm::vec2(0.0f,0.0f) },
+        { glm::vec2(0.0f,1.0f) },
+        { glm::vec2(1.0f,0.0f) },
+        { glm::vec2(1.0f,1.0f) }
     };
 
     Vertex verticesList[] =

@@ -1,9 +1,6 @@
 #pragma once
-#include "Mat4.h"
+#include "Math.h"
 #include "Rect.h"
-#include "Vec2.h"
-#include "Vec3.h"
-#include "Vec4.h"
 
 #include "GraphicsEngine.h"
 #include "ShaderProgram.h"

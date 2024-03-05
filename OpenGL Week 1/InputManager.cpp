@@ -117,20 +117,20 @@ void InputManager::update()
 
 	if (std::abs(currentMouseX - m_old_mouse_pos.x) > MOUSE_MOVEMENT_THRESHOLD || std::abs(currentMouseY - m_old_mouse_pos.y) > MOUSE_MOVEMENT_THRESHOLD)
 	{
-		m_deltaMouse = Vec2((float)(currentMouseX - m_old_mouse_pos.x), (float)(currentMouseY - m_old_mouse_pos.y));
+		m_deltaMouse = glm::vec2((float)(currentMouseX - m_old_mouse_pos.x), (float)(currentMouseY - m_old_mouse_pos.y));
 	}
 	else
 	{
-		m_deltaMouse = Vec2(0, 0);
+		m_deltaMouse = glm::vec2(0, 0);
 	}
 
 	if (!m_playEnable)
 	{
-		m_old_mouse_pos = Vec2((float)currentMouseX, (float)currentMouseY);
+		m_old_mouse_pos = glm::vec2((float)currentMouseX, (float)currentMouseY);
 	}
 	else
 	{
-		Vec2 center_screen = Vec2(m_screenArea.left + (float)m_screenArea.width / 2.0f, m_screenArea.top + (float)m_screenArea.height / 2.0f);
+		glm::vec2 center_screen = glm::vec2(m_screenArea.left + (float)m_screenArea.width / 2.0f, m_screenArea.top + (float)m_screenArea.height / 2.0f);
 		glfwSetCursorPos(WindowPtr, center_screen.x, center_screen.y);
 		m_old_mouse_pos = center_screen;
 	}

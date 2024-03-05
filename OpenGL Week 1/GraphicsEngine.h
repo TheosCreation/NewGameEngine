@@ -1,6 +1,6 @@
 #pragma once
-#include "Prerequisites.h"
-#include "Vec4.h"
+#include "Utils.h"
+#include "Math.h"
 #include "UniformBuffer.h"
 #include "VertexArrayObject.h"
 #include "ShaderProgram.h"
@@ -22,7 +22,7 @@ public:
 	ShaderProgramPtr createShaderProgram(const ShaderProgramDesc& desc);
 	Texture2DPtr createTexture2D(const Texture2DDesc& desc);
 public:
-	void clear(const Vec4& color);
+	void clear(const glm::vec4& color);
 	void setFaceCulling(const CullType& type);
 	void setWindingOrder(const WindingOrder& type);
 	void SetViewport(const Rect& size);

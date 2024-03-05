@@ -66,9 +66,6 @@
     <ClCompile Include="UniformBuffer.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Vec2.h">
-      <Filter>Header Files\Math</Filter>
-    </ClCompile>
     <ClCompile Include="EntitySystem.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -124,16 +121,13 @@
     <ClInclude Include="GraphicsEngine.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Vec4.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="VertexArrayObject.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Prerequisites.h">
+    <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ShaderProgram.h">
@@ -141,12 +135,6 @@
     </ClInclude>
     <ClInclude Include="UniformBuffer.h">
       <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Mat4.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec3.h">
-      <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="EntitySystem.h">
       <Filter>Header Files\Entity</Filter>
@@ -189,6 +177,9 @@
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Math.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

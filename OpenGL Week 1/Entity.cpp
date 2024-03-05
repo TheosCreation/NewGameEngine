@@ -10,19 +10,19 @@ Entity::~Entity()
 {
 }
 
-void Entity::setPosition(const Vec3& position)
+void Entity::setPosition(const glm::vec3& position)
 {
 	m_position = position;
 	processWorldMatrix();
 }
 
-void Entity::setRotation(const Vec3& rotation)
+void Entity::setRotation(const glm::vec3& rotation)
 {
 	m_rotation = rotation;
 	processWorldMatrix();
 }
 
-void Entity::setScale(const Vec3& scale)
+void Entity::setScale(const glm::vec3& scale)
 {
 	m_scale = scale;
 	processWorldMatrix();
@@ -33,17 +33,17 @@ void Entity::release()
 	m_entitySystem->removeEntity(this);
 }
 
-Vec3 Entity::getPosition()
+glm::vec3 Entity::getPosition()
 {
 	return m_position;
 }
 
-Vec3 Entity::getRotation()
+glm::vec3 Entity::getRotation()
 {
 	return m_rotation;
 }
 
-Vec3 Entity::getScale()
+glm::vec3 Entity::getScale()
 {
 	return m_scale;
 }
@@ -58,36 +58,22 @@ Game* Entity::getGame()
 	return getEntitySystem()->getGame();
 }
 
-void Entity::getWorldMatrix(Mat4& world)
+void Entity::getWorldMatrix(glm::mat4& world)
 {
 	world = m_world;
 }
 
 void Entity::processWorldMatrix()
 {
-	Mat4 temp;
-
-	m_world.setIdentity();
-
-	temp.setIdentity();
-	temp.setScale(m_scale);
-	m_world *= temp;
-
-
-	temp.setIdentity();
-	temp.setRotationX(m_rotation.x);
-	m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(m_rotation.y);
-	m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationZ(m_rotation.z);
-	m_world *= temp;
-
-
-	temp.setIdentity();
-	temp.setTranslation(m_position);
-	m_world *= temp;
+	m_world = glm::mat4(1.0f);
+	//scale
+	m_world = glm::scale(m_world, m_scale);
+	//rotate around x
+	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	//rotate around y
+	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	//rotate around z
+	m_world = glm::rotate(m_world, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	//now translate
+	m_world = glm::translate(m_world, m_position);
 }

@@ -1,6 +1,5 @@
 #pragma once
 #include "GraphicsEntity.h"
-#include "Mat4.h"
 #include "Rect.h"
 
 //the CubeEntity class is the entity class that allows to add a cube in the scene

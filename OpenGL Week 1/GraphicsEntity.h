@@ -1,6 +1,5 @@
 #pragma once
 #include "Entity.h"
-#include "Mat4.h"
 #include "Rect.h"
 
 class EntitySystem;

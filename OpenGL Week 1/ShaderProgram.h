@@ -1,7 +1,7 @@
 #pragma once
 #include <glew.h>
 #include <glfw3.h>
-#include "Prerequisites.h"
+#include "Utils.h"
 
 class ShaderProgram
 {

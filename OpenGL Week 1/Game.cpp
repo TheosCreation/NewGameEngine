@@ -3,9 +3,6 @@
 #include "VertexArrayObject.h"
 #include "UniformBuffer.h"
 #include "ShaderProgram.h"
-#include "Mat4.h"
-#include "Vec3.h"
-#include "Vec2.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "Camera.h"
@@ -14,9 +11,9 @@
 
 struct UniformData
 {
-    Mat4 world;
-    Mat4 view;
-    Mat4 projection;
+    glm::mat4 world;
+    glm::mat4 view;
+    glm::mat4 projection;
 };
 
 Game::Game()
@@ -91,7 +88,7 @@ void Game::onUpdateInternal()
 
 void Game::onGraphicsUpdate(float deltaTime)
 {
-    m_graphicsEngine->clear(Vec4(0, 0, 0, 1));
+    m_graphicsEngine->clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
 
     auto camId = typeid(Camera).hash_code();
@@ -106,7 +103,6 @@ void Game::onGraphicsUpdate(float deltaTime)
         {
             //the camera data are the view and projection
             //view is simply the world matrix of the camera inverted
-            Mat4 w;
             auto cam = dynamic_cast<Camera*>(camera.get());
             cam->getViewMatrix(data.view);
             cam->setScreenArea(this->m_display->getInnerSize());

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Prerequisites.h"
-#include "Vec2.h"
+#include "Utils.h"
+#include "Math.h"
 #include "Rect.h"
 #include <glew.h>
 #include <glfw3.h>
@@ -44,10 +44,10 @@ private:
 	short m_keys_state_res[ARRAY_SIZE] = {};
 
 	bool m_playEnable = false;
-	Vec2 m_old_mouse_pos;
+	glm::vec2 m_old_mouse_pos;
 	bool m_first_time = true;
 	Rect m_screenArea;
-	Vec2 m_deltaMouse;
+	glm::vec2 m_deltaMouse;
 	int states_index = 0;
 };
 

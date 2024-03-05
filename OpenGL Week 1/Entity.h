@@ -1,7 +1,6 @@
 #pragma once
-#include "Prerequisites.h"
-#include "Vec3.h"
-#include "Mat4.h"
+#include "Utils.h"
+#include "Math.h"
 #include "Game.h"
 
 class EntitySystem;
@@ -11,15 +10,15 @@ public:
 	Entity();
 	virtual ~Entity();
 public:
-	void setPosition(const Vec3& position);
-	void setRotation(const Vec3& rotation);
-	void setScale(const Vec3& scale);
-	Vec3 getPosition();
-	Vec3 getRotation();
-	Vec3 getScale();
+	void setPosition(const glm::vec3& position);
+	void setRotation(const glm::vec3& rotation);
+	void setScale(const glm::vec3& scale);
+	glm::vec3 getPosition();
+	glm::vec3 getRotation();
+	glm::vec3 getScale();
 
 	EntitySystem* getEntitySystem();
-	void getWorldMatrix(Mat4& world);
+	void getWorldMatrix(glm::mat4& world);
 	void release();
 
 	Game* getGame();
@@ -29,11 +28,11 @@ protected:
 	void processWorldMatrix();
 
 protected:
-	Mat4 m_world; 
+	glm::mat4 m_world;
 	
-	Vec3 m_position;
-	Vec3 m_rotation;
-	Vec3 m_scale = Vec3(1, 1, 1);
+	glm::vec3 m_position;
+	glm::vec3 m_rotation;
+	glm::vec3 m_scale = glm::vec3(1, 1, 1);
 
 	size_t m_id = 0;
 	EntitySystem* m_entitySystem = nullptr;

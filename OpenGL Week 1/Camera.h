@@ -1,13 +1,13 @@
 #pragma once
 #include "Entity.h"
-#include "Mat4.h"
+#include "Math.h"
 #include "Rect.h"
 
 class Camera : public Entity
 {
 public:
-	void getViewMatrix(Mat4& view);
-	void getProjectionMatrix(Mat4& proj);
+	void getViewMatrix(glm::mat4& view);
+	void getProjectionMatrix(glm::mat4& proj);
 
 	void setFarPlane(float farPlane);
 	void setNearPlane(float nearPlane);
@@ -17,12 +17,12 @@ public:
 private:
 	void computeProjectionMatrix();
 private:
-	Mat4 m_view;
-	Mat4 m_projection;
+	glm::mat4 m_view;
+	glm::mat4 m_projection;
 
 	float m_farPlane = 100.0f;
 	float m_nearPlane = 0.001f;
-	float m_fov = 1.3f;
+	float m_fov = 90.0f;
 	CameraType m_type = CameraType::Perspective;
 	Rect m_screenArea;
 };

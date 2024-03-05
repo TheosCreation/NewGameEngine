@@ -12,7 +12,7 @@ void MyPlayer::onCreate()
 {
 	m_entity = getEntitySystem()->createEntity<Entity>();
 	m_cam = getEntitySystem()->createEntity<Camera>();
-	m_cam->setPosition(Vec3(0, 0, 0));
+	m_cam->setPosition(glm::vec3(0, 0, 0));
 }
 
 void MyPlayer::onUpdate(float deltaTime)
@@ -28,19 +28,19 @@ void MyPlayer::onUpdate(float deltaTime)
 	else if (m_camRotX < -1.57f)
 		m_camRotX = -1.57f;
 
-	m_cam->setRotation(Vec3(m_camRotX, m_camRotY, 0));
+	m_cam->setRotation(glm::vec3(m_camRotX, m_camRotY, 0));
 
 
 	//moving the camera along x and z axis through keyboard input events (W,A,S,D)
-	Mat4 worldMatCam;
+	glm::mat4 worldMatCam;
 	m_cam->getWorldMatrix(worldMatCam);
 
 
-	auto forwardDir = worldMatCam.getForwardDirection();
-	auto rightwardDir = worldMatCam.getRightwardDirection();
+	glm::vec3 forwardDir = getForwardDirection(worldMatCam);
+	glm::vec3 rightwardDir = getRightwardDirection(worldMatCam);
 
 
-	auto speed = 2.0f;
+	float speed = 2.0f;
 	float moveForward = 0, moveRightward = 0;
 
 	if (input->isKeyDown(Key::KeyW))
@@ -60,11 +60,10 @@ void MyPlayer::onUpdate(float deltaTime)
 		moveRightward = 1;
 	}
 
-	//compute position by moving along the forward axis and rightward axis
-	//forward axis and rightward axis are provided by the world matrix of the camera
+	// Combine the forward and rightward directions
+	glm::vec3 moveDirection = (forwardDir * moveForward + rightwardDir * moveRightward);
 
-	auto pos = m_cam->getPosition() + (forwardDir * moveForward) * speed * deltaTime;
-	pos = pos + (rightwardDir * moveRightward) * speed * deltaTime;
+	glm::vec3 pos = m_cam->getPosition() + moveDirection * speed * deltaTime;
 
 	m_cam->setPosition(pos);
 }

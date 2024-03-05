@@ -28,7 +28,7 @@ Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
     return std::make_shared<Texture2D>(desc);
 }
 
-void GraphicsEngine::clear(const Vec4& color)
+void GraphicsEngine::clear(const glm::vec4& color)
 {
     glEnable(GL_DEPTH_TEST);
     glClearColor(color.x, color.y, color.z, color.w);

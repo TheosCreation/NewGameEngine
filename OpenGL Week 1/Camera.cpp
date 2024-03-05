@@ -1,14 +1,13 @@
 #include "Camera.h"
 
-void Camera::getViewMatrix(Mat4& view)
+void Camera::getViewMatrix(glm::mat4& view)
 {
 	//invert the world matrix in order to get the view matrix
-	m_view = m_world;
-	m_view.inverse();
+	m_view = glm::inverse(m_world);
 	view = m_view;
 }
 
-void Camera::getProjectionMatrix(Mat4& proj)
+void Camera::getProjectionMatrix(glm::mat4& proj)
 {
 	proj = m_projection;
 }
@@ -46,7 +45,7 @@ void Camera::setScreenArea(const Rect& screen)
 void Camera::computeProjectionMatrix()
 {
 	if (m_type == CameraType::Perspective)
-		m_projection.setPerspectiveFovLH(m_fov, (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
+		m_projection = glm::perspectiveLH(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
 	else if (m_type == CameraType::Orthogonal)
-		m_projection.setOrthoLH((float)m_screenArea.width * 0.013f, (float)m_screenArea.height * 0.013f, m_nearPlane, m_farPlane);
+		m_projection = glm::ortho(0.0f, (float)m_screenArea.width, (float)m_screenArea.height, 0.0f, m_nearPlane, m_farPlane);
 }
