@@ -15,8 +15,8 @@ void MyGame::onCreate()
 	Game::onCreate();
 
 	//loading texture resource
-	auto wood = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Assets/Textures/wood.jpg"));
-	auto wall = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Assets/Textures/wall.jpg"));
+	auto wood = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/wood.jpg"));
+	auto wall = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/wall.jpg"));
 	
 	auto cube = getEntitySystem()->createEntity<CubeEntity>();
 	cube->setScale(Vec3(2.0f, 0.1f, 2.0f));

@@ -1,26 +1,32 @@
 #version 460 core
 
-layout(location = 0) in vec3 FragColor;
+layout(location = 0) in vec3 outColor;
 layout(location = 1) in vec2 texCoord;
 
-layout(location = 0) out vec4 FinalColor;
+layout(location = 0) out vec4 color;
+
 
 uniform sampler2D texture1;
 
-void main()
-{
-	float borderThickness = 0.03;
 
 
-	//if texcoords are in the border thickness area, let's return a light blue color (0,0.5,1,1), otherwise, let's make a faded color
-    if ((FragColor.x > 0.0+borderThickness && FragColor.x < 1.0-borderThickness) && (FragColor.y > 0.0+borderThickness && FragColor.y < 1.0-borderThickness))
-        FinalColor = vec4(0.2+FragColor.x,0,0,1);
-    else
-        FinalColor = vec4(1,1,0,1);
-        
-    vec4 texColor = texture(texture1, texCoord);
-    //FinalColor.a =1;
-    //FinalColor.rgb*=0.99;
-    
-    FinalColor = texColor;
+void main(){
+
+   float borderThickness = 0.03;
+
+   //if texcoords are in the border thickness area, let's return a light blue color (0,0.5,1,1), otherwise, let's make a faded color
+   if ((outColor.x > 0.0+borderThickness && outColor.x < 1.0-borderThickness) && (outColor.y > 0.0+borderThickness && outColor.y < 1.0-borderThickness))
+       color = vec4(0,0,0.2+outColor.x,1);
+   else
+       color = vec4(0,0.5,1,1);
+       
+       
+  vec4 texColor = texture(texture1, texCoord);
+
+  //color.a =1;
+  //color.rgb*=0.99;
+
+  color = texColor;
+
+  
 }
