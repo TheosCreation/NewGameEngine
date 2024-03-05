@@ -13,11 +13,15 @@ MyGame::~MyGame()
 void MyGame::onCreate()
 {
 	Game::onCreate();
+
+	//loading texture resource
+	auto wood = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Assets/Textures/wood.jpg"));
+	auto wall = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Assets/Textures/wall.jpg"));
 	
-	
-	//auto cube = getEntitySystem()->createEntity<CubeEntity>();
-	//cube->setScale(Vec3(6.8f, 3.0f, 6.8f));
-	//cube->setPosition(Vec3(0, -1, 0));
+	auto cube = getEntitySystem()->createEntity<CubeEntity>();
+	cube->setScale(Vec3(2.0f, 0.1f, 2.0f));
+	cube->setPosition(Vec3(0, -1, 0));
+	cube->setTexture(wall);
 
 	srand((unsigned int)time(NULL));
 
@@ -29,12 +33,16 @@ void MyGame::onCreate()
 			auto height = (rand() % 120) + (80.0f);
 			height /= 100.0f;
 
+			auto roty = (rand() % 600) + (200.0f);
+			roty /= 1000.0f;
 			auto width = (rand() % 600) + (200.0f);
 			width /= 1000.0f;
 
 
 			cube->setScale(Vec3(width, height, width));
 			cube->setPosition(Vec3(x * 1.4f, (height / 2.0f) - 3.5f, y * 1.4f));
+			cube->setRotation(Vec3(0, roty, 0));
+			cube->setTexture(wood);
 		}
 	}
 

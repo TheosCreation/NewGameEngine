@@ -23,6 +23,11 @@ ShaderProgramPtr GraphicsEngine::createShaderProgram(const ShaderProgramDesc& de
     return std::make_shared<ShaderProgram>(desc);
 }
 
+Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
+{
+    return std::make_shared<Texture2D>(desc);
+}
+
 void GraphicsEngine::clear(const Vec4& color)
 {
     glEnable(GL_DEPTH_TEST);
@@ -79,6 +84,13 @@ void GraphicsEngine::setUniformBuffer(const UniformBufferPtr& buffer, uint slot)
 void GraphicsEngine::setShaderProgram(const ShaderProgramPtr& program)
 {
     glUseProgram(program->getId());
+}
+
+void GraphicsEngine::setTexture2D(const Texture2DPtr& texture, uint slot)
+{
+    auto glSlot = GL_TEXTURE0 + slot;
+    glActiveTexture(glSlot); // activate the texture unit first before binding texture
+    glBindTexture(GL_TEXTURE_2D, texture->getId());
 }
 
 void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)

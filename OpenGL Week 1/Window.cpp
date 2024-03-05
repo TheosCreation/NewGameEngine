@@ -28,7 +28,7 @@ Window::Window()
     
 
     // Create a GLFW window
-    m_windowPtr = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", NULL, NULL));
+    m_windowPtr = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr));
     if (!m_windowPtr)
     {
         OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");

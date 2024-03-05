@@ -19,12 +19,6 @@ struct UniformData
     Mat4 projection;
 };
 
-struct Vertex
-{
-    Vec3 position;
-    Vec2 texcoord;
-};
-
 Game::Game()
 {
     //init GLFW ver 4.6
@@ -34,8 +28,10 @@ Game::Game()
         return;
     }
 
-    m_display = std::make_unique<Window>(); 
-     
+    
+    m_display = std::make_unique<Window>();
+
+    m_resourceManager = std::make_unique<ResourceManager>(this);
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
     m_graphicsEngine->SetViewport(m_display->getInnerSize());
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
@@ -47,6 +43,7 @@ Game::Game()
     m_inputManager->SetGameWindow(m_display->getWindow());
     m_inputManager->setScreenArea(m_display->getInnerSize());
     
+
     m_uniform = m_graphicsEngine->createUniform({
         sizeof(UniformData)
     });
@@ -90,7 +87,6 @@ void Game::onUpdateInternal()
     
     onGraphicsUpdate(deltaTime);
 
-    glfwPollEvents();
 }
 
 void Game::onGraphicsUpdate(float deltaTime)
@@ -159,6 +155,7 @@ void Game::run()
     //run funcs while window open
     while (m_display->shouldClose() == false)
     {
+        glfwPollEvents();
         onUpdateInternal();
     }
 
@@ -183,6 +180,11 @@ GraphicsEngine* Game::getGraphicsEngine()
 InputManager* Game::getInputManager()
 {
     return m_inputManager.get();
+}
+
+ResourceManager* Game::getResourceManager()
+{
+    return m_resourceManager.get();
 }
 
 Window* Game::getWindow()

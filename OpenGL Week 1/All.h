@@ -9,6 +9,11 @@
 #include "ShaderProgram.h"
 #include "UniformBuffer.h"
 #include "VertexArrayObject.h"
+#include "Texture2D.h"
+
+#include "ResourceManager.h"
+#include "Resource.h"
+#include "Texture.h"
 
 #include "Camera.h"
 #include "CubeEntity.h"

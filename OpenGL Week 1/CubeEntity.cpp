@@ -2,6 +2,7 @@
 #include "GraphicsEngine.h"
 #include "Vec2.h"
 #include "Game.h"
+#include "Texture.h"
 
 struct Vertex
 {
@@ -121,8 +122,14 @@ void CubeEntity::onCreate()
         );
 }
 
+void CubeEntity::setTexture(const TexturePtr& texture)
+{
+    m_texture = texture;
+}
+
 void CubeEntity::onGraphicsUpdate(float deltaTime)
 {
+    getGame()->getGraphicsEngine()->setTexture2D(m_texture->getTexture2D(), 0);
     //during the graphcis update, we call the draw function
     getGame()->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, 36);//draw triangles through the usage of index buffer

@@ -3,17 +3,25 @@
 #include <iostream>
 #include <stdexcept>
 #include <memory>
+#include "Rect.h"
 
 class UniformBuffer;
 class VertexArrayObject;
 class ShaderProgram;
-class Game;
+class Texture2D;
+
+class ResourceManager;
+class Resource;
+class Texture;
 
 typedef unsigned int uint;
 typedef std::shared_ptr<UniformBuffer> UniformBufferPtr;
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
-typedef std::shared_ptr<Game> GamePtr;
+typedef std::shared_ptr<Texture2D> Texture2DPtr;
+
+typedef std::shared_ptr<Resource> ResourcePtr;
+typedef std::shared_ptr<Texture> TexturePtr;
 
 struct VertexAttribute
 {
@@ -46,6 +54,13 @@ struct UniformBufferDesc
 {
 	uint size = 0;
 }; 
+
+struct Texture2DDesc
+{
+	void* textureData = nullptr;
+	Rect textureSize = {};
+	uint numChannels = 0;
+};
 
 enum class CameraType
 {
