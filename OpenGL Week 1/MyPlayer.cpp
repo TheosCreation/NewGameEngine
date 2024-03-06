@@ -23,10 +23,7 @@ void MyPlayer::onUpdate(float deltaTime)
 	m_camRotY += input->getMouseXAxis() * 0.01f;
 	m_camRotX += input->getMouseYAxis() * 0.01f;
 
-	if (m_camRotX > 1.57f)
-		m_camRotX = 1.57f;
-	else if (m_camRotX < -1.57f)
-		m_camRotX = -1.57f;
+	m_camRotX = glm::clamp(m_camRotX, -glm::radians(90.0f), glm::radians(90.0f));
 
 	m_cam->setRotation(glm::vec3(m_camRotX, m_camRotY, 0));
 
