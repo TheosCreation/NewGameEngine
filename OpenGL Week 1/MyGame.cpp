@@ -38,8 +38,7 @@ void MyGame::onCreate()
 	}
 	
 
-	//srand((unsigned int)time(NULL));
-	/*
+	srand((unsigned int)time(NULL));
 	for (auto y = -4; y < 4; y++)
 	{
 		for (auto x = -4; x < 4; x++)
@@ -61,7 +60,7 @@ void MyGame::onCreate()
 			cube->setTexture(cobblestone);
 		}
 	}
-	*/
+	
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();

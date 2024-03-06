@@ -119,7 +119,7 @@ Mesh::Mesh(const wchar_t* path, ResourceManager* manager) : Resource(path, manag
 					}
 
 
-					VertexMesh vertex(glm::vec3(vx, vy, vz), glm::vec3(nx, ny, nz), glm::vec2(tx, ty));
+					VertexMesh vertex(glm::vec3(vx, vy, vz), glm::vec2(tx, ty), glm::vec3(nx, ny, nz));
 					list_vertices.push_back(vertex);
 
 					list_indices.push_back((unsigned int)index_global_offset + v);

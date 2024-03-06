@@ -1,7 +1,6 @@
 #include "EntitySystem.h"
 #include "Entity.h"
 #include "Camera.h"
-#include "GraphicsEntity.h"
 
 EntitySystem::EntitySystem()
 {
