@@ -128,8 +128,12 @@ void CubeEntity::setTexture(const TexturePtr& texture)
 
 void CubeEntity::onGraphicsUpdate(float deltaTime)
 {
-    getGame()->getGraphicsEngine()->setTexture2D(m_texture->getTexture2D(), 0);
+    auto engine = getGame()->getGraphicsEngine();
+    engine->setFaceCulling(CullType::BackFace); // draw only the front faces, the back faces are discarded
+    engine->setWindingOrder(WindingOrder::ClockWise); //consider the position of vertices in clock wise way.
+
+    engine->setTexture2D(m_texture->getTexture2D(), 0);
     //during the graphcis update, we call the draw function
-    getGame()->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
-    getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, 36);//draw triangles through the usage of index buffer
+    engine->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    engine->drawIndexedTriangles(TriangleType::TriangleList, 36);//draw triangles through the usage of index buffer
 }

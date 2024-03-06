@@ -7,8 +7,6 @@
 #include "Texture2D.h"
 #include "Rect.h"
 
-//extern float CurrentTime;
-
 class GraphicsEngine
 {
 public:
@@ -33,7 +31,5 @@ public:
 
 	void drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset);
 	void drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount);
-
-private:
 };
 

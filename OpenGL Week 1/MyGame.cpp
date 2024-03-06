@@ -19,14 +19,27 @@ void MyGame::onCreate()
 
 	auto cobblestone = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/cobblestone.png"));
 	auto lava = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/lava.jpg"));
+	auto teapot = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/teapot.obj"));
+	//creating the floor
+	{
+		auto cube = getEntitySystem()->createEntity<CubeEntity>();
+		cube->setScale(glm::vec3(2.0f, 0.1f, 2.0f));
+		cube->setPosition(glm::vec3(0, -1, 0));
+		cube->setTexture(lava); 
+	}
+
+	//creating teapot
+	{
+		auto entity = getEntitySystem()->createEntity<MeshEntity>();
+		entity->setScale(glm::vec3(1, 1, 1));
+		entity->setPosition(glm::vec3(0, 0, 0));
+		entity->setTexture(lava);
+		entity->setMesh(teapot);
+	}
 	
-	auto cube = getEntitySystem()->createEntity<CubeEntity>();
-	cube->setScale(glm::vec3(2.0f, 0.1f, 2.0f));
-	cube->setPosition(glm::vec3(0, -1, 0));
-	cube->setTexture(lava);
 
-	srand((unsigned int)time(NULL));
-
+	//srand((unsigned int)time(NULL));
+	/*
 	for (auto y = -4; y < 4; y++)
 	{
 		for (auto x = -4; x < 4; x++)
@@ -48,7 +61,7 @@ void MyGame::onCreate()
 			cube->setTexture(cobblestone);
 		}
 	}
-
+	*/
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();

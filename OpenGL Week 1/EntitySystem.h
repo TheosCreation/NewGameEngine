@@ -1,5 +1,6 @@
 #pragma once
 #include "Utils.h"
+#include "MeshEntity.h"
 #include <map>
 #include <set>
 

@@ -50,7 +50,10 @@ Game::Game()
             L"BasicShader"
     });
     
-    m_shader->setUniformBufferSlot("UniformData", 0);
+    m_meshShader = m_graphicsEngine->createShaderProgram({
+            L"MeshShader",
+            L"MeshShader"
+    });
 }
 
 Game::~Game()
@@ -115,9 +118,7 @@ void Game::onGraphicsUpdate(float deltaTime)
         //for each graphics entity
         for (auto& [key, entity] : entities)
         {
-            auto e = dynamic_cast<GraphicsEntity*>(entity.get());
-
-            if (e)
+            if (auto e = dynamic_cast<GraphicsEntity*>(entity.get()))
             {
                 //let's retrive the world matrix and let's pass it to the uniform buffer
                 e->getWorldMatrix(data.world);
@@ -127,6 +128,17 @@ void Game::onGraphicsUpdate(float deltaTime)
                 m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
 
                 //call internal graphcis update of the entity in order to handle specific graphics data/functions 
+                e->onGraphicsUpdate(deltaTime);
+            }
+            else if (auto e = dynamic_cast<MeshEntity*>(entity.get()))
+            {
+                //let's retrive the world matrix and let's pass it to the uniform buffer
+                e->getWorldMatrix(data.world);
+
+                m_uniform->setData(&data);
+                m_graphicsEngine->setShaderProgram(m_meshShader); //bind shaders to graphics pipeline
+                m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
+
                 e->onGraphicsUpdate(deltaTime);
             }
             else

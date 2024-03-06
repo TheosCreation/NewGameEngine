@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "Resource.h"
 #include "Texture.h"
+#include "Mesh.h"
 
 #include "Camera.h"
 #include "CubeEntity.h"

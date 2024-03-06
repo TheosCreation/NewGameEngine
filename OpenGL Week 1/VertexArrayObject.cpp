@@ -2,6 +2,10 @@
 #include <iostream>
 #include <glew.h>
 
+/// <summary>
+/// Creates a vertex array object
+/// </summary>
+/// <param name="vertexbufferDesc"></param>
 VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 {
 	if (!data.listSize) OGL3D_ERROR("VertexArrayObject | listSize is NULL");
@@ -30,9 +34,14 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 
 	glBindVertexArray(0);
 
-	m_vertexBufferData = data;
+	m_vertexBufferDesc = data;
 }
 
+/// <summary>
+/// Creates a vertex array object with indexing
+/// </summary>
+/// <param name="vertexbufferDesc"></param>
+/// <param name="indexbufferDesc"></param>
 VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc)
 	: VertexArrayObject(vbDesc)
 {
@@ -42,11 +51,14 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const Index
 
 	glBindVertexArray(m_vertexArrayObjectID);
 
+	//init idex buffer
 	glGenBuffers(1, &m_elementBufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_elementBufferId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibDesc.listSize, ibDesc.indicesList, GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
+
+	m_indexBufferDesc = ibDesc;
 }
 
 VertexArrayObject::~VertexArrayObject()
@@ -63,10 +75,16 @@ uint VertexArrayObject::getId()
 
 uint VertexArrayObject::getVertexBufferSize()
 {
-	return sizeof(m_vertexBufferData.vertexSize);
+	return sizeof(m_vertexBufferDesc.vertexSize);
 }
 
+//not 100% with this one
 uint VertexArrayObject::getVertexSize()
 {
-	return uint();
+	return m_vertexBufferDesc.listSize;
+}
+
+uint VertexArrayObject::getNumIndices()
+{
+	return m_indexBufferDesc.listSize;
 }

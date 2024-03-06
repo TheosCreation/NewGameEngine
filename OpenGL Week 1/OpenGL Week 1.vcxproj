@@ -72,12 +72,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(ProjectDir)/Dependencies/tinyobjloader;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(ProjectDir)/Dependencies/tinyobjloader;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,6 +150,8 @@
     <ClCompile Include="GraphicsEntity.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MeshEntity.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="Resource.cpp" />
@@ -163,6 +166,8 @@
   <ItemGroup>
     <None Include="Resources\Shaders\BasicShader.frag" />
     <None Include="Resources\Shaders\BasicShader.vert" />
+    <None Include="Resources\Shaders\MeshShader.frag" />
+    <None Include="Resources\Shaders\MeshShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
@@ -175,6 +180,8 @@
     <ClInclude Include="GraphicsEntity.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshEntity.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="Utils.h" />
@@ -186,7 +193,12 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="UniformBuffer.h" />
     <ClInclude Include="VertexArrayObject.h" />
+    <ClInclude Include="VertexMesh.h" />
     <ClInclude Include="Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\cobblestone.png" />
+    <Image Include="Resources\Textures\lava.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,11 +10,13 @@ public:
 
 	uint getId();
 	uint getVertexBufferSize();
-	uint getVertexSize();
+	uint getVertexSize(); 
+	uint getNumIndices();
 private:
 	uint m_vertexBufferID = 0;
 	uint m_elementBufferId = 0;
 	uint m_vertexArrayObjectID = 0;
-	VertexBufferDesc m_vertexBufferData;
+	VertexBufferDesc m_vertexBufferDesc;
+	IndexBufferDesc m_indexBufferDesc;
 };
 
