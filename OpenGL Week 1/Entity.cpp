@@ -70,13 +70,14 @@ void Entity::processWorldMatrix()
 	//now translate
 	m_world = glm::translate(m_world, m_position);
 
-
-	//rotate around x
-	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-	//rotate around y
-	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	//rotate around z
 	m_world = glm::rotate(m_world, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	//rotate around y
+	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	//rotate around x
+	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	
+	
 
 	//scale
 	m_world = glm::scale(m_world, m_scale);

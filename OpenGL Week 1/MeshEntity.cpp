@@ -43,6 +43,6 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     }
     //during the graphcis update, we call the draw function
     auto meshVBO = m_mesh->getVertexArrayObject();
-    getGame()->getGraphicsEngine()->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-    getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
+    engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
+    engine->drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
 }
