@@ -164,6 +164,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Meshes\teapot.mtl" />
     <None Include="Resources\Shaders\BasicShader.frag" />
     <None Include="Resources\Shaders\BasicShader.vert" />
     <None Include="Resources\Shaders\MeshShader.frag" />

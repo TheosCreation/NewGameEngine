@@ -134,6 +134,9 @@
     <None Include="Resources\Shaders\MeshShader.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="Resources\Meshes\teapot.mtl">
+      <Filter>Resource Files\Meshes</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
