@@ -17,5 +17,10 @@ private:
 	float m_roty = 0;
 	Entity* m_light = nullptr;
 	Entity* m_lightred = nullptr;
+
+	Entity* m_skybox = nullptr;
+
+	ShaderProgramPtr m_meshShader;
+	ShaderProgramPtr m_skyboxShader;
 };
 

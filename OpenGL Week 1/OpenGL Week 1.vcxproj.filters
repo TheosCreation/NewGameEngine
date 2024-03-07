@@ -140,6 +140,12 @@
     <None Include="Resources\Meshes\teapot.mtl">
       <Filter>Resource Files\Meshes</Filter>
     </None>
+    <None Include="SkyBoxShader.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="SkyBoxShader.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

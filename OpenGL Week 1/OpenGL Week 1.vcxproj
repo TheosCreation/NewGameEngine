@@ -170,6 +170,8 @@
     <None Include="Resources\Shaders\BasicShader.vert" />
     <None Include="Resources\Shaders\MeshShader.frag" />
     <None Include="Resources\Shaders\MeshShader.vert" />
+    <None Include="SkyBoxShader.frag" />
+    <None Include="SkyBoxShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />

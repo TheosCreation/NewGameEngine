@@ -41,8 +41,6 @@ Game::Game()
     m_resourceManager = std::make_unique<ResourceManager>(this);
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
     m_graphicsEngine->SetViewport(m_display->getInnerSize());
-    m_graphicsEngine->setFaceCulling(CullType::BackFace);
-    m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
@@ -58,11 +56,6 @@ Game::Game()
     m_shader = m_graphicsEngine->createShaderProgram({
             L"BasicShader",
             L"BasicShader"
-    });
-    
-    m_meshShader = m_graphicsEngine->createShaderProgram({
-            L"MeshShader",
-            L"MeshShader"
     });
 }
 
@@ -160,7 +153,7 @@ void Game::onGraphicsUpdate(float deltaTime)
                 e->getWorldMatrix(data.world);
 
                 m_uniform->setData(&data);
-                m_graphicsEngine->setShaderProgram(m_meshShader); //bind shaders to graphics pipeline
+                m_graphicsEngine->setShaderProgram(e->getShader()); //bind shaders to graphics pipeline
                 m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
 
                 e->onGraphicsUpdate(deltaTime);

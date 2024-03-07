@@ -46,3 +46,13 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
     engine->drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
 }
+
+void MeshEntity::setShader(const ShaderProgramPtr& shader)
+{
+    m_shader = shader;
+}
+
+ShaderProgramPtr MeshEntity::getShader()
+{
+    return m_shader;
+}

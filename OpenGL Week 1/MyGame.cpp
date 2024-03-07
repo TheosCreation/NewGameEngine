@@ -14,12 +14,36 @@ void MyGame::onCreate()
 {
 	Game::onCreate();
 
-	//loading texture resource
-	//auto wood = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/wood.jpg"));
-
+	//loading texture resources
 	auto cobblestone = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/cobblestone.png"));
+	auto sky = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/sky.jpg"));
 	auto lava = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/lava.jpg"));
+
+	//loading model resources
 	auto teapot = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/teapot.obj"));
+	auto sphere = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
+
+	m_meshShader = m_graphicsEngine->createShaderProgram({
+			L"MeshShader",
+			L"MeshShader"
+		});
+
+	m_skyboxShader = m_graphicsEngine->createShaderProgram(
+	{
+		L"SkyBoxShader",
+		L"SkyBoxShader"
+	});
+
+	//creating skybox
+	{
+		auto entity = getEntitySystem()->createEntity<MeshEntity>();
+		entity->setScale(glm::vec3(1000, 1000, 1000));
+		entity->setPosition(glm::vec3(0, 0, 0));
+		entity->setTexture(sky);
+		entity->setMesh(sphere);
+		entity->setShader(m_skyboxShader);
+		m_skybox = entity;
+	}
 	//creating the floor
 	{
 		auto cube = getEntitySystem()->createEntity<CubeEntity>();
@@ -35,6 +59,7 @@ void MyGame::onCreate()
 		entity->setPosition(glm::vec3(0, 0, 0));
 		entity->setTexture(lava);
 		entity->setMesh(teapot);
+		entity->setShader(m_meshShader);
 	}
 	
 
@@ -92,6 +117,8 @@ void MyGame::onCreate()
 void MyGame::onUpdate(float deltaTime)
 {
 	m_roty += 0.57f * deltaTime;
-	m_light->setRotation(glm::vec3(-0.707f, m_roty, 0));
-	m_lightred->setRotation(glm::vec3(m_roty, 0, 0));
+
+	//rotating light and skybox together
+	//m_light->setRotation(glm::vec3(-0.707f, m_roty, 0));
+	//m_skybox->setRotation(glm::vec3(0, 0.1 * m_roty, 0));
 }

@@ -10,7 +10,6 @@ MyPlayer::~MyPlayer()
 
 void MyPlayer::onCreate()
 {
-	m_entity = getEntitySystem()->createEntity<Entity>();
 	m_cam = getEntitySystem()->createEntity<Camera>();
 	m_cam->setPosition(glm::vec3(0, 0, 0));
 }

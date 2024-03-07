@@ -42,8 +42,8 @@ protected:
 
 	VertexArrayObjectPtr m_polygonVAO;
 	UniformBufferPtr m_uniform;
+	//relocate this to my game
 	ShaderProgramPtr m_shader;
-	ShaderProgramPtr m_meshShader;
 
 	std::chrono::system_clock::time_point m_previousTime;
 	float m_scale = 0;

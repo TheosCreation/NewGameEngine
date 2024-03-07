@@ -25,10 +25,8 @@ Window::Window()
     glfwWindowHint(GLFW_BLUE_BITS, 8);
     glfwWindowHint(GLFW_ALPHA_BITS, 8);
     
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-    
     glfwWindowHint(GLFW_DEPTH_BITS, 24);
-    glfwWindowHint(GLFW_STENCIL_BITS, 8);
+    glfwWindowHint(GLFW_STENCIL_BITS, 16);
 
     // Create a GLFW window
     m_windowPtr = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr));
