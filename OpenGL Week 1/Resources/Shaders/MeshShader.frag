@@ -6,7 +6,7 @@ struct LightData
 	vec4 direction;
 };
 
-layout (row_major) uniform Data
+layout (row_major) uniform UniformData
 {
     mat4 world;
     mat4 view;
