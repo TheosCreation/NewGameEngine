@@ -120,6 +120,9 @@
     <ClCompile Include="MyPlayer.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="LightEntity.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\MeshShader.frag">
@@ -212,6 +215,9 @@
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
     <ClInclude Include="MyPlayer.h">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LightEntity.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,15 +5,25 @@
 #include "ShaderProgram.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
+#include "LightEntity.h"
 #include "Camera.h"
 #include <glew.h>
 #include <glfw3.h>
+
+struct LightData
+{
+    glm::vec4 color;
+    glm::vec4 direction;
+};
 
 struct UniformData
 {
     glm::mat4 world;
     glm::mat4 view;
     glm::mat4 projection;
+    glm::vec4 cameraPos;
+    LightData lights[32];
+    int lightsNum = 0;
 };
 
 Game::Game()
@@ -106,12 +116,38 @@ void Game::onGraphicsUpdate(float deltaTime)
         {
             //the camera data are the view and projection
             //view is simply the world matrix of the camera inverted
+            glm::mat4 tempWorldMatrix;
             auto cam = dynamic_cast<Camera*>(camera.get());
             cam->getViewMatrix(data.view);
             cam->setScreenArea(this->m_display->getInnerSize());
             cam->getProjectionMatrix(data.projection);
+            cam->getWorldMatrix(tempWorldMatrix);
+            auto pos = getTranslation(tempWorldMatrix);
+            data.cameraPos = glm::vec4(pos.x, pos.y, pos.z, 1);
         }
     }
+
+    {
+        auto lightId = typeid(LightEntity).hash_code();
+        auto it = m_entitySystem->m_entities.find(lightId);
+        //let's pass the data of all the lights in the uniform data structure
+        if (it != m_entitySystem->m_entities.end())
+        {
+            auto i = 0;
+            for (auto& [key, light] : it->second)
+            {
+                glm::mat4 w;
+                auto l = dynamic_cast<LightEntity*>(light.get());
+                light->getWorldMatrix(w);
+                auto dir = getForwardDirection(w);
+                data.lights[i].direction = glm::vec4(dir.x, dir.y, dir.z, 1);
+                data.lights[i].color = l->getColor();
+                i++;
+            }
+            data.lightsNum = (int)it->second.size();
+        }
+    }
+
 
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {

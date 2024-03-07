@@ -61,6 +61,25 @@ void MyGame::onCreate()
 		}
 	}
 	
+	//adding white light
+	{
+		auto entity = getEntitySystem()->createEntity<LightEntity>();
+		entity->setRotation(glm::vec3(-0.707f, 0, 0.0f));
+		entity->setPosition(glm::vec3(0, 0, 0));
+		entity->setColor(glm::vec4(1, 1, 1, 1));
+
+		m_light = entity;
+	}
+
+	//adding red light
+	{
+		auto entity = getEntitySystem()->createEntity<LightEntity>();
+		entity->setRotation(glm::vec3(-0.707f, 0, 0.0f));
+		entity->setPosition(glm::vec3(0, 0, 0));
+		entity->setColor(glm::vec4(1, 0, 0, 1));
+
+		m_lightred = entity;
+	}
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();
@@ -72,5 +91,7 @@ void MyGame::onCreate()
 
 void MyGame::onUpdate(float deltaTime)
 {
-	
+	m_roty += 0.57f * deltaTime;
+	m_light->setRotation(glm::vec3(-0.707f, m_roty, 0));
+	m_lightred->setRotation(glm::vec3(m_roty, 0, 0));
 }

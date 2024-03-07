@@ -149,6 +149,7 @@
     <ClCompile Include="GraphicsEngine.cpp" />
     <ClCompile Include="GraphicsEntity.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LightEntity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshEntity.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="GraphicsEngine.h" />
     <ClInclude Include="GraphicsEntity.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="LightEntity.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshEntity.h" />

@@ -19,4 +19,5 @@
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "MeshEntity.h"
+#include "LightEntity.h"
 #include "Game.h"

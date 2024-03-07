@@ -1,6 +1,11 @@
 #include "Window.h"
 #include "Utils.h"
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
 Window::Window()
 {
     // Set GLFW window hints
@@ -25,8 +30,6 @@ Window::Window()
     glfwWindowHint(GLFW_DEPTH_BITS, 24);
     glfwWindowHint(GLFW_STENCIL_BITS, 8);
 
-    
-
     // Create a GLFW window
     m_windowPtr = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr));
     if (!m_windowPtr)
@@ -49,6 +52,9 @@ Window::Window()
 
     // Set GLFW user pointer to 'this' for access in callback functions
     glfwSetWindowUserPointer(getWindow(), this);
+
+    glfwSetFramebufferSizeCallback(getWindow(), framebuffer_size_callback);
+
 
     // Show the window
     glfwShowWindow(getWindow());

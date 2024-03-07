@@ -12,6 +12,10 @@ public:
 
 private:
 	float m_elapsedSeconds = 0.0f;
-	CubeEntity* m_player = nullptr;
+	Entity* m_player = nullptr;
+
+	float m_roty = 0;
+	Entity* m_light = nullptr;
+	Entity* m_lightred = nullptr;
 };
 
