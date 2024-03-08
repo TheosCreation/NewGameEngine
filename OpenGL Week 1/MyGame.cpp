@@ -18,6 +18,7 @@ void MyGame::onCreate()
 	auto cobblestone = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/cobblestone.png"));
 	auto sky = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/sky.jpg"));
 	auto lava = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/lava.jpg"));
+	auto white = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/white.jpg"));
 
 	//loading model resources
 	auto teapot = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/teapot.obj"));
@@ -60,8 +61,7 @@ void MyGame::onCreate()
 		entity->setTexture(lava);
 		entity->setMesh(teapot);
 		entity->setShader(m_meshShader);
-	}
-	
+	}	
 
 	srand((unsigned int)time(NULL));
 	for (auto y = -4; y < 4; y++)
@@ -97,14 +97,14 @@ void MyGame::onCreate()
 	}
 
 	//adding red light
-	{
+	/*{
 		auto entity = getEntitySystem()->createEntity<LightEntity>();
 		entity->setRotation(glm::vec3(-0.707f, 0, 0.0f));
 		entity->setPosition(glm::vec3(0, 0, 0));
 		entity->setColor(glm::vec4(1, 0, 0, 1));
 
 		m_lightred = entity;
-	}
+	}*/
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();
@@ -116,9 +116,9 @@ void MyGame::onCreate()
 
 void MyGame::onUpdate(float deltaTime)
 {
-	m_roty += 0.57f * deltaTime;
+	m_roty += 0.01f * deltaTime;
 
 	//rotating light and skybox together
-	//m_light->setRotation(glm::vec3(-0.707f, m_roty, 0));
-	//m_skybox->setRotation(glm::vec3(0, 0.1 * m_roty, 0));
+	m_light->setRotation(glm::vec3(-0.707f, m_roty, 0));
+	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
 }

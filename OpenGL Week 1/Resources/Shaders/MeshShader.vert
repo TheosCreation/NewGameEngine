@@ -1,10 +1,12 @@
 #version 460 core
 
+
 struct LightData
 {
 	vec4 color;
 	vec4 direction;
 };
+
 
 layout (row_major) uniform UniformData
 {
@@ -14,10 +16,11 @@ layout (row_major) uniform UniformData
     vec4 cameraPos;
     LightData lights[32];
     int lightsNum;
-};
+}; 
 
-layout(location = 0) in vec3 vertexPosition;
-layout(location = 1) in vec2 vertexTexCoords;
+
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec2 texcoord;
 layout(location = 2) in vec3 normal;
 
 layout(location = 0) out vec2 outTexcoord;
@@ -26,7 +29,7 @@ layout(location = 2) out vec3 outDirToCamera;
 
 void main(void)
 {
-    vec4 pos = vec4(vertexPosition, 1) * world; //multiply the world matrix with the vertex position in order to obtain the final position
+    vec4 pos = vec4(position, 1) * world; //multiply the world matrix with the vertex position in order to obtain the final position
     outDirToCamera = normalize(pos.xyz - cameraPos.xyz); //compute vector direction between camera and current world position of the vertex of the mesh, required to compute specular lighting
     
     pos = pos * view ; //multiply the view matrix with the world position in order to obtain the position in view space
@@ -34,7 +37,7 @@ void main(void)
 
     gl_Position = pos;
 
-    outTexcoord = vertexTexCoords;
+    outTexcoord = texcoord;
     outNormal = normalize(normal*mat3(world)); //compute normal direction in world space (since we want only to rotate the normal direction and we don't want to translate it, 
                                                //let's multiply the direction only with the 3x3 part of the matrix, that corresponds to the rotaton matrix)
 }

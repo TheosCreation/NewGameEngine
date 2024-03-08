@@ -1,5 +1,6 @@
 #version 460 core
 
+
 struct LightData
 {
 	vec4 color;
@@ -16,14 +17,14 @@ layout (row_major) uniform UniformData
     int lightsNum;
 }; 
 
-layout(location = 0) in vec2 outTexCoord;
+
+layout(location = 0) in vec2 outTexcoord;
 layout(location = 1) in vec3 outNormal;
 layout(location = 2) in vec3 outDirToCamera;
 
 layout(location = 0) out vec4 color;
 
-
-uniform sampler2D texture1;
+uniform sampler2D tex;
 
 
 vec3 computePhongDirLighting(float ka,vec3 ia,float kd,vec3 id,float ks,vec3 is,float shininess,
@@ -52,8 +53,10 @@ vec3 processLighting(vec3 color, vec3 normal, vec3 dirToDCamera)
 	vec3 final_light = vec3(0,0,0);
 
 	//computing ambient light
-	float ka = 0.0;
-	vec3 ia = vec3(0.09,0.09,0.09);
+	//hard-coded ambient light color based on the skybox environment map
+
+	float ka = 0.4;
+	vec3 ia = vec3(75.0/255.0,112.0/255.0,165.0/255.0);
 
 	vec3 ambient_light = ka * ia;
 
@@ -77,9 +80,14 @@ vec3 processLighting(vec3 color, vec3 normal, vec3 dirToDCamera)
 	return  ambient_light + final_light;
 }
 
-void main(){
-  vec4 texColor = texture(texture1, outTexCoord);
-  vec3 final_light = vec3(0,0,0);
+
+
+
+
+void main()
+{
+	vec4 texColor = texture(tex, outTexcoord);
+	vec3 final_light = vec3(0,0,0);
 	final_light = processLighting(texColor.rgb,outNormal.xyz,outDirToCamera.xyz);
-  color = vec4(final_light,1.0);
+	color = vec4(final_light,1.0);
 }
