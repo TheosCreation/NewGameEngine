@@ -24,7 +24,7 @@ layout(location = 2) in vec3 outDirToCamera;
 
 layout(location = 0) out vec4 color;
 
-uniform sampler2D tex;
+uniform sampler2D tex1;
 
 
 vec3 computePhongDirLighting(float ka,vec3 ia,float kd,vec3 id,float ks,vec3 is,float shininess,
@@ -86,7 +86,7 @@ vec3 processLighting(vec3 color, vec3 normal, vec3 dirToDCamera)
 
 void main()
 {
-	vec4 texColor = texture(tex, outTexcoord);
+	vec4 texColor = texture(tex1, outTexcoord);
 	vec3 final_light = vec3(0,0,0);
 	final_light = processLighting(texColor.rgb,outNormal.xyz,outDirToCamera.xyz);
 	color = vec4(final_light,1.0);
