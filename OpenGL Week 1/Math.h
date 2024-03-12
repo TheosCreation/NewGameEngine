@@ -5,7 +5,7 @@
 
 inline glm::vec3 getForwardDirection(glm::mat4 matrix)
 {
-    glm::vec3 forwardDir(matrix[1][0], matrix[1][1], matrix[1][2]);
+    glm::vec3 forwardDir(matrix[2][0], matrix[2][1], matrix[2][2]);
     return glm::normalize(forwardDir);
 }
 
