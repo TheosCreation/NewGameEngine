@@ -9,7 +9,6 @@ struct Vertex
     glm::vec2 texCoords;
 };
 
-//during the oncreate method of this entity, we initialize the graphics data of the cube
 void CubeEntity::onCreate()
 {
     glm::vec3 position_list[] =

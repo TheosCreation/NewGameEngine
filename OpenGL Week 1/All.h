@@ -14,6 +14,7 @@
 
 #include "Camera.h"
 #include "CubeEntity.h"
+#include "PyramidEntity.h"
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"

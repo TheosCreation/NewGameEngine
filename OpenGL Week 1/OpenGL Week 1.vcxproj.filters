@@ -105,6 +105,9 @@
     <ClCompile Include="Texture2D.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="PyramidEntity.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\BasicShader.frag">
@@ -180,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="Math.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="PyramidEntity.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

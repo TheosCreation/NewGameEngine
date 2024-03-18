@@ -66,14 +66,18 @@ void Entity::getWorldMatrix(glm::mat4& world)
 void Entity::processWorldMatrix()
 {
 	m_world = glm::mat4(1.0f);
+	//translate first
+	m_world = glm::translate(m_world, m_position);
+
+	//rotate around z
+	m_world = glm::rotate(m_world, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	//rotate around y
+	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	//rotate around x
+	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+
 	//scale
 	m_world = glm::scale(m_world, m_scale);
-	//rotate around z first
-	m_world = glm::rotate(m_world, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-	//rotate around y second
-	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-	//rotate around x last
-	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-	//now translate
-	m_world = glm::translate(m_world, m_position);
 }

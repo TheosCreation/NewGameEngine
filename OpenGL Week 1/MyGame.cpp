@@ -19,13 +19,23 @@ void MyGame::onCreate()
 
 	auto cobblestone = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/cobblestone.png"));
 	auto lava = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/lava.jpg"));
-	
-	auto cube = getEntitySystem()->createEntity<CubeEntity>();
-	cube->setScale(glm::vec3(2.0f, 0.1f, 2.0f));
-	cube->setPosition(glm::vec3(0, -1, 0));
-	cube->setTexture(lava);
 
 	srand((unsigned int)time(NULL));
+
+	auto pyramid = getEntitySystem()->createEntity<PyramidEntity>();
+
+	auto roty = (rand() % 600) + (200.0f);
+	roty /= 1000.0f;
+	auto width = (rand() % 600) + (200.0f);
+	width /= 1000.0f;
+
+	auto height = width;
+
+
+	pyramid->setScale(glm::vec3(width, height, width));
+	pyramid->setPosition(glm::vec3(5.0f, (height / 2.0f) - 3.5f, 5.0f));
+	pyramid->setRotation(glm::vec3(0, roty, 0));
+	pyramid->setTexture(cobblestone);
 
 	for (auto y = -4; y < 4; y++)
 	{

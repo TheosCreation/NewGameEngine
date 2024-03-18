@@ -151,6 +151,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
+    <ClCompile Include="PyramidEntity.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="MyPlayer.h" />
+    <ClInclude Include="PyramidEntity.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />
