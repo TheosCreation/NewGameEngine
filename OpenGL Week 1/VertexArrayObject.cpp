@@ -36,6 +36,7 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc)
 	: VertexArrayObject(vbDesc)
 {
+	m_indexBufferDesc = ibDesc;
 
 	if (!ibDesc.listSize) OGL3D_ERROR("VertexArrayObject | listSize is NULL");
 	if (!ibDesc.indicesList) OGL3D_ERROR("VertexArrayObject | indicesList is NULL");
@@ -69,4 +70,9 @@ uint VertexArrayObject::getVertexBufferSize()
 uint VertexArrayObject::getVertexSize()
 {
 	return uint();
+}
+
+uint VertexArrayObject::getNumIndices()
+{
+	return m_indexBufferDesc.listSize;
 }

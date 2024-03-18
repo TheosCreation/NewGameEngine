@@ -92,5 +92,5 @@ void HexagonEntity::onGraphicsUpdate(float deltaTime)
     getGame()->getGraphicsEngine()->setTexture2D(m_texture->getTexture2D(), 0);
     //during the graphcis update, we call the draw function
     getGame()->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
-    getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, 36);//draw triangles through the usage of index buffer
+    getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 }

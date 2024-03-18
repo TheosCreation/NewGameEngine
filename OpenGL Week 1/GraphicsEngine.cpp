@@ -39,13 +39,18 @@ void GraphicsEngine::clear(const glm::vec4& color)
 void GraphicsEngine::setFaceCulling(const CullType& type)
 {
     auto cullType = GL_BACK;
+    if (type == CullType::None)
+    {
+        glDisable(GL_CULL_FACE);
+    }
+    else {
+        if (type == CullType::FrontFace) cullType = GL_FRONT;
+        else if (type == CullType::BackFace) cullType = GL_BACK;
+        else if (type == CullType::Both) cullType = GL_FRONT_AND_BACK;
 
-    if (type == CullType::FrontFace) cullType = GL_FRONT;
-    else if (type == CullType::BackFace) cullType = GL_BACK;
-    else if (type == CullType::Both) cullType = GL_FRONT_AND_BACK;
-
-    glEnable(GL_CULL_FACE);
-    glCullFace(cullType);
+        glEnable(GL_CULL_FACE);
+        glCullFace(cullType);
+    }
 }
 
 void GraphicsEngine::setWindingOrder(const WindingOrder& type)
