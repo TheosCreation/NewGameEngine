@@ -18,9 +18,9 @@ void HexagonEntity::onCreate()
         { glm::vec3(0.0f, 0.0f, -1.0f) },
         { glm::vec3(0.866f,0.0f,-0.5f)},
         { glm::vec3(-0.866f,0.0f,0.5f)},
-        { glm::vec3(0.0f,0.0f,1.0f)},
+        { glm::vec3(-0.866f,0.0f,-0.5f) },
         { glm::vec3(0.866f,0.0f,0.5f)},
-        { glm::vec3(-0.866f,0.0f,-0.5f) }
+        { glm::vec3(0.0f,0.0f,1.0f)}
     };
 
     glm::vec2 texcoord_list[] =
@@ -46,11 +46,11 @@ void HexagonEntity::onCreate()
     uint indicesList[] =
     {
         0, 1, 2,    // Triangle 1
-        0, 2, 3,    // Triangle 2
-        0, 3, 4,    // Triangle 3
-        0, 4, 5,    // Triangle 4
-        0, 5, 6,    // Triangle 5
-        0, 6, 1     // Triangle 6
+        0, 2, 3,    // Triangle 2 no work
+        0, 3, 6,    // Triangle 3
+        0, 6, 5,    // Triangle 4
+        0, 5, 4,    // Triangle 5 no work
+        0, 4, 1     // Triangle 6
     };
 
 
@@ -87,7 +87,7 @@ void HexagonEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::None);
-    engine->setWindingOrder(WindingOrder::CounterClockWise);
+    engine->setWindingOrder(WindingOrder::ClockWise);
 
     getGame()->getGraphicsEngine()->setTexture2D(m_texture->getTexture2D(), 0);
     //during the graphcis update, we call the draw function
