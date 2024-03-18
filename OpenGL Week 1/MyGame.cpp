@@ -24,17 +24,9 @@ void MyGame::onCreate()
 
 	auto pyramid = getEntitySystem()->createEntity<PyramidEntity>();
 
-	auto roty = (rand() % 600) + (200.0f);
-	roty /= 1000.0f;
-	auto width = (rand() % 600) + (200.0f);
-	width /= 1000.0f;
-
-	auto height = width;
-
-
-	pyramid->setScale(glm::vec3(width, height, width));
-	pyramid->setPosition(glm::vec3(5.0f, (height / 2.0f) - 3.5f, 5.0f));
-	pyramid->setRotation(glm::vec3(0, roty, 0));
+	pyramid->setScale(glm::vec3(5, 5, 5));
+	pyramid->setPosition(glm::vec3(0.0f, (5 / 2.0f) + 3.5f, 0.0f));
+	pyramid->setRotation(glm::vec3(0, 0, 0));
 	pyramid->setTexture(cobblestone);
 
 	for (auto y = -4; y < 4; y++)
@@ -52,7 +44,7 @@ void MyGame::onCreate()
 			auto height = width;
 
 
-			cube->setScale(glm::vec3(width, height, width));
+			cube->setScale(glm::vec3(width * 400.0f, height * 400.0f, width * 400.0f));
 			cube->setPosition(glm::vec3(x * 1.4f, (height / 2.0f) - 3.5f, y * 1.4f));
 			cube->setRotation(glm::vec3(0, roty, 0));
 			cube->setTexture(cobblestone);

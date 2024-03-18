@@ -1,6 +1,5 @@
 #version 460 core
 
-//Set Binding Point of Uniform Buffer directly in the shader file, feature available from OpenGL 4.2 onwards (Windows/Linux only)
 //layout(binding = 0) uniform Data
 layout (row_major) uniform UniformData //uniform buffer Data
 {

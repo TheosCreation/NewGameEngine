@@ -91,6 +91,10 @@ void PyramidEntity::setTexture(const TexturePtr& texture)
 
 void PyramidEntity::onGraphicsUpdate(float deltaTime)
 {
+    auto engine = getGame()->getGraphicsEngine();
+    engine->setFaceCulling(CullType::FrontFace);
+    engine->setWindingOrder(WindingOrder::ClockWise);
+
     getGame()->getGraphicsEngine()->setTexture2D(m_texture->getTexture2D(), 0);
     //during the graphcis update, we call the draw function
     getGame()->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline

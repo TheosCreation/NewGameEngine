@@ -23,7 +23,7 @@ private:
 	float m_farPlane = 100.0f;
 	float m_nearPlane = 0.001f;
 	float m_fov = 90.0f;
-	CameraType m_type = CameraType::Perspective;
+	CameraType m_type = CameraType::Orthogonal;
 	Rect m_screenArea;
 };
 
