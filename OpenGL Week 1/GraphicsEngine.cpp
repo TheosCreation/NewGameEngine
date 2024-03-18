@@ -31,9 +31,9 @@ Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
 void GraphicsEngine::clear(const glm::vec4& color)
 {
     glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     glClearColor(color.x, color.y, color.z, color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glDepthFunc(GL_LESS);
 }
 
 void GraphicsEngine::setFaceCulling(const CullType& type)

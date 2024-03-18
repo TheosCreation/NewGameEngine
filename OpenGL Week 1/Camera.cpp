@@ -47,5 +47,5 @@ void Camera::computeProjectionMatrix()
 	if (m_type == CameraType::Perspective)
 		m_projection = glm::perspectiveLH(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
 	else if (m_type == CameraType::Orthogonal)
-		m_projection = glm::orthoLH(0.0f, (float)m_screenArea.width, (float)m_screenArea.height, 0.0f, m_nearPlane, m_farPlane);
+		m_projection = glm::ortho(-(float)m_screenArea.width/2, (float)m_screenArea.width/2, -(float)m_screenArea.height/2, (float)m_screenArea.height / 2, m_nearPlane, m_farPlane);
 }

@@ -44,7 +44,7 @@ void MyGame::onCreate()
 			auto height = width;
 
 
-			cube->setScale(glm::vec3(width * 400.0f, height * 400.0f, width * 400.0f));
+			cube->setScale(glm::vec3(width, height, width));
 			cube->setPosition(glm::vec3(x * 1.4f, (height / 2.0f) - 3.5f, y * 1.4f));
 			cube->setRotation(glm::vec3(0, roty, 0));
 			cube->setTexture(cobblestone);

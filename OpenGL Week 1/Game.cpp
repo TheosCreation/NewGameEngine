@@ -104,6 +104,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             //the camera data are the view and projection
             //view is simply the world matrix of the camera inverted
             auto cam = dynamic_cast<Camera*>(camera.get());
+            //change tgus to calculate the mvp and pass in one matrix
             cam->getViewMatrix(data.view);
             cam->setScreenArea(this->m_display->getInnerSize());
             cam->getProjectionMatrix(data.projection);
