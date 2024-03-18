@@ -22,12 +22,19 @@ void MyGame::onCreate()
 
 	srand((unsigned int)time(NULL));
 
-	auto pyramid = getEntitySystem()->createEntity<PyramidEntity>();
+	//auto pyramid = getEntitySystem()->createEntity<PyramidEntity>();
+	//
+	//pyramid->setScale(glm::vec3(5, 5, 5));
+	//pyramid->setPosition(glm::vec3(0.0f, (5 / 2.0f) + 3.5f, 0.0f));
+	//pyramid->setRotation(glm::vec3(0, 0, 0));
+	//pyramid->setTexture(cobblestone);
+	
+	auto hexagon = getEntitySystem()->createEntity<HexagonEntity>();
 
-	pyramid->setScale(glm::vec3(5, 5, 5));
-	pyramid->setPosition(glm::vec3(0.0f, (5 / 2.0f) + 3.5f, 0.0f));
-	pyramid->setRotation(glm::vec3(0, 0, 0));
-	pyramid->setTexture(cobblestone);
+	hexagon->setScale(glm::vec3(5, 5, 5));
+	hexagon->setPosition(glm::vec3(0.0f, (5 / 2.0f) + 3.5f, 0.0f));
+	hexagon->setRotation(glm::vec3(0, 0, 0));
+	hexagon->setTexture(cobblestone);
 
 	for (auto y = -4; y < 4; y++)
 	{

@@ -78,7 +78,8 @@ enum class CullType
 {
 	BackFace = 0,
 	FrontFace,
-	Both
+	Both,
+	None
 };
 
 enum class WindingOrder
