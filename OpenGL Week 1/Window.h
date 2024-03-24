@@ -19,6 +19,6 @@ public:
 private:
 	std::shared_ptr<GLFWwindow> m_windowPtr;
 	void* m_context = nullptr;
-	Rect m_size = Rect(1024, 768);
+	Rect m_size = Rect(1920, 1080);
 };
 

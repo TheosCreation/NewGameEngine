@@ -59,7 +59,8 @@ Game::~Game()
 
 void Game::onCreate()
 {
-    
+    //if orthogoanal camera then
+    m_entitySystem->globalScale = 50.0f;
 }
 
 void Game::onUpdateInternal()
@@ -68,22 +69,15 @@ void Game::onUpdateInternal()
     m_inputManager->update();
 
     // delta time
-    auto currentTime = std::chrono::system_clock::now();
-    auto elapsedSeconds = std::chrono::duration<double>();
-    if (m_previousTime.time_since_epoch().count())
-    {
-        elapsedSeconds = currentTime - m_previousTime;
-    }
-    m_previousTime = currentTime;
-
-    auto deltaTime = (float)elapsedSeconds.count();
+    m_currentTime = static_cast<float>(glfwGetTime());
+    float deltaTime = m_currentTime - m_previousTime;
+    m_previousTime = m_currentTime;
 
     m_entitySystem->update(deltaTime);
 
     onUpdate(deltaTime);
     
     onGraphicsUpdate(deltaTime);
-
 }
 
 void Game::onGraphicsUpdate(float deltaTime)
@@ -104,10 +98,11 @@ void Game::onGraphicsUpdate(float deltaTime)
             //the camera data are the view and projection
             //view is simply the world matrix of the camera inverted
             auto cam = dynamic_cast<Camera*>(camera.get());
-            //change tgus to calculate the mvp and pass in one matrix
+            //change this to calculate the mvp and pass in one matrix
             cam->getViewMatrix(data.view);
             cam->setScreenArea(this->m_display->getInnerSize());
             cam->getProjectionMatrix(data.projection);
+            
         }
     }
 

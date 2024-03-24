@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "EntitySystem.h"
 
 void Camera::getViewMatrix(glm::mat4& view)
 {
@@ -30,6 +31,10 @@ void Camera::setFieldOfView(float fov)
 	computeProjectionMatrix();
 }
 
+CameraType Camera::getCameraType()
+{
+	return m_type;
+}
 void Camera::setCameraType(const CameraType& type)
 {
 	m_type = type;
@@ -44,8 +49,9 @@ void Camera::setScreenArea(const Rect& screen)
 
 void Camera::computeProjectionMatrix()
 {
+	
 	if (m_type == CameraType::Perspective)
 		m_projection = glm::perspectiveLH(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
 	else if (m_type == CameraType::Orthogonal)
-		m_projection = glm::ortho(-(float)m_screenArea.width/2, (float)m_screenArea.width/2, -(float)m_screenArea.height/2, (float)m_screenArea.height / 2, m_nearPlane, m_farPlane);
+		m_projection = glm::ortho(-(float)m_screenArea.width/2, (float)m_screenArea.width/2, -(float)m_screenArea.height/2, (float)m_screenArea.height / 2, m_nearPlane * m_entitySystem->globalScale, m_farPlane * m_entitySystem->globalScale);
 }

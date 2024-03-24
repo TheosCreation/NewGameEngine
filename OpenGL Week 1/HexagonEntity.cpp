@@ -13,14 +13,21 @@ void HexagonEntity::onCreate()
 {
     glm::vec3 position_list[] =
     {
-        //front face
-        { glm::vec3(0.0f, 0.0f, 0.0f)},
-        { glm::vec3(0.0f, 0.0f, -1.0f) },
-        { glm::vec3(0.866f,0.0f,-0.5f)},
-        { glm::vec3(-0.866f,0.0f,0.5f)},
-        { glm::vec3(-0.866f,0.0f,-0.5f) },
-        { glm::vec3(0.866f,0.0f,0.5f)},
-        { glm::vec3(0.0f,0.0f,1.0f)}
+        //front face 
+        glm::vec3(0.0f, -0.5f, 0.1f),
+        glm::vec3(-0.433f, -0.25f, 0.1f),
+        glm::vec3(0.433f, -0.25f, 0.1f),
+        glm::vec3(0.433f, 0.25f, 0.1f),
+        glm::vec3(-0.433f, 0.25f, 0.1f),
+        glm::vec3(0.0f, 0.5f, 0.1f),
+
+        //back face
+        glm::vec3(0.0f, -0.5f, -0.1f),
+        glm::vec3(-0.433f, -0.25f, -0.1f),
+        glm::vec3(0.433f, -0.25f, -0.1f),
+        glm::vec3(0.433f, 0.25f, -0.1f),
+        glm::vec3(-0.433f, 0.25f, -0.1f),
+        glm::vec3(0.0f, 0.5f, -0.1f),
     };
 
     glm::vec2 texcoord_list[] =
@@ -35,22 +42,53 @@ void HexagonEntity::onCreate()
     {
         //front face
         { position_list[0],texcoord_list[1] },
-        { position_list[1],texcoord_list[0] },
-        { position_list[2],texcoord_list[2] },
-        { position_list[3],texcoord_list[3] },
-        { position_list[4],texcoord_list[2] },
+        { position_list[1],texcoord_list[2] },
+        { position_list[2],texcoord_list[3] },
+        { position_list[3],texcoord_list[2] },
+        { position_list[4],texcoord_list[1] },
         { position_list[5],texcoord_list[0] },
-        { position_list[6],texcoord_list[1] }
+        
+        //back face face
+        { position_list[6],texcoord_list[1] },
+        { position_list[7],texcoord_list[2] },
+        { position_list[8],texcoord_list[3] },
+        { position_list[9],texcoord_list[2] },
+        { position_list[10],texcoord_list[1] },
+        { position_list[11],texcoord_list[0] },
     };
 
     uint indicesList[] =
     {
-        0, 1, 2,    // Triangle 1
-        0, 2, 3,    // Triangle 2 no work
-        0, 3, 6,    // Triangle 3
-        0, 6, 5,    // Triangle 4
-        0, 5, 4,    // Triangle 5 no work
-        0, 4, 1     // Triangle 6
+        //front face
+        0, 1, 2, // Triangle 1
+        3, 2, 1, // Triangle 2
+        4, 3, 1, // Triangle 3
+        3, 4, 5, // Triangle 4
+        
+        //back face
+        8, 7, 6, // Triangle 1
+        7, 8, 9, // Triangle 2
+        7, 9, 10, // Triangle 3
+        11, 10, 9, // Triangle 4
+
+        //side face 1
+        7, 1, 0,
+        0, 6, 7,
+        //side face 2
+        10, 4, 1,
+        1, 7, 10,
+        //side face 3
+        11, 5, 4,
+        4, 10, 11,
+        //side face 4
+        9, 3, 5,
+        5, 11, 9,
+        //side face 5
+        8, 2, 3,
+        3, 9, 8,
+        //side face 6
+        6, 0, 2,
+        2, 8, 6,
     };
 
 
@@ -86,7 +124,7 @@ void HexagonEntity::setTexture(const TexturePtr& texture)
 void HexagonEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::None);
+    engine->setFaceCulling(CullType::FrontFace);
     engine->setWindingOrder(WindingOrder::ClockWise);
 
     getGame()->getGraphicsEngine()->setTexture2D(m_texture->getTexture2D(), 0);

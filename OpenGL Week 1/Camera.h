@@ -12,6 +12,7 @@ public:
 	void setFarPlane(float farPlane);
 	void setNearPlane(float nearPlane);
 	void setFieldOfView(float fov);
+	CameraType getCameraType();
 	void setCameraType(const CameraType& type);
 	void setScreenArea(const Rect& screen);
 private:
@@ -20,10 +21,10 @@ private:
 	glm::mat4 m_view;
 	glm::mat4 m_projection;
 
-	float m_farPlane = 100.0f;
+	float m_farPlane = 1000.0f;
 	float m_nearPlane = 0.001f;
 	float m_fov = 90.0f;
-	CameraType m_type = CameraType::Perspective;
+	CameraType m_type = CameraType::Orthogonal;
 	Rect m_screenArea;
 };
 

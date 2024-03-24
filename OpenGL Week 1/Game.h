@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <chrono>
 #include "InputManager.h"
 #include "GraphicsEngine.h"
 #include "ResourceManager.h"
@@ -44,7 +43,8 @@ protected:
 	UniformBufferPtr m_uniform;
 	ShaderProgramPtr m_shader;
 
-	std::chrono::system_clock::time_point m_previousTime;
+	float m_previousTime;
+	float m_currentTime;
 	float m_scale = 0;
 
 	friend class Entity;
