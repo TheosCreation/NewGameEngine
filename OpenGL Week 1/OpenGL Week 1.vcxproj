@@ -165,6 +165,8 @@
   <ItemGroup>
     <None Include="Resources\Shaders\BasicShader.frag" />
     <None Include="Resources\Shaders\BasicShader.vert" />
+    <None Include="Resources\Shaders\HexagonShader.frag" />
+    <None Include="Resources\Shaders\HexagonShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />

@@ -119,6 +119,12 @@
     <None Include="Resources\Shaders\BasicShader.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\Shaders\HexagonShader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Shaders\HexagonShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

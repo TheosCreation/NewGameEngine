@@ -3,7 +3,6 @@
 #include "Rect.h"
 
 class EntitySystem;
-//the GraphicsEntity class is the enity class of the entitysystem made specifically for graphcis objects
 class GraphicsEntity : public Entity
 {
 public:
