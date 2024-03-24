@@ -3,8 +3,9 @@
 
 void Camera::getViewMatrix(glm::mat4& view)
 {
-	//invert the world matrix in order to get the view matrix
-	m_view = glm::inverse(m_world);
+	//both of these work
+	//m_view = glm::inverse(m_world);
+	m_view = glm::lookAt(m_position, m_position + getForwardDirection(m_world), getUpwardDirection(m_world));
 	view = m_view;
 }
 
@@ -49,9 +50,8 @@ void Camera::setScreenArea(const Rect& screen)
 
 void Camera::computeProjectionMatrix()
 {
-	
 	if (m_type == CameraType::Perspective)
 		m_projection = glm::perspectiveLH(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
 	else if (m_type == CameraType::Orthogonal)
-		m_projection = glm::ortho(-(float)m_screenArea.width/2, (float)m_screenArea.width/2, -(float)m_screenArea.height/2, (float)m_screenArea.height / 2, m_nearPlane * m_entitySystem->globalScale, m_farPlane * m_entitySystem->globalScale);
+		m_projection = glm::orthoLH(-(float)m_screenArea.width, (float)m_screenArea.width, -(float)m_screenArea.height, (float)m_screenArea.height, m_nearPlane, m_farPlane);
 }

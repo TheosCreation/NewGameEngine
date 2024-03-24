@@ -14,6 +14,7 @@ struct UniformData
     glm::mat4 world;
     glm::mat4 view;
     glm::mat4 projection;
+    float currentTime;
 };
 
 Game::Game()
@@ -46,8 +47,8 @@ Game::Game()
     });
     
     m_shader = m_graphicsEngine->createShaderProgram({
-            L"BasicShader",
-            L"BasicShader"
+            L"HexagonShader",
+            L"HexagonShader"
     });
     
     m_shader->setUniformBufferSlot("UniformData", 0);
@@ -60,12 +61,11 @@ Game::~Game()
 void Game::onCreate()
 {
     //if orthogoanal camera then
-    m_entitySystem->globalScale = 50.0f;
+    m_entitySystem->globalScale = 100.0f;
 }
 
 void Game::onUpdateInternal()
 {
-    //make inputmanager part of entitySystem?
     m_inputManager->update();
 
     // delta time
@@ -85,12 +85,11 @@ void Game::onGraphicsUpdate(float deltaTime)
     m_graphicsEngine->clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
 
+
     auto camId = typeid(Camera).hash_code();
     
     auto it = m_entitySystem->m_entities.find(camId);
     
-    
-    //let's set the camera data to the uniformdata structure, in order to pass them to the shaders for the final rendering
     if (it != m_entitySystem->m_entities.end())
     {
         for (auto& [key, camera] : it->second)
@@ -105,6 +104,9 @@ void Game::onGraphicsUpdate(float deltaTime)
             
         }
     }
+
+    // sets the current time
+    data.currentTime = deltaTime;
 
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {

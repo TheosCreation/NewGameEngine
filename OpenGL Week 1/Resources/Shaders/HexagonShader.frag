@@ -6,27 +6,15 @@ layout(location = 1) in vec2 texCoord;
 layout(location = 0) out vec4 color;
 
 
-uniform sampler2D texture1;
-
-
 
 void main(){
+    vec3 canvas = vec3(0.0);
+    vec3 color_RED = vec3(1.0, 0.0, 0.0);
+    vec3 color_BLUE = vec3(0.0, 0.0, 1.0);
 
-   float borderThickness = 0.03;
+    vec2 st = vec2(abs(sin(gl_FragCoord.x * 0.01)), 1);
 
-   //if texcoords are in the border thickness area, let's return a light blue color (0,0.5,1,1), otherwise, let's make a faded color
-   if ((outColor.x > 0.0+borderThickness && outColor.x < 1.0-borderThickness) && (outColor.y > 0.0+borderThickness && outColor.y < 1.0-borderThickness))
-       color = vec4(0,0,0.2+outColor.x,1);
-   else
-       color = vec4(0,0.5,1,1);
-       
-       
-  vec4 texColor = texture(texture1, texCoord);
+    canvas = mix(color_RED, color_BLUE, st.x);
 
-  //color.a =1;
-  //color.rgb*=0.99;
-
-  color = texColor;
-
-  
+    color = vec4(canvas.x, canvas.y, canvas.z, 1.0);
 }

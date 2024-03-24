@@ -1,13 +1,12 @@
 #version 460 core
 
-//layout(binding = 0) uniform Data
-layout (row_major) uniform UniformData //uniform buffer Data
+layout (row_major) uniform UniformData
 {
     mat4 world;
     mat4 view;
     mat4 projection;
-}; 
-
+    float currentTime;
+};
 
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec2 vertexTexCoords;
@@ -25,7 +24,4 @@ void main(void)
     gl_Position = pos;
 
     outColor = vec3(vertexTexCoords.x,vertexTexCoords.y,0); // pass the texture coordinates to fragment shader
-    texCoord = vertexTexCoords;
-
-
 }
