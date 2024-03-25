@@ -135,26 +135,4 @@ void InputManager::update()
 		m_old_mouse_pos = center_screen;
 	}
 
-	for (int i = 0; i < GLFW_KEY_LAST; ++i)
-	{
-		int keyState = glfwGetKey(WindowPtr, i);
-
-		if (keyState == GLFW_PRESS)
-		{
-			m_keys_state_res[i] = 0;
-		}
-		else // KEY IS UP
-		{
-			if (keyState != m_old_keys_state[i])
-			{
-				m_keys_state_res[i] = 1;
-			}
-			else
-			{
-				m_keys_state_res[i] = 2;
-			}
-		}
-	}
-
-	std::memcpy(m_old_keys_state, m_keys_state_res, sizeof(int) * std::min(GLFW_KEY_LAST, ARRAY_SIZE));
 }

@@ -39,15 +39,10 @@ public:
 
 private:
 	GLFWwindow* WindowPtr = nullptr;
-	short m_keys_state[ARRAY_SIZE] = {};
-	short m_old_keys_state[ARRAY_SIZE] = {};
-	short m_keys_state_res[ARRAY_SIZE] = {};
 
 	bool m_playEnable = false;
 	glm::vec2 m_old_mouse_pos;
-	bool m_first_time = true;
 	Rect m_screenArea;
 	glm::vec2 m_deltaMouse;
-	int states_index = 0;
 };
 
