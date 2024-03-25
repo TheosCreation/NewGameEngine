@@ -51,7 +51,7 @@ void Camera::setScreenArea(const Rect& screen)
 void Camera::computeProjectionMatrix()
 {
 	if (m_type == CameraType::Perspective)
-		m_projection = glm::perspectiveLH(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
+		m_projection = glm::perspective(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
 	else if (m_type == CameraType::Orthogonal)
 		m_projection = glm::ortho(-(float)m_screenArea.width / orthoZoomFactor, (float)m_screenArea.width / orthoZoomFactor, -(float)m_screenArea.height / orthoZoomFactor, (float)m_screenArea.height / orthoZoomFactor, m_nearPlane, m_farPlane);
 }

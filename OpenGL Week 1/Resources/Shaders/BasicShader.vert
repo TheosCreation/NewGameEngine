@@ -1,7 +1,6 @@
 #version 460 core
 
-//layout(binding = 0) uniform Data
-layout (row_major) uniform UniformData //uniform buffer Data
+layout (column_major) uniform UniformData //uniform buffer Data
 {
     mat4 world;
     mat4 view;
@@ -18,11 +17,7 @@ layout(location = 1) out vec2 texCoord;
 
 void main(void)
 {
-    vec4 pos = vec4(vertexPosition, 1) * world; //multiply the world matrix with the vertex position in order to obtain the final position
-    pos = pos * view ; //multiply the view matrix with the world position in order to obtain the position in view space
-    pos = pos * projection; //multiply the projection matrix with the view position in order to obtain the final position in screen space
-
-    gl_Position = pos;
+    gl_Position = projection * view * world * vec4(vertexPosition, 1.0);
 
     outColor = vec3(vertexTexCoords.x,vertexTexCoords.y,0); // pass the texture coordinates to fragment shader
     texCoord = vertexTexCoords;

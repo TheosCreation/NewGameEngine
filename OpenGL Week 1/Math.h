@@ -3,10 +3,15 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
+inline glm::vec3 getBackwardDirection(glm::mat4 matrix)
+{
+    glm::vec3 backwardDir(matrix[2][0], matrix[2][1], matrix[2][2]);
+    return backwardDir;
+}
+
 inline glm::vec3 getForwardDirection(glm::mat4 matrix)
 {
-    glm::vec3 forwardDir(matrix[2][0], matrix[2][1], matrix[2][2]);
-    return forwardDir;
+    return -getBackwardDirection(matrix);
 }
 
 inline glm::vec3 getRightwardDirection(glm::mat4 matrix)
@@ -15,8 +20,13 @@ inline glm::vec3 getRightwardDirection(glm::mat4 matrix)
     return rightwardDir;
 }
 
+inline glm::vec3 getDownwardDirection(glm::mat4 matrix)
+{
+    glm::vec3 downwardDir(matrix[1][0], matrix[1][1], matrix[1][2]);
+    return downwardDir;
+}
+
 inline glm::vec3 getUpwardDirection(glm::mat4 matrix)
 {
-    glm::vec3 upwardDir(matrix[1][0], matrix[1][1], matrix[1][2]);
-    return upwardDir;
+    return -getDownwardDirection(matrix);
 }

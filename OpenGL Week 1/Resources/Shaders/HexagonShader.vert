@@ -1,6 +1,6 @@
 #version 460 core
 
-layout (row_major) uniform UniformData
+layout (column_major) uniform UniformData
 {
     mat4 world;
     mat4 view;
@@ -17,7 +17,7 @@ layout(location = 1) out vec2 texCoord;
 
 void main(void)
 {
-    gl_Position = vec4(vertexPosition, 1.0) * world * view * projection;
+    gl_Position = projection * view * world * vec4(vertexPosition, 1.0);
 
     outColor = vec3(vertexTexCoords.x,vertexTexCoords.y,0); // pass the texture coordinates to fragment shader
 }

@@ -41,20 +41,20 @@ void HexagonEntity::onCreate()
     Vertex verticesList[] =
     {
         //front face
-        { position_list[0],texcoord_list[1] },
-        { position_list[1],texcoord_list[2] },
-        { position_list[2],texcoord_list[3] },
-        { position_list[3],texcoord_list[2] },
-        { position_list[4],texcoord_list[1] },
-        { position_list[5],texcoord_list[0] },
+        { position_list[0],texcoord_list[0] },
+        { position_list[1],texcoord_list[1] },
+        { position_list[2],texcoord_list[2] },
+        { position_list[3],texcoord_list[3] },
+        { position_list[4],texcoord_list[0] },
+        { position_list[5],texcoord_list[1] },
         
         //back face face
-        { position_list[6],texcoord_list[1] },
-        { position_list[7],texcoord_list[2] },
-        { position_list[8],texcoord_list[3] },
-        { position_list[9],texcoord_list[2] },
-        { position_list[10],texcoord_list[1] },
-        { position_list[11],texcoord_list[0] },
+        { position_list[6],texcoord_list[0] },
+        { position_list[7],texcoord_list[1] },
+        { position_list[8],texcoord_list[2] },
+        { position_list[9],texcoord_list[3] },
+        { position_list[10],texcoord_list[0] },
+        { position_list[11],texcoord_list[1] },
     };
 
     uint indicesList[] =

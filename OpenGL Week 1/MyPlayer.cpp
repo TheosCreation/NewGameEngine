@@ -19,8 +19,8 @@ void MyPlayer::onUpdate(float deltaTime)
 	auto input = getGame()->getInputManager();
 
 	//rotating the camera thorugh mouse movements
-	m_camRotY += input->getMouseXAxis() * 0.01f;
-	m_camRotX += input->getMouseYAxis() * 0.01f;
+	m_camRotY -= input->getMouseXAxis() * 0.01f;
+	m_camRotX -= input->getMouseYAxis() * 0.01f;
 
 	if (m_camRotX > 1.57f)
 		m_camRotX = 1.57f;
