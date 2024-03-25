@@ -10,20 +10,20 @@ Window::Window()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
     //Specify whether to create a forward-compatible context
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     
     // Set the number of samples for multisampling
-    glfwWindowHint(GLFW_SAMPLES, 4);
+    //glfwWindowHint(GLFW_SAMPLES, 4);
     
     glfwWindowHint(GLFW_RED_BITS, 8);
     glfwWindowHint(GLFW_GREEN_BITS, 8);
     glfwWindowHint(GLFW_BLUE_BITS, 8);
     glfwWindowHint(GLFW_ALPHA_BITS, 8);
     
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+    //glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
     
-    glfwWindowHint(GLFW_DEPTH_BITS, 24);
-    glfwWindowHint(GLFW_STENCIL_BITS, 8);
+    glfwWindowHint(GLFW_DEPTH_BITS, 8);
+    //glfwWindowHint(GLFW_STENCIL_BITS, 8);
 
     
 
@@ -56,9 +56,9 @@ Window::Window()
 
 Window::~Window()
 {
+    glfwMakeContextCurrent(nullptr);
     // Destroy the GLFW window
     glfwDestroyWindow(getWindow());
-
     // Terminate GLFW
     glfwTerminate();
 }
@@ -67,7 +67,7 @@ Rect Window::getInnerSize()
 {
     int width, height;
     glfwGetFramebufferSize(getWindow(), &width, &height);
-    return Rect(width, height);
+    return Rect(0, 0, width, height);
 }
 
 GLFWwindow* Window::getWindow()

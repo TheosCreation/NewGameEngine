@@ -18,6 +18,20 @@ void MyGame::onCreate()
 	auto cobblestone = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/cobblestone.png"));
 	auto lava = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/lava.jpg"));
 
+
+	ShaderProgramPtr hexagonShader = m_graphicsEngine->createShaderProgram({
+			L"HexagonShader",
+			L"HexagonShader"
+		});
+	hexagonShader->setUniformBufferSlot("UniformData", 0);
+	
+	ShaderProgramPtr cubeShader = m_graphicsEngine->createShaderProgram({
+			L"BasicShader",
+			L"BasicShader"
+		});
+	cubeShader->setUniformBufferSlot("UniformData", 0);
+
+
 	srand((unsigned int)time(NULL));
 
 	//creates a the first hexagon
@@ -27,6 +41,8 @@ void MyGame::onCreate()
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
 		hexagon->setPosition(glm::vec3(2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
+		hexagon->setShader(cubeShader);
+		hexagon->setTexture(cobblestone);
 	}
 
 	//creates a second hexagon
@@ -36,12 +52,14 @@ void MyGame::onCreate()
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
 		hexagon->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
+		hexagon->setShader(hexagonShader);
 	}
 
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();
-	m_player->setPosition(glm::vec3(0, 0, 0));
+	m_player->setScale(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
+	m_player->setPosition(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
 
 	//enabling play mode
 	getInputManager()->enablePlayMode(true);

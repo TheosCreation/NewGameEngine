@@ -12,7 +12,6 @@ void MyPlayer::onCreate()
 {
 	m_entity = getEntitySystem()->createEntity<Entity>();
 	m_cam = getEntitySystem()->createEntity<Camera>();
-	m_cam->setPosition(glm::vec3(0, 0, 0));
 }
 
 void MyPlayer::onUpdate(float deltaTime)
@@ -40,7 +39,7 @@ void MyPlayer::onUpdate(float deltaTime)
 	glm::vec3 rightwardDir = getRightwardDirection(worldMatCam);
 
 
-	float speed = 2.0f;
+	float speed = 10.0f;
 	float moveForward = 0, moveRightward = 0;
 
 	if (input->isKeyDown(Key::KeyW))

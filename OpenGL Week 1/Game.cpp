@@ -45,13 +45,6 @@ Game::Game()
     m_uniform = m_graphicsEngine->createUniform({
         sizeof(UniformData)
     });
-    
-    m_shader = m_graphicsEngine->createShaderProgram({
-            L"HexagonShader",
-            L"HexagonShader"
-    });
-    
-    m_shader->setUniformBufferSlot("UniformData", 0);
 }
 
 Game::~Game()
@@ -61,7 +54,7 @@ Game::~Game()
 void Game::onCreate()
 {
     //if orthogoanal camera then
-    m_entitySystem->globalScale = 100.0f;
+    m_entitySystem->globalScale = 1.0f;
 }
 
 void Game::onUpdateInternal()
@@ -99,7 +92,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             auto cam = dynamic_cast<Camera*>(camera.get());
             //change this to calculate the mvp and pass in one matrix
             cam->getViewMatrix(data.view);
-            cam->setScreenArea(this->m_display->getInnerSize());
+            cam->setScreenArea(m_display->getInnerSize());
             cam->getProjectionMatrix(data.projection);
             
         }
@@ -121,7 +114,6 @@ void Game::onGraphicsUpdate(float deltaTime)
                 e->getWorldMatrix(data.world);
 
                 m_uniform->setData(&data);
-                m_graphicsEngine->setShaderProgram(m_shader); //bind shaders to graphics pipeline
                 m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
 
                 //call internal graphcis update of the entity in order to handle specific graphics data/functions 
@@ -158,7 +150,7 @@ void Game::run()
 
 void Game::quit()
 {
-    glfwTerminate();
+    m_display.release();
 }
 
 EntitySystem* Game::getEntitySystem()

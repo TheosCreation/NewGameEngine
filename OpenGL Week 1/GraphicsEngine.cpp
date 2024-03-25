@@ -2,7 +2,6 @@
 #include <glew.h>
 #include <glfw3.h>
 
-//float CurrentTime;
 VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
 {
     return std::make_shared<VertexArrayObject>(vbDesc);
