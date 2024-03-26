@@ -16,7 +16,6 @@ protected:
 
 private:
 	VertexArrayObjectPtr m_mesh;
-	UniformBufferPtr m_uniform;
 	ShaderProgramPtr m_shader;
 	TexturePtr m_texture;
 };

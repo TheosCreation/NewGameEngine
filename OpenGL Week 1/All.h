@@ -4,7 +4,6 @@
 
 #include "GraphicsEngine.h"
 #include "ShaderProgram.h"
-#include "UniformBuffer.h"
 #include "VertexArrayObject.h"
 #include "Texture2D.h"
 

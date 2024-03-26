@@ -1,11 +1,11 @@
 #version 460 core
 
+uniform mat4 currentTime;
+
 in vec3 outColor;
 in vec2 texCoord;
 
 out vec4 color;
-
-
 
 void main(){
     vec3 canvas = vec3(0.0);

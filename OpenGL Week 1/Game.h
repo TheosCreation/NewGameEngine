@@ -12,7 +12,7 @@ class Game
 {
 public:
 	Game();
-	virtual ~Game();
+	~Game();
 
 	void run();
 	void quit();
@@ -40,11 +40,10 @@ protected:
 	std::unique_ptr<ResourceManager> m_resourceManager;
 
 	VertexArrayObjectPtr m_polygonVAO;
-	UniformBufferPtr m_uniform;
-	ShaderProgramPtr m_shader;
+	ShaderProgramPtr m_hexagonShader;
 
-	float m_previousTime;
-	float m_currentTime;
+	float m_previousTime = 0;
+	float m_currentTime = 0;
 	float m_scale = 0;
 
 	friend class Entity;

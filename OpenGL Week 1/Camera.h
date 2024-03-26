@@ -18,8 +18,8 @@ public:
 private:
 	void computeProjectionMatrix();
 private:
-	glm::mat4 m_view;
-	glm::mat4 m_projection;
+	glm::mat4 m_view{};
+	glm::mat4 m_projection{};
 
 	float m_farPlane = 1000.0f;
 	float m_nearPlane = 1.0f;

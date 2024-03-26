@@ -18,7 +18,7 @@ public:
 	glm::vec3 getScale();
 
 	EntitySystem* getEntitySystem();
-	void getWorldMatrix(glm::mat4& world);
+	void getModelMatrix(glm::mat4& model);
 	void release();
 
 	Game* getGame();

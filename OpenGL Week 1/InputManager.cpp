@@ -25,7 +25,7 @@ bool InputManager::isKeyDown(Key key)
 		keyGLFW = GLFW_KEY_LEFT_SHIFT;
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
-	
+
 	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
 }
 
@@ -42,19 +42,26 @@ bool InputManager::isKeyUp(Key key)
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
 
-	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
+	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_RELEASE);
 }
 
 bool InputManager::isMouseDown(MouseButton button)
 {
 	int buttonGLFW = -1;
 
-	if (button == MouseButtonLeft)
+	switch (button) {
+	case MouseButton::MouseButtonLeft:
 		buttonGLFW = GLFW_MOUSE_BUTTON_LEFT;
-	else if (button == MouseButtonMiddle)
+		break;
+	case MouseButton::MouseButtonMiddle:
 		buttonGLFW = GLFW_MOUSE_BUTTON_MIDDLE;
-	else if (button == MouseButtonRight)
+		break;
+	case MouseButton::MouseButtonRight:
 		buttonGLFW = GLFW_MOUSE_BUTTON_RIGHT;
+		break;
+	default:
+		break;
+	}
 
 	if (buttonGLFW != -1) {
 		return (glfwGetMouseButton(WindowPtr, buttonGLFW) == GLFW_PRESS);
@@ -67,12 +74,19 @@ bool InputManager::isMouseUp(MouseButton button)
 {
 	int buttonGLFW = -1;
 
-	if (button == MouseButtonLeft)
+	switch (button) {
+	case MouseButton::MouseButtonLeft:
 		buttonGLFW = GLFW_MOUSE_BUTTON_LEFT;
-	else if (button == MouseButtonMiddle)
+		break;
+	case MouseButton::MouseButtonMiddle:
 		buttonGLFW = GLFW_MOUSE_BUTTON_MIDDLE;
-	else if (button == MouseButtonRight)
+		break;
+	case MouseButton::MouseButtonRight:
 		buttonGLFW = GLFW_MOUSE_BUTTON_RIGHT;
+		break;
+	default:
+		break;
+	}
 
 	if (buttonGLFW != -1) {
 		return (glfwGetMouseButton(WindowPtr, buttonGLFW) == GLFW_RELEASE);
@@ -134,5 +148,4 @@ void InputManager::update()
 		glfwSetCursorPos(WindowPtr, center_screen.x, center_screen.y);
 		m_old_mouse_pos = center_screen;
 	}
-
 }

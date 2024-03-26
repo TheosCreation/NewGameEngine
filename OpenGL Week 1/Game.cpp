@@ -1,7 +1,6 @@
 #include "Game.h"
 #include "Window.h"
 #include "VertexArrayObject.h"
-#include "UniformBuffer.h"
 #include "ShaderProgram.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
@@ -11,10 +10,10 @@
 
 struct UniformData
 {
-    glm::mat4 world;
+    glm::mat4 model;
     glm::mat4 view;
     glm::mat4 projection;
-    float currentTime;
+    glm::vec3 color;
 };
 
 Game::Game()
@@ -40,11 +39,11 @@ Game::Game()
     m_inputManager = std::make_unique<InputManager>();
     m_inputManager->SetGameWindow(m_display->getWindow());
     m_inputManager->setScreenArea(m_display->getInnerSize());
-    
 
-    m_uniform = m_graphicsEngine->createUniform({
-        sizeof(UniformData)
-    });
+    m_hexagonShader = m_graphicsEngine->createShaderProgram({
+        L"HexagonShader",
+        L"HexagonShader"
+        });
 }
 
 Game::~Game()
@@ -86,7 +85,6 @@ void Game::onGraphicsUpdate(float deltaTime)
         for (auto& [key, camera] : it->second)
         {
             //the camera data are the view and projection
-            //view is simply the world matrix of the camera inverted
             auto cam = dynamic_cast<Camera*>(camera.get());
             //change this to calculate the mvp and pass in one matrix
             cam->getViewMatrix(data.view);
@@ -95,9 +93,6 @@ void Game::onGraphicsUpdate(float deltaTime)
             
         }
     }
-
-    // sets the current time
-    data.currentTime = deltaTime;
 
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
@@ -108,15 +103,19 @@ void Game::onGraphicsUpdate(float deltaTime)
 
             if (e)
             {
-                //let's retrive the world matrix and let's pass it to the uniform buffer
-                e->getWorldMatrix(data.world);
-                //send data
-                int worldLoc = glGetUniformLocation(e->getShader()->getId(), "world");
-                glUniformMatrix4fv(worldLoc, 1, GL_FALSE, glm::value_ptr(data.world));
-                //m_uniform->setData(&data);
-                //m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
+                //let's retrive the model matrix
+                e->getModelMatrix(data.model);
+                data.color = glm::vec3(1, 0, 0);
+                //sets the shader that is going to be used
+                m_graphicsEngine->setShaderProgram(m_hexagonShader);
 
-                //call internal graphcis update of the entity in order to handle specific graphics data/functions 
+                //sends the data into each uniform
+                m_hexagonShader->setMat4("model", data.model);
+                m_hexagonShader->setMat4("view", data.view);
+                m_hexagonShader->setMat4("projection", data.projection);
+                m_hexagonShader->setFloat("currentTime", m_currentTime);
+                m_hexagonShader->setVec3("uColor", data.color);
+
                 e->onGraphicsUpdate(deltaTime);
             }
             else
@@ -126,7 +125,7 @@ void Game::onGraphicsUpdate(float deltaTime)
         }
     }
     // Render to window
-    m_display->present(false);
+    m_display->present();
 }
 
 void Game::onQuit()

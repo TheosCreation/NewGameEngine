@@ -13,11 +13,11 @@ public:
 
 	Rect getInnerSize();
 	GLFWwindow* getWindow();
-	void makeCurrentContext();
-	void present(bool vsync);
+	void makeCurrentContext(bool vsync);
+	void present();
 	bool shouldClose();
 private:
-	std::shared_ptr<GLFWwindow> m_windowPtr;
+	GLFWwindow* m_windowPtr;
 	void* m_context = nullptr;
 	Rect m_size = Rect(800, 800);
 };

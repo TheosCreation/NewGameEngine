@@ -12,11 +12,6 @@ VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferD
     return std::make_shared<VertexArrayObject>(vbDesc, ibDesc);
 }
 
-UniformBufferPtr GraphicsEngine::createUniform(const UniformBufferDesc& desc)
-{
-    return std::make_shared<UniformBuffer>(desc);
-}
-
 ShaderProgramPtr GraphicsEngine::createShaderProgram(const ShaderProgramDesc& desc)
 {
     return std::make_shared<ShaderProgram>(desc);
@@ -29,7 +24,6 @@ Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
 
 void GraphicsEngine::clear(const glm::vec4& color)
 {
-    glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     glClearColor(color.x, color.y, color.z, color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -78,11 +72,6 @@ GraphicsEngine::~GraphicsEngine()
 void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
 {
     glBindVertexArray(vao->getId());
-}
-
-void GraphicsEngine::setUniformBuffer(const UniformBufferPtr& buffer, uint slot)
-{
-    glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer->getId());
 }
 
 void GraphicsEngine::setShaderProgram(const ShaderProgramPtr& program)

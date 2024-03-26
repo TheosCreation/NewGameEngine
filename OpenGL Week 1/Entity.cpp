@@ -55,20 +55,20 @@ Game* Entity::getGame()
 	return getEntitySystem()->getGame();
 }
 
-void Entity::getWorldMatrix(glm::mat4& world)
+void Entity::getModelMatrix(glm::mat4& model)
 {
-	world = glm::identity<glm::mat4>();
+	model = glm::identity<glm::mat4>();
 
 	//translate first
-	world = glm::translate(world, m_position);
+	model = glm::translate(model, m_position);
 
 	//rotate around z
-	world = glm::rotate(world, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::rotate(model, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 	//rotate around y
-	world = glm::rotate(world, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	//rotate around x
-	world = glm::rotate(world, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 
 	//scale
-	world = glm::scale(world, m_scale);
+	model = glm::scale(model, m_scale);
 }

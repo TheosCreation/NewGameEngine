@@ -121,23 +121,11 @@ void HexagonEntity::setTexture(const TexturePtr& texture)
     m_texture = texture;
 }
 
-void HexagonEntity::setShader(const ShaderProgramPtr& shader)
-{
-    m_shader = shader;
-}
-
-ShaderProgramPtr HexagonEntity::getShader()
-{
-    return m_shader;
-}
-
 void HexagonEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::BackFace);
-    engine->setWindingOrder(WindingOrder::ClockWise);
-
-    engine->setShaderProgram(m_shader);
+    engine->setWindingOrder(WindingOrder::CounterClockWise);
 
     //during the graphcis update, we call the draw function
     engine->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline

@@ -19,19 +19,6 @@ void MyGame::onCreate()
 	auto lava = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/lava.jpg"));
 
 
-	ShaderProgramPtr hexagonShader = m_graphicsEngine->createShaderProgram({
-			L"HexagonShader",
-			L"HexagonShader"
-		});
-	hexagonShader->setUniformBufferSlot("UniformData", 0);
-	
-	ShaderProgramPtr cubeShader = m_graphicsEngine->createShaderProgram({
-			L"BasicShader",
-			L"BasicShader"
-		});
-	cubeShader->setUniformBufferSlot("UniformData", 0);
-
-
 	srand((unsigned int)time(NULL));
 
 	//creates a the first hexagon
@@ -41,7 +28,6 @@ void MyGame::onCreate()
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
 		hexagon->setPosition(glm::vec3(2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
-		hexagon->setShader(cubeShader);
 		hexagon->setTexture(lava);
 
 		m_hexagon1 = hexagon;
@@ -54,7 +40,6 @@ void MyGame::onCreate()
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
 		hexagon->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
-		hexagon->setShader(cubeShader);
 		hexagon->setTexture(lava);
 
 		m_hexagon2 = hexagon;
@@ -63,8 +48,8 @@ void MyGame::onCreate()
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();
-	m_player->setScale(glm::vec3(0, 0, 0));
-	m_player->setPosition(glm::vec3(0, 0, 3.0f));
+	m_player->setScale(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
+	m_player->setPosition(glm::vec3(0, 0, 3.0f) * m_entitySystem->globalScale);
 
 	//enabling play mode
 	//getInputManager()->enablePlayMode(true);
@@ -72,7 +57,7 @@ void MyGame::onCreate()
 
 void MyGame::onUpdate(float deltaTime)
 {
-	m_roty += 0.5f * deltaTime;
+	m_roty += 0.1f * deltaTime;
 
 	m_hexagon1->setRotation(glm::vec3(m_hexagon1->getRotation().x, m_roty, m_hexagon1->getRotation().z));
 	m_hexagon2->setRotation(glm::vec3(m_hexagon2->getRotation().x, m_roty, m_hexagon2->getRotation().z));

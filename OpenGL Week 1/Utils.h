@@ -15,7 +15,6 @@ class Resource;
 class Texture;
 
 typedef unsigned int uint;
-typedef std::shared_ptr<UniformBuffer> UniformBufferPtr;
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
 typedef std::shared_ptr<Texture2D> Texture2DPtr;
