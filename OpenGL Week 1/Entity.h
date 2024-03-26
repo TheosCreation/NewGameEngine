@@ -25,13 +25,10 @@ public:
 protected:
 	virtual void onCreate() {}
 	virtual void onUpdate(float deltaTime) {}
-	void processWorldMatrix();
 
 protected:
-	glm::mat4 m_world;
-	
-	glm::vec3 m_position;
-	glm::vec3 m_rotation;
+	glm::vec3 m_position{};
+	glm::vec3 m_rotation{};
 	glm::vec3 m_scale = glm::vec3(1, 1, 1);
 
 	size_t m_id = 0;

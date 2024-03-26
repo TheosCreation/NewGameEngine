@@ -10,6 +10,7 @@ public:
 	virtual void onCreate();
 	virtual void setTexture(const TexturePtr& texture);
 	void setShader(const ShaderProgramPtr& shader);
+	ShaderProgramPtr getShader();
 protected:
 	virtual void onGraphicsUpdate(float deltaTime);
 

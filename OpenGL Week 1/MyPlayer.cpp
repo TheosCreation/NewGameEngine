@@ -31,7 +31,7 @@ void MyPlayer::onUpdate(float deltaTime)
 
 	//moving the camera along x and z axis through keyboard input events (W,A,S,D)
 	glm::mat4 worldMatCam;
-	m_cam->getWorldMatrix(worldMatCam);
+	//m_cam->getWorldMatrix(worldMatCam);
 
 
 	glm::vec3 forwardDir = glm::vec3(0.0, 0.0, 0.0);

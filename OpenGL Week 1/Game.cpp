@@ -110,9 +110,11 @@ void Game::onGraphicsUpdate(float deltaTime)
             {
                 //let's retrive the world matrix and let's pass it to the uniform buffer
                 e->getWorldMatrix(data.world);
-
-                m_uniform->setData(&data);
-                m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
+                //send data
+                int worldLoc = glGetUniformLocation(e->getShader()->getId(), "world");
+                glUniformMatrix4fv(worldLoc, 1, GL_FALSE, glm::value_ptr(data.world));
+                //m_uniform->setData(&data);
+                //m_graphicsEngine->setUniformBuffer(m_uniform, 0); // bind uniform buffer
 
                 //call internal graphcis update of the entity in order to handle specific graphics data/functions 
                 e->onGraphicsUpdate(deltaTime);

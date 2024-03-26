@@ -10,6 +10,10 @@ class GraphicsEntity : public Entity
 public:
 	GraphicsEntity();
 	virtual ~GraphicsEntity();
+	ShaderProgramPtr getShader();
+
+	void setShader(const ShaderProgramPtr& shader);
+
 	virtual void onGraphicsUpdate(float deltaTime) {}
 protected:
 	ShaderProgramPtr m_shader;

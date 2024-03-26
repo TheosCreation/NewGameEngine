@@ -126,16 +126,21 @@ void HexagonEntity::setShader(const ShaderProgramPtr& shader)
     m_shader = shader;
 }
 
+ShaderProgramPtr HexagonEntity::getShader()
+{
+    return m_shader;
+}
+
 void HexagonEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::BackFace);
     engine->setWindingOrder(WindingOrder::ClockWise);
 
-    getGame()->getGraphicsEngine()->setShaderProgram(m_shader);
+    engine->setShaderProgram(m_shader);
 
     //during the graphcis update, we call the draw function
-    getGame()->getGraphicsEngine()->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
-    getGame()->getGraphicsEngine()->drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+    engine->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    engine->drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 
 }
