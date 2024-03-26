@@ -42,7 +42,7 @@ void MyGame::onCreate()
 		hexagon->setPosition(glm::vec3(2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
 		hexagon->setShader(cubeShader);
-		hexagon->setTexture(cobblestone);
+		hexagon->setTexture(lava);
 	}
 
 	//creates a second hexagon
@@ -52,7 +52,8 @@ void MyGame::onCreate()
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
 		hexagon->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
-		hexagon->setShader(hexagonShader);
+		hexagon->setShader(cubeShader);
+		hexagon->setTexture(lava);
 	}
 
 	//creating the player
