@@ -3,9 +3,18 @@
 
 void Camera::getViewMatrix(glm::mat4& view)
 {
-	//both of these work
-	m_view = glm::inverse(m_world);
-	//m_view = glm::lookAt(m_position, m_position + getForwardDirection(m_world), getUpwardDirection(m_world));
+	glm::vec3 cameraPosition = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 cameraDirection = glm::normalize(cameraPosition - cameraTarget);
+	
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+	
+	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	
+	m_view = glm::lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
 	view = m_view;
 }
 
@@ -53,5 +62,5 @@ void Camera::computeProjectionMatrix()
 	if (m_type == CameraType::Perspective)
 		m_projection = glm::perspective(glm::radians(m_fov), (float)m_screenArea.width / (float)m_screenArea.height, m_nearPlane, m_farPlane);
 	else if (m_type == CameraType::Orthogonal)
-		m_projection = glm::ortho(-(float)m_screenArea.width / orthoZoomFactor, (float)m_screenArea.width / orthoZoomFactor, -(float)m_screenArea.height / orthoZoomFactor, (float)m_screenArea.height / orthoZoomFactor, m_nearPlane, m_farPlane);
+		m_projection = glm::ortho(-(float)m_screenArea.width, (float)m_screenArea.width, -(float)m_screenArea.height, (float)m_screenArea.height, m_nearPlane, m_farPlane);
 }

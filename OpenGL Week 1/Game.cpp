@@ -53,8 +53,6 @@ Game::~Game()
 
 void Game::onCreate()
 {
-    //if orthogoanal camera then
-    m_entitySystem->globalScale = 1.0f;
 }
 
 void Game::onUpdateInternal()

@@ -13,5 +13,10 @@ public:
 private:
 	float m_elapsedSeconds = 0.0f;
 	CubeEntity* m_player = nullptr;
+	HexagonEntity* m_hexagon1 = nullptr;
+	HexagonEntity* m_hexagon2 = nullptr;
+
+	float m_roty = 0;
+
 };
 

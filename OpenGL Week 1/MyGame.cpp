@@ -43,6 +43,8 @@ void MyGame::onCreate()
 		hexagon->setRotation(glm::vec3(0, 0, 0));
 		hexagon->setShader(cubeShader);
 		hexagon->setTexture(lava);
+
+		m_hexagon1 = hexagon;
 	}
 
 	//creates a second hexagon
@@ -54,19 +56,24 @@ void MyGame::onCreate()
 		hexagon->setRotation(glm::vec3(0, 0, 0));
 		hexagon->setShader(cubeShader);
 		hexagon->setTexture(lava);
+
+		m_hexagon2 = hexagon;
 	}
 
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();
-	m_player->setScale(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
-	m_player->setPosition(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
+	m_player->setScale(glm::vec3(0, 0, 0));
+	m_player->setPosition(glm::vec3(0, 0, 3.0f));
 
 	//enabling play mode
-	getInputManager()->enablePlayMode(true);
+	//getInputManager()->enablePlayMode(true);
 }
 
 void MyGame::onUpdate(float deltaTime)
 {
-	
+	m_roty += 0.5f * deltaTime;
+
+	m_hexagon1->setRotation(glm::vec3(m_hexagon1->getRotation().x, m_roty, m_hexagon1->getRotation().z));
+	m_hexagon2->setRotation(glm::vec3(m_hexagon2->getRotation().x, m_roty, m_hexagon2->getRotation().z));
 }

@@ -22,9 +22,9 @@ private:
 	glm::mat4 m_projection;
 
 	float m_farPlane = 1000.0f;
-	float m_nearPlane = 0.001f;
+	float m_nearPlane = 1.0f;
 	float m_fov = 90.0f;
-	float orthoZoomFactor = 100.0f;
+	const float radius = 10.0f;
 	CameraType m_type = CameraType::Orthogonal;
 	Rect m_screenArea;
 };

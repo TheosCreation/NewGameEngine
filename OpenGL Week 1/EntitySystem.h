@@ -26,7 +26,7 @@ public:
 	}
 	Game* getGame();
 
-	float globalScale = 1.0f;
+	float globalScale = 100.0f;
 private:
 	bool createEntityInternal(Entity* entity, size_t id);
 	void removeEntity(Entity* entity);
