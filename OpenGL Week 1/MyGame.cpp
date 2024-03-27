@@ -26,9 +26,8 @@ void MyGame::onCreate()
 		auto hexagon = getEntitySystem()->createEntity<HexagonEntity>();
 
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
-		hexagon->setPosition(glm::vec3(2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
+		hexagon->setPosition(glm::vec3(1.0f, 4.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
-		hexagon->setTexture(lava);
 
 		m_hexagon1 = hexagon;
 	}
@@ -38,9 +37,8 @@ void MyGame::onCreate()
 		auto hexagon = getEntitySystem()->createEntity<HexagonEntity>();
 
 		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
-		hexagon->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f) * m_entitySystem->globalScale);
+		hexagon->setPosition(glm::vec3(-3.0f, 4.0f, 0.0f) * m_entitySystem->globalScale);
 		hexagon->setRotation(glm::vec3(0, 0, 0));
-		hexagon->setTexture(lava);
 
 		m_hexagon2 = hexagon;
 	}

@@ -1,20 +1,14 @@
 #version 460 core
 
-uniform mat4 currentTime;
+uniform float currentTime;
 
-in vec3 outColor;
-in vec2 texCoord;
+in vec3 FragColor;
 
 out vec4 color;
 
 void main(){
-    vec3 canvas = vec3(0.0);
-    vec3 color_RED = vec3(1.0, 0.0, 0.0);
-    vec3 color_BLUE = vec3(0.0, 0.0, 1.0);
+    vec3 nextColor = vec3(FragColor.z,FragColor.x, FragColor.y);
 
-    vec2 st = vec2(abs(sin(gl_FragCoord.x * 0.01)), 1);
-
-    canvas = mix(color_RED, color_BLUE, st.x);
-
-    color = vec4(canvas.x, canvas.y, canvas.z, 1.0);
+    vec3 mixedColors = mix(FragColor, nextColor, (sin(currentTime) + 1.0) * 0.5);
+    color = vec4(mixedColors, 1.0);
 }

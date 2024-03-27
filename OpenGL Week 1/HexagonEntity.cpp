@@ -6,7 +6,7 @@
 struct Vertex
 {
     glm::vec3 position;
-    glm::vec2 texCoords;
+    glm::vec3 rgb;
 };
 
 void HexagonEntity::onCreate()
@@ -30,31 +30,30 @@ void HexagonEntity::onCreate()
         glm::vec3(0.0f, 0.5f, -0.1f),
     };
 
-    glm::vec2 texcoord_list[] =
+    glm::vec3 rgb_list[] =
     {
-        { glm::vec2(0.0f,0.0f) },
-        { glm::vec2(0.0f,1.0f) },
-        { glm::vec2(1.0f,0.0f) },
-        { glm::vec2(1.0f,1.0f) }
+        { glm::vec3(1.0f, 0.0f, 0.0f) },
+        { glm::vec3(0.0f, 1.0f, 0.0f) },
+        { glm::vec3(0.0f, 0.0f, 1.0f) },
     };
 
     Vertex verticesList[] =
     {
         //front face
-        { position_list[0],texcoord_list[0] },
-        { position_list[1],texcoord_list[1] },
-        { position_list[2],texcoord_list[2] },
-        { position_list[3],texcoord_list[3] },
-        { position_list[4],texcoord_list[0] },
-        { position_list[5],texcoord_list[1] },
+        { position_list[0],rgb_list[0] },
+        { position_list[1],rgb_list[0] },
+        { position_list[2],rgb_list[1] },
+        { position_list[3],rgb_list[1] },
+        { position_list[4],rgb_list[2] },
+        { position_list[5],rgb_list[2] },
         
         //back face face
-        { position_list[6],texcoord_list[0] },
-        { position_list[7],texcoord_list[1] },
-        { position_list[8],texcoord_list[2] },
-        { position_list[9],texcoord_list[3] },
-        { position_list[10],texcoord_list[0] },
-        { position_list[11],texcoord_list[1] },
+        { position_list[6],rgb_list[0] },
+        { position_list[7],rgb_list[0] },
+        { position_list[8],rgb_list[1] },
+        { position_list[9],rgb_list[1] },
+        { position_list[10],rgb_list[2] },
+        { position_list[11],rgb_list[2] },
     };
 
     uint indicesList[] =
@@ -95,7 +94,7 @@ void HexagonEntity::onCreate()
 
     static const VertexAttribute attribsList[] = {
         { 3 }, //numElements position attribute
-        { 2 } //numElements texture coordinates attribute
+        { 3 } //numElements rgb 
     };
 
     m_mesh = getGame()->getGraphicsEngine()->createVertexArrayObject(
