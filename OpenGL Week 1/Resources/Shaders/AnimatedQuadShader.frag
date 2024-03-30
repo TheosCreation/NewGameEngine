@@ -2,7 +2,7 @@
 
 uniform float currentTime;
 
-layout(location = 1) in vec2 texCoord;
+layout(location = 0) in vec2 texCoord;
 
 out vec4 color;
 

@@ -26,7 +26,7 @@ Game::Game()
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
     m_graphicsEngine->SetViewport(m_display->getInnerSize());
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
-    m_graphicsEngine->setWindingOrder(WindingOrder::ClockWise);
+    m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
@@ -85,6 +85,7 @@ void Game::onGraphicsUpdate(float deltaTime)
     }
 
     data.currentTime = m_currentTime;
+    data.color = glm::vec3(round(abs(sin(m_currentTime * 0.5))), round(abs(cos(m_currentTime * 0.5))), 0.0f);
 
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
@@ -161,6 +162,3 @@ Window* Game::getWindow()
 {
     return m_display.get();
 }
-
-
-

@@ -12,7 +12,6 @@
 #include "Texture.h"
 
 #include "Camera.h"
-#include "CubeEntity.h"
 #include "HexagonEntity.h"
 #include "QuadEntity.h"
 #include "AnimatedQuadEntity.h"

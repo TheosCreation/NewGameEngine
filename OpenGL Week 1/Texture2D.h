@@ -5,6 +5,7 @@ class Texture2D
 {
 public:
 	Texture2D(const Texture2DDesc& desc);
+	void setMirrored();
 	~Texture2D();
 	uint getId();
 private:

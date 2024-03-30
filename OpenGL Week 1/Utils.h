@@ -61,6 +61,7 @@ struct UniformData
 	glm::mat4 view;
 	glm::mat4 projection;
 	float currentTime;
+	glm::vec3 color;
 };
 
 struct Texture2DDesc

@@ -16,6 +16,8 @@ void MyGame::onCreate()
 	
 	//loading texture resource
 	auto alien = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Alien.png"));
+	alien->getTexture2D()->setMirrored();
+
 	auto ninjaAttackSpriteSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Ninja_Attack.png"));
 
 	auto hexagonShader = getGraphicsEngine()->createShaderProgram({

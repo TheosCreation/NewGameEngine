@@ -126,6 +126,7 @@ void HexagonEntity::setUniformData(UniformData data)
     m_shader->setMat4("view", data.view);
     m_shader->setMat4("projection", data.projection);
     m_shader->setFloat("currentTime", data.currentTime);
+    m_shader->setVec3("flowingColor", data.color);
 }
 
 void HexagonEntity::setShader(const ShaderProgramPtr& shader)

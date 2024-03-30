@@ -142,7 +142,6 @@
   <ItemGroup>
     <ClCompile Include="AnimatedQuadEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CubeEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -174,7 +173,6 @@
     <ClInclude Include="All.h" />
     <ClInclude Include="AnimatedQuadEntity.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CubeEntity.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntitySystem.h" />
     <ClInclude Include="Game.h" />
