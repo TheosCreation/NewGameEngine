@@ -2,7 +2,7 @@
 #include "GraphicsEntity.h"
 #include "Rect.h"
 
-class QuadEntity : public GraphicsEntity
+class AnimatedQuadEntity : public GraphicsEntity
 {
 public:
 	virtual void onCreate();

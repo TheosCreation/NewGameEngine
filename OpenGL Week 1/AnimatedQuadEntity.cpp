@@ -1,4 +1,4 @@
-#include "QuadEntity.h"
+#include "AnimatedQuadEntity.h"
 #include "GraphicsEngine.h"
 #include "Game.h"
 #include "Texture.h"
@@ -9,7 +9,7 @@ struct Vertex
     glm::vec2 texCoords;
 };
 
-void QuadEntity::onCreate()
+void AnimatedQuadEntity::onCreate()
 {
     glm::vec3 position_list[] =
     {
@@ -20,14 +20,14 @@ void QuadEntity::onCreate()
         { glm::vec3(-0.5f,-0.5f,0.5f) }
     };
 
+    //10 columns
     glm::vec2 texcoord_list[] =
     {
-        { glm::vec2(0.0f,0.0f) },
-        { glm::vec2(0.0f,4.0f) },
-        { glm::vec2(4.0f,0.0f) },
-        { glm::vec2(4.0f,4.0f) }
+        { glm::vec2(0.0f, 0.0f) },
+        { glm::vec2(0.0f,1.0f) },
+        { glm::vec2(0.1f,0.0f) },
+        { glm::vec2(0.1f,1.0f) }
     };
-
     Vertex verticesList[] =
     {
         //front face
@@ -69,24 +69,25 @@ void QuadEntity::onCreate()
         );
 }
 
-void QuadEntity::setTexture(const TexturePtr& texture)
+void AnimatedQuadEntity::setTexture(const TexturePtr& texture)
 {
     m_texture = texture;
 }
 
-void QuadEntity::setUniformData(UniformData data)
+void AnimatedQuadEntity::setUniformData(UniformData data)
 {
     m_shader->setMat4("model", data.model);
     m_shader->setMat4("view", data.view);
     m_shader->setMat4("projection", data.projection);
+    m_shader->setFloat("currentTime", data.currentTime);
 }
 
-void QuadEntity::setShader(const ShaderProgramPtr& shader)
+void AnimatedQuadEntity::setShader(const ShaderProgramPtr& shader)
 {
     m_shader = shader;
 }
 
-void QuadEntity::onGraphicsUpdate(float deltaTime)
+void AnimatedQuadEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::BackFace);

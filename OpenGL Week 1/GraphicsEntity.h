@@ -10,13 +10,13 @@ class GraphicsEntity : public Entity
 public:
 	GraphicsEntity();
 	virtual ~GraphicsEntity();
-	ShaderProgramPtr getShader();
-
-	void setShader(const ShaderProgramPtr& shader);
 
 	virtual void onGraphicsUpdate(float deltaTime) {}
+
+	ShaderProgramPtr getShader();
+
+	virtual void setUniformData(UniformData data) {};
 protected:
 	ShaderProgramPtr m_shader;
-	TexturePtr m_texture;
 	friend class EntitySystem;
 };

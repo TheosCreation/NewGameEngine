@@ -15,6 +15,7 @@
 #include "CubeEntity.h"
 #include "HexagonEntity.h"
 #include "QuadEntity.h"
+#include "AnimatedQuadEntity.h"
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"

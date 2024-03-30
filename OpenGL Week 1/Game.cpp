@@ -4,17 +4,11 @@
 #include "ShaderProgram.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
+#include "HexagonEntity.h"
+#include "QuadEntity.h"
 #include "Camera.h"
 #include <glew.h>
 #include <glfw3.h>
-
-struct UniformData
-{
-    glm::mat4 model;
-    glm::mat4 view;
-    glm::mat4 projection;
-    glm::vec3 color;
-};
 
 Game::Game()
 {
@@ -40,10 +34,6 @@ Game::Game()
     m_inputManager->SetGameWindow(m_display->getWindow());
     m_inputManager->setScreenArea(m_display->getInnerSize());
 
-    m_hexagonShader = m_graphicsEngine->createShaderProgram({
-        L"HexagonShader",
-        L"HexagonShader"
-        });
 }
 
 Game::~Game()
@@ -94,27 +84,22 @@ void Game::onGraphicsUpdate(float deltaTime)
         }
     }
 
+    data.currentTime = m_currentTime;
+
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
         //for each graphics entity
         for (auto& [key, entity] : entities)
         {
             auto e = dynamic_cast<GraphicsEntity*>(entity.get());
-
             if (e)
             {
                 //let's retrive the model matrix
                 e->getModelMatrix(data.model);
-                data.color = glm::vec3(1, 0, 0);
-                //sets the shader that is going to be used
-                m_graphicsEngine->setShaderProgram(m_hexagonShader);
 
-                //sends the data into each uniform
-                m_hexagonShader->setMat4("model", data.model);
-                m_hexagonShader->setMat4("view", data.view);
-                m_hexagonShader->setMat4("projection", data.projection);
-                m_hexagonShader->setFloat("currentTime", m_currentTime);
-                m_hexagonShader->setVec3("uColor", data.color);
+                m_graphicsEngine->setShaderProgram(e->getShader());
+
+                e->setUniformData(data);
 
                 e->onGraphicsUpdate(deltaTime);
             }

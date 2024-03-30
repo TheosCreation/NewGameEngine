@@ -40,7 +40,6 @@ protected:
 	std::unique_ptr<ResourceManager> m_resourceManager;
 
 	VertexArrayObjectPtr m_polygonVAO;
-	ShaderProgramPtr m_hexagonShader;
 
 	float m_previousTime = 0;
 	float m_currentTime = 0;

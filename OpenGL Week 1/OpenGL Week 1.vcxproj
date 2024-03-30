@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedQuadEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CubeEntity.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -162,6 +163,8 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Shaders\AnimatedQuadShader.frag" />
+    <None Include="Resources\Shaders\AnimatedQuadShader.vert" />
     <None Include="Resources\Shaders\HexagonShader.frag" />
     <None Include="Resources\Shaders\HexagonShader.vert" />
     <None Include="Resources\Shaders\QuadShader.frag" />
@@ -169,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
+    <ClInclude Include="AnimatedQuadEntity.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CubeEntity.h" />
     <ClInclude Include="Entity.h" />

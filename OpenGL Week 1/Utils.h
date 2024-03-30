@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <memory>
+#include <glm.hpp>
 #include "Rect.h"
 
 class UniformBuffer;
@@ -53,6 +54,14 @@ struct UniformBufferDesc
 {
 	uint size = 0;
 }; 
+
+struct UniformData
+{
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
+	float currentTime;
+};
 
 struct Texture2DDesc
 {

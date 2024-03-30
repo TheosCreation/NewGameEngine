@@ -120,6 +120,19 @@ void HexagonEntity::setTexture(const TexturePtr& texture)
     m_texture = texture;
 }
 
+void HexagonEntity::setUniformData(UniformData data)
+{
+    m_shader->setMat4("model", data.model);
+    m_shader->setMat4("view", data.view);
+    m_shader->setMat4("projection", data.projection);
+    m_shader->setFloat("currentTime", data.currentTime);
+}
+
+void HexagonEntity::setShader(const ShaderProgramPtr& shader)
+{
+    m_shader = shader;
+}
+
 void HexagonEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
