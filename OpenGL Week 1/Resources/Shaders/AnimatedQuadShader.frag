@@ -15,5 +15,8 @@ void main(){
 	vec2 newTexCoord = vec2(texCoord.x + (0.1 * roundedTime), texCoord.y);
 	vec4 texColor = texture(texture1, newTexCoord);
 
+	if(texColor.a < 0.01)
+        discard;
+
 	color = texColor;
 }

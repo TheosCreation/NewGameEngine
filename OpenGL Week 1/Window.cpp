@@ -67,6 +67,8 @@ void Window::makeCurrentContext(bool vsync)
     glfwSwapInterval(vsync ? 1 : 0);
 
     glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_BLEND);
 }
 
 void Window::present()

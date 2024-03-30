@@ -25,6 +25,7 @@ Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
 void GraphicsEngine::clear(const glm::vec4& color)
 {
     glDepthFunc(GL_LESS);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(color.x, color.y, color.z, color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -84,6 +85,7 @@ void GraphicsEngine::setTexture2D(const Texture2DPtr& texture, uint slot)
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture->getId());
+
 }
 
 void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)
