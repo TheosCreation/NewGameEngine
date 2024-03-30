@@ -22,26 +22,34 @@ void MyGame::onCreate()
 	srand((unsigned int)time(NULL));
 
 	//creates a the first hexagon
-	{
-		auto hexagon = getEntitySystem()->createEntity<HexagonEntity>();
+	m_hexagon1 = getEntitySystem()->createEntity<HexagonEntity>();
 
-		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
-		hexagon->setPosition(glm::vec3(1.0f, 4.0f, 0.0f) * m_entitySystem->globalScale);
-		hexagon->setRotation(glm::vec3(0, 0, 0));
-
-		m_hexagon1 = hexagon;
-	}
+	m_hexagon1->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
+	m_hexagon1->setPosition(glm::vec3(1.0f, 4.0f, 0.0f) * m_entitySystem->globalScale);
+	m_hexagon1->setRotation(glm::vec3(0, 0, 0));
 
 	//creates a second hexagon
-	{
-		auto hexagon = getEntitySystem()->createEntity<HexagonEntity>();
+	m_hexagon2 = getEntitySystem()->createEntity<HexagonEntity>();
+	
+	m_hexagon2->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
+	m_hexagon2->setPosition(glm::vec3(-3.0f, 4.0f, 0.0f) * m_entitySystem->globalScale);
+	m_hexagon2->setRotation(glm::vec3(0, 0, 0));
 
-		hexagon->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
-		hexagon->setPosition(glm::vec3(-3.0f, 4.0f, 0.0f) * m_entitySystem->globalScale);
-		hexagon->setRotation(glm::vec3(0, 0, 0));
+	//creates a first quad
+	m_quad1 = getEntitySystem()->createEntity<QuadEntity>();
 
-		m_hexagon2 = hexagon;
-	}
+	m_quad1->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
+	m_quad1->setPosition(glm::vec3(1.0f, -4.0f, 0.0f) * m_entitySystem->globalScale);
+	m_quad1->setRotation(glm::vec3(0, 0, 0));
+	m_quad1->setTexture(cobblestone);
+
+	//creates a second quad
+	m_quad2 = getEntitySystem()->createEntity<QuadEntity>();
+
+	m_quad2->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
+	m_quad2->setPosition(glm::vec3(-3.0f, -4.0f, 0.0f) * m_entitySystem->globalScale);
+	m_quad2->setRotation(glm::vec3(0, 0, 0));
+	m_quad2->setTexture(lava);
 
 	//creating the player
 	//all the input managements, creation of camera etc. are moved inside Player class

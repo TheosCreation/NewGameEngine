@@ -6,8 +6,6 @@
 class CubeEntity : public GraphicsEntity
 {
 public:
-
-
 	virtual void onCreate();
 	virtual void setTexture(const TexturePtr& texture);
 	void setShader(const ShaderProgramPtr& shader);

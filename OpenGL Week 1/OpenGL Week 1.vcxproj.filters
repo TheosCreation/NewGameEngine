@@ -102,26 +102,22 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="PyramidEntity.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="MyPlayer.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="QuadEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\BasicShader.frag">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources\Shaders\BasicShader.vert">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Resources\Shaders\HexagonShader.vert">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Resources\Shaders\HexagonShader.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\Shaders\QuadShader.vert" />
+    <None Include="Resources\Shaders\QuadShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -187,11 +183,11 @@
     <ClInclude Include="Math.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
-    <ClInclude Include="PyramidEntity.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="HexagonEntity.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadEntity.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

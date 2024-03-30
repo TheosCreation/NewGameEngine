@@ -152,7 +152,7 @@
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="HexagonEntity.cpp" />
-    <ClCompile Include="PyramidEntity.cpp" />
+    <ClCompile Include="QuadEntity.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -162,10 +162,10 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Shaders\BasicShader.frag" />
-    <None Include="Resources\Shaders\BasicShader.vert" />
     <None Include="Resources\Shaders\HexagonShader.frag" />
     <None Include="Resources\Shaders\HexagonShader.vert" />
+    <None Include="Resources\Shaders\QuadShader.frag" />
+    <None Include="Resources\Shaders\QuadShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
@@ -181,7 +181,7 @@
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="HexagonEntity.h" />
-    <ClInclude Include="PyramidEntity.h" />
+    <ClInclude Include="QuadEntity.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />

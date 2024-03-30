@@ -12,8 +12,12 @@ public:
 
 private:
 	float m_elapsedSeconds = 0.0f;
+
+	// init all vbo's here
 	HexagonEntity* m_hexagon1 = nullptr;
 	HexagonEntity* m_hexagon2 = nullptr;
+	QuadEntity* m_quad1 = nullptr;
+	QuadEntity* m_quad2 = nullptr;
 
 	float m_roty = 0;
 

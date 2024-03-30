@@ -13,8 +13,8 @@
 
 #include "Camera.h"
 #include "CubeEntity.h"
-#include "PyramidEntity.h"
 #include "HexagonEntity.h"
+#include "QuadEntity.h"
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
