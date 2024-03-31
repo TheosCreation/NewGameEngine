@@ -76,9 +76,7 @@ void QuadEntity::setTexture(const TexturePtr& texture)
 
 void QuadEntity::setUniformData(UniformData data)
 {
-    m_shader->setMat4("model", data.model);
-    m_shader->setMat4("view", data.view);
-    m_shader->setMat4("projection", data.projection);
+    m_shader->setMat4("mvpMatrix", data.mvpMatrix);
 }
 
 void QuadEntity::setShader(const ShaderProgramPtr& shader)

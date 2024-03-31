@@ -64,7 +64,8 @@ void Game::onGraphicsUpdate(float deltaTime)
 {
     m_graphicsEngine->clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
-
+    glm::mat4 projectionMatrix;
+    glm::mat4 viewMatrix;
 
     auto camId = typeid(Camera).hash_code();
     
@@ -76,10 +77,9 @@ void Game::onGraphicsUpdate(float deltaTime)
         {
             //the camera data are the view and projection
             auto cam = dynamic_cast<Camera*>(camera.get());
-            //change this to calculate the mvp and pass in one matrix
-            cam->getViewMatrix(data.view);
+            cam->getViewMatrix(viewMatrix);
             cam->setScreenArea(m_display->getInnerSize());
-            cam->getProjectionMatrix(data.projection);
+            cam->getProjectionMatrix(projectionMatrix);
             
         }
     }
@@ -96,7 +96,10 @@ void Game::onGraphicsUpdate(float deltaTime)
             if (e)
             {
                 //let's retrive the model matrix
-                e->getModelMatrix(data.model);
+                glm::mat4 modelMatrix;
+                e->getModelMatrix(modelMatrix);
+
+                data.mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
                 m_graphicsEngine->setShaderProgram(e->getShader());
 
