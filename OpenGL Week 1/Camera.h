@@ -15,6 +15,7 @@ public:
 	CameraType getCameraType();
 	void setCameraType(const CameraType& type);
 	void setScreenArea(const Rect& screen);
+	void setForwardDirection(glm::vec3 newDirection);
 private:
 	void computeProjectionMatrix();
 private:
@@ -24,6 +25,10 @@ private:
 	float m_farPlane = 1000.0f;
 	float m_nearPlane = 1.0f;
 	float m_fov = 90.0f;
+
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 	CameraType m_type = CameraType::Perspective;
 	Rect m_screenArea;
 };
