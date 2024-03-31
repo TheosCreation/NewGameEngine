@@ -93,9 +93,6 @@
     <ClCompile Include="EntitySystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CubeEntity.cpp">
-      <Filter>Source Files\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="HexagonEntity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -105,7 +102,7 @@
     <ClCompile Include="MyPlayer.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="QuadEntity.cpp">
+    <ClCompile Include="AnimatedQuadEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -116,8 +113,8 @@
     <None Include="Resources\Shaders\HexagonShader.frag">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Resources\Shaders\QuadShader.vert" />
-    <None Include="Resources\Shaders\QuadShader.frag" />
+    <None Include="Resources\Shaders\AnimatedQuadShader.frag" />
+    <None Include="Resources\Shaders\AnimatedQuadShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -156,9 +153,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CubeEntity.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
@@ -186,7 +180,7 @@
     <ClInclude Include="HexagonEntity.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="QuadEntity.h">
+    <ClInclude Include="AnimatedQuadEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

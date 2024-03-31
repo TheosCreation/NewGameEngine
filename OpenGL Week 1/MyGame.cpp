@@ -54,17 +54,6 @@ void MyGame::onCreate()
 		m_hexagon2->setRotation(glm::vec3(0, 0, 0));
 		m_hexagon2->setShader(hexagonShader);
 	}
-	{
-
-		//creates a first quad
-		m_quad1 = getEntitySystem()->createEntity<QuadEntity>();
-
-		m_quad1->setScale(glm::vec3(4, 4, 4) * m_entitySystem->globalScale);
-		m_quad1->setPosition(glm::vec3(3.0f, -4.0f, 0.0f) * m_entitySystem->globalScale);
-		m_quad1->setRotation(glm::vec3(0, 0, 0));
-		m_quad1->setShader(quadShader);
-		m_quad1->setTexture(alien);
-	}
 	
 	//creates a second quad
 	{

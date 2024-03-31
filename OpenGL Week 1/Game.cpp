@@ -5,7 +5,6 @@
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "HexagonEntity.h"
-#include "QuadEntity.h"
 #include "Camera.h"
 #include <glew.h>
 #include <glfw3.h>

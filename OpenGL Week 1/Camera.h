@@ -24,8 +24,7 @@ private:
 	float m_farPlane = 1000.0f;
 	float m_nearPlane = 1.0f;
 	float m_fov = 90.0f;
-	const float radius = 10.0f;
-	CameraType m_type = CameraType::Orthogonal;
+	CameraType m_type = CameraType::Perspective;
 	Rect m_screenArea;
 };
 
