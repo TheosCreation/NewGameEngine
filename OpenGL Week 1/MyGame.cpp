@@ -71,7 +71,7 @@ void MyGame::onCreate()
 	//all the input managements, creation of camera etc. are moved inside Player class
 	auto m_player = getEntitySystem()->createEntity<MyPlayer>();
 	m_player->setScale(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
-	m_player->setPosition(glm::vec3(0, 0, 5.0f) * m_entitySystem->globalScale);
+	m_player->setPosition(glm::vec3(0, 0, 10.0f) * m_entitySystem->globalScale);
 
 	//enabling play mode
 	//getInputManager()->enablePlayMode(true);

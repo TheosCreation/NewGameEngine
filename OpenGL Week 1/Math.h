@@ -20,13 +20,8 @@ inline glm::vec3 getRightwardDirection(glm::mat4 matrix)
     return rightwardDir;
 }
 
-inline glm::vec3 getDownwardDirection(glm::mat4 matrix)
-{
-    glm::vec3 downwardDir(matrix[1][0], matrix[1][1], matrix[1][2]);
-    return downwardDir;
-}
-
 inline glm::vec3 getUpwardDirection(glm::mat4 matrix)
 {
-    return -getDownwardDirection(matrix);
+    glm::vec3 upwardDirection(matrix[1][0], matrix[1][1], matrix[1][2]);
+    return upwardDirection;
 }

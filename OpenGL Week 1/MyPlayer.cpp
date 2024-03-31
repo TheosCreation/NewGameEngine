@@ -20,8 +20,8 @@ void MyPlayer::onUpdate(float deltaTime)
 	auto input = getGame()->getInputManager();
 
 	//rotating the camera thorugh mouse movements
-	m_camRotY += input->getMouseXAxis() * 0.01f;
-	m_camRotX += input->getMouseYAxis() * 0.01f;
+	m_camRotY -= input->getMouseXAxis() * 0.01f;
+	m_camRotX -= input->getMouseYAxis() * 0.01f;
 
 	if (m_camRotX > 1.57f)
 		m_camRotX = 1.57f;
@@ -63,7 +63,7 @@ void MyPlayer::onUpdate(float deltaTime)
 	// Combine the forward and rightward directions
 	glm::vec3 moveDirection = (forwardDir * moveForward + rightwardDir * moveRightward);
 
-	glm::vec3 pos = m_cam->getPosition() + moveDirection * speed * deltaTime;
+	m_position = m_position + moveDirection * speed * deltaTime;
 
-	m_cam->setPosition(pos);
+	m_cam->setPosition(m_position);
 }
