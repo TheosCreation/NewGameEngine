@@ -13,7 +13,8 @@ public:
 private:
 	float m_elapsedSeconds = 0.0f;
 	Entity* m_entity = nullptr;
-
 	Camera* m_cam = nullptr;
+	float m_camRotX = 0.0f;
+	float m_camRotY = 0.0f;
 };
 

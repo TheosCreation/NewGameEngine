@@ -3,7 +3,9 @@
 
 void Camera::getViewMatrix(glm::mat4& view)
 {
-	m_view = glm::lookAt(m_position, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	glm::mat4 modelMatrix;
+	getModelMatrix(modelMatrix);
+	m_view = glm::lookAt(m_position, m_position + getForwardDirection(modelMatrix), getUpwardDirection(modelMatrix));
 	view = m_view;
 }
 

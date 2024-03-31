@@ -17,5 +17,53 @@ void MyPlayer::onCreate()
 
 void MyPlayer::onUpdate(float deltaTime)
 {
-    m_cam->setPosition(m_position);
+	auto input = getGame()->getInputManager();
+
+	//rotating the camera thorugh mouse movements
+	m_camRotY += input->getMouseXAxis() * 0.01f;
+	m_camRotX += input->getMouseYAxis() * 0.01f;
+
+	if (m_camRotX > 1.57f)
+		m_camRotX = 1.57f;
+	else if (m_camRotX < -1.57f)
+		m_camRotX = -1.57f;
+
+	m_cam->setRotation(glm::vec3(m_camRotX, m_camRotY, 0));
+
+
+	//moving the camera along x and z axis through keyboard input events (W,A,S,D)
+	glm::mat4 modelMatCam;
+	m_cam->getModelMatrix(modelMatCam);
+
+
+	glm::vec3 forwardDir = getForwardDirection(modelMatCam);
+	glm::vec3 rightwardDir = getRightwardDirection(modelMatCam);
+
+
+	float speed = 10.0f;
+	float moveForward = 0, moveRightward = 0;
+
+	if (input->isKeyDown(Key::KeyW))
+	{
+		moveForward = 1;
+	}
+	if (input->isKeyDown(Key::KeyS))
+	{
+		moveForward = -1;
+	}
+	if (input->isKeyDown(Key::KeyA))
+	{
+		moveRightward = -1;
+	}
+	if (input->isKeyDown(Key::KeyD))
+	{
+		moveRightward = 1;
+	}
+
+	// Combine the forward and rightward directions
+	glm::vec3 moveDirection = (forwardDir * moveForward + rightwardDir * moveRightward);
+
+	glm::vec3 pos = m_cam->getPosition() + moveDirection * speed * deltaTime;
+
+	m_cam->setPosition(pos);
 }
