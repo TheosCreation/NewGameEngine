@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : MyGame.h
+Description : MyGame class is a stripped down class of the base game class to be able for users to create thier own entities
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include "All.h"
 
@@ -19,7 +31,7 @@ private:
 	QuadEntity* m_quad1 = nullptr;
 	AnimatedQuadEntity* m_quad2 = nullptr;
 
-	float m_roty = 0;
+	float m_rotz = 0;
 
 };
 

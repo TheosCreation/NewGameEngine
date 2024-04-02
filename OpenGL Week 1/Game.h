@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Game.h
+Description : game class that controls the order the graphics engine performs tasks 
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <iostream>
 #include "InputManager.h"

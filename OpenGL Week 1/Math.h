@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Math.h
+Description : allow other classes to include the glm libary and this header adds more specific required functionality
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>

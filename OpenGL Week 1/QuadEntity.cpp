@@ -79,7 +79,7 @@ void QuadEntity::setUniformData(UniformData data)
     m_shader->setMat4("mvpMatrix", data.mvpMatrix);
 }
 
-void QuadEntity::setShader(const ShaderProgramPtr& shader)
+void QuadEntity::setShader(const ShaderPtr& shader)
 {
     m_shader = shader;
 }

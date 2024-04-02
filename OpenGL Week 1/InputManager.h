@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : InputManager.h
+Description : Handles inputs from the player/user of the program, not used in the program
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 
 #include "Utils.h"
@@ -27,6 +39,7 @@ public:
 
 	//getMouseXAxis returns the current mouse movement along x axis: -1 (left), 1 (right).
 	float getMouseXAxis();
+
 	//getMouseYAxis returns the current mouse movement along y axis: -1 (bottom), 1 (top).
 	float getMouseYAxis();
 

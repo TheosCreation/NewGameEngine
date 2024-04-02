@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : HexagonEntity.h
+Description : entity that create a 2d hexagon
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include "GraphicsEntity.h"
 #include "Rect.h"
@@ -9,7 +21,7 @@ public:
 	virtual void setTexture(const TexturePtr& texture);
 
 	virtual void setUniformData(UniformData data);
-	void setShader(const ShaderProgramPtr& shader);
+	void setShader(const ShaderPtr& shader);
 protected:
 	virtual void onGraphicsUpdate(float deltaTime);
 

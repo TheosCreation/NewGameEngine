@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Utils.h
+Description : header file that represents a utility header to structure this project to make it more readable
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <sstream>
 #include <iostream>
@@ -8,7 +20,7 @@
 
 class UniformBuffer;
 class VertexArrayObject;
-class ShaderProgram;
+class Shader;
 class Texture2D;
 
 class ResourceManager;
@@ -17,7 +29,7 @@ class Texture;
 
 typedef unsigned int uint;
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
-typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
+typedef std::shared_ptr<Shader> ShaderPtr;
 typedef std::shared_ptr<Texture2D> Texture2DPtr;
 
 typedef std::shared_ptr<Resource> ResourcePtr;
@@ -44,7 +56,7 @@ struct IndexBufferDesc
 	uint listSize = 0;
 };
 
-struct ShaderProgramDesc
+struct ShaderDesc
 {
 	const wchar_t* vertexShaderFileName;
 	const wchar_t* fragmentShaderFileName;

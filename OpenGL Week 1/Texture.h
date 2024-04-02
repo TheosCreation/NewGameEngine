@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Texture.h
+Description : Texture class is a resource that represents a texture used by the graphics engine
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <map>
 #include <string>
@@ -15,4 +27,3 @@ public:
 private:
 	Texture2DPtr m_texture2D;
 };
-

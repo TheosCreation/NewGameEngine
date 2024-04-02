@@ -1,10 +1,10 @@
-#include "ShaderProgram.h"
+#include "Shader.h"
 #include<iostream>
 #include<fstream>
 #include<sstream>
 #include <vector>
 
-ShaderProgram::ShaderProgram(const ShaderProgramDesc& desc)
+Shader::Shader(const ShaderDesc& desc)
 {
 	m_programId = glCreateProgram();
 	attach(desc.vertexShaderFileName, ShaderType::VertexShader);
@@ -12,7 +12,7 @@ ShaderProgram::ShaderProgram(const ShaderProgramDesc& desc)
 	link();
 }
 
-ShaderProgram::~ShaderProgram()
+Shader::~Shader()
 {
 	for (uint i = 0; i < 2; i++)
 	{
@@ -22,7 +22,7 @@ ShaderProgram::~ShaderProgram()
 	glDeleteProgram(m_programId);
 }
 
-void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
+void Shader::attach(const wchar_t* filename, const ShaderType& type)
 {
 	// for file reading
 	std::wstring wstr(filename);
@@ -42,7 +42,7 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	}
 	else
 	{
-		OGL3D_WARNING("ShaderProgram | Cannot find file: " << filename << std::endl);
+		OGL3D_WARNING("Shader | Cannot find file: " << filename << std::endl);
 
 		return;
 	}
@@ -50,7 +50,7 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	shaderStream.open(filePath.c_str(), std::ios::in);
 
 	if (!shaderStream.good()) {
-		OGL3D_WARNING("ShaderProgram | Cannot read file: " << filename << std::endl);
+		OGL3D_WARNING("Shader | Cannot read file: " << filename << std::endl);
 
 		shaderStream.close();
 		return;
@@ -87,17 +87,17 @@ void ShaderProgram::attach(const wchar_t* filename, const ShaderType& type)
 	{
 		std::vector<char> errorMessage(logLength + 1);
 		glGetShaderInfoLog(shaderId, logLength, NULL, &errorMessage[0]);
-		OGL3D_WARNING("ShaderProgram | " << filename << " compiled with errors:" << std::endl << &errorMessage[0]);
+		OGL3D_WARNING("Shader | " << filename << " compiled with errors:" << std::endl << &errorMessage[0]);
 		return;
 	}
 
 	glAttachShader(m_programId, shaderId);
 	m_attachedShaders[(uint)type] = shaderId;
 
-	OGL3D_INFO("ShaderProgram | " << filename << " compiled successfully");
+	OGL3D_INFO("Shader | " << filename << " compiled successfully");
 }
 
-void ShaderProgram::link()
+void Shader::link()
 {
 	glLinkProgram(m_programId);
 
@@ -108,17 +108,17 @@ void ShaderProgram::link()
 	{
 		std::vector<char> errorMessage(logLength + 1);
 		glGetShaderInfoLog(m_programId, logLength, NULL, &errorMessage[0]);
-		OGL3D_WARNING("ShaderProgram | " << &errorMessage[0]);
+		OGL3D_WARNING("Shader | " << &errorMessage[0]);
 		return;
 	}
 }
 
-uint ShaderProgram::getId()
+uint Shader::getId()
 {
 	return m_programId;
 }
 
-void ShaderProgram::setUniformBufferSlot(const char* name, uint slot)
+void Shader::setUniformBufferSlot(const char* name, uint slot)
 {
 	uint index = glGetUniformBlockIndex(m_programId, name);
 	glUniformBlockBinding(m_programId, index, slot);

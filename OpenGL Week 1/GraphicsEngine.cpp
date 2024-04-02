@@ -12,9 +12,9 @@ VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferD
     return std::make_shared<VertexArrayObject>(vbDesc, ibDesc);
 }
 
-ShaderProgramPtr GraphicsEngine::createShaderProgram(const ShaderProgramDesc& desc)
+ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
 {
-    return std::make_shared<ShaderProgram>(desc);
+    return std::make_shared<Shader>(desc);
 }
 
 Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
@@ -75,7 +75,7 @@ void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
     glBindVertexArray(vao->getId());
 }
 
-void GraphicsEngine::setShaderProgram(const ShaderProgramPtr& program)
+void GraphicsEngine::setShader(const ShaderPtr& program)
 {
     glUseProgram(program->getId());
 }

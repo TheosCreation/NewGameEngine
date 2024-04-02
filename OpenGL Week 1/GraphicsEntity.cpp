@@ -8,7 +8,7 @@ GraphicsEntity::~GraphicsEntity()
 {
 }
 
-ShaderProgramPtr GraphicsEntity::getShader()
+ShaderPtr GraphicsEntity::getShader()
 {
 	return m_shader;
 }

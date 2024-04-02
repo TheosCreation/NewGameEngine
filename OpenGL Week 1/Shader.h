@@ -1,14 +1,26 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Shader.h
+Description : Shader class is a wrapper class for handling shaders in OpenGL
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <glew.h>
 #include <glfw3.h>
 #include "Utils.h"
 #include <glm.hpp>
 
-class ShaderProgram
+class Shader
 {
 public:
-	ShaderProgram(const ShaderProgramDesc& desc);
-	~ShaderProgram();
+	Shader(const ShaderDesc& desc);
+	~Shader();
 	uint getId();
 	void setUniformBufferSlot(const char* name, uint slot);
 

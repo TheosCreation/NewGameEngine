@@ -20,17 +20,17 @@ void MyGame::onCreate()
 
 	auto ninjaAttackSpriteSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Ninja_Attack.png"));
 
-	auto hexagonShader = getGraphicsEngine()->createShaderProgram({
+	auto hexagonShader = getGraphicsEngine()->createShader({
 		L"HexagonShader",
 		L"HexagonShader"
 		});
 	
-	auto quadShader = getGraphicsEngine()->createShaderProgram({
+	auto quadShader = getGraphicsEngine()->createShader({
 		L"QuadShader",
 		L"QuadShader"
 		});
 
-	auto animatedQuadShader = getGraphicsEngine()->createShaderProgram({
+	auto animatedQuadShader = getGraphicsEngine()->createShader({
 		L"AnimatedQuadShader",
 		L"AnimatedQuadShader"
 		});
@@ -90,8 +90,8 @@ void MyGame::onCreate()
 
 void MyGame::onUpdate(float deltaTime)
 {
-	m_roty += glm::radians(40.0f * deltaTime);
+	m_rotz += glm::radians(40.0f * deltaTime);
 
-	m_hexagon1->setRotation(glm::vec3(m_hexagon1->getRotation().x, -m_roty, m_hexagon1->getRotation().z));
-	m_hexagon2->setRotation(glm::vec3(m_hexagon2->getRotation().x, m_roty, m_hexagon2->getRotation().z));
+	m_hexagon1->setRotation(glm::vec3(m_hexagon1->getRotation().x, m_hexagon1->getRotation().y, -m_rotz));
+	m_hexagon2->setRotation(glm::vec3(m_hexagon2->getRotation().x, m_hexagon2->getRotation().y, m_rotz));
 }

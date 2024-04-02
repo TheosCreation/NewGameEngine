@@ -17,7 +17,7 @@ void MyPlayer::onCreate()
 
 void MyPlayer::onUpdate(float deltaTime)
 {
-    float speed = 30.0f;
+    float speed = 50.0f;
 
     float moveOffset = speed * deltaTime;
 

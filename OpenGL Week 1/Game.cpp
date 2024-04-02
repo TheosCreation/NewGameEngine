@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Window.h"
 #include "VertexArrayObject.h"
-#include "ShaderProgram.h"
+#include "Shader.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "HexagonEntity.h"
@@ -101,7 +101,7 @@ void Game::onGraphicsUpdate(float deltaTime)
 
                 data.mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
 
-                m_graphicsEngine->setShaderProgram(e->getShader());
+                m_graphicsEngine->setShader(e->getShader());
 
                 e->setUniformData(data);
 

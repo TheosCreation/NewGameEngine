@@ -80,7 +80,7 @@ void AnimatedQuadEntity::setUniformData(UniformData data)
     m_shader->setFloat("currentTime", data.currentTime);
 }
 
-void AnimatedQuadEntity::setShader(const ShaderProgramPtr& shader)
+void AnimatedQuadEntity::setShader(const ShaderPtr& shader)
 {
     m_shader = shader;
 }

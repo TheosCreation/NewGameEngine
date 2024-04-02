@@ -1,9 +1,22 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : All.h
+Description : header file contains limited file headers for a user of this graphics engine
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include "Math.h"
 #include "Rect.h"
 
 #include "GraphicsEngine.h"
-#include "ShaderProgram.h"
+
+#include "Shader.h"
 #include "VertexArrayObject.h"
 #include "Texture2D.h"
 
