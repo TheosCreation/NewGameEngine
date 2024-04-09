@@ -26,6 +26,14 @@ private:
 	float m_elapsedSeconds = 0.0f;
 	Entity* m_entity = nullptr;
 
+	float m_zoomSpeed = 5.0f;
+	float m_orbitSpeed = 5.0f;
+	float m_orbitHorizontal = 0.0f;
+	float m_minimumOrbitalRadius = 5.0f;
+	float m_maximumOrbitalRadius = 30.0f;
+	float m_orbitRadius = 10.0f;
+	float m_inactivityTimer = 1.0f;
+
 	Camera* m_cam = nullptr;
 };
 
