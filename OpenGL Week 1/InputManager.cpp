@@ -25,6 +25,14 @@ bool InputManager::isKeyDown(Key key)
 		keyGLFW = GLFW_KEY_LEFT_SHIFT;
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
+	else if (key == KeyLeft)
+		keyGLFW = GLFW_KEY_LEFT;
+	else if (key == KeyRight)
+		keyGLFW = GLFW_KEY_RIGHT;
+	else if (key == KeyUp)
+		keyGLFW = GLFW_KEY_UP;
+	else if (key == KeyDown)
+		keyGLFW = GLFW_KEY_DOWN;
 
 	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
 }
@@ -41,6 +49,14 @@ bool InputManager::isKeyUp(Key key)
 		keyGLFW = GLFW_KEY_LEFT_SHIFT;
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
+	else if (key == KeyLeft)
+		keyGLFW = GLFW_KEY_LEFT;
+	else if (key == KeyRight)
+		keyGLFW = GLFW_KEY_RIGHT;
+	else if (key == KeyUp)
+		keyGLFW = GLFW_KEY_UP;
+	else if (key == KeyDown)
+		keyGLFW = GLFW_KEY_DOWN;
 
 	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_RELEASE);
 }

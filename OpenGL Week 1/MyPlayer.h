@@ -27,7 +27,8 @@ private:
 	Entity* m_entity = nullptr;
 
 	float m_zoomSpeed = 5.0f;
-	float m_orbitSpeed = 5.0f;
+	float m_originalOrbitSpeed = 5.0f;
+	float m_orbitSpeed = m_originalOrbitSpeed;
 	float m_orbitHorizontal = 0.0f;
 	float m_minimumOrbitalRadius = 5.0f;
 	float m_maximumOrbitalRadius = 30.0f;
