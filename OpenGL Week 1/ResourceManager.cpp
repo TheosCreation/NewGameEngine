@@ -28,7 +28,7 @@ ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path)
 	auto ext = resPath.extension();
 
 	// if the resource we want to load has one of these extensions
-	if (ext.compare(L".jpg") || ext.compare(L".png") || ext.compare(L".bmp") || ext.compare(L".tga"))
+	if (!ext.compare(L".jpg") || !ext.compare(L".png") || !ext.compare(L".bmp") || !ext.compare(L".tga"))
 	{
 		//let's create a texture resource
 		auto texturePtr = std::make_shared<Texture>(resPath.c_str(), this);
@@ -36,6 +36,16 @@ ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path)
 		{
 			m_mapResources.emplace(path, texturePtr);
 			return texturePtr;
+		}
+	}
+	else if (!ext.compare(L".obj"))
+	{
+		//let's create a texture resource
+		auto meshPtr = std::make_shared<Mesh>(resPath.c_str(), this);
+		if (meshPtr)
+		{
+			m_mapResources.emplace(path, meshPtr);
+			return meshPtr;
 		}
 	}
 
