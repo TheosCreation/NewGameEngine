@@ -23,6 +23,7 @@ Mail : theo.morris@mds.ac.nz
 #include "ResourceManager.h"
 #include "Resource.h"
 #include "Texture.h"
+#include "MeshEntity.h"
 
 #include "Camera.h"
 #include "HexagonEntity.h"
