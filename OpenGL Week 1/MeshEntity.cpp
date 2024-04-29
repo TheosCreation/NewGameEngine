@@ -4,14 +4,6 @@
 #include "Texture.h"
 #include "Game.h"
 
-MeshEntity::MeshEntity()
-{
-}
-
-MeshEntity::~MeshEntity()
-{
-}
-
 void MeshEntity::setMesh(const MeshPtr& mesh)
 {
     m_mesh = mesh;
@@ -32,6 +24,13 @@ TexturePtr MeshEntity::getTexture()
     return m_texture;
 }
 
+void MeshEntity::setUniformData(UniformData data)
+{
+    m_shader->setMat4("mvpMatrix", data.mvpMatrix);
+    m_shader->setFloat("currentTime", data.currentTime);
+    m_shader->setVec3("flowingColor", data.color);
+}
+
 void MeshEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
@@ -50,9 +49,4 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
 void MeshEntity::setShader(const ShaderPtr& shader)
 {
     m_shader = shader;
-}
-
-ShaderPtr MeshEntity::getShader()
-{
-    return m_shader;
 }
