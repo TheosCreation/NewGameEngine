@@ -134,6 +134,10 @@
     <None Include="Resources\Shaders\QuadShader.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\Shaders\SkyBoxShader.frag" />
+    <None Include="Resources\Shaders\SkyBoxShader.vert" />
+    <None Include="Resources\Meshes\sphere.mtl" />
+    <None Include="Resources\Meshes\teapot.mtl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

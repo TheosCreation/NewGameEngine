@@ -164,12 +164,16 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Meshes\sphere.mtl" />
+    <None Include="Resources\Meshes\teapot.mtl" />
     <None Include="Resources\Shaders\AnimatedQuadShader.frag" />
     <None Include="Resources\Shaders\AnimatedQuadShader.vert" />
     <None Include="Resources\Shaders\HexagonShader.frag" />
     <None Include="Resources\Shaders\HexagonShader.vert" />
     <None Include="Resources\Shaders\QuadShader.frag" />
     <None Include="Resources\Shaders\QuadShader.vert" />
+    <None Include="Resources\Shaders\SkyBoxShader.frag" />
+    <None Include="Resources\Shaders\SkyBoxShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
