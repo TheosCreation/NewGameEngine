@@ -33,6 +33,7 @@ private:
 	MeshEntity* m_skybox = nullptr;
 
 	float m_rotz = 0;
+	float m_roty = 0;
 
 };
 

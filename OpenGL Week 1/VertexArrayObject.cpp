@@ -15,15 +15,18 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, data.vertexSize * data.listSize, data.verticesList, GL_STATIC_DRAW);
 
+	size_t offset = 0;
 	for (uint i = 0; i < data.attributesListSize; i++)
 	{
+		offset += ((i == 0) ? 0 : data.attributesList[i - 1].numElements * sizeof(float));
+
 		glVertexAttribPointer(
 			i,
 			data.attributesList[i].numElements,
 			GL_FLOAT,
 			GL_FALSE,
 			data.vertexSize,
-			(void*)((i == 0) ? 0 : data.attributesList[i - 1].numElements * sizeof(float))
+			(void*)offset
 		);
 		glEnableVertexAttribArray(i);
 	}
@@ -36,18 +39,20 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc)
 	: VertexArrayObject(vbDesc)
 {
-	m_indexBufferDesc = ibDesc;
 
 	if (!ibDesc.listSize) OGL3D_ERROR("VertexArrayObject | listSize is NULL");
 	if (!ibDesc.indicesList) OGL3D_ERROR("VertexArrayObject | indicesList is NULL");
 
 	glBindVertexArray(m_vertexArrayObjectID);
 
+	//init idex buffer
 	glGenBuffers(1, &m_elementBufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_elementBufferId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibDesc.listSize, ibDesc.indicesList, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibDesc.listSize * sizeof(uint), ibDesc.indicesList, GL_STATIC_DRAW);
 
 	glBindVertexArray(0);
+
+	m_indexBufferDesc = ibDesc;
 }
 
 VertexArrayObject::~VertexArrayObject()
@@ -69,7 +74,7 @@ uint VertexArrayObject::getVertexBufferSize()
 
 uint VertexArrayObject::getVertexSize()
 {
-	return uint();
+	return m_vertexBufferData.listSize;
 }
 
 uint VertexArrayObject::getNumIndices()

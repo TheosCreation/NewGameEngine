@@ -114,7 +114,10 @@ void MyGame::onCreate()
 void MyGame::onUpdate(float deltaTime)
 {
 	m_rotz += glm::radians(40.0f * deltaTime);
+	m_roty += glm::radians(40.0f * deltaTime);
 
 	m_hexagon1->setRotation(glm::vec3(m_hexagon1->getRotation().x, m_hexagon1->getRotation().y, -m_rotz));
 	m_hexagon2->setRotation(glm::vec3(m_hexagon2->getRotation().x, m_hexagon2->getRotation().y, m_rotz));
+
+	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
 }
