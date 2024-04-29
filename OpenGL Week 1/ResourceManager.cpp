@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
 #include "Texture.h"
+#include "Mesh.h"
 #include <filesystem>
 
 ResourceManager::ResourceManager(Game* game)
