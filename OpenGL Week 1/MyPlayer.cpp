@@ -66,9 +66,9 @@ void MyPlayer::onUpdate(float deltaTime)
 
     // Handle input for player movement
     if (input->isKeyDown(Key::KeyW))
-        m_position.z += m_movementSpeed * deltaTime;
-    if (input->isKeyDown(Key::KeyS))
         m_position.z -= m_movementSpeed * deltaTime;
+    if (input->isKeyDown(Key::KeyS))
+        m_position.z += m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyA))
         m_position.x -= m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyD))
