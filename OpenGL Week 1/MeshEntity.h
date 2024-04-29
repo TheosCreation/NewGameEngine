@@ -20,8 +20,3 @@ private:
 	TexturePtr m_texture;
 	ShaderPtr m_shader;
 };
-
-class MeshEntity
-{
-};
-

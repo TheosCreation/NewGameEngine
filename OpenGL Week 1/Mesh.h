@@ -15,4 +15,3 @@ public:
 private:
 	VertexArrayObjectPtr m_vao;
 };
-
