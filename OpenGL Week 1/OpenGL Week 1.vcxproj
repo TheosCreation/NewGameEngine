@@ -72,7 +72,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
