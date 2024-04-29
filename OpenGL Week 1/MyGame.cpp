@@ -18,7 +18,14 @@ void MyGame::onCreate()
 	auto alien = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Alien.png"));
 	alien->getTexture2D()->setMirrored();
 
+	auto skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.png"));
+
+	//loading sphere mesh resource
+	auto sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
+
+
 	auto ninjaAttackSpriteSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Ninja_Attack.png"));
+
 
 	auto hexagonShader = getGraphicsEngine()->createShader({
 		L"HexagonShader",
@@ -33,6 +40,11 @@ void MyGame::onCreate()
 	auto animatedQuadShader = getGraphicsEngine()->createShader({
 		L"AnimatedQuadShader",
 		L"AnimatedQuadShader"
+		});
+	
+	auto skyboxShader = m_graphicsEngine->createShader({
+			L"SkyBoxShader",
+			L"SkyBoxShader"
 		});
 
 	{
@@ -76,6 +88,17 @@ void MyGame::onCreate()
 		m_quad2->setRotation(glm::vec3(0, 0, 0));
 		m_quad2->setShader(animatedQuadShader);
 		m_quad2->setTexture(ninjaAttackSpriteSheet);
+	}
+
+	//creating skybox
+	{
+		auto entity = getEntitySystem()->createEntity<MeshEntity>();
+		entity->setScale(glm::vec3(1000, 1000, 1000));
+		entity->setPosition(glm::vec3(0, 0, 0));
+		entity->setTexture(skyTexture);
+		entity->setMesh(sphereMesh);
+		entity->setShader(skyboxShader);
+		m_skybox = entity;
 	}
 
 	//creating the player

@@ -30,6 +30,7 @@ private:
 	HexagonEntity* m_hexagon2 = nullptr;
 	QuadEntity* m_quad1 = nullptr;
 	AnimatedQuadEntity* m_quad2 = nullptr;
+	MeshEntity* m_skybox = nullptr;
 
 	float m_rotz = 0;
 
