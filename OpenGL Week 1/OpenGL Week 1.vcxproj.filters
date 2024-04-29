@@ -211,5 +211,8 @@
     <ClInclude Include="MeshEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VertexMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

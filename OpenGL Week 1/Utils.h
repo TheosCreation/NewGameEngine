@@ -26,6 +26,7 @@ class Texture2D;
 class ResourceManager;
 class Resource;
 class Texture;
+class Mesh;
 
 typedef unsigned int uint;
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
@@ -34,6 +35,7 @@ typedef std::shared_ptr<Texture2D> Texture2DPtr;
 
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
+typedef std::shared_ptr<Mesh> MeshPtr;
 
 struct VertexAttribute
 {
