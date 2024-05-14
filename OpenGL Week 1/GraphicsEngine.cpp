@@ -111,3 +111,15 @@ void GraphicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint
     }
     glDrawElements(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr);
 }
+
+void GraphicsEngine::drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, uint instanceCount)
+{
+    auto glTriType = GL_TRIANGLES;
+
+    switch (triangleType)
+    {
+        case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
+        case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+    }
+    glDrawElementsInstanced(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr, instanceCount);
+}

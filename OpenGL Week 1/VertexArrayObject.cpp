@@ -62,6 +62,22 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteVertexArrays(1, &m_vertexArrayObjectID);
 }
 
+void VertexArrayObject::updateInstanceBuffer(const glm::mat4* instanceData, size_t instanceCount)
+{
+	glBindVertexArray(m_vertexArrayObjectID);
+	glBindBuffer(GL_ARRAY_BUFFER, m_instanceBufferID);
+	glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::mat4), instanceData, GL_DYNAMIC_DRAW);
+
+	// Assuming the instance data is bound to attribute locations 2, 3, 4, and 5
+	for (int i = 0; i < 4; i++) {
+		glEnableVertexAttribArray(2 + i);
+		glVertexAttribPointer(2 + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * i));
+		glVertexAttribDivisor(2 + i, 1);
+	}
+
+	glBindVertexArray(0);
+}
+
 uint VertexArrayObject::getId()
 {
 	return m_vertexArrayObjectID;

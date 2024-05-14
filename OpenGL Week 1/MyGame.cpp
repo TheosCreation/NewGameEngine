@@ -25,6 +25,7 @@ void MyGame::onCreate()
 
 	auto statueTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
 	auto statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
+	auto instancedStatueMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
 
 
 	//auto ninjaAttackSpriteSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Ninja_Attack.png"));
@@ -49,6 +50,26 @@ void MyGame::onCreate()
 		entity->setMesh(statueMesh);
 		entity->setShader(skyboxShader);
 		m_statue = entity;
+	}
+	
+	//creating instanced statue
+	{
+		auto entity = getEntitySystem()->createEntity<InstancedMeshEntity>();
+		entity->setScale(glm::vec3(0.05, 0.05, 0.05));
+		entity->setPosition(glm::vec3(0, 0, 0));
+		entity->setTexture(statueTexture);
+		entity->setMesh(instancedStatueMesh);
+		entity->setShader(skyboxShader);
+		
+		// Add instances
+		glm::mat4 instanceTransform1 = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 instanceTransform2 = glm::translate(glm::mat4(1.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
+		instancedStatueMesh->addInstance(instanceTransform1);
+		instancedStatueMesh->addInstance(instanceTransform2);
+
+		// Update instance buffer
+		instancedStatueMesh->updateInstanceBuffer();
+		m_instancedStatue = entity;
 	}
 	
 	//creating skybox

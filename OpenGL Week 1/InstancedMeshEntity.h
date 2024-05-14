@@ -1,19 +1,9 @@
-/***
-Bachelor of Software Engineering
-Media Design School
-Auckland
-New Zealand
-(c) 2023 Media Design School
-File Name : MeshEntity.h
-Description : entity that create a mesh
-Author : Theo Morris
-Mail : theo.morris@mds.ac.nz
-**/
-
 #pragma once
-#include "GraphicsEntity.h"
 
-class MeshEntity : public GraphicsEntity
+#include "GraphicsEntity.h"
+#include <vector>
+
+class InstancedMeshEntity : public GraphicsEntity
 {
 public:
 	void setMesh(const MeshPtr& mesh);
@@ -24,7 +14,9 @@ public:
 	void setUniformData(UniformData data);
 	virtual void onGraphicsUpdate(float deltaTime);
 	void setShader(const ShaderPtr& shader);
+	void addInstance(const glm::mat4& transform);
 private:
 	MeshPtr m_mesh;
 	TexturePtr m_texture;
+	std::vector<glm::mat4> m_instanceTransforms;
 };

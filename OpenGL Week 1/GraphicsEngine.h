@@ -24,12 +24,11 @@ public:
 	GraphicsEngine();
 	~GraphicsEngine();
 
-public:	
 	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc);
 	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc);
 	ShaderPtr createShader(const ShaderDesc& desc);
 	Texture2DPtr createTexture2D(const Texture2DDesc& desc);
-public:
+
 	void clear(const glm::vec4& color);
 	void setFaceCulling(const CullType& type);
 	void setWindingOrder(const WindingOrder& type);
@@ -40,7 +39,6 @@ public:
 
 	void drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset);
 	void drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount);
-
-private:
+	void drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, uint instanceCount);
 };
 
