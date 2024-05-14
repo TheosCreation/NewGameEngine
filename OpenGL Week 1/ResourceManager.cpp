@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include "Texture.h"
 #include "Mesh.h"
+#include "InstancedMesh.h"
 #include <filesystem>
 
 ResourceManager::ResourceManager(Game* game)
@@ -12,7 +13,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path)
+ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path, bool instancing)
 {
 	//check if the texture we want to load has been already loaded.
 	auto it = m_mapResources.find(path);
@@ -39,9 +40,17 @@ ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path)
 			return texturePtr;
 		}
 	}
-	else if (!ext.compare(L".obj"))
+	else if (!ext.compare(L".obj") && instancing)
 	{
-		//let's create a texture resource
+		auto instancedMeshPtr = std::make_shared<InstancedMesh>(resPath.c_str(), this);
+		if (instancedMeshPtr)
+		{
+			m_mapResources.emplace(path, instancedMeshPtr);
+			return instancedMeshPtr;
+		}
+	}
+	else
+	{
 		auto meshPtr = std::make_shared<Mesh>(resPath.c_str(), this);
 		if (meshPtr)
 		{

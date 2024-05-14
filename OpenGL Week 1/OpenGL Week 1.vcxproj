@@ -142,7 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AnimatedQuadEntity.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntitySystem.cpp" />
@@ -157,8 +156,6 @@
     <ClCompile Include="MeshEntity.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
-    <ClCompile Include="HexagonEntity.cpp" />
-    <ClCompile Include="QuadEntity.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -170,18 +167,11 @@
   <ItemGroup>
     <None Include="Resources\Meshes\sphere.mtl" />
     <None Include="Resources\Meshes\teapot.mtl" />
-    <None Include="Resources\Shaders\AnimatedQuadShader.frag" />
-    <None Include="Resources\Shaders\AnimatedQuadShader.vert" />
-    <None Include="Resources\Shaders\HexagonShader.frag" />
-    <None Include="Resources\Shaders\HexagonShader.vert" />
-    <None Include="Resources\Shaders\QuadShader.frag" />
-    <None Include="Resources\Shaders\QuadShader.vert" />
     <None Include="Resources\Shaders\SkyBoxShader.frag" />
     <None Include="Resources\Shaders\SkyBoxShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
-    <ClInclude Include="AnimatedQuadEntity.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntitySystem.h" />
@@ -196,8 +186,6 @@
     <ClInclude Include="MeshEntity.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="MyPlayer.h" />
-    <ClInclude Include="HexagonEntity.h" />
-    <ClInclude Include="QuadEntity.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />

@@ -4,8 +4,6 @@
 #include "Shader.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
-#include "HexagonEntity.h"
-#include "QuadEntity.h"
 #include "Camera.h"
 #include <glew.h>
 #include <glfw3.h>
@@ -80,7 +78,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             cam->getViewMatrix(viewMatrix);
             cam->setScreenArea(m_display->getInnerSize());
             cam->getProjectionMatrix(projectionMatrix);
-            
+            data.viewProjectionMatrix = projectionMatrix * viewMatrix;
         }
     }
 
@@ -95,12 +93,6 @@ void Game::onGraphicsUpdate(float deltaTime)
             auto e = dynamic_cast<GraphicsEntity*>(entity.get());
             if (e)
             {
-                //let's retrive the model matrix
-                glm::mat4 modelMatrix;
-                e->getModelMatrix(modelMatrix);
-
-                data.mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
-
                 m_graphicsEngine->setShader(e->getShader());
 
                 e->setUniformData(data);

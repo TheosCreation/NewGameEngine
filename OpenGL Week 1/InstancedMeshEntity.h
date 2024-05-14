@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsEntity.h"
+#include "InstancedMesh.h"
 #include <vector>
 
 class InstancedMeshEntity : public GraphicsEntity

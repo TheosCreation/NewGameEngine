@@ -73,7 +73,7 @@ struct UniformBufferDesc
 
 struct UniformData
 {
-	glm::mat4 mvpMatrix;
+	glm::mat4 viewProjectionMatrix;
 	float currentTime;
 	glm::vec3 color;
 };

@@ -15,26 +15,16 @@ void MyGame::onCreate()
 	Game::onCreate();
 	
 	//loading texture resource
-	//auto alien = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Alien.png"));
 	//alien->getTexture2D()->setMirrored();
 
-	auto skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.jpg"));
+	auto skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.jpg", false));
 
 	//loading sphere mesh resource
-	auto sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
+	auto sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj", false));
 
-	auto statueTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
-	auto statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
-	auto instancedStatueMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
-
-
-	//auto ninjaAttackSpriteSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Ninja_Attack.png"));
-
-
-	//auto hexagonShader = getGraphicsEngine()->createShader({
-	//	L"HexagonShader",
-	//	L"HexagonShader"
-	//	});
+	auto statueTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png", false));
+	auto statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj", false));
+	auto instancedStatueMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj", true));
 	
 	auto skyboxShader = m_graphicsEngine->createShader({
 			L"SkyBoxShader",
@@ -59,16 +49,17 @@ void MyGame::onCreate()
 		entity->setPosition(glm::vec3(0, 0, 0));
 		entity->setTexture(statueTexture);
 		entity->setShader(skyboxShader);
-		
+
+		entity->setMesh(instancedStatueMesh);
+
 		// Add instances
-		instancedStatueMesh->addInstance(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-		instancedStatueMesh->addInstance(glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		instancedStatueMesh->addInstance(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		instancedStatueMesh->addInstance(glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		instancedStatueMesh->addInstance(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 		// Update instance buffer
 		instancedStatueMesh->updateInstanceBuffer();
 
-		entity->setMesh(instancedStatueMesh);
 		m_instancedStatue = entity;
 	}
 	

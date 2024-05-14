@@ -22,7 +22,7 @@ public:
 	ResourceManager(Game* game);
 	virtual ~ResourceManager();
 
-	ResourcePtr createResourceFromFile(const wchar_t* path);
+	ResourcePtr createResourceFromFile(const wchar_t* path, bool instancing);
 
 	Game* getGame();
 protected:
