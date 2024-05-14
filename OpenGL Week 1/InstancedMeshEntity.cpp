@@ -1,15 +1,15 @@
 #include "InstancedMeshEntity.h"
 #include "GraphicsEngine.h"
-#include "Mesh.h"
+#include "InstancedMesh.h"
 #include "Texture.h"
 #include "Game.h"
 
-void InstancedMeshEntity::setMesh(const MeshPtr& mesh)
+void InstancedMeshEntity::setMesh(const InstancedMeshPtr& mesh)
 {
-	m_mesh = mesh;
+    m_mesh = mesh;
 }
 
-MeshPtr InstancedMeshEntity::getMesh()
+InstancedMeshPtr InstancedMeshEntity::getMesh()
 {
 	return m_mesh;
 }
@@ -45,14 +45,10 @@ void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
     auto meshVBO = m_mesh->getVertexArrayObject();
     engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
 
-    engine->drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_instanceTransforms.size());
+    engine->drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 }
 
 void InstancedMeshEntity::setShader(const ShaderPtr& shader)
 {
     m_shader = shader;
-}
-
-void InstancedMeshEntity::addInstance(const glm::mat4& transform) {
-    m_instanceTransforms.push_back(transform);
 }

@@ -62,7 +62,7 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteVertexArrays(1, &m_vertexArrayObjectID);
 }
 
-void VertexArrayObject::updateInstanceBuffer(const glm::mat4* instanceData, size_t instanceCount)
+void VertexArrayObject::updateInstanceBuffer(glm::mat4* instanceData, size_t instanceCount)
 {
 	glBindVertexArray(m_vertexArrayObjectID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_instanceBufferID);

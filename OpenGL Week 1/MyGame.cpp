@@ -58,17 +58,17 @@ void MyGame::onCreate()
 		entity->setScale(glm::vec3(0.05, 0.05, 0.05));
 		entity->setPosition(glm::vec3(0, 0, 0));
 		entity->setTexture(statueTexture);
-		entity->setMesh(instancedStatueMesh);
 		entity->setShader(skyboxShader);
 		
 		// Add instances
-		glm::mat4 instanceTransform1 = glm::translate(glm::mat4(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		glm::mat4 instanceTransform2 = glm::translate(glm::mat4(1.0f), glm::vec3(-1.0f, 0.0f, 0.0f));
-		instancedStatueMesh->addInstance(instanceTransform1);
-		instancedStatueMesh->addInstance(instanceTransform2);
+		instancedStatueMesh->addInstance(glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		instancedStatueMesh->addInstance(glm::vec3(5.0f, 5.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+		instancedStatueMesh->addInstance(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 		// Update instance buffer
 		instancedStatueMesh->updateInstanceBuffer();
+
+		entity->setMesh(instancedStatueMesh);
 		m_instancedStatue = entity;
 	}
 	
