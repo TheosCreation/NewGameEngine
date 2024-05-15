@@ -4,6 +4,7 @@
 #include "VertexArrayObject.h" 
 #include "Utils.h"
 #include "Resource.h"
+#include "ResourceManager.h"
 
 class Mesh : public Resource
 {

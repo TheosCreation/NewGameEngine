@@ -1,5 +1,6 @@
 #include "InstancedMeshEntity.h"
 #include "GraphicsEngine.h"
+#include "InstancedMesh.h"
 #include "Texture.h"
 #include "Game.h"
 

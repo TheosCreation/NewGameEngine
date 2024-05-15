@@ -53,10 +53,12 @@ Mesh::Mesh(const wchar_t* path, ResourceManager* manager) : Resource(path, manag
             {
                 tinyobj::index_t index = shapes[s].mesh.indices[index_offset + v];
     
+                //adding vertex positions
                 tinyobj::real_t vx = attribs.vertices[(int)(index.vertex_index * 3 + 0)];
                 tinyobj::real_t vy = attribs.vertices[(int)(index.vertex_index * 3 + 1)];
                 tinyobj::real_t vz = -attribs.vertices[(int)(index.vertex_index * 3 + 2)];
     
+                //adding texcoords
                 tinyobj::real_t tx = 0;
                 tinyobj::real_t ty = 0;
                 if (attribs.texcoords.size())
@@ -64,8 +66,15 @@ Mesh::Mesh(const wchar_t* path, ResourceManager* manager) : Resource(path, manag
                     tx = attribs.texcoords[(int)(index.texcoord_index * 2 + 0)];
                     ty = 1.0f - attribs.texcoords[(int)(index.texcoord_index * 2 + 1)];
                 }
-                // For now, assuming default normals
+
+                //adding normal
                 glm::vec3 normal(0.0f);
+                if (attribs.normals.size())
+                {
+                    normal.x = attribs.normals[(int)(index.normal_index * 3 + 0)];
+                    normal.y = attribs.normals[(int)(index.normal_index * 3 + 1)];
+                    normal.z = attribs.normals[(int)(index.normal_index * 3 + 2)];
+                }
     
                 VertexMesh vertex(glm::vec3(vx, vy, vz), glm::vec2(tx, ty), normal);
                 list_vertices.push_back(vertex);

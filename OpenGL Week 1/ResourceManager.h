@@ -24,6 +24,8 @@ public:
 
 	ResourcePtr createResourceFromFile(const wchar_t* path);
 
+	ResourcePtr createResourceFromFile(const wchar_t* path, bool isInstanced);
+
 	Game* getGame();
 protected:
 	std::map<std::wstring, ResourcePtr> m_mapResources;

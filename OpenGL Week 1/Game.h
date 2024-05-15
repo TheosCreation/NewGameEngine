@@ -51,8 +51,6 @@ protected:
 	std::unique_ptr<EntitySystem> m_entitySystem; 
 	std::unique_ptr<ResourceManager> m_resourceManager;
 
-	VertexArrayObjectPtr m_polygonVAO;
-
 	float m_previousTime = 0;
 	float m_currentTime = 0;
 	float m_scale = 0;

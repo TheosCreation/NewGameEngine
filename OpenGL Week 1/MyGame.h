@@ -28,7 +28,7 @@ private:
 	// init all vbo's here
 	MeshEntity* m_skybox = nullptr;
 	MeshEntity* m_statue = nullptr;
-	InstancedMeshEntity* m_instancedStatue = nullptr;
+	InstancedMeshEntity* m_instancedTree = nullptr;
 	Entity* m_player;
 
 	float m_rotz = 0;
