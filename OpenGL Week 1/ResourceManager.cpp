@@ -13,7 +13,7 @@ ResourceManager::~ResourceManager()
 {
 }
 
-ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path, bool instancing)
+ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path)
 {
 	//check if the texture we want to load has been already loaded.
 	auto it = m_mapResources.find(path);
@@ -40,7 +40,7 @@ ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path, bool in
 			return texturePtr;
 		}
 	}
-	else if (!ext.compare(L".obj") && instancing)
+	else if (!ext.compare(L".obj"))
 	{
 		auto instancedMeshPtr = std::make_shared<InstancedMesh>(resPath.c_str(), this);
 		if (instancedMeshPtr)
@@ -48,15 +48,24 @@ ResourcePtr ResourceManager::createResourceFromFile(const wchar_t* path, bool in
 			m_mapResources.emplace(path, instancedMeshPtr);
 			return instancedMeshPtr;
 		}
-	}
-	else
-	{
-		auto meshPtr = std::make_shared<Mesh>(resPath.c_str(), this);
-		if (meshPtr)
+		/*if (instancing)
 		{
-			m_mapResources.emplace(path, meshPtr);
-			return meshPtr;
+			auto instancedMeshPtr = std::make_shared<InstancedMesh>(resPath.c_str(), this);
+			if (instancedMeshPtr)
+			{
+				m_mapResources.emplace(path, instancedMeshPtr);
+				return instancedMeshPtr;
+			}
 		}
+		else
+		{
+			auto meshPtr = std::make_shared<Mesh>(resPath.c_str(), this);
+			if (meshPtr)
+			{
+				m_mapResources.emplace(path, meshPtr);
+				return meshPtr;
+			}
+		}*/
 	}
 
 	return ResourcePtr();

@@ -117,6 +117,8 @@
     <None Include="Resources\Shaders\SkyBoxShader.vert" />
     <None Include="Resources\Meshes\sphere.mtl" />
     <None Include="Resources\Meshes\teapot.mtl" />
+    <None Include="Resources\Shaders\InstancedMesh.frag" />
+    <None Include="Resources\Shaders\InstancedMesh.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

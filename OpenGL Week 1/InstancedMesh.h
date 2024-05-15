@@ -1,12 +1,9 @@
 #pragma once
 
-#include <map>
-#include <string>
 #include <vector>
-#include "VertexArrayObject.h" 
-#include "Utils.h"
-#include "Math.h"
+#include "VertexArrayObject.h"
 #include "Mesh.h"
+#include "Math.h"
 
 class InstancedMesh : public Mesh {
 public:
@@ -15,8 +12,10 @@ public:
 
     void addInstance(glm::vec3 Position, glm::vec3 Scale, glm::vec3 Rotation);
     void updateInstanceBuffer();
-    float getInstanceCount();
+    uint getInstanceCount();
 
+    glm::mat4 m_instanceTransforms[1000];
 private:
-    std::vector<glm::mat4> m_instanceTransforms;
+    uint instanceCount = 0;
+    //std::vector<glm::mat4> m_instanceTransforms;
 };

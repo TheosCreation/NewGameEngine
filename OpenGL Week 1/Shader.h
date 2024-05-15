@@ -29,6 +29,11 @@ public:
 		glUniformMatrix4fv(glGetUniformLocation(m_programId, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
 	
+	void setMat4Array(const std::string& name, const glm::mat4 mat[], int count) const
+	{
+		glUniformMatrix4fv(glGetUniformLocation(m_programId, name.c_str()), count, GL_FALSE, &mat[0][0][0]);
+	}
+	
 	void setFloat(const std::string& name, const float value) const
 	{
 		glUniform1f(glGetUniformLocation(m_programId, name.c_str()), value);

@@ -20,11 +20,13 @@ Texture2D::Texture2D(const Texture2DDesc& desc)
 
 	m_desc = desc;
 }
+
 void Texture2D::setMirrored()
 {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
 }
+
 Texture2D::~Texture2D()
 {
 }

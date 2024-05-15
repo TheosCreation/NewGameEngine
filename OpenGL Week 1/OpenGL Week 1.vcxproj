@@ -167,6 +167,8 @@
   <ItemGroup>
     <None Include="Resources\Meshes\sphere.mtl" />
     <None Include="Resources\Meshes\teapot.mtl" />
+    <None Include="Resources\Shaders\InstancedMesh.frag" />
+    <None Include="Resources\Shaders\InstancedMesh.vert" />
     <None Include="Resources\Shaders\SkyBoxShader.frag" />
     <None Include="Resources\Shaders\SkyBoxShader.vert" />
   </ItemGroup>
