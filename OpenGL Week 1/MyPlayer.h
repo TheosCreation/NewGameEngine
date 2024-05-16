@@ -46,6 +46,7 @@ private:
 	bool m_wireframeMode = false;
 
 	Camera* m_cam = nullptr;
+	Camera* m_uiCamera = nullptr;
 	InputManager* input = nullptr;
 };
 

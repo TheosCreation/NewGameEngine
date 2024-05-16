@@ -111,6 +111,9 @@
     <ClCompile Include="InstancedMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="QuadEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\SkyBoxShader.frag" />
@@ -119,6 +122,10 @@
     <None Include="Resources\Meshes\teapot.mtl" />
     <None Include="Resources\Shaders\InstancedMesh.frag" />
     <None Include="Resources\Shaders\InstancedMesh.vert" />
+    <None Include="Resources\Shaders\MeshShader.frag" />
+    <None Include="Resources\Shaders\MeshShader.vert" />
+    <None Include="Resources\Shaders\QuadShader.frag" />
+    <None Include="Resources\Shaders\QuadShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -194,6 +201,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InstancedMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -25,6 +25,10 @@ void MyGame::onCreate()
 	auto statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
 	auto instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
+	auto quadShader = m_graphicsEngine->createShader({
+			L"QuadShader",
+			L"QuadShader"
+		});
 	auto meshShader = m_graphicsEngine->createShader({
 			L"MeshShader",
 			L"MeshShader"
@@ -38,6 +42,15 @@ void MyGame::onCreate()
 			L"InstancedMesh"
 		});
 
+	//ui button
+	{
+		auto entity = getEntitySystem()->createEntity<QuadEntity>();
+		entity->setScale(glm::vec3(0.15f, 0.15f, 0.15f));
+		entity->setPosition(glm::vec3(0.0f, 100.0f, 1.0f));
+		entity->setTexture(statueTexture);
+		entity->setShader(quadShader);
+	}
+	
 	//creating statue
 	{
 		auto entity = getEntitySystem()->createEntity<MeshEntity>();

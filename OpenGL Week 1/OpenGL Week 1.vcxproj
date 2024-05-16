@@ -156,6 +156,7 @@
     <ClCompile Include="MeshEntity.cpp" />
     <ClCompile Include="MyGame.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
+    <ClCompile Include="QuadEntity.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -171,6 +172,8 @@
     <None Include="Resources\Shaders\InstancedMesh.vert" />
     <None Include="Resources\Shaders\MeshShader.frag" />
     <None Include="Resources\Shaders\MeshShader.vert" />
+    <None Include="Resources\Shaders\QuadShader.frag" />
+    <None Include="Resources\Shaders\QuadShader.vert" />
     <None Include="Resources\Shaders\SkyBoxShader.frag" />
     <None Include="Resources\Shaders\SkyBoxShader.vert" />
   </ItemGroup>
@@ -190,6 +193,7 @@
     <ClInclude Include="MeshEntity.h" />
     <ClInclude Include="MyGame.h" />
     <ClInclude Include="MyPlayer.h" />
+    <ClInclude Include="QuadEntity.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Rect.h" />
     <ClInclude Include="Resource.h" />

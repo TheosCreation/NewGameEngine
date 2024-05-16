@@ -24,24 +24,9 @@ Game* EntitySystem::getGame()
 bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
 {
 	auto ptr = std::unique_ptr<Entity>(entity);
-	auto camId = typeid(Camera).hash_code();
-	if (id == camId)
-	{
-		auto it = m_entities.find(camId);
-		if (it != m_entities.end())
-		{
-			if (it->second.size()) return false;
-			it->second.emplace(entity, std::move(ptr));
-		}
-		else 
-		{
-			m_entities[id].emplace(entity, std::move(ptr));
-		}
-	}
-	else
-	{
-		m_entities[id].emplace(entity, std::move(ptr));
-	}
+
+	m_entities[id].emplace(entity, std::move(ptr));
+
 	entity->m_id = id;
 	entity->m_entitySystem = this;
 

@@ -29,6 +29,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Camera.h"
 #include "MeshEntity.h"
 #include "InstancedMeshEntity.h"
+#include "QuadEntity.h"
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"

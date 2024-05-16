@@ -66,21 +66,36 @@ void Game::onGraphicsUpdate(float deltaTime)
     UniformData data = {};
     glm::mat4 projectionMatrix;
     glm::mat4 viewMatrix;
+    glm::mat4 uiProjectionMatrix;
+    glm::mat4 uiViewMatrix;
 
     auto camId = typeid(Camera).hash_code();
-    
+
     auto it = m_entitySystem->m_entities.find(camId);
-    
+
     if (it != m_entitySystem->m_entities.end())
     {
+        int cameraIndex = 0;
         for (auto& [key, camera] : it->second)
         {
-            //the camera data are the view and projection
             auto cam = dynamic_cast<Camera*>(camera.get());
-            cam->getViewMatrix(viewMatrix);
-            cam->setScreenArea(m_display->getInnerSize());
-            cam->getProjectionMatrix(projectionMatrix);
-            data.viewProjectionMatrix = projectionMatrix * viewMatrix;
+            if (cameraIndex == 0)
+            {
+                // First camera should be game camera
+                cam->getViewMatrix(viewMatrix);
+                cam->setScreenArea(m_display->getInnerSize());
+                cam->getProjectionMatrix(projectionMatrix);
+                data.viewProjectionMatrix = projectionMatrix * viewMatrix;
+            }
+            else if (cameraIndex == 1)
+            {
+                // Second camera which should be ui camera
+                cam->getViewMatrix(uiViewMatrix);
+                cam->setScreenArea(m_display->getInnerSize());
+                cam->getProjectionMatrix(uiProjectionMatrix);
+                data.uiViewProjectionMatrix = uiProjectionMatrix * uiViewMatrix;
+            }
+            cameraIndex++;
         }
     }
 

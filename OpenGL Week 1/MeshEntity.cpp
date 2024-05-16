@@ -30,7 +30,6 @@ void MeshEntity::setUniformData(UniformData data)
     m_shader->setMat4("modelMatrix", getModelMatrix());
 
     m_shader->setFloat("currentTime", data.currentTime);
-    m_shader->setVec3("flowingColor", data.color);
 }
 
 void MeshEntity::onGraphicsUpdate(float deltaTime)
