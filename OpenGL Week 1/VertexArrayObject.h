@@ -20,7 +20,7 @@ public:
 	VertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc);
 	~VertexArrayObject();
 
-	void updateInstanceBuffer(glm::mat4* instanceData, size_t instanceCount);
+	void initInstanceBuffer(glm::mat4* instanceData, size_t instanceCount);
 
 	uint getId();
 	uint getVertexBufferSize();

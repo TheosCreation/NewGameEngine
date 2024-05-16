@@ -30,6 +30,7 @@ private:
 	glm::vec3 m_camPosition{};
 
 	float m_movementSpeed = 5.0f;
+	float m_rotationSpeed = 5.0f;
 
 	float m_zoomSpeed = 5.0f;
 	float m_originalOrbitSpeed = 5.0f;
@@ -38,8 +39,13 @@ private:
 	float m_minimumOrbitalRadius = 5.0f;
 	float m_maximumOrbitalRadius = 50.0f;
 	float m_orbitRadius = 20.0f;
-	float m_inactivityTimer = 1.0f;
+	float m_inactivityTimer = 1.0f; 
+	
+	bool m_autoRotate = false;
+	bool m_playMode = false;
+	bool m_wireframeMode = false;
 
 	Camera* m_cam = nullptr;
+	InputManager* input = nullptr;
 };
 

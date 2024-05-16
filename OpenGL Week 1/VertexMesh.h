@@ -1,7 +1,7 @@
 #pragma once
 #include "Math.h"
 
-class  VertexMesh
+class VertexMesh
 {
 public:
 	VertexMesh() :m_position(), m_texcoord(), m_normal()

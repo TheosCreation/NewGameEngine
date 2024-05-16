@@ -17,6 +17,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Rect.h"
 #include <glew.h>
 #include <glfw3.h>
+#include <unordered_map>
 
 constexpr int ARRAY_SIZE = GLFW_KEY_LAST;
 class InputManager
@@ -29,12 +30,19 @@ public:
 
 	void SetGameWindow(GLFWwindow* window);
 
+	// Checks if the specified key is currently being held down
 	bool isKeyDown(Key key);
 
+	// Checks if the specified key was pressed
+	bool isKeyPressed(Key key);
+
+	// Checks if the specified key is currently not being held down
 	bool isKeyUp(Key key);
 
+	// Checks if the specified mouse button is currently being held down
 	bool isMouseDown(MouseButton button);
 
+	// Checks if the specified mouse button is currently not being held down
 	bool isMouseUp(MouseButton button);
 
 	//getMouseXAxis returns the current mouse movement along x axis: -1 (left), 1 (right).
@@ -42,6 +50,9 @@ public:
 
 	//getMouseYAxis returns the current mouse movement along y axis: -1 (bottom), 1 (top).
 	float getMouseYAxis();
+
+	//getCursorPosition returns the current cursor position as a vector2
+	glm::vec2 getCursorPosition();
 
 	//enablePlayMode allows to hide the cursor and to lock it at the center of the screen.
 	void enablePlayMode(bool enable);
@@ -57,5 +68,8 @@ private:
 	glm::vec2 m_old_mouse_pos;
 	Rect m_screenArea;
 	glm::vec2 m_deltaMouse;
+
+	std::unordered_map<Key, bool> currentKeyStates;
+	std::unordered_map<Key, bool> previousKeyStates;
 };
 

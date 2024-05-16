@@ -27,11 +27,13 @@ public:
 	CameraType getCameraType();
 	void setCameraType(const CameraType& type);
 	void setScreenArea(const Rect& screen);
+	void setTargetPosition(glm::vec3 newTargetPosition);
 private:
 	void computeProjectionMatrix();
 private:
 	glm::mat4 m_view{};
 	glm::mat4 m_projection{};
+	glm::vec3 m_targetPosition{};
 
 	float m_farPlane = 1000.0f;
 	float m_nearPlane = 1.0f;

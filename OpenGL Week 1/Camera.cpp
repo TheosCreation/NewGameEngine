@@ -3,7 +3,7 @@
 
 void Camera::getViewMatrix(glm::mat4& view)
 {
-	m_view = glm::lookAt(m_position, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	m_view = glm::lookAt(m_position + m_targetPosition, m_targetPosition, glm::vec3(0.0, 1.0, 0.0));
 	view = m_view;
 }
 
@@ -44,6 +44,11 @@ void Camera::setScreenArea(const Rect& screen)
 {
 	m_screenArea = screen;
 	computeProjectionMatrix();
+}
+
+void Camera::setTargetPosition(glm::vec3 newTargetPosition)
+{
+	m_targetPosition = newTargetPosition;
 }
 
 void Camera::computeProjectionMatrix()

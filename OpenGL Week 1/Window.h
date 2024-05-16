@@ -30,5 +30,6 @@ public:
 private:
 	GLFWwindow* m_windowPtr;
 	void* m_context = nullptr;
+	bool vsync = false;
 	Rect m_size = Rect(800, 800);
 };

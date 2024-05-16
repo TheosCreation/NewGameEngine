@@ -26,12 +26,13 @@ TexturePtr InstancedMeshEntity::getTexture()
 
 void InstancedMeshEntity::setUniformData(UniformData data)
 {
-    std::vector<glm::mat4> transformedMatrices;
-    for (int i = 0; i < m_mesh->getInstanceCount(); ++i) {
-        glm::mat4 mvpMatrix = data.viewProjectionMatrix * m_mesh->m_instanceTransforms[i];
-        transformedMatrices.push_back(mvpMatrix);
-    }
-    m_shader->setMat4Array("mvpMatrixs[0]", transformedMatrices.data(), m_mesh->getInstanceCount());
+    //std::vector<glm::mat4> transformedMatrices;
+    //for (int i = 0; i < m_mesh->getInstanceCount(); ++i) {
+    //    glm::mat4 mvpMatrix = data.viewProjectionMatrix * m_mesh->m_instanceTransforms[i];
+    //    transformedMatrices.push_back(mvpMatrix);
+    //}
+    //m_shader->setMat4Array("mvpMatrixs[0]", transformedMatrices.data(), m_mesh->getInstanceCount());
+    m_shader->setMat4("VPMatrix", data.viewProjectionMatrix);
 
 	m_shader->setFloat("currentTime", data.currentTime);
 	m_shader->setVec3("flowingColor", data.color);

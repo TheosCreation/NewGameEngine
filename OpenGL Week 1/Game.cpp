@@ -55,7 +55,9 @@ void Game::onUpdateInternal()
 
     onUpdate(deltaTime);
     
+    double RenderTime_Begin = (double)glfwGetTime();
     onGraphicsUpdate(deltaTime);
+    double RenderTime_End = (double)glfwGetTime();
 }
 
 void Game::onGraphicsUpdate(float deltaTime)

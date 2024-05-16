@@ -41,7 +41,7 @@ void MyGame::onCreate()
 	//creating statue
 	{
 		auto entity = getEntitySystem()->createEntity<MeshEntity>();
-		entity->setScale(glm::vec3(0.1, 0.1, 0.1));
+		entity->setScale(glm::vec3(0.15f, 0.15f, 0.15f));
 		entity->setPosition(glm::vec3(0, 0, 0));
 		entity->setTexture(statueTexture);
 		entity->setMesh(statueMesh);
@@ -49,27 +49,33 @@ void MyGame::onCreate()
 		m_statue = entity;
 	}
 	
-	//creating instanced statue
+	//creating instanced tree
 	{
 		auto entity = getEntitySystem()->createEntity<InstancedMeshEntity>();
 		entity->setTexture(statueTexture);
 		entity->setShader(instancedMeshShader);
 
 		entity->setMesh(instancedTreeMesh);
-		for (int row = -5; row < 5; ++row) {
-			for (int col = -5; col < 5; ++col) {
-				// Calculate the position of the current soldier based on the grid and spacing
-				glm::vec3 position = glm::vec3(col * 5.0f, 0.0f, row * 5.0f);
+		float spacing = 20.0f;
+		for (int row = -16; row < 16; ++row) {
+			for (int col = -16; col < 16; ++col) {
+				if (row == 0 && col == 0) break;
 
+				// Calculate the position of the current tree based on the grid and spacing
+				glm::vec3 position = glm::vec3(col * spacing, 0.0f, row * spacing);
+
+				// Generate random rotation angles
+				float angleX = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
 				float angleY = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+				float angleZ = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
 
-				// Add the soldier instance
-				instancedTreeMesh->addInstance(position, glm::vec3(0.01f), glm::vec3(0.0f, angleY, 0.0f));
+				// Add the tree instance with random rotations
+				instancedTreeMesh->addInstance(position, glm::vec3(0.1f, 0.05f, 0.1f), glm::vec3(angleX, angleY, angleZ));
 			}
 		}
 
-		// Update instance buffer
-		instancedTreeMesh->updateInstanceBuffer();
+		// Init instance buffer
+		instancedTreeMesh->initInstanceBuffer();
 
 		m_instancedTree = entity;
 	}
@@ -77,7 +83,7 @@ void MyGame::onCreate()
 	//creating skybox
 	{
 		auto entity = getEntitySystem()->createEntity<MeshEntity>();
-		entity->setScale(glm::vec3(100, 100, 100));
+		entity->setScale(glm::vec3(800, 800, 800));
 		entity->setPosition(glm::vec3(0, 0, 0));
 		entity->setTexture(skyTexture);
 		entity->setMesh(sphereMesh);
@@ -91,8 +97,6 @@ void MyGame::onCreate()
 	m_player->setScale(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
 	m_player->setPosition(glm::vec3(0, 0.0f, 0.0f) * m_entitySystem->globalScale);
 
-	//enabling play mode
-	//getInputManager()->enablePlayMode(true);
 }
 
 void MyGame::onUpdate(float deltaTime)
@@ -103,4 +107,5 @@ void MyGame::onUpdate(float deltaTime)
 	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
 
 	m_statue->setPosition(m_player->getPosition());
+	m_statue->setRotation(m_player->getRotation());
 }

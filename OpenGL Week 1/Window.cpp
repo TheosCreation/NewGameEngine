@@ -22,7 +22,7 @@ Window::Window()
     }
     
     // Make the context current before initializing GLEW
-    makeCurrentContext(1);
+    makeCurrentContext(vsync);
 
     // Initialize GLEW or GLAD here if needed
     if (glewInit() != GLEW_OK)

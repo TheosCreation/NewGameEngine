@@ -37,6 +37,11 @@ bool InputManager::isKeyDown(Key key)
 	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
 }
 
+bool InputManager::isKeyPressed(Key key)
+{
+	return !previousKeyStates[key] && currentKeyStates[key];
+}
+
 bool InputManager::isKeyUp(Key key)
 {
 	int keyGLFW = GLFW_KEY_UNKNOWN;
@@ -121,6 +126,14 @@ float InputManager::getMouseYAxis()
 	return m_deltaMouse.y;
 }
 
+glm::vec2 InputManager::getCursorPosition()
+{
+	double mouseX, mouseY;
+	glfwGetCursorPos(WindowPtr, &mouseX, &mouseY);
+	glm::vec2 currentCursorPosition(mouseX, mouseY);
+	return currentCursorPosition;
+}
+
 void InputManager::enablePlayMode(bool enable)
 {
 	m_playEnable = enable;
@@ -163,5 +176,13 @@ void InputManager::update()
 		glm::vec2 center_screen = glm::vec2(m_screenArea.left + (float)m_screenArea.width / 2.0f, m_screenArea.top + (float)m_screenArea.height / 2.0f);
 		glfwSetCursorPos(WindowPtr, center_screen.x, center_screen.y);
 		m_old_mouse_pos = center_screen;
+	}
+
+	// Update the previous key states to the current key states
+	previousKeyStates = currentKeyStates;
+
+	// Update the current key states
+	for (auto& keyState : currentKeyStates) {
+		keyState.second = isKeyDown(keyState.first);
 	}
 }

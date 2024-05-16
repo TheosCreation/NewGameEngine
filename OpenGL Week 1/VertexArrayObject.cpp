@@ -45,7 +45,7 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const Index
 
 	glBindVertexArray(m_vertexArrayObjectID);
 
-	//init idex buffer
+	//init index buffer
 	glGenBuffers(1, &m_elementBufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_elementBufferId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibDesc.listSize * sizeof(uint), ibDesc.indicesList, GL_STATIC_DRAW);
@@ -62,17 +62,18 @@ VertexArrayObject::~VertexArrayObject()
 	glDeleteVertexArrays(1, &m_vertexArrayObjectID);
 }
 
-void VertexArrayObject::updateInstanceBuffer(glm::mat4* instanceData, size_t instanceCount)
+void VertexArrayObject::initInstanceBuffer(glm::mat4* instanceData, size_t instanceCount)
 {
 	glBindVertexArray(m_vertexArrayObjectID);
+	glGenBuffers(1, &m_instanceBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_instanceBufferID);
 	glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::mat4), instanceData, GL_DYNAMIC_DRAW);
 
-	// Assuming the instance data is bound to attribute locations 2, 3, 4, and 5
+	// instance data is bound to attribute locations 3, 4, and 5, 6
 	for (int i = 0; i < 4; i++) {
-		glEnableVertexAttribArray(2 + i);
-		glVertexAttribPointer(2 + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * i));
-		glVertexAttribDivisor(2 + i, 1);
+		glEnableVertexAttribArray(3 + i);
+		glVertexAttribPointer(3 + i, 4, GL_FLOAT, GL_FALSE, sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * i));
+		glVertexAttribDivisor(3 + i, 1);
 	}
 
 	glBindVertexArray(0);

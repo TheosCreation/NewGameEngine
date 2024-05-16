@@ -19,16 +19,15 @@ void InstancedMesh::addInstance(glm::vec3 position, glm::vec3 scale, glm::vec3 r
     
     transform = glm::scale(transform, scale);
 
-    m_instanceTransforms[instanceCount] = transform;
-    instanceCount++;
+    m_instanceTransforms.push_back(transform);
 }
 
-void InstancedMesh::updateInstanceBuffer()
+void InstancedMesh::initInstanceBuffer()
 {
-    getVertexArrayObject()->updateInstanceBuffer(m_instanceTransforms, instanceCount);
+    getVertexArrayObject()->initInstanceBuffer(m_instanceTransforms.data(), m_instanceTransforms.size());
 }
 
-uint InstancedMesh::getInstanceCount()
+size_t InstancedMesh::getInstanceCount()
 {
-    return instanceCount;
+    return m_instanceTransforms.size();
 }

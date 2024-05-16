@@ -11,10 +11,10 @@ public:
     virtual ~InstancedMesh();
 
     void addInstance(glm::vec3 Position, glm::vec3 Scale, glm::vec3 Rotation);
-    void updateInstanceBuffer();
-    uint getInstanceCount();
+    void initInstanceBuffer();
 
-    glm::mat4 m_instanceTransforms[1000];
+    size_t getInstanceCount();
+
 private:
-    uint instanceCount = 0;
+    std::vector<glm::mat4> m_instanceTransforms;
 };

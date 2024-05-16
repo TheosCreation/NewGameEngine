@@ -26,8 +26,8 @@ TexturePtr MeshEntity::getTexture()
 
 void MeshEntity::setUniformData(UniformData data)
 {
-    glm::mat4 mvpMatrix = data.viewProjectionMatrix * getModelMatrix();
-    m_shader->setMat4("mvpMatrix", mvpMatrix);
+    m_shader->setMat4("VPMatrix", data.viewProjectionMatrix);
+    m_shader->setMat4("modelMatrix", getModelMatrix());
 
     m_shader->setFloat("currentTime", data.currentTime);
     m_shader->setVec3("flowingColor", data.color);
