@@ -35,8 +35,8 @@ private:
 	glm::mat4 m_projection{};
 	glm::vec3 m_targetPosition{};
 
-	float m_farPlane = 1000.0f;
-	float m_nearPlane = 1.0f;
+	float m_farPlane = 100000.0f;
+	float m_nearPlane = 0.01f;
 	float m_fov = 90.0f;
 	const float radius = 10.0f;
 	CameraType m_type = CameraType::Perspective;

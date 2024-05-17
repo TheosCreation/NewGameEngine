@@ -3,7 +3,16 @@
 
 void Camera::getViewMatrix(glm::mat4& view)
 {
-	m_view = glm::lookAt(m_position + m_targetPosition, m_targetPosition, glm::vec3(0.0, 1.0, 0.0));
+	if (m_type == CameraType::Perspective)
+	{
+		m_view = glm::lookAt(m_position + m_targetPosition, m_targetPosition, glm::vec3(0.0, 1.0, 0.0));
+	}
+	else if (m_type == CameraType::Orthogonal)
+	{
+		glm::vec3 cameraPosition = glm::vec3(m_screenArea.width, -m_screenArea.height, 1.0f);
+		glm::vec3 targetPosition = glm::vec3(m_screenArea.width, -m_screenArea.height, 0.0f);
+		m_view = glm::lookAt(cameraPosition, targetPosition, glm::vec3(0.0, 1.0, 0.0));
+	}
 	view = m_view;
 }
 
@@ -34,6 +43,7 @@ CameraType Camera::getCameraType()
 {
 	return m_type;
 }
+
 void Camera::setCameraType(const CameraType& type)
 {
 	m_type = type;

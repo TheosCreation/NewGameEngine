@@ -23,9 +23,9 @@ void QuadEntity::onCreate()
     glm::vec2 texcoord_list[] =
     {
         { glm::vec2(0.0f,0.0f) },
-        { glm::vec2(0.0f,4.0f) },
-        { glm::vec2(4.0f,0.0f) },
-        { glm::vec2(4.0f,4.0f) }
+        { glm::vec2(0.0f,1.0f) },
+        { glm::vec2(1.0f,0.0f) },
+        { glm::vec2(1.0f,1.0f) }
     };
 
     Vertex verticesList[] =

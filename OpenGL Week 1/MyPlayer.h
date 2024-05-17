@@ -12,6 +12,7 @@ Mail : theo.morris@mds.ac.nz
 
 #pragma once
 #include "All.h"
+#include "InstancedMeshEntity.h"
 
 class MyPlayer : public Entity
 {
@@ -23,13 +24,17 @@ public:
 	virtual void onUpdate(float deltaTime);
 	void setCameraPosition(glm::vec3 newPosition);
 
+	void addButtonRef(Entity* buttonRef);
+
+	void setInstancedEntity(InstancedMeshEntity* instancedEntityRef, TexturePtr texture1, TexturePtr texture2);
+
 private:
 	float m_elapsedSeconds = 0.0f;
 	Entity* m_entity = nullptr;
 
 	glm::vec3 m_camPosition{};
 
-	float m_movementSpeed = 5.0f;
+	float m_movementSpeed = 50.0f;
 	float m_rotationSpeed = 5.0f;
 
 	float m_zoomSpeed = 5.0f;
@@ -48,5 +53,11 @@ private:
 	Camera* m_cam = nullptr;
 	Camera* m_uiCamera = nullptr;
 	InputManager* input = nullptr;
+
+	std::vector<Entity*> m_buttonRefs;
+	InstancedMeshEntity* m_instancedEntity;
+	TexturePtr m_texture1Ptr;
+	TexturePtr m_texture2Ptr;
+	bool m_switched;
 };
 

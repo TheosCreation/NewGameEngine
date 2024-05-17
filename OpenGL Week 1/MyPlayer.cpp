@@ -53,8 +53,30 @@ void MyPlayer::onUpdate(float deltaTime)
     {
         glm::vec2 cursorPosition = input->getCursorPosition();
         std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
+        for (auto& button : m_buttonRefs)
+        {
+            float buttonRightX = (button->getPosition().x / 2) + (button->getScale().x/ 4);
+            float buttonLeftX = (button->getPosition().x/2) - (button->getScale().x / 4);
+            float buttonBottomY = (-button->getPosition().y / 2) + (button->getScale().y/ 4);
+            float buttonTopY = (-button->getPosition().y/2) - (button->getScale().y / 4);
+            if (cursorPosition.x <= buttonRightX && cursorPosition.x >= buttonLeftX)
+            {
+                if (cursorPosition.y <= buttonBottomY && cursorPosition.y >= buttonTopY)
+                {
+                    m_switched = !m_switched;
+                    if (m_switched)
+                    {
+                        m_instancedEntity->setTexture(m_texture2Ptr);
+                    }
+                    else 
+                    {
+                        m_instancedEntity->setTexture(m_texture1Ptr);
+                    }
+                }
+            }
+        }
     }
-
+    
     // Adjust camera speed if Shift key is pressed
     if (input->isKeyDown(Key::KeyShift)) {
         m_orbitSpeed = m_originalOrbitSpeed * 2.0f;
@@ -124,4 +146,16 @@ void MyPlayer::onUpdate(float deltaTime)
 void MyPlayer::setCameraPosition(glm::vec3 newPosition)
 {
     m_camPosition = newPosition;
+}
+
+void MyPlayer::addButtonRef(Entity* buttonRef)
+{
+    m_buttonRefs.push_back(buttonRef);
+}
+
+void MyPlayer::setInstancedEntity(InstancedMeshEntity* instancedEntityRef, TexturePtr texture1, TexturePtr texture2)
+{
+    m_instancedEntity = instancedEntityRef;
+    m_texture1Ptr = texture1;
+    m_texture2Ptr = texture2;
 }

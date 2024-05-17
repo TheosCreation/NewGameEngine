@@ -75,27 +75,25 @@ void Game::onGraphicsUpdate(float deltaTime)
 
     if (it != m_entitySystem->m_entities.end())
     {
-        int cameraIndex = 0;
         for (auto& [key, camera] : it->second)
         {
             auto cam = dynamic_cast<Camera*>(camera.get());
-            if (cameraIndex == 0)
+            if (cam && cam->getCameraType() == CameraType::Perspective)
             {
                 // First camera should be game camera
-                cam->getViewMatrix(viewMatrix);
                 cam->setScreenArea(m_display->getInnerSize());
+                cam->getViewMatrix(viewMatrix);
                 cam->getProjectionMatrix(projectionMatrix);
                 data.viewProjectionMatrix = projectionMatrix * viewMatrix;
             }
-            else if (cameraIndex == 1)
+            else
             {
-                // Second camera which should be ui camera
-                cam->getViewMatrix(uiViewMatrix);
+                // Second camera which should be UI camera
                 cam->setScreenArea(m_display->getInnerSize());
+                cam->getViewMatrix(uiViewMatrix);
                 cam->getProjectionMatrix(uiProjectionMatrix);
                 data.uiViewProjectionMatrix = uiProjectionMatrix * uiViewMatrix;
             }
-            cameraIndex++;
         }
     }
 

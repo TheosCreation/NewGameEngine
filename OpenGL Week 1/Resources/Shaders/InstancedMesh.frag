@@ -5,7 +5,7 @@ in vec3 FragNormal;
 in vec3 FragPos;
 
 uniform sampler2D tex1;
-uniform float AmbientStrength		= 0.15f;
+uniform float AmbientStrength		= 1.0f;
 uniform vec3 AmbientColor			= vec3(1.0f, 1.0f, 1.0f);
 
 uniform vec3 LightColor				= vec3(1.0f, 1.0f, 1.0f);

@@ -9,7 +9,7 @@ public:
 	void setMesh(const InstancedMeshPtr& mesh);
 	InstancedMeshPtr getMesh();
 
-	virtual void setTexture(const TexturePtr& texture);
+	void setTexture(const TexturePtr& texture);
 	TexturePtr getTexture();
 	void setUniformData(UniformData data);
 	virtual void onGraphicsUpdate(float deltaTime);

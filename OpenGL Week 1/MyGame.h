@@ -12,6 +12,7 @@ Mail : theo.morris@mds.ac.nz
 
 #pragma once
 #include "All.h"
+#include "MyPlayer.h"
 
 class MyGame : public Game
 {
@@ -28,11 +29,15 @@ private:
 	// init all vbo's here
 	MeshEntity* m_skybox = nullptr;
 	MeshEntity* m_statue = nullptr;
+	MeshEntity* m_ground = nullptr;
 	InstancedMeshEntity* m_instancedTree = nullptr;
-	Entity* m_player;
+	MyPlayer* m_player = nullptr;
+	QuadEntity* m_button = nullptr;
 
 	float m_rotz = 0;
 	float m_roty = 0;
+	float m_uiScaleX = 2.0;
+	float m_uiScaleY = -2.0;
 
 };
 
