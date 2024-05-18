@@ -3,7 +3,7 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : All.h
 Description : header file contains limited file headers for a user of this graphics engine
 Author : Theo Morris

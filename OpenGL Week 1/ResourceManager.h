@@ -3,7 +3,7 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : ResourceManager.h
 Description : ResourceManager class manages the resources created with the resource class
 Author : Theo Morris
@@ -15,19 +15,49 @@ Mail : theo.morris@mds.ac.nz
 #include <string>
 #include "Utils.h"
 
+// Forward declaration of Game class
 class Game;
+
+/**
+ * @class ResourceManager
+ * @brief Manages the resources created with the Resource class.
+ */
 class ResourceManager
 {
 public:
-	ResourceManager(Game* game);
-	virtual ~ResourceManager();
+    /**
+     * @brief Constructor for the ResourceManager class.
+     * @param game Pointer to the game instance.
+     */
+    ResourceManager(Game* game);
 
-	ResourcePtr createResourceFromFile(const wchar_t* path);
+    /**
+     * @brief Destructor for the ResourceManager class.
+     */
+    virtual ~ResourceManager();
 
-	ResourcePtr createResourceFromFile(const wchar_t* path, bool isInstanced);
+    /**
+     * @brief Creates a resource from a file.
+     * @param path The file path to the resource.
+     * @return A shared pointer to the created resource.
+     */
+    ResourcePtr createResourceFromFile(const wchar_t* path);
 
-	Game* getGame();
+    /**
+     * @brief Creates a resource from a file with an option for instancing.
+     * @param path The file path to the resource.
+     * @param isInstanced Flag indicating whether the resource is instanced.
+     * @return A shared pointer to the created resource.
+     */
+    ResourcePtr createResourceFromFile(const wchar_t* path, bool isInstanced);
+
+    /**
+     * @brief Gets the game instance.
+     * @return A pointer to the game instance.
+     */
+    Game* getGame();
+
 protected:
-	std::map<std::wstring, ResourcePtr> m_mapResources;
-	Game* m_game = nullptr;
+    std::map<std::wstring, ResourcePtr> m_mapResources; //Map of resources keyed by their file paths
+    Game* m_game = nullptr; //Pointer to the game instance
 };

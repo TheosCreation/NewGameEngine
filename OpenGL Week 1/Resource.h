@@ -3,7 +3,7 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : Resource.h
 Description : Resource class represents a generic resource such as a file, image or texture
 Author : Theo Morris
@@ -15,15 +15,34 @@ Mail : theo.morris@mds.ac.nz
 #include <string>
 #include "Utils.h"
 
+// Forward declaration of ResourceManager class
 class ResourceManager;
+
+/**
+ * @class Resource
+ * @brief Represents a generic resource such as a file, image, or texture.
+ */
 class Resource
 {
 public:
-	Resource(const wchar_t* path, ResourceManager* manager);
-	virtual ~Resource();
+    /**
+     * @brief Constructor for the Resource class.
+     * @param path The file path to the resource.
+     * @param manager Pointer to the resource manager.
+     */
+    Resource(const wchar_t* path, ResourceManager* manager);
 
-	std::wstring getPath();
+    /**
+     * @brief Destructor for the Resource class.
+     */
+    virtual ~Resource();
+
+    /**
+     * @brief Gets the file path of the resource.
+     * @return The file path of the resource.
+     */
+    std::wstring getPath();
+
 protected:
-	std::wstring m_path;
-
+    std::wstring m_path; //The file path of the resource
 };

@@ -3,9 +3,9 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : Game.h
-Description : game class that controls the order the graphics engine performs tasks 
+Description : Game class that controls the order the graphics engine and internal systems performs tasks
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -17,41 +17,105 @@ Mail : theo.morris@mds.ac.nz
 #include "ResourceManager.h"
 #include "Entity.h"
 
+// Forward declarations of classes
 class Window;
 class EntitySystem;
+
+/**
+ * @class Game
+ * @brief Controls the order in which the graphics engine and internal systems performs tasks.
+ */
 class Game
 {
 public:
-	Game();
-	~Game();
+    /**
+     * @brief Constructor for the Game class.
+     */
+    Game();
 
-	void run();
-	void quit();
+    /**
+     * @brief Destructor for the Game class.
+     */
+    ~Game();
 
-	EntitySystem* getEntitySystem();
-	GraphicsEngine* getGraphicsEngine();
-	InputManager* getInputManager();
-	ResourceManager* getResourceManager();
-	Window* getWindow();
+    /**
+     * @brief Runs the game loop.
+     */
+    void run();
+
+    /**
+     * @brief Quits the game.
+     */
+    void quit();
+
+    /**
+     * @brief Gets the EntitySystem instance.
+     * @return A pointer to the EntitySystem instance.
+     */
+    EntitySystem* getEntitySystem();
+
+    /**
+     * @brief Gets the GraphicsEngine instance.
+     * @return A pointer to the GraphicsEngine instance.
+     */
+    GraphicsEngine* getGraphicsEngine();
+
+    /**
+     * @brief Gets the InputManager instance.
+     * @return A pointer to the InputManager instance.
+     */
+    InputManager* getInputManager();
+
+    /**
+     * @brief Gets the ResourceManager instance.
+     * @return A pointer to the ResourceManager instance.
+     */
+    ResourceManager* getResourceManager();
+
+    /**
+     * @brief Gets the Window instance.
+     * @return A pointer to the Window instance.
+     */
+    Window* getWindow();
 
 protected:
-	virtual void onCreate();
-	virtual void onUpdate(float deltaTime) {};
-	virtual void onGraphicsUpdate(float deltaTime);
-	virtual void onQuit();
+    /**
+     * @brief Called when the game is created.
+     */
+    virtual void onCreate();
+
+    /**
+     * @brief Called every frame to update the game logic.
+     * @param deltaTime The time elapsed since the last update.
+     */
+    virtual void onUpdate(float deltaTime) {};
+
+    /**
+     * @brief Called every frame to update the graphics.
+     * @param deltaTime The time elapsed since the last update.
+     */
+    virtual void onGraphicsUpdate(float deltaTime);
+
+    /**
+     * @brief Called when the game is quitting.
+     */
+    virtual void onQuit();
+
 private:
-	void onUpdateInternal();
+    /**
+     * @brief Internal function to update the game.
+     */
+    void onUpdateInternal();
 
 protected:
-	bool m_isRunning = true; 
-	std::unique_ptr<Window> m_display;
-	std::unique_ptr<InputManager> m_inputManager;
-	std::unique_ptr<GraphicsEngine> m_graphicsEngine;
-	std::unique_ptr<EntitySystem> m_entitySystem; 
-	std::unique_ptr<ResourceManager> m_resourceManager;
+    bool m_isRunning = true; //Indicates whether the game is running
+    std::unique_ptr<Window> m_display; //Pointer to the window instance
+    std::unique_ptr<InputManager> m_inputManager; //Pointer to the input manager instance
+    std::unique_ptr<GraphicsEngine> m_graphicsEngine; //Pointer to the graphics engine instance
+    std::unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
+    std::unique_ptr<ResourceManager> m_resourceManager; //Pointer to the resource manager instance
 
-	float m_previousTime = 0;
-	float m_currentTime = 0;
-	float m_scale = 0;
+    float m_previousTime = 0; //The previous frame's time
+    float m_currentTime = 0; //The current frame's time
+    float m_scale = 0; //The scale factor for time
 };
-

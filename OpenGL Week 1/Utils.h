@@ -3,7 +3,7 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : Utils.h
 Description : header file that represents a utility header to structure this project to make it more readable
 Author : Theo Morris
@@ -18,106 +18,122 @@ Mail : theo.morris@mds.ac.nz
 #include <glm.hpp>
 #include "Rect.h"
 
+// Forward declarations of classes
+
 class UniformBuffer;
 class VertexArrayObject;
 class Shader;
 class Texture2D;
-
 class ResourceManager;
 class Resource;
 class Texture;
 class Mesh;
 class InstancedMesh;
 
+// Type definitions for variables
 typedef unsigned int uint;
+
+// Type definitions for shared pointers
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<Shader> ShaderPtr;
 typedef std::shared_ptr<Texture2D> Texture2DPtr;
-
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<InstancedMesh> InstancedMeshPtr;
 
+// Struct representing a vertex attribute
 struct VertexAttribute
 {
-	uint numElements = 0;
+    uint numElements = 0; //Number of elements in the vertex attribute
 };
 
+// Struct representing a vertex buffer description
 struct VertexBufferDesc
 {
-	void* verticesList = nullptr;
-	uint vertexSize = 0;
-	uint listSize = 0;
+    void* verticesList = nullptr; //Pointer to the list of vertices
+    uint vertexSize = 0; //Size of a single vertex
+    uint listSize = 0; //Size of the vertex list
 
-	VertexAttribute* attributesList = nullptr;
-	uint attributesListSize = 0;
+    VertexAttribute* attributesList = nullptr; //Pointer to the list of vertex attributes
+    uint attributesListSize = 0; //Size of the vertex attributes list
 };
 
+// Struct representing an index buffer description
 struct IndexBufferDesc
 {
-	void* indicesList = nullptr;
-	uint listSize = 0;
+    void* indicesList = nullptr; //Pointer to the list of indices
+    uint listSize = 0; //Size of the index list
 };
 
+// Struct representing a shader description
 struct ShaderDesc
 {
-	const wchar_t* vertexShaderFileName;
-	const wchar_t* fragmentShaderFileName;
+    const wchar_t* vertexShaderFileName; //Filename of the vertex shader
+    const wchar_t* fragmentShaderFileName; //Filename of the fragment shader
 };
 
+// Struct representing a uniform buffer description
 struct UniformBufferDesc
 {
-	uint size = 0;
-}; 
+    uint size = 0; //Size of the uniform buffer
+};
 
+// Struct representing uniform data
 struct UniformData
 {
-	glm::mat4 viewProjectionMatrix;
-	glm::mat4 uiViewProjectionMatrix;
-	float currentTime;
-	glm::vec3 color;
+    glm::mat4 viewProjectionMatrix; //View projection matrix
+    glm::mat4 uiViewProjectionMatrix; //UI view projection matrix
+    float currentTime; //Current time
+    glm::vec3 color; //Color
 };
 
+// Struct representing a texture 2D description
 struct Texture2DDesc
 {
-	void* textureData = nullptr;
-	Rect textureSize = {};
-	uint numChannels = 0;
+    void* textureData = nullptr; //Pointer to the texture data
+    Rect textureSize = {}; //Size of the texture
+    uint numChannels = 0; //Number of channels in the texture
 };
 
+// Enum representing camera types
 enum class CameraType
 {
-	Orthogonal = 0,
-	Perspective
+    Orthogonal = 0, //Orthogonal camera
+    Perspective //Perspective camera
 };
 
+// Enum representing triangle types
 enum class TriangleType
 {
-	TriangleList = 0,
-	TriangleStrip
-}; 
+    TriangleList = 0, //Triangle list
+    TriangleStrip //Triangle strip
+};
 
+// Enum representing cull types
 enum class CullType
 {
-	BackFace = 0,
-	FrontFace,
-	Both,
-	None
+    BackFace = 0, //Cull back face
+    FrontFace, //Cull front face
+    Both, //Cull both faces
+    None //Cull no faces
 };
 
+// Enum representing winding orders
 enum class WindingOrder
 {
-	ClockWise = 0,
-	CounterClockWise
+    ClockWise = 0, //Clockwise winding order
+    CounterClockWise //Counter-clockwise winding order
 };
 
+// Enum representing shader types
 enum class ShaderType
 {
-	VertexShader = 0,
-	FragmentShader
+    VertexShader = 0, //Vertex shader
+    FragmentShader //Fragment shader
 };
 
+// Enum representing key codes
 enum Key
 {
     KeyEscape = 0,
@@ -176,22 +192,26 @@ enum Key
     KeyDown,
 };
 
+// Enum representing mouse buttons
 enum MouseButton
 {
-	MouseButtonLeft,
-	MouseButtonMiddle,
-	MouseButtonRight
+    MouseButtonLeft, //Left mouse button
+    MouseButtonMiddle, //Middle mouse button
+    MouseButtonRight //Right mouse button
 };
 
+// Macro for throwing an OpenGL error
 #define OGL3D_ERROR(message)\
 {\
 	std::stringstream m;\
 	m << "OGL3D Error: " << message << std::endl;\
-throw std::runtime_error(m.str());\
+	throw std::runtime_error(m.str());\
 }
 
+// Macro for logging an OpenGL warning
 #define OGL3D_WARNING(message)\
 std::wclog << "OGL3D Warning: " << message << std::endl;
 
+// Macro for logging OpenGL information
 #define OGL3D_INFO(message)\
 std::wclog << "OGL3D Info: " << message << std::endl;
