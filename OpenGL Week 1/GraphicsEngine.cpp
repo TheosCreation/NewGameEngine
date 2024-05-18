@@ -1,8 +1,10 @@
 #include "GraphicsEngine.h"
 #include <glew.h>
 #include <glfw3.h>
+#include "VertexArrayObject.h"
+#include "Shader.h"
+#include "Texture2D.h"
 
-//float CurrentTime;
 VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
 {
     return std::make_shared<VertexArrayObject>(vbDesc);
@@ -13,14 +15,9 @@ VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferD
     return std::make_shared<VertexArrayObject>(vbDesc, ibDesc);
 }
 
-UniformBufferPtr GraphicsEngine::createUniform(const UniformBufferDesc& desc)
+ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
 {
-    return std::make_shared<UniformBuffer>(desc);
-}
-
-ShaderProgramPtr GraphicsEngine::createShaderProgram(const ShaderProgramDesc& desc)
-{
-    return std::make_shared<ShaderProgram>(desc);
+    return std::make_shared<Shader>(desc);
 }
 
 Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
@@ -28,24 +25,29 @@ Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
     return std::make_shared<Texture2D>(desc);
 }
 
-void GraphicsEngine::clear(const Vec4& color)
+void GraphicsEngine::clear(const glm::vec4& color)
 {
-    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(color.x, color.y, color.z, color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glDepthFunc(GL_LESS);
 }
 
 void GraphicsEngine::setFaceCulling(const CullType& type)
 {
     auto cullType = GL_BACK;
+    if (type == CullType::None)
+    {
+        glDisable(GL_CULL_FACE);
+    }
+    else {
+        if (type == CullType::FrontFace) cullType = GL_FRONT;
+        else if (type == CullType::BackFace) cullType = GL_BACK;
+        else if (type == CullType::Both) cullType = GL_FRONT_AND_BACK;
 
-    if (type == CullType::FrontFace) cullType = GL_FRONT;
-    else if (type == CullType::BackFace) cullType = GL_BACK;
-    else if (type == CullType::Both) cullType = GL_FRONT_AND_BACK;
-
-    glEnable(GL_CULL_FACE);
-    glCullFace(cullType);
+        glEnable(GL_CULL_FACE);
+        glCullFace(cullType);
+    }
 }
 
 void GraphicsEngine::setWindingOrder(const WindingOrder& type)
@@ -76,12 +78,7 @@ void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
     glBindVertexArray(vao->getId());
 }
 
-void GraphicsEngine::setUniformBuffer(const UniformBufferPtr& buffer, uint slot)
-{
-    glBindBufferBase(GL_UNIFORM_BUFFER, slot, buffer->getId());
-}
-
-void GraphicsEngine::setShaderProgram(const ShaderProgramPtr& program)
+void GraphicsEngine::setShader(const ShaderPtr& program)
 {
     glUseProgram(program->getId());
 }
@@ -91,6 +88,7 @@ void GraphicsEngine::setTexture2D(const Texture2DPtr& texture, uint slot)
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture->getId());
+
 }
 
 void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)
@@ -115,4 +113,16 @@ void GraphicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint
         case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
     }
     glDrawElements(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr);
+}
+
+void GraphicsEngine::drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, int instanceCount)
+{
+    auto glTriType = GL_TRIANGLES;
+
+    switch (triangleType)
+    {
+        case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
+        case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+    }
+    glDrawElementsInstanced(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr, instanceCount);
 }

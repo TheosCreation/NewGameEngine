@@ -10,42 +10,56 @@ Entity::~Entity()
 {
 }
 
-void Entity::setPosition(const Vec3& position)
+size_t Entity::getId()
+{
+	return m_id;
+}
+
+void Entity::setId(size_t id)
+{
+	m_id = id;
+}
+
+void Entity::setPosition(const glm::vec3& position)
 {
 	m_position = position;
-	processWorldMatrix();
 }
 
-void Entity::setRotation(const Vec3& rotation)
+void Entity::setRotation(const glm::vec3& rotation)
 {
 	m_rotation = rotation;
-	processWorldMatrix();
 }
 
-void Entity::setScale(const Vec3& scale)
+void Entity::setScale(const glm::vec3& scale)
 {
 	m_scale = scale;
-	processWorldMatrix();
 }
 
 void Entity::release()
 {
+	// Remove this entity from the EntitySystem
 	m_entitySystem->removeEntity(this);
 }
 
-Vec3 Entity::getPosition()
+glm::vec3 Entity::getPosition()
 {
 	return m_position;
 }
 
-Vec3 Entity::getRotation()
+glm::vec3 Entity::getRotation()
 {
 	return m_rotation;
 }
 
-Vec3 Entity::getScale()
+glm::vec3 Entity::getScale()
 {
 	return m_scale;
+}
+
+void Entity::setEntitySystem(EntitySystem* entitySystem)
+{
+	// Set the EntitySystem managing this entity
+	m_entitySystem = entitySystem;
 }
 
 EntitySystem* Entity::getEntitySystem()
@@ -55,39 +69,26 @@ EntitySystem* Entity::getEntitySystem()
 
 Game* Entity::getGame()
 {
-	return getEntitySystem()->getGame();
+	// Get the Game instance associated with this entity via its EntitySystem
+	return m_entitySystem->getGame();
 }
 
-void Entity::getWorldMatrix(Mat4& world)
+glm::mat4 Entity::getModelMatrix()
 {
-	world = m_world;
-}
+	glm::mat4 modelMatrix = glm::identity<glm::mat4>();
 
-void Entity::processWorldMatrix()
-{
-	Mat4 temp;
+	//translate first
+	modelMatrix = glm::translate(modelMatrix, m_position);
 
-	m_world.setIdentity();
+	//rotate around x
+	modelMatrix = glm::rotate(modelMatrix, m_rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	//rotate around y
+	modelMatrix = glm::rotate(modelMatrix, m_rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	//rotate around z
+	modelMatrix = glm::rotate(modelMatrix, m_rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-	temp.setIdentity();
-	temp.setScale(m_scale);
-	m_world *= temp;
+	//scale
+	modelMatrix = glm::scale(modelMatrix, m_scale);
 
-
-	temp.setIdentity();
-	temp.setRotationX(m_rotation.x);
-	m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(m_rotation.y);
-	m_world *= temp;
-
-	temp.setIdentity();
-	temp.setRotationZ(m_rotation.z);
-	m_world *= temp;
-
-
-	temp.setIdentity();
-	temp.setTranslation(m_position);
-	m_world *= temp;
+	return modelMatrix;
 }

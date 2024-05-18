@@ -1,11 +1,21 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Game.h
+Description : game class that controls the order the graphics engine performs tasks 
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <iostream>
-#include <chrono>
 #include "InputManager.h"
 #include "GraphicsEngine.h"
 #include "ResourceManager.h"
 #include "Entity.h"
-#include "Rect.h"
 
 class Window;
 class EntitySystem;
@@ -13,7 +23,7 @@ class Game
 {
 public:
 	Game();
-	virtual ~Game();
+	~Game();
 
 	void run();
 	void quit();
@@ -40,13 +50,8 @@ protected:
 	std::unique_ptr<EntitySystem> m_entitySystem; 
 	std::unique_ptr<ResourceManager> m_resourceManager;
 
-	VertexArrayObjectPtr m_polygonVAO;
-	UniformBufferPtr m_uniform;
-	ShaderProgramPtr m_shader;
-
-	std::chrono::system_clock::time_point m_previousTime;
+	float m_previousTime = 0;
+	float m_currentTime = 0;
 	float m_scale = 0;
-
-	friend class Entity;
 };
 

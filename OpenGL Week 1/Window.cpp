@@ -1,34 +1,19 @@
 #include "Window.h"
-#include "Prerequisites.h"
+#include "Utils.h"
 
 Window::Window()
 {
     // Set GLFW window hints
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
     //Specify whether to create a forward-compatible context
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    
-    // Set the number of samples for multisampling
-    glfwWindowHint(GLFW_SAMPLES, 4);
-    
-    glfwWindowHint(GLFW_RED_BITS, 8);
-    glfwWindowHint(GLFW_GREEN_BITS, 8);
-    glfwWindowHint(GLFW_BLUE_BITS, 8);
-    glfwWindowHint(GLFW_ALPHA_BITS, 8);
-    
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-    
-    glfwWindowHint(GLFW_DEPTH_BITS, 24);
-    glfwWindowHint(GLFW_STENCIL_BITS, 8);
-
-    
 
     // Create a GLFW window
-    m_windowPtr = std::shared_ptr<GLFWwindow>(glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr));
+    m_windowPtr = glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr);
     if (!m_windowPtr)
     {
         OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
@@ -37,7 +22,7 @@ Window::Window()
     }
     
     // Make the context current before initializing GLEW
-    glfwMakeContextCurrent(getWindow());
+    makeCurrentContext(vsync);
 
     // Initialize GLEW or GLAD here if needed
     if (glewInit() != GLEW_OK)
@@ -48,17 +33,20 @@ Window::Window()
     }
 
     // Set GLFW user pointer to 'this' for access in callback functions
-    glfwSetWindowUserPointer(getWindow(), this);
+    glfwSetWindowUserPointer(m_windowPtr, this);
+
+    //helpful function
+    //glfwSetWindowPos(m_windowPtr, windowX, windowY);
 
     // Show the window
-    glfwShowWindow(getWindow());
+    glfwShowWindow(m_windowPtr);
 }
 
 Window::~Window()
 {
+    glfwMakeContextCurrent(nullptr);
     // Destroy the GLFW window
-    glfwDestroyWindow(getWindow());
-
+    glfwDestroyWindow(m_windowPtr);
     // Terminate GLFW
     glfwTerminate();
 }
@@ -66,27 +54,32 @@ Window::~Window()
 Rect Window::getInnerSize()
 {
     int width, height;
-    glfwGetFramebufferSize(getWindow(), &width, &height);
-    return Rect(width, height);
+    glfwGetFramebufferSize(m_windowPtr, &width, &height);
+    return Rect(0, 0, width, height);
 }
 
 GLFWwindow* Window::getWindow()
 {
-    return m_windowPtr.get();
+    return m_windowPtr;
 }
 
-void Window::makeCurrentContext()
+void Window::makeCurrentContext(bool vsync)
 {
-    glfwMakeContextCurrent(getWindow());
-}
+    glfwMakeContextCurrent(m_windowPtr);
 
-void Window::present(bool vsync)
-{
     glfwSwapInterval(vsync ? 1 : 0);
-    glfwSwapBuffers(getWindow());
+
+    glEnable(GL_DEPTH_TEST);
+
+    glEnable(GL_BLEND);
+}
+
+void Window::present()
+{
+    glfwSwapBuffers(m_windowPtr);
 }
 
 bool Window::shouldClose()
 {
-    return glfwWindowShouldClose(getWindow());
+    return glfwWindowShouldClose(m_windowPtr);
 }

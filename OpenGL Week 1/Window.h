@@ -1,6 +1,17 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : Window.h
+Description : Window class is a wrapper of a GLFWwindow to display the rendering from the graphics engine
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include <memory>
-
 #include <glew.h>
 #include <glfw3.h>
 #include "Rect.h"
@@ -13,12 +24,12 @@ public:
 
 	Rect getInnerSize();
 	GLFWwindow* getWindow();
-	void makeCurrentContext();
-	void present(bool vsync);
+	void makeCurrentContext(bool vsync);
+	void present();
 	bool shouldClose();
 private:
-	std::shared_ptr<GLFWwindow> m_windowPtr;
+	GLFWwindow* m_windowPtr;
 	void* m_context = nullptr;
-	Rect m_size = Rect(1024, 768);
+	bool vsync = false;
+	Rect m_size = Rect(800, 800);
 };
-

@@ -1,7 +1,5 @@
 #include "EntitySystem.h"
 #include "Entity.h"
-#include "Camera.h"
-#include "GraphicsEntity.h"
 
 EntitySystem::EntitySystem()
 {
@@ -24,26 +22,11 @@ Game* EntitySystem::getGame()
 bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
 {
 	auto ptr = std::unique_ptr<Entity>(entity);
-	auto camId = typeid(Camera).hash_code();
-	if (id == camId)
-	{
-		auto it = m_entities.find(camId);
-		if (it != m_entities.end())
-		{
-			if (it->second.size()) return false;
-			it->second.emplace(entity, std::move(ptr));
-		}
-		else 
-		{
-			m_entities[id].emplace(entity, std::move(ptr));
-		}
-	}
-	else
-	{
-		m_entities[id].emplace(entity, std::move(ptr));
-	}
-	entity->m_id = id;
-	entity->m_entitySystem = this;
+
+	m_entities[id].emplace(entity, std::move(ptr));
+
+	entity->setId(id);
+	entity->setEntitySystem(this);
 
 	entity->onCreate();
 
@@ -59,7 +42,7 @@ void EntitySystem::update(float deltaTime)
 {
 	for (auto e : m_entitiesToDestroy)
 	{
-		m_entities[e->m_id].erase(e);
+		m_entities[e->getId()].erase(e);
 	}
 	m_entitiesToDestroy.clear();
 

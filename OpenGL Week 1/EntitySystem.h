@@ -1,5 +1,18 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : EntitySystem.h
+Description : entity system is a container and controller of the entities for the game
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
-#include "Prerequisites.h"
+#include "Utils.h"
+#include "Math.h"
 #include <map>
 #include <set>
 
@@ -24,17 +37,16 @@ public:
 		return nullptr;
 	}
 	Game* getGame();
-private:
-	bool createEntityInternal(Entity* entity, size_t id);
 	void removeEntity(Entity* entity);
 
 	void update(float deltaTime);
-private:
+
 	std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
+
+private:
+	bool createEntityInternal(Entity* entity, size_t id);
+
 	std::set<Entity*> m_entitiesToDestroy;
 
 	Game* m_game = nullptr;
-
-	friend class Entity;
-	friend class Game;
 };

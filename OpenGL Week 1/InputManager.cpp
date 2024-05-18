@@ -25,8 +25,21 @@ bool InputManager::isKeyDown(Key key)
 		keyGLFW = GLFW_KEY_LEFT_SHIFT;
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
-	
+	else if (key == KeyLeft)
+		keyGLFW = GLFW_KEY_LEFT;
+	else if (key == KeyRight)
+		keyGLFW = GLFW_KEY_RIGHT;
+	else if (key == KeyUp)
+		keyGLFW = GLFW_KEY_UP;
+	else if (key == KeyDown)
+		keyGLFW = GLFW_KEY_DOWN;
+
 	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
+}
+
+bool InputManager::isKeyPressed(Key key)
+{
+	return !previousKeyStates[key] && currentKeyStates[key];
 }
 
 bool InputManager::isKeyUp(Key key)
@@ -41,20 +54,35 @@ bool InputManager::isKeyUp(Key key)
 		keyGLFW = GLFW_KEY_LEFT_SHIFT;
 	else if (key == KeyEscape)
 		keyGLFW = GLFW_KEY_ESCAPE;
+	else if (key == KeyLeft)
+		keyGLFW = GLFW_KEY_LEFT;
+	else if (key == KeyRight)
+		keyGLFW = GLFW_KEY_RIGHT;
+	else if (key == KeyUp)
+		keyGLFW = GLFW_KEY_UP;
+	else if (key == KeyDown)
+		keyGLFW = GLFW_KEY_DOWN;
 
-	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_PRESS);
+	return (glfwGetKey(WindowPtr, keyGLFW) == GLFW_RELEASE);
 }
 
 bool InputManager::isMouseDown(MouseButton button)
 {
 	int buttonGLFW = -1;
 
-	if (button == MouseButtonLeft)
+	switch (button) {
+	case MouseButton::MouseButtonLeft:
 		buttonGLFW = GLFW_MOUSE_BUTTON_LEFT;
-	else if (button == MouseButtonMiddle)
+		break;
+	case MouseButton::MouseButtonMiddle:
 		buttonGLFW = GLFW_MOUSE_BUTTON_MIDDLE;
-	else if (button == MouseButtonRight)
+		break;
+	case MouseButton::MouseButtonRight:
 		buttonGLFW = GLFW_MOUSE_BUTTON_RIGHT;
+		break;
+	default:
+		break;
+	}
 
 	if (buttonGLFW != -1) {
 		return (glfwGetMouseButton(WindowPtr, buttonGLFW) == GLFW_PRESS);
@@ -63,16 +91,28 @@ bool InputManager::isMouseDown(MouseButton button)
 	return false;
 }
 
+bool InputManager::isMousePressed(MouseButton button)
+{
+	return !previousMouseStates[button] && currentMouseStates[button];
+}
+
 bool InputManager::isMouseUp(MouseButton button)
 {
 	int buttonGLFW = -1;
 
-	if (button == MouseButtonLeft)
+	switch (button) {
+	case MouseButton::MouseButtonLeft:
 		buttonGLFW = GLFW_MOUSE_BUTTON_LEFT;
-	else if (button == MouseButtonMiddle)
+		break;
+	case MouseButton::MouseButtonMiddle:
 		buttonGLFW = GLFW_MOUSE_BUTTON_MIDDLE;
-	else if (button == MouseButtonRight)
+		break;
+	case MouseButton::MouseButtonRight:
 		buttonGLFW = GLFW_MOUSE_BUTTON_RIGHT;
+		break;
+	default:
+		break;
+	}
 
 	if (buttonGLFW != -1) {
 		return (glfwGetMouseButton(WindowPtr, buttonGLFW) == GLFW_RELEASE);
@@ -89,6 +129,12 @@ float InputManager::getMouseXAxis()
 float InputManager::getMouseYAxis()
 {
 	return m_deltaMouse.y;
+}
+
+glm::vec2 InputManager::getMousePosition()
+{
+	glm::vec2 currentCursorPosition(currentMouseX, currentMouseY);
+	return currentCursorPosition;
 }
 
 void InputManager::enablePlayMode(bool enable)
@@ -110,51 +156,45 @@ void InputManager::setScreenArea(const Rect& area)
 
 void InputManager::update()
 {
-	double currentMouseX, currentMouseY;
 	glfwGetCursorPos(WindowPtr, &currentMouseX, &currentMouseY);
 
+	//smooths the mouse movement when in play mode
 	const double MOUSE_MOVEMENT_THRESHOLD = 0.01;
 
 	if (std::abs(currentMouseX - m_old_mouse_pos.x) > MOUSE_MOVEMENT_THRESHOLD || std::abs(currentMouseY - m_old_mouse_pos.y) > MOUSE_MOVEMENT_THRESHOLD)
 	{
-		m_deltaMouse = Vec2((float)(currentMouseX - m_old_mouse_pos.x), (float)(currentMouseY - m_old_mouse_pos.y));
+		m_deltaMouse = glm::vec2((float)(currentMouseX - m_old_mouse_pos.x), (float)(currentMouseY - m_old_mouse_pos.y));
 	}
 	else
 	{
-		m_deltaMouse = Vec2(0, 0);
+		m_deltaMouse = glm::vec2(0, 0);
 	}
 
+	// when in play mode set the position of the mouse to the center of the screen
 	if (!m_playEnable)
 	{
-		m_old_mouse_pos = Vec2((float)currentMouseX, (float)currentMouseY);
+		m_old_mouse_pos = glm::vec2((float)currentMouseX, (float)currentMouseY);
 	}
 	else
 	{
-		Vec2 center_screen = Vec2(m_screenArea.left + (float)m_screenArea.width / 2.0f, m_screenArea.top + (float)m_screenArea.height / 2.0f);
+		glm::vec2 center_screen = glm::vec2(m_screenArea.left + (float)m_screenArea.width / 2.0f, m_screenArea.top + (float)m_screenArea.height / 2.0f);
 		glfwSetCursorPos(WindowPtr, center_screen.x, center_screen.y);
 		m_old_mouse_pos = center_screen;
 	}
 
-	for (int i = 0; i < GLFW_KEY_LAST; ++i)
-	{
-		int keyState = glfwGetKey(WindowPtr, i);
+	// Update the previous key states to the current key states
+	previousKeyStates = currentKeyStates;
 
-		if (keyState == GLFW_PRESS)
-		{
-			m_keys_state_res[i] = 0;
-		}
-		else // KEY IS UP
-		{
-			if (keyState != m_old_keys_state[i])
-			{
-				m_keys_state_res[i] = 1;
-			}
-			else
-			{
-				m_keys_state_res[i] = 2;
-			}
-		}
+	// Update the current key states
+	for (auto& keyState : currentKeyStates) {
+		keyState.second = isKeyDown(keyState.first);
 	}
+	
+	// Update the previous mouse states to the current mouse states
+	previousMouseStates = currentMouseStates;
 
-	std::memcpy(m_old_keys_state, m_keys_state_res, sizeof(int) * std::min(GLFW_KEY_LAST, ARRAY_SIZE));
+	// Update the current mouse states
+	for (auto& mouseState : currentMouseStates) {
+		mouseState.second = isMouseDown(mouseState.first);
+	}
 }

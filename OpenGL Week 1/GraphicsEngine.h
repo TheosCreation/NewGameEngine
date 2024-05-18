@@ -1,13 +1,18 @@
-#pragma once
-#include "Prerequisites.h"
-#include "Vec4.h"
-#include "UniformBuffer.h"
-#include "VertexArrayObject.h"
-#include "ShaderProgram.h"
-#include "Texture2D.h"
-#include "Rect.h"
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2023 Media Design School
+File Name : GraphicsEngine.h
+Description : GraphicsEngine class contains all the render functionality of opengl
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
 
-//extern float CurrentTime;
+#pragma once
+#include "Utils.h"
+#include "Math.h"
 
 class GraphicsEngine
 {
@@ -15,25 +20,21 @@ public:
 	GraphicsEngine();
 	~GraphicsEngine();
 
-public:	
 	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc);
 	VertexArrayObjectPtr createVertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc);
-	UniformBufferPtr createUniform(const UniformBufferDesc& desc);
-	ShaderProgramPtr createShaderProgram(const ShaderProgramDesc& desc);
+	ShaderPtr createShader(const ShaderDesc& desc);
 	Texture2DPtr createTexture2D(const Texture2DDesc& desc);
-public:
-	void clear(const Vec4& color);
+
+	void clear(const glm::vec4& color);
 	void setFaceCulling(const CullType& type);
 	void setWindingOrder(const WindingOrder& type);
 	void SetViewport(const Rect& size);
 	void setVertexArrayObject(const VertexArrayObjectPtr& vao);
-	void setUniformBuffer(const UniformBufferPtr& buffer, uint slot);
-	void setShaderProgram(const ShaderProgramPtr& program);
+	void setShader(const ShaderPtr& program);
 	void setTexture2D(const Texture2DPtr& texture, uint slot);
 
 	void drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset);
 	void drawIndexedTriangles(const TriangleType& triangleType, uint indicesCount);
-
-private:
+	void drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, int instanceCount);
 };
 
