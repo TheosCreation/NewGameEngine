@@ -1,7 +1,7 @@
 #include "Shader.h"
-#include<iostream>
-#include<fstream>
-#include<sstream>
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include <vector>
 
 Shader::Shader(const ShaderDesc& desc)
@@ -116,10 +116,4 @@ void Shader::link()
 uint Shader::getId()
 {
 	return m_programId;
-}
-
-void Shader::setUniformBufferSlot(const char* name, uint slot)
-{
-	uint index = glGetUniformBlockIndex(m_programId, name);
-	glUniformBlockBinding(m_programId, index, slot);
 }

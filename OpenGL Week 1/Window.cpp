@@ -4,8 +4,8 @@
 Window::Window()
 {
     // Set GLFW window hints
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
@@ -34,6 +34,9 @@ Window::Window()
 
     // Set GLFW user pointer to 'this' for access in callback functions
     glfwSetWindowUserPointer(m_windowPtr, this);
+
+    //helpful function
+    //glfwSetWindowPos(m_windowPtr, windowX, windowY);
 
     // Show the window
     glfwShowWindow(m_windowPtr);

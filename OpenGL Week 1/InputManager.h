@@ -42,6 +42,9 @@ public:
 	// Checks if the specified mouse button is currently being held down
 	bool isMouseDown(MouseButton button);
 
+	// Checks if the specified mouse button was pressed
+	bool isMousePressed(MouseButton button);
+
 	// Checks if the specified mouse button is currently not being held down
 	bool isMouseUp(MouseButton button);
 
@@ -51,8 +54,8 @@ public:
 	//getMouseYAxis returns the current mouse movement along y axis: -1 (bottom), 1 (top).
 	float getMouseYAxis();
 
-	//getCursorPosition returns the current cursor position as a vector2
-	glm::vec2 getCursorPosition();
+	//getMousePosition returns the current mouse position as a vector2
+	glm::vec2 getMousePosition();
 
 	//enablePlayMode allows to hide the cursor and to lock it at the center of the screen.
 	void enablePlayMode(bool enable);
@@ -65,11 +68,19 @@ private:
 	GLFWwindow* WindowPtr = nullptr;
 
 	bool m_playEnable = false;
-	glm::vec2 m_old_mouse_pos;
+	glm::vec2 m_old_mouse_pos{};
 	Rect m_screenArea;
-	glm::vec2 m_deltaMouse;
+	glm::vec2 m_deltaMouse{};
 
+	double currentMouseX = 0.0f;
+	double currentMouseY = 0.0f;
+
+	//key states
 	std::unordered_map<Key, bool> currentKeyStates;
 	std::unordered_map<Key, bool> previousKeyStates;
+
+	//mouse states
+	std::unordered_map<MouseButton, bool> currentMouseStates;
+	std::unordered_map<MouseButton, bool> previousMouseStates;
 };
 

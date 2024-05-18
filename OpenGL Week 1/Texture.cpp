@@ -33,7 +33,7 @@ Texture::~Texture()
 {
 }
 
-Texture2DPtr Texture::getTexture2D()
+Texture2DPtr Texture::getTexture2D() const
 {
 	return m_texture2D;
 }

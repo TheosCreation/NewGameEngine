@@ -16,7 +16,7 @@ void Camera::getViewMatrix(glm::mat4& view)
 	view = m_view;
 }
 
-void Camera::getProjectionMatrix(glm::mat4& proj)
+void Camera::getProjectionMatrix(glm::mat4& proj) const
 {
 	proj = m_projection;
 }

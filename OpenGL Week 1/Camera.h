@@ -5,7 +5,7 @@ Auckland
 New Zealand
 (c) 2023 Media Design School
 File Name : Camera.h
-Description : implements a camera for opengl orbits the center of the world
+Description : Implements a camera for OpenGL
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -18,28 +18,76 @@ Mail : theo.morris@mds.ac.nz
 class Camera : public Entity
 {
 public:
-	void getViewMatrix(glm::mat4& view);
-	void getProjectionMatrix(glm::mat4& proj);
+    /**
+     * @brief Gets the view matrix for the camera.
+     * @param[out] view The view matrix to fill.
+     */
+    void getViewMatrix(glm::mat4& view);
 
-	void setFarPlane(float farPlane);
-	void setNearPlane(float nearPlane);
-	void setFieldOfView(float fov);
-	CameraType getCameraType();
-	void setCameraType(const CameraType& type);
-	void setScreenArea(const Rect& screen);
-	void setTargetPosition(glm::vec3 newTargetPosition);
-private:
-	void computeProjectionMatrix();
-private:
-	glm::mat4 m_view{};
-	glm::mat4 m_projection{};
-	glm::vec3 m_targetPosition{};
+    /**
+     * @brief Gets the projection matrix for the camera.
+     * @param[out] proj The projection matrix to fill.
+     */
+    void getProjectionMatrix(glm::mat4& proj) const;
 
-	float m_farPlane = 100000.0f;
-	float m_nearPlane = 0.01f;
-	float m_fov = 90.0f;
-	const float radius = 10.0f;
-	CameraType m_type = CameraType::Perspective;
-	Rect m_screenArea;
+    /**
+     * @brief Sets the far plane distance of the camera.
+     * @param farPlane The distance to set.
+     */
+    void setFarPlane(float farPlane);
+
+    /**
+     * @brief Sets the near plane distance of the camera.
+     * @param nearPlane The distance to set.
+     */
+    void setNearPlane(float nearPlane);
+
+    /**
+     * @brief Sets the field of view (FOV) angle of the camera.
+     * @param fov The FOV angle in degrees.
+     */
+    void setFieldOfView(float fov);
+
+    /**
+     * @brief Gets the type of the camera (Perspective or Orthographic).
+     * @return The camera type.
+     */
+    CameraType getCameraType();
+
+    /**
+     * @brief Sets the type of the camera (Perspective or Orthographic).
+     * @param type The camera type to set.
+     */
+    void setCameraType(const CameraType& type);
+
+    /**
+     * @brief Sets the screen area of the camera.
+     * @param screen The screen area rectangle.
+     */
+    void setScreenArea(const Rect& screen);
+
+    /**
+     * @brief Sets the target position that the camera is looking at.
+     * @param newTargetPosition The new target position.
+     */
+    void setTargetPosition(glm::vec3 newTargetPosition);
+
+private:
+    /**
+     * @brief Computes the projection matrix based on camera parameters.
+     */
+    void computeProjectionMatrix();
+
+private:
+    glm::mat4 m_view{};                 //The view matrix of the camera.
+    glm::mat4 m_projection{};           //The projection matrix of the camera.
+    glm::vec3 m_targetPosition{};       //The target position that the camera is looking at.
+
+    float m_farPlane = 100000.0f;       //The distance of the far plane.
+    float m_nearPlane = 0.01f;          //The distance of the near plane.
+    float m_fov = 90.0f;                //The field of view (FOV) angle.
+    const float radius = 10.0f;         //The radius of the camera's orbit.
+    CameraType m_type = CameraType::Perspective;  //The type of the camera (Perspective or Orthographic).
+    Rect m_screenArea;                   //The screen area of the camera.
 };
 

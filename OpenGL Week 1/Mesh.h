@@ -1,7 +1,6 @@
 #pragma once
 #include <map>
 #include <string>
-#include "VertexArrayObject.h" 
 #include "Utils.h"
 #include "Resource.h"
 #include "ResourceManager.h"

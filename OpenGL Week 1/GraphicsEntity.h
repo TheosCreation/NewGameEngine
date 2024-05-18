@@ -24,11 +24,15 @@ public:
 	virtual ~GraphicsEntity();
 
 	virtual void onGraphicsUpdate(float deltaTime) {}
-
-	ShaderPtr getShader();
-
 	virtual void setUniformData(UniformData data) {};
+
+	ShaderPtr getShader() const;
+	void setShader(const ShaderPtr& shader);
+
+	TexturePtr getTexture() const;
+	void setTexture(const TexturePtr& texture);
+
 protected:
 	ShaderPtr m_shader;
-	friend class EntitySystem;
+	TexturePtr m_texture;
 };

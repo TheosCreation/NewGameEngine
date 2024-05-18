@@ -18,13 +18,9 @@ class MeshEntity : public GraphicsEntity
 public:
 	void setMesh(const MeshPtr& mesh);
 	MeshPtr getMesh();
-
-	virtual void setTexture(const TexturePtr& texture);
-	TexturePtr getTexture();
-	void setUniformData(UniformData data);
+	virtual void onCreate();
+	virtual void setUniformData(UniformData data);
 	virtual void onGraphicsUpdate(float deltaTime);
-	void setShader(const ShaderPtr& shader);
 private:
 	MeshPtr m_mesh;
-	TexturePtr m_texture;
 };

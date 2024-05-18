@@ -91,6 +91,11 @@ bool InputManager::isMouseDown(MouseButton button)
 	return false;
 }
 
+bool InputManager::isMousePressed(MouseButton button)
+{
+	return !previousMouseStates[button] && currentMouseStates[button];
+}
+
 bool InputManager::isMouseUp(MouseButton button)
 {
 	int buttonGLFW = -1;
@@ -126,11 +131,9 @@ float InputManager::getMouseYAxis()
 	return m_deltaMouse.y;
 }
 
-glm::vec2 InputManager::getCursorPosition()
+glm::vec2 InputManager::getMousePosition()
 {
-	double mouseX, mouseY;
-	glfwGetCursorPos(WindowPtr, &mouseX, &mouseY);
-	glm::vec2 currentCursorPosition(mouseX, mouseY);
+	glm::vec2 currentCursorPosition(currentMouseX, currentMouseY);
 	return currentCursorPosition;
 }
 
@@ -153,9 +156,9 @@ void InputManager::setScreenArea(const Rect& area)
 
 void InputManager::update()
 {
-	double currentMouseX, currentMouseY;
 	glfwGetCursorPos(WindowPtr, &currentMouseX, &currentMouseY);
 
+	//smooths the mouse movement when in play mode
 	const double MOUSE_MOVEMENT_THRESHOLD = 0.01;
 
 	if (std::abs(currentMouseX - m_old_mouse_pos.x) > MOUSE_MOVEMENT_THRESHOLD || std::abs(currentMouseY - m_old_mouse_pos.y) > MOUSE_MOVEMENT_THRESHOLD)
@@ -167,6 +170,7 @@ void InputManager::update()
 		m_deltaMouse = glm::vec2(0, 0);
 	}
 
+	// when in play mode set the position of the mouse to the center of the screen
 	if (!m_playEnable)
 	{
 		m_old_mouse_pos = glm::vec2((float)currentMouseX, (float)currentMouseY);
@@ -184,5 +188,13 @@ void InputManager::update()
 	// Update the current key states
 	for (auto& keyState : currentKeyStates) {
 		keyState.second = isKeyDown(keyState.first);
+	}
+	
+	// Update the previous mouse states to the current mouse states
+	previousMouseStates = currentMouseStates;
+
+	// Update the current mouse states
+	for (auto& mouseState : currentMouseStates) {
+		mouseState.second = isMouseDown(mouseState.first);
 	}
 }

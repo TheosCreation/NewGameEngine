@@ -18,7 +18,6 @@ class QuadEntity : public GraphicsEntity
 {
 public:
 	virtual void onCreate();
-	virtual void setTexture(const TexturePtr& texture);
 	virtual void setUniformData(UniformData data);
 	void setShader(const ShaderPtr& shader);
 protected:
@@ -26,5 +25,4 @@ protected:
 
 private:
 	VertexArrayObjectPtr m_mesh;
-	TexturePtr m_texture;
 };

@@ -5,7 +5,6 @@ layout(location = 1) in vec2 vertexTexCoords;
 layout(location = 2) in vec3 vertexNormal;
 layout(location = 3) in mat4 InstancedModel;
 
-uniform mat4 mvpMatrixs[256];
 uniform mat4 VPMatrix;
 
 out vec2 FragTexcoord;

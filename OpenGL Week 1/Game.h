@@ -16,7 +16,6 @@ Mail : theo.morris@mds.ac.nz
 #include "GraphicsEngine.h"
 #include "ResourceManager.h"
 #include "Entity.h"
-#include "Rect.h"
 
 class Window;
 class EntitySystem;
@@ -54,7 +53,5 @@ protected:
 	float m_previousTime = 0;
 	float m_currentTime = 0;
 	float m_scale = 0;
-
-	friend class Entity;
 };
 

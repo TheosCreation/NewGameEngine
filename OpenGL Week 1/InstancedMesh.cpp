@@ -1,4 +1,5 @@
 #include "InstancedMesh.h"
+#include "VertexArrayObject.h"
 
 InstancedMesh::InstancedMesh(const wchar_t* path, ResourceManager* manager) : Mesh(path, manager)
 {
@@ -27,7 +28,7 @@ void InstancedMesh::initInstanceBuffer()
     getVertexArrayObject()->initInstanceBuffer(m_instanceTransforms.data(), m_instanceTransforms.size());
 }
 
-size_t InstancedMesh::getInstanceCount()
+int InstancedMesh::getInstanceCount()
 {
-    return m_instanceTransforms.size();
+    return static_cast<int>(m_instanceTransforms.size());
 }

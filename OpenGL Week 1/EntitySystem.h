@@ -37,19 +37,16 @@ public:
 		return nullptr;
 	}
 	Game* getGame();
-
-	float globalScale = 1.0f;
-private:
-	bool createEntityInternal(Entity* entity, size_t id);
 	void removeEntity(Entity* entity);
 
 	void update(float deltaTime);
-private:
+
 	std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
+
+private:
+	bool createEntityInternal(Entity* entity, size_t id);
+
 	std::set<Entity*> m_entitiesToDestroy;
 
 	Game* m_game = nullptr;
-
-	friend class Entity;
-	friend class Game;
 };

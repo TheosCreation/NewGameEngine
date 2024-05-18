@@ -1,6 +1,9 @@
 #include "GraphicsEngine.h"
 #include <glew.h>
 #include <glfw3.h>
+#include "VertexArrayObject.h"
+#include "Shader.h"
+#include "Texture2D.h"
 
 VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
 {
@@ -112,7 +115,7 @@ void GraphicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint
     glDrawElements(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr);
 }
 
-void GraphicsEngine::drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, uint instanceCount)
+void GraphicsEngine::drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, int instanceCount)
 {
     auto glTriType = GL_TRIANGLES;
 

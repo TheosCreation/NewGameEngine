@@ -1,20 +1,16 @@
 #pragma once
 
-#include "GraphicsEntity.h"
-#include <vector>
+#include "MeshEntity.h"
 
-class InstancedMeshEntity : public GraphicsEntity
+class InstancedMeshEntity : public MeshEntity
 {
 public:
 	void setMesh(const InstancedMeshPtr& mesh);
 	InstancedMeshPtr getMesh();
 
-	void setTexture(const TexturePtr& texture);
-	TexturePtr getTexture();
-	void setUniformData(UniformData data);
-	virtual void onGraphicsUpdate(float deltaTime);
-	void setShader(const ShaderPtr& shader);
+	void onCreate() override;
+	void setUniformData(UniformData data) override;
+	void onGraphicsUpdate(float deltaTime) override;
 private:
 	InstancedMeshPtr m_mesh;
-	TexturePtr m_texture;
 };

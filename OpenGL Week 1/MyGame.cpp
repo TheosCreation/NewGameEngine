@@ -14,18 +14,20 @@ void MyGame::onCreate()
 {
 	Game::onCreate();
 	
-	//loading texture resource
-	//alien->getTexture2D()->setMirrored();
+	//loading texture resources
 	auto buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Down.png"));
+	auto buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Hovering.png"));
 	auto buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Up.png"));
+
+	auto groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/dirt.jpg"));
 
 	auto skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.jpg"));
 
-	//loading sphere mesh resource
-	auto sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
+	auto colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
+	auto plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
 
-	auto statueTexture1 = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
-	auto statueTexture2 = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
+	// loading meshes
+	auto sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
 	auto statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
 	auto instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
@@ -46,23 +48,21 @@ void MyGame::onCreate()
 			L"InstancedMesh"
 		});
 
-	
-
 	//creating statue
 	m_statue = getEntitySystem()->createEntity<MeshEntity>();
-	m_statue->setScale(glm::vec3(0.15f, 0.15f, 0.15f));
+	m_statue->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	m_statue->setPosition(glm::vec3(0, 0, 0));
-	m_statue->setTexture(statueTexture1);
+	m_statue->setTexture(colouredAncientTextureSheet);
 	m_statue->setMesh(statueMesh);
 	m_statue->setShader(meshShader);
 	
 	//creating instanced tree
 	auto m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
-	m_instancedTree->setTexture(statueTexture1);
+	m_instancedTree->setTexture(colouredAncientTextureSheet);
 	m_instancedTree->setShader(instancedMeshShader);
 
 	m_instancedTree->setMesh(instancedTreeMesh);
-	float spacing = 20.0f;
+	float spacing = 30.0f;
 	for (int row = -16; row < 16; ++row) {
 		for (int col = -16; col < 16; ++col) {
 			if (row == 0 && col == 0) break;
@@ -75,8 +75,10 @@ void MyGame::onCreate()
 			float angleY = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
 			float angleZ = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
 
+			float randomScale = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 0.05f;
+
 			// Add the tree instance with random rotations
-			instancedTreeMesh->addInstance(position, glm::vec3(0.1f, 0.05f, 0.1f), glm::vec3(angleX, angleY, angleZ));
+			instancedTreeMesh->addInstance(position, glm::vec3(0.05f, 0.025f, 0.05f) + randomScale, glm::vec3(angleX, angleY, angleZ));
 		}
 	}
 
@@ -87,7 +89,7 @@ void MyGame::onCreate()
 	m_ground = getEntitySystem()->createEntity<MeshEntity>();
 	m_ground->setScale(glm::vec3(800, 1, 800));
 	m_ground->setPosition(glm::vec3(0, -1, 0));
-	m_ground->setTexture(buttonDownTexture);
+	m_ground->setTexture(groundTexture);
 	m_ground->setMesh(sphereMesh);
 	m_ground->setShader(meshShader);
 	
@@ -102,23 +104,24 @@ void MyGame::onCreate()
 	//creating the player object
 	//all the input managements, creation of camera are moved inside Player class
 	m_player = getEntitySystem()->createEntity<MyPlayer>();
-	m_player->setScale(glm::vec3(0, 0, 0) * m_entitySystem->globalScale);
-	m_player->setPosition(glm::vec3(0, 0.0f, 0.0f) * m_entitySystem->globalScale);
+	m_player->setScale(glm::vec3(0.0f));
+	m_player->setPosition(glm::vec3(0.0f));
 
 	//ui button
 	m_button = getEntitySystem()->createEntity<QuadEntity>();
-	m_button->setScale(glm::vec3(200.0f, 100.0f, 1.0f));
-	m_button->setPosition(glm::vec3(100.0f * m_uiScaleX, 100.0f * m_uiScaleY, 0.0f));
+	m_button->setScale(glm::vec3(400.0f * -1, 200.0f, 1.0f));
+	m_button->setPosition(glm::vec3(200.0f * m_uiScaleX, 100.0f * m_uiScaleY, 0.0f));
 	m_button->setTexture(buttonUpTexture);
 	m_button->setShader(quadShader);
 	m_player->addButtonRef(m_button);
-	m_player->setInstancedEntity(m_instancedTree, statueTexture1, statueTexture2);
+	m_player->setInstancedEntity(m_instancedTree, colouredAncientTextureSheet, plainAncientTextureSheet);
+	m_player->setButtonTextures(buttonUpTexture, buttonHoveringTexture, buttonDownTexture);
 }
 
 void MyGame::onUpdate(float deltaTime)
 {
 	m_rotz += glm::radians(40.0f * deltaTime);
-	m_roty += glm::radians(5.0f * deltaTime);
+	m_roty += glm::radians(2.0f * deltaTime);
 
 	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
 

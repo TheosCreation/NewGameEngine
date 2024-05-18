@@ -1,7 +1,7 @@
 #include "QuadEntity.h"
 #include "GraphicsEngine.h"
 #include "Game.h"
-#include "Texture.h"
+#include "VertexArrayObject.h"
 
 struct Vertex
 {
@@ -69,11 +69,6 @@ void QuadEntity::onCreate()
         );
 }
 
-void QuadEntity::setTexture(const TexturePtr& texture)
-{
-    m_texture = texture;
-}
-
 void QuadEntity::setUniformData(UniformData data)
 {
     m_shader->setMat4("VPMatrix", data.uiViewProjectionMatrix);
@@ -91,7 +86,7 @@ void QuadEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::BackFace);
-    engine->setWindingOrder(WindingOrder::CounterClockWise);
+    engine->setWindingOrder(WindingOrder::ClockWise);
 
     engine->setTexture2D(m_texture->getTexture2D(), 0);
 

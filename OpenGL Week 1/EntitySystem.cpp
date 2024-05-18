@@ -1,7 +1,5 @@
 #include "EntitySystem.h"
 #include "Entity.h"
-#include "Camera.h"
-#include "GraphicsEntity.h"
 
 EntitySystem::EntitySystem()
 {
@@ -27,8 +25,8 @@ bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
 
 	m_entities[id].emplace(entity, std::move(ptr));
 
-	entity->m_id = id;
-	entity->m_entitySystem = this;
+	entity->setId(id);
+	entity->setEntitySystem(this);
 
 	entity->onCreate();
 
@@ -44,7 +42,7 @@ void EntitySystem::update(float deltaTime)
 {
 	for (auto e : m_entitiesToDestroy)
 	{
-		m_entities[e->m_id].erase(e);
+		m_entities[e->getId()].erase(e);
 	}
 	m_entitiesToDestroy.clear();
 
