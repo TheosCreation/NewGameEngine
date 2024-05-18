@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : MeshEntity.cpp
+Description : Entity type that renders meshes
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "MeshEntity.h"
 #include "GraphicsEngine.h"
 #include "VertexArrayObject.h" 

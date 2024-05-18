@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : QuadEntity.cpp
+Description : Entity type that renders a quad
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "QuadEntity.h"
 #include "GraphicsEngine.h"
 #include "Game.h"

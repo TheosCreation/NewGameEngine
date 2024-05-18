@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : MyGame.cpp
+Description : MyGame class is a stripped down class of the base game class to be able for end user to create their own entities
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "MyGame.h"
 #include "MyPlayer.h"
 #include <time.h>
@@ -15,21 +27,21 @@ void MyGame::onCreate()
 	Game::onCreate();
 	
 	//loading texture resources
-	TexturePtr buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Down.png"));
-	TexturePtr buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Hovering.png"));
-	TexturePtr buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Up.png"));
+	TexturePtr buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Down.png"));
+	TexturePtr buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Hovering.png"));
+	TexturePtr buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Up.png"));
 
-	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/dirt.jpg"));
+	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/dirt.jpg"));
 
-	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.jpg"));
+	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Sky.jpg"));
 
-	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
-	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
+	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
+	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
 
 	// loading meshes
-	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
-	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
-	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
+	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
+	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Prop_Statue_01.obj"));
+	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
 	ShaderPtr quadShader = m_graphicsEngine->createShader({
 			L"QuadShader",

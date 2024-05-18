@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : Mesh.cpp
+Description : A class representing a mesh resource
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "Mesh.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -8,7 +20,7 @@
 #include "Game.h"
 #include "GraphicsEngine.h"
 
-Mesh::Mesh(const wchar_t* path, ResourceManager* manager) : Resource(path, manager)
+Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
 {
     tinyobj::attrib_t attribs;
     std::vector<tinyobj::shape_t> shapes;

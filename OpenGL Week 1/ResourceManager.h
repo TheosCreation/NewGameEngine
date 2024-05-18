@@ -41,7 +41,7 @@ public:
      * @param path The file path to the resource.
      * @return A shared pointer to the created resource.
      */
-    ResourcePtr createResourceFromFile(const wchar_t* path);
+    ResourcePtr createResourceFromFile(const char* path);
 
     /**
      * @brief Creates a resource from a file with an option for instancing.
@@ -49,7 +49,7 @@ public:
      * @param isInstanced Flag indicating whether the resource is instanced.
      * @return A shared pointer to the created resource.
      */
-    ResourcePtr createResourceFromFile(const wchar_t* path, bool isInstanced);
+    ResourcePtr createResourceFromFile(const char* path, bool isInstanced);
 
     /**
      * @brief Gets the game instance.
@@ -58,6 +58,6 @@ public:
     Game* getGame();
 
 protected:
-    std::map<std::wstring, ResourcePtr> m_mapResources; //Map of resources keyed by their file paths
+    std::map<std::string, ResourcePtr> m_mapResources; //Map of resources keyed by their file paths
     Game* m_game = nullptr; //Pointer to the game instance
 };

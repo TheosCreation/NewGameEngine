@@ -28,7 +28,7 @@ public:
      * @param path The file path to the texture resource.
      * @param manager Pointer to the resource manager.
      */
-    Texture(const wchar_t* path, ResourceManager* manager);
+    Texture(const char* path, ResourceManager* manager);
 
     /**
      * @brief Destructor for the Texture class.

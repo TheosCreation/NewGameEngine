@@ -5,7 +5,7 @@ Auckland
 New Zealand
 (c) 2024 Media Design School
 File Name : QuadEntity.h
-Description : creates a quad with its texture split 4 times
+Description : Entity type that renders a quad
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -16,7 +16,7 @@ Mail : theo.morris@mds.ac.nz
 
 /**
  * @class QuadEntity
- * @brief Creates a quad with its texture split 4 times.
+ * @brief Entity type that renders a quad.
  */
 class QuadEntity : public GraphicsEntity
 {

@@ -29,7 +29,7 @@ public:
      * @param path The file path to the mesh resource.
      * @param manager Pointer to the resource manager.
      */
-    Mesh(const wchar_t* path, ResourceManager* manager);
+    Mesh(const char* path, ResourceManager* manager);
 
     /**
      * @brief Destructor for the Mesh class.

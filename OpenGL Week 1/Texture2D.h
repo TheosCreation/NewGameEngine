@@ -45,7 +45,7 @@ public:
      * @brief Gets the ID of the texture.
      * @return The ID of the texture.
      */
-    uint getId();
+    uint getId() const;
 
 private:
     uint m_textureId = 0; //The ID of the texture.

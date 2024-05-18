@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : InstancedMeshEntity.cpp
+Description : Entity type that renders instanced meshes
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "InstancedMeshEntity.h"
 #include "GraphicsEngine.h"
 #include "InstancedMesh.h"

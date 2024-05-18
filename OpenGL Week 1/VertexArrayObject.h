@@ -58,12 +58,6 @@ public:
     uint getVertexBufferSize();
 
     /**
-     * @brief Gets the size of a single vertex.
-     * @return The size of a single vertex.
-     */
-    uint getVertexSize();
-
-    /**
      * @brief Gets the number of indices in the index buffer.
      * @return The number of indices.
      */

@@ -1,13 +1,17 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : main.cpp
+Description : The entry point of the application
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "MyGame.h"
 
-/**
- * @brief The entry point of the application.
- *
- * This function initializes and runs the game. It catches any exceptions
- * that occur during the execution and logs the error message.
- *
- * @return Returns 0 if the application runs successfully, otherwise returns -1.
- */
 int main()
 {
     try

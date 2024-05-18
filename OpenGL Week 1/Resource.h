@@ -30,7 +30,7 @@ public:
      * @param path The file path to the resource.
      * @param manager Pointer to the resource manager.
      */
-    Resource(const wchar_t* path, ResourceManager* manager);
+    Resource(const char* path, ResourceManager* manager);
 
     /**
      * @brief Destructor for the Resource class.
@@ -41,8 +41,8 @@ public:
      * @brief Gets the file path of the resource.
      * @return The file path of the resource.
      */
-    std::wstring getPath();
+    std::string getPath();
 
 protected:
-    std::wstring m_path; //The file path of the resource
+    std::string m_path; //The file path of the resource
 };

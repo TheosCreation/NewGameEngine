@@ -27,7 +27,7 @@ public:
      * @param path The file path to the mesh resource.
      * @param manager Pointer to the resource manager.
      */
-    InstancedMesh(const wchar_t* path, ResourceManager* manager);
+    InstancedMesh(const char* path, ResourceManager* manager);
 
     /**
      * @brief Destructor for the InstancedMesh class.
