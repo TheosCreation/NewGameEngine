@@ -26,23 +26,24 @@ void MyGame::onCreate()
 {
 	Game::onCreate();
 	
-	//loading texture resources
+	//Loading texture resources
 	TexturePtr buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Down.png"));
 	TexturePtr buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Hovering.png"));
 	TexturePtr buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Up.png"));
 
 	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/dirt.jpg"));
 
-	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Sky.jpg"));
+	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/SkyBox.jpg"));
 
 	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
 	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
 
-	// loading meshes
+	//Loading meshes
 	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
 	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Prop_Statue_01.obj"));
 	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
+	//Loading Shader
 	ShaderPtr quadShader = m_graphicsEngine->createShader({
 			L"QuadShader",
 			L"QuadShader"
@@ -60,7 +61,7 @@ void MyGame::onCreate()
 			L"InstancedMesh"
 		});
 
-	//creating statue
+	//Creating statue obj
 	m_statue = getEntitySystem()->createEntity<MeshEntity>();
 	m_statue->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	m_statue->setPosition(glm::vec3(0, 0, 0));
@@ -68,7 +69,7 @@ void MyGame::onCreate()
 	m_statue->setMesh(statueMesh);
 	m_statue->setShader(meshShader);
 	
-	//creating instanced tree
+	//Creating instanced tree obj
 	m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
 	m_instancedTree->setTexture(colouredAncientTextureSheet);
 	m_instancedTree->setShader(instancedMeshShader);
@@ -94,10 +95,10 @@ void MyGame::onCreate()
 		}
 	}
 
-	// Init instance buffer
+	//Init instance buffer
 	instancedTreeMesh->initInstanceBuffer();
 
-	//creating ground object
+	//Creating ground object
 	m_ground = getEntitySystem()->createEntity<MeshEntity>();
 	m_ground->setScale(glm::vec3(800, 1, 800));
 	m_ground->setPosition(glm::vec3(0, -1, 0));
@@ -105,16 +106,16 @@ void MyGame::onCreate()
 	m_ground->setMesh(sphereMesh);
 	m_ground->setShader(meshShader);
 	
-	//creating skybox object
+	//Creating skybox object
 	m_skybox = getEntitySystem()->createEntity<MeshEntity>();
-	m_skybox->setScale(glm::vec3(800, 800, 800));
+	m_skybox->setScale(glm::vec3(1000.0f));
 	m_skybox->setPosition(glm::vec3(0, 0, 0));
 	m_skybox->setTexture(skyTexture);
 	m_skybox->setMesh(sphereMesh);
 	m_skybox->setShader(skyboxShader);
 
-	//creating the player object
-	//all the input managements, creation of camera are moved inside Player class
+	//Creating the player object
+	//all the input managements, creation of camera are inside Player class
 	m_player = getEntitySystem()->createEntity<MyPlayer>();
 	m_player->setScale(glm::vec3(0.0f));
 	m_player->setPosition(glm::vec3(0.0f));
@@ -132,9 +133,8 @@ void MyGame::onCreate()
 
 void MyGame::onUpdate(float deltaTime)
 {
+	//Slowly rotate the skybox
 	m_rotz += glm::radians(40.0f * deltaTime);
-	m_roty += glm::radians(2.0f * deltaTime);
-
 	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
 
 	m_statue->setPosition(m_player->getPosition());
