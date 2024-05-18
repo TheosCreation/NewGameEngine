@@ -15,35 +15,35 @@ void MyGame::onCreate()
 	Game::onCreate();
 	
 	//loading texture resources
-	auto buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Down.png"));
-	auto buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Hovering.png"));
-	auto buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Up.png"));
+	TexturePtr buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Down.png"));
+	TexturePtr buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Hovering.png"));
+	TexturePtr buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Button_Up.png"));
 
-	auto groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/dirt.jpg"));
+	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/dirt.jpg"));
 
-	auto skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.jpg"));
+	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/Sky.jpg"));
 
-	auto colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
-	auto plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
+	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
+	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(L"Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
 
 	// loading meshes
-	auto sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
-	auto statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
-	auto instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
+	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/sphere.obj"));
+	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Prop_Statue_01.obj"));
+	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile(L"Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
-	auto quadShader = m_graphicsEngine->createShader({
+	ShaderPtr quadShader = m_graphicsEngine->createShader({
 			L"QuadShader",
 			L"QuadShader"
 		});
-	auto meshShader = m_graphicsEngine->createShader({
+	ShaderPtr meshShader = m_graphicsEngine->createShader({
 			L"MeshShader",
 			L"MeshShader"
 		});
-	auto skyboxShader = m_graphicsEngine->createShader({
+	ShaderPtr skyboxShader = m_graphicsEngine->createShader({
 			L"SkyBoxShader",
 			L"SkyBoxShader"
 		});
-	auto instancedMeshShader = m_graphicsEngine->createShader({
+	ShaderPtr instancedMeshShader = m_graphicsEngine->createShader({
 			L"InstancedMesh",
 			L"InstancedMesh"
 		});
@@ -57,7 +57,7 @@ void MyGame::onCreate()
 	m_statue->setShader(meshShader);
 	
 	//creating instanced tree
-	auto m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
+	m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
 	m_instancedTree->setTexture(colouredAncientTextureSheet);
 	m_instancedTree->setShader(instancedMeshShader);
 

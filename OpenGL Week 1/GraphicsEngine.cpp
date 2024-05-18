@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : GraphicsEngine.cpp
+Description : GraphicsEngine class contains all the render functionality of opengl
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "GraphicsEngine.h"
 #include <glew.h>
 #include <glfw3.h>

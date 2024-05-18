@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : EntitySystem.cpp
+Description : Entity system is a container and controller of the entities for the game
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "EntitySystem.h"
 #include "Entity.h"
 
