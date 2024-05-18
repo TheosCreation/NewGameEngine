@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : VertexArrayObject.cpp
+Description : VertexArrayObject class is a representation of a VAO to be used by the graphics engine class
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "VertexArrayObject.h"
 #include <iostream>
 #include <glew.h>
@@ -11,6 +23,7 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 	glGenVertexArrays(1, &m_vertexArrayObjectID);
 	glBindVertexArray(m_vertexArrayObjectID);
 
+	//init vertex buffer
 	glGenBuffers(1, &m_vertexBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
 	glBufferData(GL_ARRAY_BUFFER, data.vertexSize * data.listSize, data.verticesList, GL_STATIC_DRAW);
@@ -65,6 +78,8 @@ VertexArrayObject::~VertexArrayObject()
 void VertexArrayObject::initInstanceBuffer(glm::mat4* instanceData, size_t instanceCount)
 {
 	glBindVertexArray(m_vertexArrayObjectID);
+
+	//init instance buffer
 	glGenBuffers(1, &m_instanceBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_instanceBufferID);
 	glBufferData(GL_ARRAY_BUFFER, instanceCount * sizeof(glm::mat4), instanceData, GL_DYNAMIC_DRAW);
@@ -87,11 +102,6 @@ uint VertexArrayObject::getId()
 uint VertexArrayObject::getVertexBufferSize()
 {
 	return sizeof(m_vertexBufferData.vertexSize);
-}
-
-uint VertexArrayObject::getVertexSize()
-{
-	return m_vertexBufferData.listSize;
 }
 
 uint VertexArrayObject::getNumIndices()

@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : GraphicsEntity.cpp
+Description : Entity type to be rendered by the graphics engine
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "GraphicsEntity.h"
 
 GraphicsEntity::GraphicsEntity()

@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : Shader.cpp
+Description : Shader class is a wrapper class for handling shaders in OpenGL
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "Shader.h"
 #include <iostream>
 #include <fstream>

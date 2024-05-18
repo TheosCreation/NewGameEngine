@@ -3,9 +3,9 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : Entity.h
-Description : Entity class that represents an object with its own update and start functions.
+Description : Entity class that represents an object for OpenGl with its own update and onCreate functions.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -16,14 +16,21 @@ Mail : theo.morris@mds.ac.nz
 #include "Game.h"
 
 class EntitySystem;
-
+/**
+ * @class Entity
+ * @brief Represents an object for OpenGl with its own update and onCreate functions.
+ */
 class Entity
 {
 public:
-    //Constructor for the Entity class
+    /**
+     * @brief Constructor for the Entity class.
+     */
 	Entity();
 
-    //Destructor for the Entity class
+    /**
+     * @brief Destructor for the Entity class.
+     */
 	virtual ~Entity();
 
     /**

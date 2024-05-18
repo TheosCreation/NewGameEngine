@@ -3,9 +3,9 @@ Bachelor of Software Engineering
 Media Design School
 Auckland
 New Zealand
-(c) 2023 Media Design School
+(c) 2024 Media Design School
 File Name : GraphicsEntity.h
-Description : entity to be rendered by the graphics engine
+Description : Entity type to be rendered by the graphics engine
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -16,23 +16,63 @@ Mail : theo.morris@mds.ac.nz
 #include "Texture.h"
 #include "Shader.h"
 
+// Forward declaration of EntitySystem class
 class EntitySystem;
+
+/**
+ * @class GraphicsEntity
+ * @brief An entity type to be rendered by the graphics engine.
+ */
 class GraphicsEntity : public Entity
 {
 public:
-	GraphicsEntity();
-	virtual ~GraphicsEntity();
+    /**
+     * @brief Constructor for the GraphicsEntity class.
+     */
+    GraphicsEntity();
 
-	virtual void onGraphicsUpdate(float deltaTime) {}
-	virtual void setUniformData(UniformData data) {};
+    /**
+     * @brief Destructor for the GraphicsEntity class.
+     */
+    virtual ~GraphicsEntity();
 
-	ShaderPtr getShader() const;
-	void setShader(const ShaderPtr& shader);
+    /**
+     * @brief Called every frame to update the graphics.
+     * @param deltaTime The time elapsed since the last update.
+     */
+    virtual void onGraphicsUpdate(float deltaTime) {}
 
-	TexturePtr getTexture() const;
-	void setTexture(const TexturePtr& texture);
+    /**
+     * @brief Sets the uniform data for the shader.
+     * @param data The uniform data to set.
+     */
+    virtual void setUniformData(UniformData data) {};
+
+    /**
+     * @brief Gets the shader used by this entity.
+     * @return A shared pointer to the shader.
+     */
+    ShaderPtr getShader() const;
+
+    /**
+     * @brief Sets the shader to be used by this entity.
+     * @param shader A shared pointer to the shader.
+     */
+    void setShader(const ShaderPtr& shader);
+
+    /**
+     * @brief Gets the texture used by this entity.
+     * @return A shared pointer to the texture.
+     */
+    TexturePtr getTexture() const;
+
+    /**
+     * @brief Sets the texture to be used by this entity.
+     * @param texture A shared pointer to the texture.
+     */
+    void setTexture(const TexturePtr& texture);
 
 protected:
-	ShaderPtr m_shader;
-	TexturePtr m_texture;
+    ShaderPtr m_shader; //The shader used by this entity
+    TexturePtr m_texture; //The texture used by this entity
 };

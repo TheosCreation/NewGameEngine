@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : InputManager.cpp
+Description : Handles inputs from the player/user of the program
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "InputManager.h"
 
 InputManager::InputManager()

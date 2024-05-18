@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : Texture.cpp
+Description : Texture class is a resource that represents a texture used by the graphics engine
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "Texture.h"
 #include "ResourceManager.h"
 #include "Game.h"
@@ -6,34 +18,40 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture::Texture(const wchar_t* path, ResourceManager* manager):Resource(path, manager)
+// Constructor that initializes a texture from a file path and a resource manager.
+Texture::Texture(const char* path, ResourceManager* manager) : Resource(path, manager)
 {
-	Rect textureSize;
-	auto nrChannels = 0;
+    Rect textureSize; // Structure to hold the texture size.
+    auto nrChannels = 0; // Number of color channels in the texture.
 
-	std::filesystem::path resPath = path;
-	auto str = resPath.generic_string();
+    // Load the image data using stb_image.
+    unsigned char* data = stbi_load(path, &textureSize.width, &textureSize.height, &nrChannels, 0);
 
-	unsigned char* data = stbi_load(str.c_str(), &textureSize.width, &textureSize.height, &nrChannels, 0);
+    if (data)
+    {
+        // Create a 2D texture using the graphics engine.
+        m_texture2D = manager->getGame()->getGraphicsEngine()->createTexture2D({ data, textureSize, (uint)nrChannels });
+        if (!m_texture2D)
+        {
+            OGL3D_ERROR("Texture not generated");
+        }
+    }
+    else
+    {
+        OGL3D_ERROR("Texture not generated");
+    }
 
-	if (data)
-	{
-		m_texture2D = manager->getGame()->getGraphicsEngine()->createTexture2D({ data,textureSize, (uint)nrChannels });
-		if (!m_texture2D) OGL3D_ERROR("Texture not generated");
-	}
-	else
-	{
-		OGL3D_ERROR("Texture not generated");
-	}
-
-	stbi_image_free(data);
+    // Free the image data.
+    stbi_image_free(data);
 }
 
+// Destructor for the Texture class.
 Texture::~Texture()
 {
 }
 
+// Returns the 2D texture pointer.
 Texture2DPtr Texture::getTexture2D() const
 {
-	return m_texture2D;
+    return m_texture2D;
 }
