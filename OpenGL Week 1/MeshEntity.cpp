@@ -36,6 +36,9 @@ void MeshEntity::setUniformData(UniformData data)
     m_shader->setMat4("modelMatrix", getModelMatrix());
 
     m_shader->setFloat("currentTime", data.currentTime);
+    m_shader->setVec3("CameraPos", data.cameraPosition);
+
+    m_shader->setFloat("ObjectShininess", getShininess());
 }
 
 void MeshEntity::onGraphicsUpdate(float deltaTime)
@@ -43,6 +46,7 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::None); // draw only the front faces, the back faces are discarded
     engine->setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
+
     if (m_texture)
     {
         engine->setTexture2D(m_texture->getTexture2D(), 0);

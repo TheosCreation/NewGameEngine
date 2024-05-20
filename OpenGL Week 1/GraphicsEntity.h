@@ -71,8 +71,21 @@ public:
      * @param texture A shared pointer to the texture.
      */
     void setTexture(const TexturePtr& texture);
+    
+    /**
+     * @brief Gets the Shininess used by this entity.
+     * @return A float of the amount of shininess.
+     */
+    float getShininess() const;
+
+    /**
+     * @brief Sets the Shininess to be used by this entity.
+     * @param shininess A float of the amount of shininess.
+     */
+    void setShininess(const float shininess);
 
 protected:
     ShaderPtr m_shader; //The shader used by this entity
     TexturePtr m_texture; //The texture used by this entity
+    float m_shininess = 32.0f; //Object Shininess used by the Lighting Manager and is applied to the shader
 };

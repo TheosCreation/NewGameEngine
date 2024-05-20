@@ -85,7 +85,7 @@ struct UniformData
     glm::mat4 viewProjectionMatrix; //View projection matrix
     glm::mat4 uiViewProjectionMatrix; //UI view projection matrix
     float currentTime; //Current time
-    glm::vec3 color; //Color
+    glm::vec3 cameraPosition; //Camera Position
 };
 
 // Struct representing a texture 2D description

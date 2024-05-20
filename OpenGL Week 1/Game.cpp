@@ -44,6 +44,7 @@ Game::Game()
     m_inputManager->SetGameWindow(m_display->getWindow());
     m_inputManager->setScreenArea(m_display->getInnerSize());
 
+    m_lightManager = std::make_unique<LightManager>();
 }
 
 Game::~Game()
@@ -97,6 +98,7 @@ void Game::onGraphicsUpdate(float deltaTime)
                 cam->getViewMatrix(viewMatrix);
                 cam->getProjectionMatrix(projectionMatrix);
                 data.viewProjectionMatrix = projectionMatrix * viewMatrix;
+                data.cameraPosition = cam->getPosition();
             }
             else
             {
@@ -110,7 +112,6 @@ void Game::onGraphicsUpdate(float deltaTime)
     }
 
     data.currentTime = m_currentTime;
-    data.color = glm::vec3(round(abs(sin(m_currentTime * 0.5))), round(abs(cos(m_currentTime * 0.5))), 0.0f);
 
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
@@ -120,8 +121,11 @@ void Game::onGraphicsUpdate(float deltaTime)
             auto e = dynamic_cast<GraphicsEntity*>(entity.get());
             if (e)
             {
+                //set the shader that the graphics engine will use
                 m_graphicsEngine->setShader(e->getShader());
-
+                //apply lighting to the shader
+                m_lightManager->applyLighting(e->getShader());
+                //apply other uniform data to the shader
                 e->setUniformData(data);
 
                 e->onGraphicsUpdate(deltaTime);

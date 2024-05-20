@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include "GraphicsEngine.h"
 #include "ResourceManager.h"
 #include "Entity.h"
+#include "LightManager.h"
 
 // Forward declarations of classes
 class Window;
@@ -114,6 +115,7 @@ protected:
     std::unique_ptr<GraphicsEngine> m_graphicsEngine; //Pointer to the graphics engine instance
     std::unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     std::unique_ptr<ResourceManager> m_resourceManager; //Pointer to the resource manager instance
+    std::unique_ptr<LightManager> m_lightManager; //Pointer to the resource manager instance
 
     float m_previousTime = 0; //The previous frame's time
     float m_currentTime = 0; //The current frame's time

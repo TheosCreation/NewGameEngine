@@ -39,3 +39,13 @@ void GraphicsEntity::setTexture(const TexturePtr& texture)
 {
 	m_texture = texture;
 }
+
+float GraphicsEntity::getShininess() const
+{
+	return m_shininess;
+}
+
+void GraphicsEntity::setShininess(const float shininess)
+{
+	m_shininess = shininess;
+}

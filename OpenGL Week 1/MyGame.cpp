@@ -65,6 +65,7 @@ void MyGame::onCreate()
 	m_statue = getEntitySystem()->createEntity<MeshEntity>();
 	m_statue->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
 	m_statue->setPosition(glm::vec3(0, 0, 0));
+	m_statue->setShininess(32.0f);
 	m_statue->setTexture(colouredAncientTextureSheet);
 	m_statue->setMesh(statueMesh);
 	m_statue->setShader(meshShader);

@@ -35,6 +35,9 @@ void InstancedMeshEntity::setUniformData(UniformData data)
     m_shader->setMat4("VPMatrix", data.viewProjectionMatrix);
 
 	m_shader->setFloat("currentTime", data.currentTime);
+	m_shader->setVec3("CameraPos", data.cameraPosition);
+
+	m_shader->setFloat("ObjectShininess", getShininess());
 }
 
 void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
