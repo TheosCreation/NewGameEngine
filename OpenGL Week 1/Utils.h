@@ -136,9 +136,17 @@ enum class ShaderType
 // Enum representing key codes
 enum Key
 {
-    KeyEscape = 0,
-    KeyShift,
-    KeyA,
+    Key0 = 48,
+    Key1,
+    Key2,
+    Key3,
+    Key4,
+    Key5,
+    Key6,
+    Key7,
+    Key8,
+    Key9,
+    KeyA = 65,
     KeyB,
     KeyC,
     KeyD,
@@ -164,17 +172,7 @@ enum Key
     KeyX,
     KeyY,
     KeyZ,
-    Key0,
-    Key1,
-    Key2,
-    Key3,
-    Key4,
-    Key5,
-    Key6,
-    Key7,
-    Key8,
-    Key9,
-    KeyF1,
+    KeyF1 = 290,
     KeyF2,
     KeyF3,
     KeyF4,
@@ -186,18 +184,20 @@ enum Key
     KeyF10,
     KeyF11,
     KeyF12,
+    KeyEscape = 256,
+    KeyRight = 262,
     KeyLeft,
-    KeyRight,
-    KeyUp,
     KeyDown,
+    KeyUp,
+    KeyShift = 340,
 };
 
 // Enum representing mouse buttons
 enum MouseButton
 {
     MouseButtonLeft, //Left mouse button
+    MouseButtonRight, //Right mouse button
     MouseButtonMiddle, //Middle mouse button
-    MouseButtonRight //Right mouse button
 };
 
 // Macro for throwing an OpenGL error

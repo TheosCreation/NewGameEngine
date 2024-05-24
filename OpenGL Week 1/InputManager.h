@@ -17,7 +17,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Rect.h"
 #include <glew.h>
 #include <glfw3.h>
-#include <unordered_map>
+#include <map>
 
 /**
  * @class InputManager
@@ -101,6 +101,9 @@ public:
      * @return The current mouse position.
      */
     glm::vec2 getMousePosition();
+    
+    
+    glm::vec2 getMouseScroll();
 
     /**
      * @brief Enables or disables play mode, which hides the cursor and locks it at the center of the screen.
@@ -117,9 +120,34 @@ public:
     /**
      * @brief Updates the input states.
      */
-    void update();
+    void onUpdate(); 
+
+    /**
+     * @brief Update late after render.
+     */
+    void onLateUpdate();
 
 private:
+    static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+    static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+    static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+
+    static double currentMouseX; //Current mouse x position
+    static double currentMouseY; //Current mouse y position
+
+    static double scrollX;
+    static double scrollY;
+
+    static std::map<Key, bool> currentKeyStates;
+    static std::map<Key, bool> previousKeyStates;
+    static std::map<MouseButton, bool> currentMouseStates;
+    static std::map<MouseButton, bool> previousMouseStates;
+
+    const double MOUSE_MOVEMENT_THRESHOLD = 0.1f;
+
+    void resetMouseScroll();
+
     GLFWwindow* WindowPtr = nullptr; //Pointer to the GLFW window
 
     bool m_playEnable = false; //Indicates whether play mode is enabled
@@ -127,14 +155,4 @@ private:
     Rect m_screenArea; //Screen area for cursor locking
     glm::vec2 m_deltaMouse{}; //Mouse movement delta
 
-    double currentMouseX = 0.0f; //Current mouse x position
-    double currentMouseY = 0.0f; //Current mouse y position
-
-    // Key states
-    std::unordered_map<Key, bool> currentKeyStates; //Current key states
-    std::unordered_map<Key, bool> previousKeyStates; //Previous key states
-
-    // Mouse states
-    std::unordered_map<MouseButton, bool> currentMouseStates; //Current mouse button states
-    std::unordered_map<MouseButton, bool> previousMouseStates; //Previous mouse button states
 };
