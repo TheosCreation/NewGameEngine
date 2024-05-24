@@ -50,7 +50,7 @@ void EntitySystem::removeEntity(Entity* entity)
 	m_entitiesToDestroy.emplace(entity);
 }
 
-void EntitySystem::update(float deltaTime)
+void EntitySystem::onUpdate(float deltaTime)
 {
 	for (auto e : m_entitiesToDestroy)
 	{

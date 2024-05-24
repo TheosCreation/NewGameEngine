@@ -98,6 +98,12 @@ protected:
     virtual void onGraphicsUpdate(float deltaTime);
 
     /**
+     * @brief Called every frame to update the graphics.
+     * @param deltaTime The time elapsed since the last update.
+     */
+    virtual void onLateUpdate(float deltaTime);
+
+    /**
      * @brief Called when the game is quitting.
      */
     virtual void onQuit();

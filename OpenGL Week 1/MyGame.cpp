@@ -63,7 +63,7 @@ void MyGame::onCreate()
 
 	//Creating statue obj
 	m_statue = getEntitySystem()->createEntity<MeshEntity>();
-	m_statue->setScale(glm::vec3(0.5f, 0.5f, 0.5f));
+	m_statue->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 	m_statue->setPosition(glm::vec3(0, 0, 0));
 	m_statue->setShininess(32.0f);
 	m_statue->setTexture(colouredAncientTextureSheet);
@@ -138,6 +138,10 @@ void MyGame::onUpdate(float deltaTime)
 	m_rotz += glm::radians(40.0f * deltaTime);
 	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
 
+}
+
+void MyGame::onLateUpdate(float deltaTime)
+{
 	m_statue->setPosition(m_player->getPosition());
 	m_statue->setRotation(m_player->getRotation());
 }

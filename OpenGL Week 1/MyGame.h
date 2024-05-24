@@ -42,6 +42,8 @@ public:
      */
     virtual void onUpdate(float deltaTime);
 
+    virtual void onLateUpdate(float deltaTime);
+
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 

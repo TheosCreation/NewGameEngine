@@ -123,6 +123,13 @@ public:
      */
 	virtual void onUpdate(float deltaTime) {}
 
+    /**
+     * @brief Called every frame after rendering.
+     * Can be overridden by derived classes to implement custom behavior.
+     * @param deltaTime The time elapsed since the last frame.
+     */
+    virtual void onLateUpdate(float deltaTime) {}
+
 protected:
 	glm::vec3 m_position{}; //The position of the entity in 3D space.
 	glm::vec3 m_rotation{}; //The rotation of the entity in 3D space.

@@ -57,20 +57,24 @@ void Game::onCreate()
 
 void Game::onUpdateInternal()
 {
-    m_inputManager->update();
+    m_inputManager->onUpdate();
 
     // delta time
     m_currentTime = static_cast<float>(glfwGetTime());
     float deltaTime = m_currentTime - m_previousTime;
     m_previousTime = m_currentTime;
 
-    m_entitySystem->update(deltaTime);
+    m_entitySystem->onUpdate(deltaTime);
 
     onUpdate(deltaTime);
     
     double RenderTime_Begin = (double)glfwGetTime();
     onGraphicsUpdate(deltaTime);
     double RenderTime_End = (double)glfwGetTime();
+
+    m_inputManager->onLateUpdate();
+
+    onLateUpdate(deltaTime);
 }
 
 void Game::onGraphicsUpdate(float deltaTime)
@@ -138,6 +142,17 @@ void Game::onGraphicsUpdate(float deltaTime)
     }
     // Render to window
     m_display->present();
+}
+
+void Game::onLateUpdate(float deltaTime)
+{
+    for (auto& [key, entities] : m_entitySystem->m_entities)
+    {
+        for (auto& [key, entity] : entities)
+        {
+            entity->onLateUpdate(deltaTime);
+        }
+    }
 }
 
 void Game::onQuit()

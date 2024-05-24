@@ -75,7 +75,7 @@ public:
      * @brief Updates the entity system.
      * @param deltaTime The time elapsed since the last update.
      */
-    void update(float deltaTime);
+    void onUpdate(float deltaTime);
 
     /**
      * @brief Map of entities categorized by their type ID.
