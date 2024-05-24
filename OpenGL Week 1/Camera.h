@@ -72,6 +72,10 @@ public:
      */
     void setTargetPosition(glm::vec3 newTargetPosition);
 
+    glm::vec3 getForwardDirection();
+    void setForwardDirection(glm::vec3 newForwardDirection);
+    glm::vec3 getUpwardDirection();
+
 private:
     /**
      * @brief Computes the projection matrix based on camera parameters.
@@ -81,7 +85,9 @@ private:
 private:
     glm::mat4 m_view{};                 //The view matrix of the camera.
     glm::mat4 m_projection{};           //The projection matrix of the camera.
-    glm::vec3 m_targetPosition{};       //The target position that the camera is looking at.
+    glm::vec3 m_targetPosition{};       //The target position of the camera.
+    glm::vec3 m_forwardDirection{0.0f, 0.0f, -1.0f};  //The forwards direction of the camera.
+    glm::vec3 m_upwardDirection{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
 
     float m_farPlane = 100000.0f;       //The distance of the far plane.
     float m_nearPlane = 0.01f;          //The distance of the near plane.

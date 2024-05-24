@@ -44,12 +44,6 @@ public:
     virtual void onUpdate(float deltaTime);
 
     /**
-     * @brief Sets the camera position.
-     * @param newPosition The new position of the camera.
-     */
-    void setCameraPosition(glm::vec3 newPosition);
-
-    /**
      * @brief Adds a reference to a button entity.
      * @param buttonRef Pointer to the button entity.
      */
@@ -75,21 +69,14 @@ private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
     Entity* m_entity = nullptr; //Pointer to the entity
 
-    glm::vec3 m_camPosition{}; //Camera position
-
     float m_movementSpeed = 50.0f; //Movement speed of the movable object
-    float m_rotationSpeed = 5.0f; //Speed of the orbiting camera
-    float m_zoomSpeed = 20.0f; //Speed the camera shortens or lengthens the orbit radius
-
-    float m_originalOrbitSpeed = 5.0f; //Original orbit speed
-    float m_orbitSpeed = m_originalOrbitSpeed; //Current orbit speed
-    float m_orbitHorizontal = 0.0f; //Horizontal orbit angle
-    float m_minimumOrbitalRadius = 35.0f; //Minimum orbital radius
-    float m_maximumOrbitalRadius = 500.0f; //Maximum orbital radius
-    float m_orbitRadius = 40.0f; //Current orbital radius
-    float m_inactivityTimer = 1.0f; //Timer for inactivity
-
-    bool m_autoRotate = false; //Flag for auto-rotation
+    float m_yaw = 0.0f;
+    float m_pitch = 0.0f;
+    float m_minFov = 1.0f;
+    float m_fov = 90.0f;
+    float m_maxFov = 120.0f;
+    float m_zoomSpeed = 0.5f;
+    glm::vec3 m_playerHeightOffset{0.0f, 20.0f, 0.0f}; //Height offset to position the camera
     bool m_playMode = false; //Flag for play mode
     bool m_wireframeMode = false; //Flag for wireframe mode
 

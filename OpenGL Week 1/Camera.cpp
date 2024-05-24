@@ -17,13 +17,13 @@ void Camera::getViewMatrix(glm::mat4& view)
 {
 	if (m_type == CameraType::Perspective)
 	{
-		m_view = glm::lookAt(m_position + m_targetPosition, m_targetPosition, glm::vec3(0.0, 1.0, 0.0));
+		m_view = glm::lookAt(m_position, m_position + m_forwardDirection, m_upwardDirection);
 	}
 	else if (m_type == CameraType::Orthogonal)
 	{
 		glm::vec3 cameraPosition = glm::vec3(m_screenArea.width, -m_screenArea.height, 1.0f);
 		glm::vec3 targetPosition = glm::vec3(m_screenArea.width, -m_screenArea.height, 0.0f);
-		m_view = glm::lookAt(cameraPosition, targetPosition, glm::vec3(0.0, 1.0, 0.0));
+		m_view = glm::lookAt(cameraPosition, targetPosition, m_upwardDirection);
 	}
 	view = m_view;
 }
@@ -71,6 +71,21 @@ void Camera::setScreenArea(const Rect& screen)
 void Camera::setTargetPosition(glm::vec3 newTargetPosition)
 {
 	m_targetPosition = newTargetPosition;
+}
+
+glm::vec3 Camera::getForwardDirection()
+{
+	return m_forwardDirection;
+}
+
+void Camera::setForwardDirection(glm::vec3 newForwardDirection)
+{
+	m_forwardDirection = newForwardDirection;
+}
+
+glm::vec3 Camera::getUpwardDirection()
+{
+	return m_upwardDirection;
 }
 
 void Camera::computeProjectionMatrix()

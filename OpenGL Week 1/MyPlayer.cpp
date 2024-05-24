@@ -15,7 +15,6 @@ Mail : theo.morris@mds.ac.nz
 
 MyPlayer::MyPlayer()
 {
-    setCameraPosition(glm::vec3(0, 100.0f, 20.0f));
 }
 
 MyPlayer::~MyPlayer()
@@ -25,6 +24,9 @@ MyPlayer::~MyPlayer()
 void MyPlayer::onCreate()
 {
 	m_cam = getEntitySystem()->createEntity<Camera>();
+    m_cam->setPosition(m_position + m_playerHeightOffset);
+    m_cam->setFieldOfView(m_fov);
+
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
     input = getGame()->getInputManager();
@@ -32,16 +34,17 @@ void MyPlayer::onCreate()
 
 void MyPlayer::onUpdate(float deltaTime)
 {
-    // Toggle automatic rotation with the R key
-    if (input->isKeyPressed(Key::KeyR))
+    // Enable play mode when clicking on the window
+    if (input->isMousePressed(MouseButtonLeft) && !m_playMode)
     {
-        m_autoRotate = !m_autoRotate;
+        m_playMode = true;
+        input->enablePlayMode(m_playMode);
     }
 
-    // Toggle cursor
-    if (input->isKeyPressed(Key::Key1))
+    // Disable play mode when pressing the Escape key
+    if (input->isKeyPressed(Key::KeyEscape) && m_playMode)
     {
-        m_playMode = !m_playMode;
+        m_playMode = false;
         input->enablePlayMode(m_playMode);
     }
     
@@ -119,56 +122,49 @@ void MyPlayer::onUpdate(float deltaTime)
     
     // Adjust camera speed if Shift key is pressed
     if (input->isKeyDown(Key::KeyShift)) {
-        m_orbitSpeed = m_originalOrbitSpeed * 2.0f;
+        //m_orbitSpeed = m_originalOrbitSpeed * 2.0f;
     }
     else {
-        m_orbitSpeed = m_originalOrbitSpeed;
+        //m_orbitSpeed = m_originalOrbitSpeed;
     }
-
-    // Start automatic input when inactive
-    const float orbitResetTime = 1.0f; // Time in seconds after which orbit resets
-    if (!input->isKeyDown(Key::KeyLeft) && !input->isKeyDown(Key::KeyRight) &&
-        !input->isKeyDown(Key::KeyUp) && !input->isKeyDown(Key::KeyDown)) {
-        m_inactivityTimer += deltaTime;
-        if (m_inactivityTimer >= orbitResetTime && m_autoRotate) {
-            // Orbits slowly
-            m_orbitHorizontal += m_orbitSpeed * deltaTime;
-        }
-    }
-    else {
-        // Reset timer if any input detected
-        m_inactivityTimer = 0.0f;
-    }
-
-    // Handle input for camera movement
-    if (input->isKeyDown(Key::KeyLeft))
-        m_orbitHorizontal -= m_orbitSpeed * deltaTime;
-    if (input->isKeyDown(Key::KeyRight))
-        m_orbitHorizontal += m_orbitSpeed * deltaTime;
-
-    if (input->isKeyDown(Key::KeyUp))
-        m_orbitRadius -= m_zoomSpeed * deltaTime;
-    if (input->isKeyDown(Key::KeyDown))
-        m_orbitRadius += m_zoomSpeed * deltaTime;
-
-    // Ensure orbit radius stays within specified bounds
-    m_orbitRadius = std::max(m_minimumOrbitalRadius, std::min(m_orbitRadius, m_maximumOrbitalRadius));
-
-    // Calculate camera position based on orbit
-    m_camPosition.x = m_orbitRadius * sin(m_orbitHorizontal);
-    m_camPosition.z = m_orbitRadius * cos(m_orbitHorizontal);
 
     // Update the camera's position
-    m_cam->setPosition(m_camPosition);
+    m_cam->setPosition(m_position + m_playerHeightOffset);
 
-    // Handle input for player movement based on camera rotation
-    glm::vec3 forward = glm::normalize(glm::vec3(sin(m_orbitHorizontal), 0, cos(m_orbitHorizontal)));
-    glm::vec3 right = glm::normalize(glm::vec3(forward.z, 0, -forward.x));
+    
 
+    float sensitivity = 0.1f;  // Sensitivity factor for mouse movement
+    m_yaw += input->getMouseXAxis() * sensitivity;
+    m_pitch -= input->getMouseYAxis() * sensitivity;
+
+    // Clamp the pitch value to prevent flipping the camera
+    if (m_pitch > 89.0f)
+        m_pitch = 89.0f;
+    if (m_pitch < -89.0f)
+        m_pitch = -89.0f;
+
+    // Update the camera's forward direction based on yaw and pitch
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    direction.y = sin(glm::radians(m_pitch));
+    direction.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    m_cam->setForwardDirection(glm::normalize(direction));
+
+    // Handle input for player movement based on camera direction
+    glm::vec3 forward = m_cam->getForwardDirection();
+    glm::vec3 up = m_cam->getUpwardDirection();
+    glm::vec3 right = glm::normalize(glm::cross(forward, up));
+
+    m_rotation.y = glm::radians(-m_yaw);
+
+    // Project forward vector onto the XZ plane to remove vertical component
+    forward.y = 0.0f;
+    forward = glm::normalize(forward);
+    
     if (input->isKeyDown(Key::KeyW))
-        m_position -= forward * m_movementSpeed * deltaTime;
-    if (input->isKeyDown(Key::KeyS))
         m_position += forward * m_movementSpeed * deltaTime;
+    if (input->isKeyDown(Key::KeyS))
+        m_position -= forward * m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyA))
         m_position -= right * m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyD))
@@ -179,13 +175,16 @@ void MyPlayer::onUpdate(float deltaTime)
         m_position.y -= m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyE))
         m_position.y += m_movementSpeed * deltaTime;
-
-    m_rotation.y = m_orbitHorizontal;
-}
-
-void MyPlayer::setCameraPosition(glm::vec3 newPosition)
-{
-    m_camPosition = newPosition;
+    glm::vec2 mouseScroll = input->getMouseScroll();
+    m_fov -= mouseScroll.y * m_zoomSpeed;
+    // Clamp the FOV to prevent it from going out of a reasonable range
+    if (m_fov < m_minFov) {
+        m_fov = m_minFov;
+    }
+    if (m_fov > m_maxFov) {
+        m_fov = m_maxFov;
+    }
+    m_cam->setFieldOfView(m_fov);
 }
 
 void MyPlayer::addButtonRef(QuadEntity* buttonRef)
