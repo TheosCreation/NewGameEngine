@@ -34,6 +34,8 @@ void MyGame::onCreate()
 	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/dirt.jpg"));
 
 	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/SkyBox.jpg"));
+	TexturePtr solidRedTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Red.png"));
+	TexturePtr solidBlueTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Blue.png"));
 
 	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
 	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
@@ -74,8 +76,8 @@ void MyGame::onCreate()
 	m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
 	m_instancedTree->setTexture(colouredAncientTextureSheet);
 	m_instancedTree->setShader(instancedMeshShader);
-
 	m_instancedTree->setMesh(instancedTreeMesh);
+
 	float spacing = 30.0f;
 	for (int row = -16; row < 16; ++row) {
 		for (int col = -16; col < 16; ++col) {
@@ -130,6 +132,21 @@ void MyGame::onCreate()
 	m_player->addButtonRef(m_button);
 	m_player->setInstancedEntity(m_instancedTree, colouredAncientTextureSheet, plainAncientTextureSheet);
 	m_player->setButtonTextures(buttonUpTexture, buttonHoveringTexture, buttonDownTexture);
+
+	// Initialize point lights
+	auto pointLight1 = getEntitySystem()->createEntity<MeshEntity>();
+	pointLight1->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
+	pointLight1->setTexture(solidBlueTexture);
+	pointLight1->setMesh(sphereMesh);
+	pointLight1->setShader(meshShader);
+	m_lightManager->createPointLight(pointLight1->getPosition(), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f);
+
+	auto pointLight2 = getEntitySystem()->createEntity<MeshEntity>();
+	pointLight2->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
+	pointLight2->setTexture(solidRedTexture);
+	pointLight2->setMesh(sphereMesh);
+	pointLight2->setShader(meshShader);
+	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f);
 }
 
 void MyGame::onUpdate(float deltaTime)
@@ -142,6 +159,6 @@ void MyGame::onUpdate(float deltaTime)
 
 void MyGame::onLateUpdate(float deltaTime)
 {
-	m_statue->setPosition(m_player->getPosition());
-	m_statue->setRotation(m_player->getRotation());
+	//m_statue->setPosition(m_player->getPosition());
+	//m_statue->setRotation(m_player->getRotation());
 }

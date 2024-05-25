@@ -82,7 +82,7 @@ public:
      * @brief Sets the viewport size.
      * @param size The size of the viewport.
      */
-    void SetViewport(const Rect& size);
+    void setViewport(const Rect& size);
 
     /**
      * @brief Sets the active Vertex Array Object (VAO).

@@ -88,6 +88,11 @@ protected:
     virtual void onCreate();
 
     /**
+     * @brief Called when the game and after onCreate.
+     */
+    virtual void onCreateLate();
+
+    /**
      * @brief Called every frame to update the game logic.
      * @param deltaTime The time elapsed since the last update.
      */

@@ -76,7 +76,7 @@ private:
     float m_fov = 90.0f;
     float m_maxFov = 120.0f;
     float m_zoomSpeed = 0.5f;
-    glm::vec3 m_playerHeightOffset{0.0f, 40.0f, 0.0f}; //Height offset to position the camera
+    glm::vec3 m_playerHeightOffset{0.0f, 10.0f, 0.0f}; //Height offset to position the camera
     bool m_playMode = false; //Flag for play mode
     bool m_wireframeMode = false; //Flag for wireframe mode
 

@@ -1,6 +1,13 @@
 #version 460 core
 #define MAX_POINT_LIGHTS 4
 
+struct DirectionalLight
+{
+    vec3 Direction;
+    vec3 Color;
+    float SpecularStrength;
+};
+
 struct PointLight
 {
 	vec3 Position;

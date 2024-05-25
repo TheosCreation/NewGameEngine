@@ -200,6 +200,13 @@ enum MouseButton
     MouseButtonMiddle, //Middle mouse button
 };
 
+struct DirectionalLight
+{
+    glm::vec3 Direction;
+    glm::vec3 Color;
+    float SpecularStrength;
+};
+
 struct PointLight
 {
     glm::vec3 Position;

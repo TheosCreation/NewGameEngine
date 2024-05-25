@@ -40,7 +40,7 @@ public:
      * @brief Sets the game window for input handling.
      * @param window Pointer to the GLFW window.
      */
-    void SetGameWindow(GLFWwindow* window);
+    void setGameWindow(GLFWwindow* window);
 
     /**
      * @brief Checks if the specified key is currently being held down.

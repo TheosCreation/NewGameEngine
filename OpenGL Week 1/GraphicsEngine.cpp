@@ -72,7 +72,7 @@ void GraphicsEngine::setWindingOrder(const WindingOrder& type)
     glFrontFace(orderType);
 }
 
-void GraphicsEngine::SetViewport(const Rect& size)
+void GraphicsEngine::setViewport(const Rect& size)
 {
     glViewport(size.left, size.top, size.width, size.height);
 }

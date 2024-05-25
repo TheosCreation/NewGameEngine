@@ -30,7 +30,7 @@ InputManager::~InputManager()
 {
 }
 
-void InputManager::SetGameWindow(GLFWwindow* window)
+void InputManager::setGameWindow(GLFWwindow* window)
 {
 	WindowPtr = window; 
 	glfwSetScrollCallback(window, scroll_callback); // Set the scroll callback function

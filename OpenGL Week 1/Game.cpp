@@ -34,14 +34,14 @@ Game::Game()
 
     m_resourceManager = std::make_unique<ResourceManager>(this);
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
-    m_graphicsEngine->SetViewport(m_display->getInnerSize());
+    m_graphicsEngine->setViewport(m_display->getInnerSize());
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
     m_inputManager = std::make_unique<InputManager>();
-    m_inputManager->SetGameWindow(m_display->getWindow());
+    m_inputManager->setGameWindow(m_display->getWindow());
     m_inputManager->setScreenArea(m_display->getInnerSize());
 
     m_lightManager = std::make_unique<LightManager>();
@@ -53,6 +53,27 @@ Game::~Game()
 
 void Game::onCreate()
 {
+    
+}
+
+void Game::onCreateLate()
+{
+    auto camId = typeid(Camera).hash_code();
+
+    auto it = m_entitySystem->m_entities.find(camId);
+
+    if (it != m_entitySystem->m_entities.end())
+    {
+        for (auto& [key, camera] : it->second)
+        {
+            auto cam = dynamic_cast<Camera*>(camera.get());
+            if (cam)
+            {
+                // Set the screen area for all cameras
+                cam->setScreenArea(m_display->getInnerSize());
+            }
+        }
+    }
 }
 
 void Game::onUpdateInternal()
@@ -98,7 +119,6 @@ void Game::onGraphicsUpdate(float deltaTime)
             if (cam && cam->getCameraType() == CameraType::Perspective)
             {
                 // First camera should be game camera
-                cam->setScreenArea(m_display->getInnerSize());
                 cam->getViewMatrix(viewMatrix);
                 cam->getProjectionMatrix(projectionMatrix);
                 data.viewProjectionMatrix = projectionMatrix * viewMatrix;
@@ -107,7 +127,6 @@ void Game::onGraphicsUpdate(float deltaTime)
             else
             {
                 // Second camera which should be UI camera
-                cam->setScreenArea(m_display->getInnerSize());
                 cam->getViewMatrix(uiViewMatrix);
                 cam->getProjectionMatrix(uiProjectionMatrix);
                 data.uiViewProjectionMatrix = uiProjectionMatrix * uiViewMatrix;
@@ -118,7 +137,6 @@ void Game::onGraphicsUpdate(float deltaTime)
     data.currentTime = m_currentTime;
 
     ShaderPtr currentShader = nullptr;
-
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
         // For each graphics entity
@@ -170,6 +188,7 @@ void Game::onQuit()
 void Game::run()
 {
 	onCreate();
+	onCreateLate();
 
     //run funcs while window open
     while (m_display->shouldClose() == false)

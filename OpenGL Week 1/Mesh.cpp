@@ -87,7 +87,7 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
                     normal.y = attribs.normals[(int)(index.normal_index * 3 + 1)];
                     normal.z = attribs.normals[(int)(index.normal_index * 3 + 2)];
                 }
-    
+
                 VertexMesh vertex(glm::vec3(vx, vy, vz), glm::vec2(tx, ty), normal);
                 list_vertices.push_back(vertex);
     

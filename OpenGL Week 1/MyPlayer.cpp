@@ -25,7 +25,6 @@ void MyPlayer::onCreate()
 {
 	m_cam = getEntitySystem()->createEntity<Camera>();
     m_cam->setPosition(m_position + m_playerHeightOffset);
-    m_cam->setFieldOfView(m_fov);
 
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
@@ -52,15 +51,22 @@ void MyPlayer::onUpdate(float deltaTime)
     // Toggle point lights on/off
     if (input->isKeyPressed(Key::Key1))
     {
+        bool currentLightStatus = lighting->getPointLightsStatus();
+        lighting->setPointLightsStatus(!currentLightStatus);
     }
     
     // Toggle directional light on/off
     if (input->isKeyPressed(Key::Key2))
     {
+        bool currentLightStatus = lighting->getDirectionalLightStatus();
+        lighting->setDirectionalLightStatus(!currentLightStatus);
     }
+
     // Toggle spotlight on/off
     if (input->isKeyPressed(Key::Key3))
     {
+        bool currentLightStatus = lighting->getSpotlightStatus();
+        lighting->setSpotlightStatus(!currentLightStatus);
     }
     
     // Toggle wireframe mode on/off
@@ -146,7 +152,6 @@ void MyPlayer::onUpdate(float deltaTime)
     // Update the camera's position
     m_cam->setPosition(m_position + m_playerHeightOffset);
 
-    
 
     float sensitivity = 0.1f;  // Sensitivity factor for mouse movement
     m_yaw += input->getMouseXAxis() * sensitivity;
@@ -190,16 +195,21 @@ void MyPlayer::onUpdate(float deltaTime)
         m_position.y -= m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyE))
         m_position.y += m_movementSpeed * deltaTime;
+
     glm::vec2 mouseScroll = input->getMouseScroll();
-    m_fov -= mouseScroll.y * m_zoomSpeed;
-    // Clamp the FOV to prevent it from going out of a reasonable range
-    if (m_fov < m_minFov) {
-        m_fov = m_minFov;
+    if (mouseScroll.y < 0 || mouseScroll.y > 0)
+    {
+        m_fov -= mouseScroll.y * m_zoomSpeed;
+        
+        // Clamp the FOV to prevent it from going out of a reasonable range
+        if (m_fov < m_minFov) {
+            m_fov = m_minFov;
+        }
+        if (m_fov > m_maxFov) {
+            m_fov = m_maxFov;
+        }
+        m_cam->setFieldOfView(m_fov);
     }
-    if (m_fov > m_maxFov) {
-        m_fov = m_maxFov;
-    }
-    m_cam->setFieldOfView(m_fov);
 }
 
 void MyPlayer::addButtonRef(QuadEntity* buttonRef)
