@@ -30,6 +30,7 @@ void MyPlayer::onCreate()
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
     input = getGame()->getInputManager();
+    lighting = getGame()->getLightingManager();
 }
 
 void MyPlayer::onUpdate(float deltaTime)
@@ -48,8 +49,22 @@ void MyPlayer::onUpdate(float deltaTime)
         input->enablePlayMode(m_playMode);
     }
     
-    // Toggle wireframe mode
+    // Toggle point lights on/off
+    if (input->isKeyPressed(Key::Key1))
+    {
+    }
+    
+    // Toggle directional light on/off
     if (input->isKeyPressed(Key::Key2))
+    {
+    }
+    // Toggle spotlight on/off
+    if (input->isKeyPressed(Key::Key3))
+    {
+    }
+    
+    // Toggle wireframe mode on/off
+    if (input->isKeyPressed(Key::Key4))
     {
         m_wireframeMode = !m_wireframeMode;
         if (m_wireframeMode)

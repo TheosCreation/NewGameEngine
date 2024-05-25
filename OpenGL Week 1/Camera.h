@@ -89,8 +89,8 @@ private:
     glm::vec3 m_forwardDirection{0.0f, 0.0f, -1.0f};  //The forwards direction of the camera.
     glm::vec3 m_upwardDirection{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
 
-    float m_farPlane = 100000.0f;       //The distance of the far plane.
-    float m_nearPlane = 0.01f;          //The distance of the near plane.
+    float m_farPlane = 1000.0f;       //The distance of the far plane.
+    float m_nearPlane = 0.1f;          //The distance of the near plane.
     float m_fov = 90.0f;                //The field of view (FOV) angle.
     const float radius = 10.0f;         //The radius of the camera's orbit.
     CameraType m_type = CameraType::Perspective;  //The type of the camera (Perspective or Orthographic).

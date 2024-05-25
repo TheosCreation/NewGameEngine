@@ -76,13 +76,14 @@ private:
     float m_fov = 90.0f;
     float m_maxFov = 120.0f;
     float m_zoomSpeed = 0.5f;
-    glm::vec3 m_playerHeightOffset{0.0f, 20.0f, 0.0f}; //Height offset to position the camera
+    glm::vec3 m_playerHeightOffset{0.0f, 40.0f, 0.0f}; //Height offset to position the camera
     bool m_playMode = false; //Flag for play mode
     bool m_wireframeMode = false; //Flag for wireframe mode
 
     Camera* m_cam = nullptr; //Pointer to the main camera
     Camera* m_uiCamera = nullptr; //Pointer to the UI camera
     InputManager* input = nullptr; //Pointer to the input manager
+    LightManager* lighting = nullptr; //Pointer to the light manager
 
     std::vector<QuadEntity*> m_buttonRefs; //References to button entities
     InstancedMeshEntity* m_instancedEntity; //Pointer to the instanced entity

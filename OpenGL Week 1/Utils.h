@@ -200,6 +200,13 @@ enum MouseButton
     MouseButtonMiddle, //Middle mouse button
 };
 
+struct PointLight
+{
+    glm::vec3 Position;
+    glm::vec3 Color;
+    float SpecularStrength;
+};
+
 // Macro for throwing an OpenGL error
 #define OGL3D_ERROR(message)\
 {\

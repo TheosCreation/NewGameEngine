@@ -67,6 +67,8 @@ public:
      */
     InputManager* getInputManager();
 
+    LightManager* getLightingManager();
+
     /**
      * @brief Gets the ResourceManager instance.
      * @return A pointer to the ResourceManager instance.

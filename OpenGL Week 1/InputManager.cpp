@@ -120,8 +120,6 @@ void InputManager::onUpdate()
         // Update delta mouse position before resetting the cursor position
         m_deltaMouse = glm::vec2(currentMouseX - m_screenArea.width / 2.0, currentMouseY - m_screenArea.height / 2.0);
 
-        // Reset the cursor to the center of the window
-        glfwSetCursorPos(WindowPtr, m_screenArea.width / 2.0, m_screenArea.height / 2.0);
     } else {
         // Calculate delta mouse position based on the previous frame's position
         m_deltaMouse = glm::vec2(currentMouseX - m_old_mouse_pos.x, currentMouseY - m_old_mouse_pos.y);
@@ -135,6 +133,12 @@ void InputManager::onLateUpdate()
 
 	// Reset mouse scroll
 	resetMouseScroll();
+
+	if (m_playEnable)
+	{
+		// Reset the cursor to the center of the window
+		glfwSetCursorPos(WindowPtr, m_screenArea.width / 2.0, m_screenArea.height / 2.0);
+	}
 
 	// Update old mouse position
 	m_old_mouse_pos = glm::vec2(currentMouseX, currentMouseY);

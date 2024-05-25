@@ -117,19 +117,26 @@ void Game::onGraphicsUpdate(float deltaTime)
 
     data.currentTime = m_currentTime;
 
+    ShaderPtr currentShader = nullptr;
+
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
-        //for each graphics entity
+        // For each graphics entity
         for (auto& [key, entity] : entities)
         {
             auto e = dynamic_cast<GraphicsEntity*>(entity.get());
             if (e)
             {
-                //set the shader that the graphics engine will use
-                m_graphicsEngine->setShader(e->getShader());
-                //apply lighting to the shader
-                m_lightManager->applyLighting(e->getShader());
-                //apply other uniform data to the shader
+                ShaderPtr shader = e->getShader();
+                if (shader != currentShader)
+                {
+                    // Set the shader only if it is different from the current one
+                    m_graphicsEngine->setShader(shader);
+                    // Apply lighting to the shader
+                    m_lightManager->applyLighting(shader);
+                    currentShader = shader;
+                }
+                // Apply other uniform data to the shader
                 e->setUniformData(data);
 
                 e->onGraphicsUpdate(deltaTime);
@@ -192,6 +199,11 @@ GraphicsEngine* Game::getGraphicsEngine()
 InputManager* Game::getInputManager()
 {
     return m_inputManager.get();
+}
+
+LightManager* Game::getLightingManager()
+{
+    return m_lightManager.get();
 }
 
 ResourceManager* Game::getResourceManager()

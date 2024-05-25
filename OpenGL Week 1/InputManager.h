@@ -144,7 +144,7 @@ private:
     static std::map<MouseButton, bool> currentMouseStates;
     static std::map<MouseButton, bool> previousMouseStates;
 
-    const double MOUSE_MOVEMENT_THRESHOLD = 0.1f;
+    const double MOUSE_MOVEMENT_THRESHOLD = 0.0f;
 
     void resetMouseScroll();
 

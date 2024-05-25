@@ -41,7 +41,7 @@ public:
 private:
     float AmbientStrength = 0.15f;
     glm::vec3 AmbientColor = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 LightColor = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 LightPos = glm::vec3(-300.0f, 000.0f, 100.0f);
-    float LightSpecularStrength = 1.0f;
+    static const int MAX_POINT_LIGHTS = 4;
+    PointLight PointLightArray[MAX_POINT_LIGHTS];
+    uint PointLightCount;
 };
