@@ -8,7 +8,7 @@ uniform mat4 VPMatrix;
 
 out vec2 FragTexcoord;
 
-void main(void)
+void main()
 {
     gl_Position = VPMatrix * modelMatrix * vec4(vertexPosition, 1.0f);
     FragTexcoord = vertexTexCoords;

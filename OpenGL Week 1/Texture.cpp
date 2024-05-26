@@ -45,6 +45,48 @@ Texture::Texture(const char* path, ResourceManager* manager) : Resource(path, ma
     stbi_image_free(data);
 }
 
+// Constructor that initializes a cubemap texture from an array of file paths and a resource manager.
+Texture::Texture(const std::vector<std::string>& paths, ResourceManager* manager) : Resource("", manager)
+{
+    if (paths.size() != 6)
+    {
+        OGL3D_ERROR("Cubemap texture requires exactly 6 images");
+        return;
+    }
+
+    TextureCubeMapDesc desc;
+    for (const auto& path : paths)
+    {
+        int width, height, nrChannels;
+        unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrChannels, 0);
+        if (data)
+        {
+            desc.textureData.push_back(data);
+            desc.textureSize = { width, height };
+            desc.numChannels = nrChannels;
+        }
+        else
+        {
+            OGL3D_ERROR("Cubemap texture failed to load at path: " + path);
+            stbi_image_free(data);
+            return;
+        }
+    }
+
+    // Create a cubemap texture using the graphics engine.
+    m_textureCubeMap = manager->getGame()->getGraphicsEngine()->createTextureCubeMap(desc);
+    if (!m_textureCubeMap)
+    {
+        OGL3D_ERROR("Cubemap texture not generated");
+    }
+
+    // Free the image data.
+    for (auto data : desc.textureData)
+    {
+        stbi_image_free(data);
+    }
+}
+
 // Destructor for the Texture class.
 Texture::~Texture()
 {
@@ -54,4 +96,10 @@ Texture::~Texture()
 Texture2DPtr Texture::getTexture2D() const
 {
     return m_texture2D;
+}
+
+// Returns the cubemap texture pointer.
+TextureCubeMapPtr Texture::getTextureCubeMap() const
+{
+    return m_textureCubeMap;
 }

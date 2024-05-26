@@ -33,18 +33,14 @@ void InstancedMeshEntity::onCreate()
 void InstancedMeshEntity::setUniformData(UniformData data)
 {
     m_shader->setMat4("VPMatrix", data.viewProjectionMatrix);
-
-	m_shader->setFloat("currentTime", data.currentTime);
-	m_shader->setVec3("CameraPos", data.cameraPosition);
-
-	m_shader->setFloat("ObjectShininess", getShininess());
 }
 
 void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::None); // draw only the front faces, the back faces are discarded
-    engine->setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
+    engine->setFaceCulling(CullType::BackFace); // draw only the front faces, the back faces are discarded
+    engine->setWindingOrder(WindingOrder::ClockWise); //consider the position of vertices in clock wise way.
+    engine->setDepthFunc(DepthType::Less);
 
     if (m_texture)
     {
@@ -53,6 +49,5 @@ void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
     //during the graphics update, we call the draw function
     auto meshVBO = m_mesh->getVertexArrayObject();
     engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-
     engine->drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 }

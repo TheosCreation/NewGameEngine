@@ -30,6 +30,8 @@ public:
      */
     Texture(const char* path, ResourceManager* manager);
 
+    Texture(const std::vector<std::string>& paths, ResourceManager* manager);
+
     /**
      * @brief Destructor for the Texture class.
      */
@@ -41,6 +43,9 @@ public:
      */
     Texture2DPtr getTexture2D() const;
 
+    TextureCubeMapPtr getTextureCubeMap() const;
+
 private:
     Texture2DPtr m_texture2D; //A shared pointer to the 2D texture.
+    TextureCubeMapPtr m_textureCubeMap; // A shared pointer to the cubemap texture.
 };

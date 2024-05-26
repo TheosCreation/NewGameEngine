@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include "VertexArrayObject.h"
 #include "Shader.h"
 #include "Texture2D.h"
+#include "TextureCubeMap.h"
 
 VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)
 {
@@ -37,9 +38,14 @@ Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
     return std::make_shared<Texture2D>(desc);
 }
 
+TextureCubeMapPtr GraphicsEngine::createTextureCubeMap(const TextureCubeMapDesc& desc)
+{
+    return std::make_shared<TextureCubeMap>(desc);
+}
+
 void GraphicsEngine::clear(const glm::vec4& color)
 {
-    glDepthFunc(GL_LESS);
+    setDepthFunc(DepthType::Less);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(color.x, color.y, color.z, color.w);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -60,6 +66,15 @@ void GraphicsEngine::setFaceCulling(const CullType& type)
         glEnable(GL_CULL_FACE);
         glCullFace(cullType);
     }
+}
+
+void GraphicsEngine::setDepthFunc(const DepthType& type)
+{
+    auto depthType = GL_LESS;
+    if (type == DepthType::LessEqual) depthType = GL_LEQUAL;
+    else if (type == DepthType::Less) depthType = GL_LESS;
+
+    glDepthFunc(depthType);
 }
 
 void GraphicsEngine::setWindingOrder(const WindingOrder& type)
@@ -100,7 +115,13 @@ void GraphicsEngine::setTexture2D(const Texture2DPtr& texture, uint slot)
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture->getId());
+}
 
+void GraphicsEngine::setTextureCubeMap(const TextureCubeMapPtr& texture, uint slot)
+{
+    auto glSlot = GL_TEXTURE0 + slot;
+    glActiveTexture(glSlot); // activate the texture unit first before binding texture
+    glBindTexture(GL_TEXTURE_CUBE_MAP, texture->getId());
 }
 
 void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)

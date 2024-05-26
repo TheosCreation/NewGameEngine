@@ -1,20 +1,13 @@
 #version 460 core
 
-layout(location = 0) in vec3 vertexPosition;
-layout(location = 1) in vec2 vertexTexCoords;
-layout(location = 2) in vec3 vertexNormal;
+layout(location = 0) in vec3 Position;
 
-uniform mat4 modelMatrix;
 uniform mat4 VPMatrix;
 
-out vec2 FragTexcoord;
-out vec3 FragNormal;
-out vec3 FragPos;
+out vec3 FragTexcoord;
 
-void main(void)
+void main()
 {
-    gl_Position = VPMatrix * modelMatrix * vec4(vertexPosition, 1.0f);
-    FragTexcoord = vertexTexCoords;
-    FragNormal = mat3(transpose(inverse(modelMatrix))) * vertexNormal;
-    FragPos = vec3(modelMatrix * vec4(vertexPosition, 1.0f));
+    gl_Position = VPMatrix * vec4(Position, 1.0f);
+    FragTexcoord = Position.xyz;
 }

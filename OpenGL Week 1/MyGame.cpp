@@ -33,15 +33,24 @@ void MyGame::onCreate()
 
 	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/dirt.jpg"));
 
-	TexturePtr skyTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/SkyBox.jpg"));
 	TexturePtr solidRedTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Red.png"));
 	TexturePtr solidBlueTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Blue.png"));
 
 	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
 	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
 
+	std::vector<std::string> skyboxCubeMapTextureFilePaths;
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Left.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Top.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
+	TexturePtr skyboxCubemapTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(skyboxCubeMapTextureFilePaths));
+
 	//Loading meshes
 	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
+	MeshPtr cubeMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/cube.obj"));
 	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Prop_Statue_01.obj"));
 	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
@@ -110,18 +119,10 @@ void MyGame::onCreate()
 	m_ground->setShader(meshShader);
 	
 	//Creating skybox object
-	m_skybox = getEntitySystem()->createEntity<MeshEntity>();
-	m_skybox->setScale(glm::vec3(1000.0f));
-	m_skybox->setPosition(glm::vec3(0, 0, 0));
-	m_skybox->setTexture(skyTexture);
-	m_skybox->setMesh(sphereMesh);
+	m_skybox = getEntitySystem()->createEntity<SkyboxEntity>();
+	m_skybox->setTexture(skyboxCubemapTexture);
+	m_skybox->setMesh(cubeMesh);
 	m_skybox->setShader(skyboxShader);
-
-	//Creating the player object
-	//all the input managements, creation of camera are inside Player class
-	m_player = getEntitySystem()->createEntity<MyPlayer>();
-	m_player->setScale(glm::vec3(0.0f));
-	m_player->setPosition(glm::vec3(0.0f));
 
 	//ui button
 	m_button = getEntitySystem()->createEntity<QuadEntity>();
@@ -129,9 +130,17 @@ void MyGame::onCreate()
 	m_button->setPosition(glm::vec3(200.0f * m_uiScaleX, 100.0f * m_uiScaleY, 0.0f));
 	m_button->setTexture(buttonUpTexture);
 	m_button->setShader(quadShader);
+
+	//Creating the player object
+	//all the input managements, creation of camera are inside Player class
+	m_player = getEntitySystem()->createEntity<MyPlayer>();
+	m_player->setScale(glm::vec3(0.0f));
+	m_player->setPosition(glm::vec3(0.0f));
 	m_player->addButtonRef(m_button);
 	m_player->setInstancedEntity(m_instancedTree, colouredAncientTextureSheet, plainAncientTextureSheet);
 	m_player->setButtonTextures(buttonUpTexture, buttonHoveringTexture, buttonDownTexture);
+
+	
 
 	// Initialize point lights
 	auto pointLight1 = getEntitySystem()->createEntity<MeshEntity>();

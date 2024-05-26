@@ -44,8 +44,8 @@ void MeshEntity::setUniformData(UniformData data)
 void MeshEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::None); // draw only the front faces, the back faces are discarded
-    engine->setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
+    engine->setFaceCulling(CullType::BackFace); // draw only the front faces, the back faces are discarded
+    engine->setWindingOrder(WindingOrder::ClockWise); //consider the position of vertices in clock wise way.
 
     if (m_texture)
     {

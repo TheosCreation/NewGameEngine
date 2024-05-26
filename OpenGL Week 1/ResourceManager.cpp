@@ -30,6 +30,33 @@ ResourcePtr ResourceManager::createResourceFromFile(const char* path)
     return createResourceFromFile(path, false);
 }
 
+ResourcePtr ResourceManager::createResourceFromFile(const std::vector<std::string>& paths)
+{
+    // Check if the resource has already been loaded
+    auto it = m_mapResources.find(paths[1]);
+    if (it != m_mapResources.end())
+    {
+        return it->second;
+    }
+
+    // The resource has not been loaded yet. Let's load it.
+    if (paths.size() != 6)
+    {
+        OGL3D_ERROR("Cubemap texture requires exactly 6 images");
+        return ResourcePtr();
+    }
+
+    // Create a cubemap texture resource
+    TexturePtr texturePtr = std::make_shared<Texture>(paths, this);
+    if (texturePtr)
+    {
+        m_mapResources.emplace(paths[1], texturePtr);
+        return texturePtr;
+    }
+
+    return ResourcePtr();
+}
+
 ResourcePtr ResourceManager::createResourceFromFile(const char* path, bool isInstanced)
 {
     // Check if the resource has already been loaded

@@ -60,6 +60,8 @@ public:
      */
     Texture2DPtr createTexture2D(const Texture2DDesc& desc);
 
+    TextureCubeMapPtr createTextureCubeMap(const TextureCubeMapDesc& desc);
+
     /**
      * @brief Clears the screen with the specified color.
      * @param color The color to clear the screen with.
@@ -71,6 +73,8 @@ public:
      * @param type The type of face culling to use.
      */
     void setFaceCulling(const CullType& type);
+
+    void setDepthFunc(const DepthType& type);
 
     /**
      * @brief Sets the winding order for front-facing polygons.
@@ -102,6 +106,8 @@ public:
      * @param slot The texture slot to bind the texture to.
      */
     void setTexture2D(const Texture2DPtr& texture, uint slot);
+
+    void setTextureCubeMap(const TextureCubeMapPtr& texture, uint slot);
 
     /**
      * @brief Draws triangles.

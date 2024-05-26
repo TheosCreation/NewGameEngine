@@ -43,6 +43,8 @@ public:
      */
     ResourcePtr createResourceFromFile(const char* path);
 
+    ResourcePtr createResourceFromFile(const std::vector<std::string>& paths);
+
     /**
      * @brief Creates a resource from a file with an option for instancing.
      * @param path The file path to the resource.

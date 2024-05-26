@@ -15,6 +15,7 @@ Mail : theo.morris@mds.ac.nz
 #include <iostream>
 #include <stdexcept>
 #include <memory>
+#include <vector>
 #include <glm.hpp>
 #include "Rect.h"
 
@@ -24,6 +25,7 @@ class UniformBuffer;
 class VertexArrayObject;
 class Shader;
 class Texture2D;
+class TextureCubeMap;
 class ResourceManager;
 class Resource;
 class Texture;
@@ -37,6 +39,7 @@ typedef unsigned int uint;
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
 typedef std::shared_ptr<Shader> ShaderPtr;
 typedef std::shared_ptr<Texture2D> Texture2DPtr;
+typedef std::shared_ptr<TextureCubeMap> TextureCubeMapPtr;
 typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
@@ -96,6 +99,14 @@ struct Texture2DDesc
     uint numChannels = 0; //Number of channels in the texture
 };
 
+// Struct representing a texture Cubemap description
+struct TextureCubeMapDesc
+{
+    std::vector<void*> textureData; // Pointers to the texture data for each face
+    Rect textureSize = {}; // Size of each texture face
+    uint numChannels = 0; // Number of channels in each texture face
+};
+
 // Enum representing camera types
 enum class CameraType
 {
@@ -117,6 +128,19 @@ enum class CullType
     FrontFace, //Cull front face
     Both, //Cull both faces
     None //Cull no faces
+};
+
+// Enum representing depth types
+enum class DepthType
+{
+    Never,
+    Less,
+    Equal,
+    LessEqual,
+    Greater,
+    NotEqual,
+    GreaterEqual,
+    Always
 };
 
 // Enum representing winding orders
