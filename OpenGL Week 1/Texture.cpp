@@ -21,6 +21,8 @@ Mail : theo.morris@mds.ac.nz
 // Constructor that initializes a texture from a file path and a resource manager.
 Texture::Texture(const char* path, ResourceManager* manager) : Resource(path, manager)
 {
+    stbi_set_flip_vertically_on_load(false);
+
     Rect textureSize; // Structure to hold the texture size.
     auto nrChannels = 0; // Number of color channels in the texture.
 
@@ -48,6 +50,8 @@ Texture::Texture(const char* path, ResourceManager* manager) : Resource(path, ma
 // Constructor that initializes a cubemap texture from an array of file paths and a resource manager.
 Texture::Texture(const std::vector<std::string>& paths, ResourceManager* manager) : Resource("", manager)
 {
+    stbi_set_flip_vertically_on_load(false);
+
     if (paths.size() != 6)
     {
         OGL3D_ERROR("Cubemap texture requires exactly 6 images");

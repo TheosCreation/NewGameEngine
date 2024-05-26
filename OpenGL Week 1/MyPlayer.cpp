@@ -143,10 +143,10 @@ void MyPlayer::onUpdate(float deltaTime)
     
     // Adjust camera speed if Shift key is pressed
     if (input->isKeyDown(Key::KeyShift)) {
-        //m_orbitSpeed = m_originalOrbitSpeed * 2.0f;
+        m_movementSpeed = m_originalMovementSpeed * 2.0f;
     }
     else {
-        //m_orbitSpeed = m_originalOrbitSpeed;
+        m_movementSpeed = m_originalMovementSpeed;
     }
 
     // Update the camera's position

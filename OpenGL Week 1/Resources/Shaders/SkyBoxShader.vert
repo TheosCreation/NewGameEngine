@@ -8,6 +8,7 @@ out vec3 FragTexcoord;
 
 void main()
 {
-    gl_Position = VPMatrix * vec4(Position, 1.0f);
-    FragTexcoord = Position.xyz;
+    vec4 Pos = VPMatrix * vec4(Position, 1.0f);
+    gl_Position = Pos.xyww;
+    FragTexcoord = vec3(Position.xyz);
 }

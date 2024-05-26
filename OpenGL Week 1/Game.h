@@ -69,6 +69,8 @@ public:
 
     LightManager* getLightingManager();
 
+    TexturePtr getSkyboxTexture();
+
     /**
      * @brief Gets the ResourceManager instance.
      * @return A pointer to the ResourceManager instance.
@@ -129,6 +131,7 @@ protected:
     std::unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     std::unique_ptr<ResourceManager> m_resourceManager; //Pointer to the resource manager instance
     std::unique_ptr<LightManager> m_lightManager; //Pointer to the resource manager instance
+    TexturePtr m_skyBoxTexture;
 
     float m_previousTime = 0; //The previous frame's time
     float m_currentTime = 0; //The current frame's time

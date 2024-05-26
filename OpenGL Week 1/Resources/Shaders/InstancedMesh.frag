@@ -1,6 +1,13 @@
 #version 460 core
 #define MAX_POINT_LIGHTS 4
 
+struct DirectionalLight
+{
+    vec3 Direction;
+    vec3 Color;
+    float SpecularStrength;
+};
+
 struct PointLight
 {
 	vec3 Position;
@@ -13,6 +20,8 @@ in vec3 FragNormal;
 in vec3 FragPos;
 
 uniform sampler2D Texture0;
+uniform samplerCube Texture_Skybox;
+
 uniform float AmbientStrength		= 0.15f;
 uniform vec3 AmbientColor			= vec3(1.0f, 1.0f, 1.0f);
 
@@ -37,7 +46,7 @@ vec3 CalculateLight_Point(unsigned int index)
     vec3 diffuse = diff * light.Color;
     
     // Specular shading
-    vec3 viewDir = normalize(CameraPos - FragPos);
+    vec3 viewDir = normalize(FragPos - CameraPos);
     vec3 reflectDir = reflect(-lightDir, FragNormal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), ObjectShininess);
     vec3 specular = spec * light.SpecularStrength * light.Color;
@@ -59,6 +68,13 @@ void main()
     }
     TotalLightOutput += Ambient;
 
+    vec3 Normal = normalize(FragNormal);
+    vec3 ViewDir = normalize(FragPos - CameraPos);
+    vec3 ReflectDir = reflect(ViewDir, Normal);
+
     // Calculate the final color
-    FinalColor = vec4(TotalLightOutput, 1.0f) * texture(Texture0, FragTexcoord);
+    vec4 ObjectTexture = texture(Texture0, FragTexcoord);
+    vec4 ReflectionTexture = texture(Texture_Skybox, ReflectDir);
+    vec4 MixedTexture = mix(ObjectTexture, ReflectionTexture, 0.5f);
+    FinalColor = vec4(TotalLightOutput, 1.0f) * MixedTexture;
 }

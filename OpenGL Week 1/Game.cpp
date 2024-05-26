@@ -102,10 +102,6 @@ void Game::onGraphicsUpdate(float deltaTime)
 {
     m_graphicsEngine->clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
-    glm::mat4 projectionMatrix;
-    glm::mat4 viewMatrix;
-    glm::mat4 uiProjectionMatrix;
-    glm::mat4 uiViewMatrix;
 
     auto camId = typeid(Camera).hash_code();
 
@@ -119,17 +115,15 @@ void Game::onGraphicsUpdate(float deltaTime)
             if (cam && cam->getCameraType() == CameraType::Perspective)
             {
                 // First camera should be game camera
-                cam->getViewMatrix(viewMatrix);
-                cam->getProjectionMatrix(projectionMatrix);
-                data.viewProjectionMatrix = projectionMatrix * viewMatrix;
+                cam->getViewMatrix(data.viewMatrix);
+                cam->getProjectionMatrix(data.projectionMatrix);
                 data.cameraPosition = cam->getPosition();
             }
             else
             {
                 // Second camera which should be UI camera
-                cam->getViewMatrix(uiViewMatrix);
-                cam->getProjectionMatrix(uiProjectionMatrix);
-                data.uiViewProjectionMatrix = uiProjectionMatrix * uiViewMatrix;
+                cam->getViewMatrix(data.uiViewMatrix);
+                cam->getProjectionMatrix(data.uiProjectionMatrix);
             }
         }
     }
@@ -223,6 +217,11 @@ InputManager* Game::getInputManager()
 LightManager* Game::getLightingManager()
 {
     return m_lightManager.get();
+}
+
+TexturePtr Game::getSkyboxTexture()
+{
+    return m_skyBoxTexture;
 }
 
 ResourceManager* Game::getResourceManager()

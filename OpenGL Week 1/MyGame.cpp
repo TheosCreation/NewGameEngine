@@ -46,7 +46,7 @@ void MyGame::onCreate()
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
-	TexturePtr skyboxCubemapTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(skyboxCubeMapTextureFilePaths));
+	m_skyBoxTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(skyboxCubeMapTextureFilePaths));
 
 	//Loading meshes
 	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
@@ -120,7 +120,7 @@ void MyGame::onCreate()
 	
 	//Creating skybox object
 	m_skybox = getEntitySystem()->createEntity<SkyboxEntity>();
-	m_skybox->setTexture(skyboxCubemapTexture);
+	m_skybox->setTexture(m_skyBoxTexture);
 	m_skybox->setMesh(cubeMesh);
 	m_skybox->setShader(skyboxShader);
 
@@ -160,14 +160,10 @@ void MyGame::onCreate()
 
 void MyGame::onUpdate(float deltaTime)
 {
-	//Slowly rotate the skybox
-	m_rotz += glm::radians(40.0f * deltaTime);
-	m_skybox->setRotation(glm::vec3(0, m_roty, 0));
-
 }
 
 void MyGame::onLateUpdate(float deltaTime)
 {
-	//m_statue->setPosition(m_player->getPosition());
-	//m_statue->setRotation(m_player->getRotation());
+	m_statue->setPosition(m_player->getPosition());
+	m_statue->setRotation(m_player->getRotation() + glm::vec3(0.0f, glm::degrees(90.0f), 0.0f));
 }

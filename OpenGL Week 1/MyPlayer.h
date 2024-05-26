@@ -69,14 +69,16 @@ private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
     Entity* m_entity = nullptr; //Pointer to the entity
 
+    
     float m_movementSpeed = 50.0f; //Movement speed of the movable object
+    float m_originalMovementSpeed = m_movementSpeed;
     float m_yaw = 0.0f;
     float m_pitch = 0.0f;
     float m_minFov = 1.0f;
     float m_fov = 90.0f;
     float m_maxFov = 120.0f;
     float m_zoomSpeed = 0.5f;
-    glm::vec3 m_playerHeightOffset{0.0f, 10.0f, 0.0f}; //Height offset to position the camera
+    glm::vec3 m_playerHeightOffset{0.0f, 20.0f, 0.0f}; //Height offset to position the camera
     bool m_playMode = false; //Flag for play mode
     bool m_wireframeMode = false; //Flag for wireframe mode
 

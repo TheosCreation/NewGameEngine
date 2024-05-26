@@ -55,8 +55,6 @@ private:
     MyPlayer* m_player = nullptr; //Pointer to the player entity
     QuadEntity* m_button = nullptr; //Pointer to the button entity
 
-    float m_rotz = 0; //Rotation around the z-axis
-    float m_roty = 0; //Rotation around the y-axis
     float m_uiScaleX = 2.0; //UI scale factor for the x-axis
     float m_uiScaleY = -2.0; //UI scale factor for the y-axis
 };

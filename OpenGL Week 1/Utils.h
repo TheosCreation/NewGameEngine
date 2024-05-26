@@ -85,8 +85,10 @@ struct UniformBufferDesc
 // Struct representing uniform data
 struct UniformData
 {
-    glm::mat4 viewProjectionMatrix; //View projection matrix
-    glm::mat4 uiViewProjectionMatrix; //UI view projection matrix
+    glm::mat4 viewMatrix; //View matrix
+    glm::mat4 projectionMatrix; //Projection matrix
+    glm::mat4 uiViewMatrix; //UI view matrix
+    glm::mat4 uiProjectionMatrix; //UI projection matrix
     float currentTime; //Current time
     glm::vec3 cameraPosition; //Camera Position
 };

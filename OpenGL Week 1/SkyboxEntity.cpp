@@ -10,7 +10,8 @@ void SkyboxEntity::onCreate()
 
 void SkyboxEntity::setUniformData(UniformData data)
 {
-    m_shader->setMat4("VPMatrix", data.viewProjectionMatrix);
+    glm::mat4 viewNoTranslationMatrix = glm::mat3(data.viewMatrix);
+    m_shader->setMat4("VPMatrix", data.projectionMatrix * viewNoTranslationMatrix);
 }
 
 void SkyboxEntity::onGraphicsUpdate(float deltaTime)
@@ -20,7 +21,7 @@ void SkyboxEntity::onGraphicsUpdate(float deltaTime)
     engine->setWindingOrder(WindingOrder::ClockWise); //consider the position of vertices in clock wise way.
     engine->setDepthFunc(DepthType::LessEqual);
 
-    engine->setTextureCubeMap(m_texture->getTextureCubeMap(), 0);
+    engine->setTextureCubeMap(m_texture->getTextureCubeMap(), 1);
 
     //during the graphics update, we call the draw function
     auto meshVBO = getMesh()->getVertexArrayObject();

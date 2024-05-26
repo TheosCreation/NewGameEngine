@@ -83,10 +83,8 @@ void QuadEntity::onCreate()
 
 void QuadEntity::setUniformData(UniformData data)
 {
-    m_shader->setMat4("VPMatrix", data.uiViewProjectionMatrix);
+    m_shader->setMat4("VPMatrix", data.uiProjectionMatrix * data.uiViewMatrix);
     m_shader->setMat4("modelMatrix", getModelMatrix());
-
-    m_shader->setFloat("currentTime", data.currentTime);
 }
 
 void QuadEntity::setShader(const ShaderPtr& shader)

@@ -122,6 +122,7 @@ void GraphicsEngine::setTextureCubeMap(const TextureCubeMapPtr& texture, uint sl
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture->getId());
+
 }
 
 void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)

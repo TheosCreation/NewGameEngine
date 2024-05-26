@@ -32,13 +32,13 @@ void MeshEntity::onCreate()
 
 void MeshEntity::setUniformData(UniformData data)
 {
-    m_shader->setMat4("VPMatrix", data.viewProjectionMatrix);
+    m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
     m_shader->setMat4("modelMatrix", getModelMatrix());
 
-    m_shader->setFloat("currentTime", data.currentTime);
     m_shader->setVec3("CameraPos", data.cameraPosition);
 
     m_shader->setFloat("ObjectShininess", getShininess());
+    m_shader->setInt("Texture_Skybox", 1);
 }
 
 void MeshEntity::onGraphicsUpdate(float deltaTime)
@@ -51,6 +51,13 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     {
         engine->setTexture2D(m_texture->getTexture2D(), 0);
     }
+
+    auto skyboxTexture = getGame()->getSkyboxTexture();
+    if (skyboxTexture)
+    {
+        engine->setTextureCubeMap(skyboxTexture->getTextureCubeMap(), 0);
+    }
+
     //during the graphics update, we call the draw function
     auto meshVBO = m_mesh->getVertexArrayObject();
     engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
