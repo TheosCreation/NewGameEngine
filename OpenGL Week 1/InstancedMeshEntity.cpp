@@ -38,6 +38,7 @@ void InstancedMeshEntity::setUniformData(UniformData data)
 
     m_shader->setFloat("ObjectShininess", getShininess());
     m_shader->setInt("Texture_Skybox", 1);
+    m_shader->setInt("ReflectionMap", 2);
 }
 
 void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
@@ -55,6 +56,11 @@ void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
     if (skyboxTexture)
     {
         engine->setTextureCubeMap(skyboxTexture->getTextureCubeMap(), 0);
+    }
+
+    if (m_reflectiveMap)
+    {
+        engine->setTexture2D(m_reflectiveMap->getTexture2D(), 2);
     }
 
     //during the graphics update, we call the draw function

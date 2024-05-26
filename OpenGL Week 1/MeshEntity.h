@@ -32,6 +32,8 @@ public:
      */
     MeshPtr getMesh();
 
+    void setReflectiveMapTexture(const TexturePtr& texture);
+
     /**
      * @brief Called when the entity is created.
      */
@@ -48,6 +50,9 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onGraphicsUpdate(float deltaTime);
+
+protected:
+    TexturePtr m_reflectiveMap;
 
 private:
     MeshPtr m_mesh; //A shared pointer to the mesh.

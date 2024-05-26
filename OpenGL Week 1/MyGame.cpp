@@ -38,6 +38,9 @@ void MyGame::onCreate()
 
 	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
 	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
+	
+	TexturePtr sciFiSpace = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png"));
+	TexturePtr shipReflectiveMap = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/ReflectionMap.png"));
 
 	std::vector<std::string> skyboxCubeMapTextureFilePaths;
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
@@ -52,6 +55,7 @@ void MyGame::onCreate()
 	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
 	MeshPtr cubeMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/cube.obj"));
 	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Prop_Statue_01.obj"));
+	MeshPtr fighterShip = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj"));
 	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
 	
 	//Loading Shader
@@ -73,13 +77,14 @@ void MyGame::onCreate()
 		});
 
 	//Creating statue obj
-	m_statue = getEntitySystem()->createEntity<MeshEntity>();
-	m_statue->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
-	m_statue->setPosition(glm::vec3(0, 0, 0));
-	m_statue->setShininess(32.0f);
-	m_statue->setTexture(colouredAncientTextureSheet);
-	m_statue->setMesh(statueMesh);
-	m_statue->setShader(meshShader);
+	m_ship = getEntitySystem()->createEntity<MeshEntity>();
+	m_ship->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	m_ship->setPosition(glm::vec3(0, 0, 0));
+	m_ship->setShininess(32.0f);
+	m_ship->setTexture(sciFiSpace);
+	m_ship->setReflectiveMapTexture(shipReflectiveMap);
+	m_ship->setMesh(fighterShip);
+	m_ship->setShader(meshShader);
 	
 	//Creating instanced tree obj
 	m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
@@ -156,6 +161,8 @@ void MyGame::onCreate()
 	pointLight2->setMesh(sphereMesh);
 	pointLight2->setShader(meshShader);
 	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f);
+
+	m_lightManager->createDirectionalLight(glm::normalize(glm::vec3(0.5f, -1.0f, -0.5f)), glm::vec3(1.0f, 0.9f, 0.7f), 1.0f);
 }
 
 void MyGame::onUpdate(float deltaTime)
@@ -164,6 +171,6 @@ void MyGame::onUpdate(float deltaTime)
 
 void MyGame::onLateUpdate(float deltaTime)
 {
-	m_statue->setPosition(m_player->getPosition());
-	m_statue->setRotation(m_player->getRotation() + glm::vec3(0.0f, glm::degrees(90.0f), 0.0f));
+	//m_ship->setPosition(m_player->getPosition());
+	//m_ship->setRotation(m_player->getRotation() + glm::vec3(0.0f, glm::degrees(90.0f), 0.0f));
 }

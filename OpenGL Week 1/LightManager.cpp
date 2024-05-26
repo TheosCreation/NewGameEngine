@@ -17,6 +17,13 @@ void LightManager::createPointLight(glm::vec3 position, glm::vec3 color, float s
     PointLightCount++;
 }
 
+void LightManager::createDirectionalLight(glm::vec3 direction, glm::vec3 color, float specularStrength)
+{
+    DirectionalLight.Direction = direction;
+    DirectionalLight.Color = color;
+    DirectionalLight.SpecularStrength = specularStrength;
+}
+
 void LightManager::applyLighting(ShaderPtr shader)
 {
     shader->setFloat("AmbientStrength", AmbientStrength);
@@ -42,10 +49,12 @@ void LightManager::applyLighting(ShaderPtr shader)
     if (DirectionalLightStatus)
     {
         //apply directional light to shader
+        shader->setVec3("DirLight.Direction", DirectionalLight.Direction);
+        shader->setVec3("DirLight.Color", DirectionalLight.Color);
+        shader->setFloat("DirLight.SpecularStrength", DirectionalLight.SpecularStrength);
     }
     else
     {
-        //shader->setUint("PointLightCount", 0); 
     }
     
     if (SpotlightStatus)

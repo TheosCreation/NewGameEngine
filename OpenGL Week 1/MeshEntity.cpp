@@ -26,6 +26,11 @@ MeshPtr MeshEntity::getMesh()
     return m_mesh;
 }
 
+void MeshEntity::setReflectiveMapTexture(const TexturePtr& texture)
+{
+    m_reflectiveMap = texture;
+}
+
 void MeshEntity::onCreate()
 {
 }
@@ -39,6 +44,7 @@ void MeshEntity::setUniformData(UniformData data)
 
     m_shader->setFloat("ObjectShininess", getShininess());
     m_shader->setInt("Texture_Skybox", 1);
+    m_shader->setInt("ReflectionMap", 2);
 }
 
 void MeshEntity::onGraphicsUpdate(float deltaTime)
@@ -55,7 +61,12 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     auto skyboxTexture = getGame()->getSkyboxTexture();
     if (skyboxTexture)
     {
-        engine->setTextureCubeMap(skyboxTexture->getTextureCubeMap(), 0);
+        engine->setTextureCubeMap(skyboxTexture->getTextureCubeMap(), 1);
+    }
+    
+    if (m_reflectiveMap)
+    {
+        engine->setTexture2D(m_reflectiveMap->getTexture2D(), 2);
     }
 
     //during the graphics update, we call the draw function

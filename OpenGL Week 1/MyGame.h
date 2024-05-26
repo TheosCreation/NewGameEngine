@@ -49,7 +49,7 @@ private:
 
     // Initialize all VBOs here
     SkyboxEntity* m_skybox = nullptr; //Pointer to the skybox entity
-    MeshEntity* m_statue = nullptr; //Pointer to the statue entity
+    MeshEntity* m_ship = nullptr; //Pointer to the statue entity
     MeshEntity* m_ground = nullptr; //Pointer to the ground entity
     InstancedMeshEntity* m_instancedTree = nullptr; //Pointer to the instanced tree entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity

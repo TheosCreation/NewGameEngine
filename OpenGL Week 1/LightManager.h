@@ -35,6 +35,8 @@ public:
 
     void createPointLight(glm::vec3 position, glm::vec3 color, float specularStrength);
 
+    void createDirectionalLight(glm::vec3 direction, glm::vec3 color, float specularStrength);
+
     /**
      * @brief Apply lighting to the shader
      * @param shader A shared pointer to the shader.
@@ -56,6 +58,8 @@ private:
     static const int MAX_POINT_LIGHTS = 4;
     PointLight PointLights[MAX_POINT_LIGHTS] = {};
     uint PointLightCount = 0;
+
+    DirectionalLight DirectionalLight;
 
     bool PointLightsStatus = true;
     bool DirectionalLightStatus = true;
