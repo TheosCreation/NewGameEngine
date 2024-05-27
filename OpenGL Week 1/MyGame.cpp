@@ -51,12 +51,13 @@ void MyGame::onCreate()
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
 	m_skyBoxTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(skyboxCubeMapTextureFilePaths));
 
-	//Loading meshes
+	
 	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
 	MeshPtr cubeMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/cube.obj"));
-	MeshPtr statueMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Prop_Statue_01.obj"));
+
+	//Loading meshes
 	MeshPtr fighterShip = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj"));
-	InstancedMeshPtr instancedTreeMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/SM_Env_Tree_Palm_01.obj", true));
+	InstancedMeshPtr mineMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj", true));
 	
 	//Loading Shader
 	ShaderPtr quadShader = m_graphicsEngine->createShader({
@@ -88,40 +89,42 @@ void MyGame::onCreate()
 	
 	//Creating instanced tree obj
 	m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
+	m_instancedTree->setShininess(32.0f);
 	m_instancedTree->setTexture(colouredAncientTextureSheet);
 	m_instancedTree->setShader(instancedMeshShader);
-	m_instancedTree->setMesh(instancedTreeMesh);
-
+	m_instancedTree->setMesh(mineMesh);
+	
 	float spacing = 30.0f;
 	for (int row = -16; row < 16; ++row) {
 		for (int col = -16; col < 16; ++col) {
 			if (row == 0 && col == 0) break;
-
+	
 			// Calculate the position of the current tree based on the grid and spacing
 			glm::vec3 position = glm::vec3(col * spacing, 0.0f, row * spacing);
-
+	
 			// Generate random rotation angles
 			float angleX = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
 			float angleY = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
 			float angleZ = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
-
+	
 			float randomScale = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 0.05f;
-
+	
 			// Add the tree instance with random rotations
-			instancedTreeMesh->addInstance(position, glm::vec3(0.05f, 0.025f, 0.05f) + randomScale, glm::vec3(angleX, angleY, angleZ));
+			mineMesh->addInstance(position, glm::vec3(0.05f, 0.025f, 0.05f) + randomScale, glm::vec3(angleX, angleY, angleZ));
 		}
 	}
-
+	
 	//Init instance buffer
-	instancedTreeMesh->initInstanceBuffer();
+	mineMesh->initInstanceBuffer();
 
 	//Creating ground object
-	m_ground = getEntitySystem()->createEntity<MeshEntity>();
-	m_ground->setScale(glm::vec3(800, 1, 800));
-	m_ground->setPosition(glm::vec3(0, -1, 0));
-	m_ground->setTexture(groundTexture);
-	m_ground->setMesh(sphereMesh);
-	m_ground->setShader(meshShader);
+	//m_ground = getEntitySystem()->createEntity<MeshEntity>();
+	//m_ground->setScale(glm::vec3(800, 1, 800));
+	//m_ground->setPosition(glm::vec3(0, -1, 0));
+	//m_ground->setShininess(32.0f);
+	//m_ground->setTexture(groundTexture);
+	//m_ground->setMesh(sphereMesh);
+	//m_ground->setShader(meshShader);
 	
 	//Creating skybox object
 	m_skybox = getEntitySystem()->createEntity<SkyboxEntity>();
@@ -153,16 +156,18 @@ void MyGame::onCreate()
 	pointLight1->setTexture(solidBlueTexture);
 	pointLight1->setMesh(sphereMesh);
 	pointLight1->setShader(meshShader);
-	m_lightManager->createPointLight(pointLight1->getPosition(), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f);
+	m_lightManager->createPointLight(pointLight1->getPosition(), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	auto pointLight2 = getEntitySystem()->createEntity<MeshEntity>();
 	pointLight2->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
 	pointLight2->setTexture(solidRedTexture);
 	pointLight2->setMesh(sphereMesh);
 	pointLight2->setShader(meshShader);
-	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f);
+	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	m_lightManager->createDirectionalLight(glm::normalize(glm::vec3(0.5f, -1.0f, -0.5f)), glm::vec3(1.0f, 0.9f, 0.7f), 1.0f);
+
+	m_lightManager->createSpotLight(glm::vec3(10.0f), glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f)), 1.0f);
 }
 
 void MyGame::onUpdate(float deltaTime)

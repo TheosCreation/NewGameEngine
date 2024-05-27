@@ -33,9 +33,11 @@ public:
      */
     ~LightManager();
 
-    void createPointLight(glm::vec3 position, glm::vec3 color, float specularStrength);
+    void createPointLight(glm::vec3 position, glm::vec3 color, float specularStrength, float attenuationConstant, float attenuationLinear, float attenuationExponent);
 
     void createDirectionalLight(glm::vec3 direction, glm::vec3 color, float specularStrength);
+
+    void createSpotLight(glm::vec3 position, glm::vec3 direction, float cutOff);
 
     /**
      * @brief Apply lighting to the shader
@@ -51,6 +53,8 @@ public:
 
     bool getSpotlightStatus();
     void setSpotlightStatus(bool status);
+    void setSpotlightPosition(glm::vec3 position);
+    void setSpotlightDirection(glm::vec3 direction);
 
 private:
     float AmbientStrength = 0.5f;
@@ -60,6 +64,8 @@ private:
     uint PointLightCount = 0;
 
     DirectionalLight DirectionalLight;
+
+    SpotLight SpotLight;
 
     bool PointLightsStatus = true;
     bool DirectionalLightStatus = true;

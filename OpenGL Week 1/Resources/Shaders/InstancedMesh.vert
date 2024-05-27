@@ -11,7 +11,7 @@ out vec2 FragTexcoord;
 out vec3 FragNormal;
 out vec3 FragPos;
 
-void main(void)
+void main()
 {
     gl_Position = VPMatrix * InstancedModel * vec4(vertexPosition, 1.0f);
     FragTexcoord = vertexTexCoords;

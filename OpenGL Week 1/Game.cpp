@@ -118,6 +118,9 @@ void Game::onGraphicsUpdate(float deltaTime)
                 cam->getViewMatrix(data.viewMatrix);
                 cam->getProjectionMatrix(data.projectionMatrix);
                 data.cameraPosition = cam->getPosition();
+                m_lightManager->setSpotlightPosition(data.cameraPosition);
+                m_lightManager->setSpotlightDirection(cam->getForwardDirection());
+                
             }
             else
             {
@@ -127,7 +130,6 @@ void Game::onGraphicsUpdate(float deltaTime)
             }
         }
     }
-
     data.currentTime = m_currentTime;
 
     ShaderPtr currentShader = nullptr;

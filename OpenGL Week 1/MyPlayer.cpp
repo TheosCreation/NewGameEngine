@@ -87,7 +87,7 @@ void MyPlayer::onUpdate(float deltaTime)
     glm::vec2 cursorPosition = input->getMousePosition();
 
     // Toggle to print the cords of the cursor
-    if (input->isKeyPressed(Key::Key3))
+    if (input->isKeyPressed(Key::Key5))
     {
         std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
     }

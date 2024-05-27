@@ -96,7 +96,7 @@ void QuadEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::BackFace);
-    engine->setWindingOrder(WindingOrder::ClockWise); 
+    engine->setWindingOrder(WindingOrder::ClockWise);
     engine->setDepthFunc(DepthType::Less);
 
     engine->setTexture2D(m_texture->getTexture2D(), 0);

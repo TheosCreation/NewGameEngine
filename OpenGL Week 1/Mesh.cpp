@@ -37,7 +37,7 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
     if (!res) OGL3D_ERROR("Mesh | not created successfully");
     
     std::vector<VertexMesh> list_vertices;
-    std::vector<unsigned int> list_indices;
+    std::vector<uint> list_indices;
     
     size_t vertex_buffer_size = 0;
     
@@ -59,16 +59,16 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
     
         for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
         {
-            unsigned char num_face_verts = shapes[s].mesh.num_face_vertices[f];
+            uint num_face_verts = shapes[s].mesh.num_face_vertices[f];
     
-            for (unsigned char v = 0; v < num_face_verts; v++)
+            for (uint v = 0; v < num_face_verts; v++)
             {
                 tinyobj::index_t index = shapes[s].mesh.indices[index_offset + v];
     
                 //adding vertex positions
                 tinyobj::real_t vx = attribs.vertices[(int)(index.vertex_index * 3 + 0)];
                 tinyobj::real_t vy = attribs.vertices[(int)(index.vertex_index * 3 + 1)];
-                tinyobj::real_t vz = -attribs.vertices[(int)(index.vertex_index * 3 + 2)];
+                tinyobj::real_t vz = attribs.vertices[(int)(index.vertex_index * 3 + 2)];
     
                 //adding texcoords
                 tinyobj::real_t tx = 0;

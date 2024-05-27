@@ -13,6 +13,17 @@ struct PointLight
     vec3 Position;
     vec3 Color;
     float SpecularStrength;
+
+    float AttenuationConstant;
+    float AttenuationLinear;
+    float AttenuationExponent;
+};
+
+struct SpotLight
+{
+    vec3 Position;
+    vec3 Direction;
+    float CutOff;
 };
 
 in vec2 FragTexcoord;
@@ -30,6 +41,10 @@ uniform PointLight PointLightArray[MAX_POINT_LIGHTS];
 uniform unsigned int PointLightCount;
 
 uniform DirectionalLight DirLight;
+uniform int DirectionalLightStatus;
+
+uniform SpotLight SpotLight1;
+uniform int SpotLightStatus;
 
 uniform vec3 CameraPos;
 uniform float ObjectShininess = 32.0f;
@@ -39,42 +54,84 @@ out vec4 FinalColor;
 
 vec3 CalculateLight_Point(unsigned int index, vec3 viewDir)
 {
+    vec3 Normal = normalize(FragNormal);
     PointLight light = PointLightArray[index];
 
     // Light direction
-    vec3 lightDir = normalize(light.Position - FragPos);
+    vec3 LightDir = normalize(FragPos - light.Position);
 
     // Diffuse shading
-    float diff = max(dot(FragNormal, lightDir), 0.0);
-    vec3 diffuse = diff * light.Color;
+    float DiffuseStrength = max(dot(Normal, -LightDir), 0.0f);
+    vec3 Diffuse = DiffuseStrength * light.Color;
 
     // Specular shading
-    vec3 reflectDir = reflect(-lightDir, FragNormal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), ObjectShininess);
-    vec3 specular = spec * light.SpecularStrength * light.Color;
+    vec3 HalfwayDir = normalize(LightDir + viewDir);
+    float SpecularReflection = pow(max(dot(Normal, HalfwayDir), 0.0), ObjectShininess);
+    vec3 Specular = light.SpecularStrength * SpecularReflection * light.Color;
 
     // Combine results
-    vec3 result = diffuse + specular;
-    return result;
+    vec3 result = Diffuse + Specular;
+
+    float Distance = length(light.Position - FragPos);
+    float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * pow(Distance, 2));
+    return result /= Attenuation;
 }
 
 vec3 CalculateLight_Directional(vec3 viewDir)
 {
+    vec3 Normal = normalize(FragNormal);
+
     // Light direction
-    vec3 lightDir = normalize(-DirLight.Direction);
+    vec3 LightDir = normalize(-DirLight.Direction);
 
     // Diffuse shading
-    float diff = max(dot(FragNormal, lightDir), 0.0);
-    vec3 diffuse = diff * DirLight.Color;
+    float DiffuseStrength = max(dot(Normal, -LightDir), 0.0f);
+    vec3 Diffuse = DiffuseStrength * DirLight.Color;
 
     // Specular shading
-    vec3 reflectDir = reflect(-lightDir, FragNormal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), ObjectShininess);
-    vec3 specular = spec * DirLight.SpecularStrength * DirLight.Color;
+    vec3 halfwayDir = normalize(LightDir + viewDir);
+    float SpecularStrength = pow(max(dot(Normal, halfwayDir), 0.0), ObjectShininess);
+    vec3 Specular = SpecularStrength * DirLight.Color;
 
     // Combine results
-    vec3 result = diffuse + specular;
+    vec3 result = Diffuse + Specular;
     return result;
+}
+
+vec3 CalculateLight_SpotLight()
+{
+    // Light direction
+    vec3 LightDir = normalize(FragPos - SpotLight1.Position);
+    float theta = dot(LightDir, normalize(-SpotLight1.Direction));
+    
+    if(theta > SpotLight1.CutOff) 
+    {       
+        float SpotLightIntensity = (1.0f - (1.0f - theta) / (1.0f - SpotLight1.CutOff));
+        vec3 Normal = normalize(FragNormal);
+
+    // Light direction
+    vec3 LightDir = normalize(FragPos - SpotLight1.Position);
+
+    // Diffuse shading
+    float DiffuseStrength = max(dot(Normal, -LightDir), 0.0f);
+    vec3 Diffuse = DiffuseStrength * vec3(1.0f, 0.0f, 0.0f);
+
+    //// Specular shading
+    //vec3 HalfwayDir = normalize(LightDir + viewDir);
+    //float SpecularReflection = pow(max(dot(Normal, HalfwayDir), 0.0), ObjectShininess);
+    //vec3 Specular = light.SpecularStrength * SpecularReflection * light.Color;
+
+    // Combine results
+    vec3 result = Diffuse * SpotLightIntensity;
+
+    //float Distance = length(SpotLight1.Position - FragPos);
+    //float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * pow(Distance, 2));
+    return result;
+    }
+    else
+    {
+        return vec3(0.0f);
+    }
 }
 
 void main()
@@ -92,7 +149,16 @@ void main()
     {
         TotalLightOutput += CalculateLight_Point(i, ViewDir);
     }
-    //TotalLightOutput += CalculateLight_Directional(ViewDir);
+
+    // if the directional light is turned off it will not calculate the directional light
+    if(DirectionalLightStatus == 1)
+    {
+        TotalLightOutput += CalculateLight_Directional(ViewDir);
+    }
+    if(SpotLightStatus == 1)
+    {
+        TotalLightOutput += CalculateLight_SpotLight();
+    }
     TotalLightOutput += Ambient;
 
     // Sample textures

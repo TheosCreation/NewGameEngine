@@ -238,6 +238,17 @@ struct PointLight
     glm::vec3 Position;
     glm::vec3 Color;
     float SpecularStrength;
+
+    float AttenuationConstant;
+    float AttenuationLinear;
+    float AttenuationExponent;
+};
+
+struct SpotLight
+{
+    glm::vec3 Position;
+    glm::vec3 Direction;
+    float CutOff;
 };
 
 // Macro for throwing an OpenGL error
