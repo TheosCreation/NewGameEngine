@@ -24,6 +24,8 @@ Window::Window()
     //Specify whether to create a forward-compatible context
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
+    glfwWindowHint(GLFW_SAMPLES, 4);
+
     // Create a GLFW window
     m_windowPtr = glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr);
     if (!m_windowPtr)
@@ -46,9 +48,6 @@ Window::Window()
 
     // Set GLFW user pointer to 'this' for access in callback functions
     glfwSetWindowUserPointer(m_windowPtr, this);
-
-    //helpful function
-    //glfwSetWindowPos(m_windowPtr, windowX, windowY);
 
     // Show the window
     glfwShowWindow(m_windowPtr);

@@ -135,8 +135,8 @@
     <None Include="Resources\Shaders\MeshShader.vert" />
     <None Include="Resources\Shaders\QuadShader.frag" />
     <None Include="Resources\Shaders\QuadShader.vert" />
-    <None Include="Resources\Shaders\PointLight.frag" />
-    <None Include="Resources\Shaders\PointLight.vert" />
+    <None Include="Resources\Shaders\SolidColorMesh.frag" />
+    <None Include="Resources\Shaders\SolidColorMesh.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

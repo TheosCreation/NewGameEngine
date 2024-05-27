@@ -76,9 +76,9 @@ void MyGame::onCreate()
 			L"InstancedMesh",
 			L"InstancedMesh"
 		});
-	ShaderPtr pointLightShader = m_graphicsEngine->createShader({
-			L"PointLight",
-			L"PointLight"
+	ShaderPtr solidColorMeshShader = m_graphicsEngine->createShader({
+			L"SolidColorMesh",
+			L"SolidColorMesh"
 		});
 
 	//Creating statue obj
@@ -152,21 +152,26 @@ void MyGame::onCreate()
 	m_player->setInstancedEntity(m_instancedTree, colouredAncientTextureSheet, plainAncientTextureSheet);
 	m_player->setButtonTextures(buttonUpTexture, buttonHoveringTexture, buttonDownTexture);
 
-	
+	//auto cubeEntity = getEntitySystem()->createEntity<MeshEntity>();
+	//cubeEntity->setPosition(glm::vec3(0.0f, 30.0f, 0.0f));
+	//cubeEntity->setScale(glm::vec3(0.01f));
+	//cubeEntity->setColor(Color::Green);
+	//cubeEntity->setMesh(cubeMesh);
+	//cubeEntity->setShader(solidColorMeshShader);
 
 	// Initialize point lights
 	auto pointLight1 = getEntitySystem()->createEntity<MeshEntity>();
 	pointLight1->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
 	pointLight1->setColor(Color::Blue);
 	pointLight1->setMesh(sphereMesh);
-	pointLight1->setShader(pointLightShader);
+	pointLight1->setShader(solidColorMeshShader);
 	m_lightManager->createPointLight(pointLight1->getPosition(), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	auto pointLight2 = getEntitySystem()->createEntity<MeshEntity>();
 	pointLight2->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
 	pointLight2->setColor(Color::Red);
 	pointLight2->setMesh(sphereMesh);
-	pointLight2->setShader(pointLightShader);
+	pointLight2->setShader(solidColorMeshShader);
 	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	m_lightManager->createDirectionalLight(glm::normalize(glm::vec3(0.5f, -1.0f, -0.5f)), glm::vec3(1.0f, 0.9f, 0.7f), 1.0f);

@@ -37,6 +37,7 @@ Game::Game()
     m_graphicsEngine->setViewport(m_display->getInnerSize());
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
+    m_graphicsEngine->setMultiSampling();
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 

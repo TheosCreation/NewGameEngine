@@ -189,8 +189,8 @@
     <None Include="Resources\Shaders\InstancedMesh.vert" />
     <None Include="Resources\Shaders\MeshShader.frag" />
     <None Include="Resources\Shaders\MeshShader.vert" />
-    <None Include="Resources\Shaders\PointLight.frag" />
-    <None Include="Resources\Shaders\PointLight.vert" />
+    <None Include="Resources\Shaders\SolidColorMesh.frag" />
+    <None Include="Resources\Shaders\SolidColorMesh.vert" />
     <None Include="Resources\Shaders\QuadShader.frag" />
     <None Include="Resources\Shaders\QuadShader.vert" />
     <None Include="Resources\Shaders\SkyBoxShader.frag" />

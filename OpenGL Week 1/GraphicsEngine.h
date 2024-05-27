@@ -88,6 +88,8 @@ public:
      */
     void setViewport(const Rect& size);
 
+    void setMultiSampling();
+
     /**
      * @brief Sets the active Vertex Array Object (VAO).
      * @param vao A shared pointer to the Vertex Array Object to set.
