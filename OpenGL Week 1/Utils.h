@@ -226,6 +226,12 @@ enum MouseButton
     MouseButtonMiddle, //Middle mouse button
 };
 
+struct Color {
+    static constexpr glm::vec3 Red = glm::vec3(1.0f, 0.0f, 0.0f);
+    static constexpr glm::vec3 Green = glm::vec3(0.0f, 1.0f, 0.0f);
+    static constexpr glm::vec3 Blue = glm::vec3(0.0f, 0.0f, 1.0f);
+};
+
 struct DirectionalLight
 {
     glm::vec3 Direction;

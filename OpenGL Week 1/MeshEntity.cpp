@@ -57,6 +57,10 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     {
         engine->setTexture2D(m_texture->getTexture2D(), 0);
     }
+    else
+    {
+        m_shader->setVec3("uColor", m_color);
+    }
 
     auto skyboxTexture = getGame()->getSkyboxTexture();
     if (skyboxTexture)

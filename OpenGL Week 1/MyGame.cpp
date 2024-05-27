@@ -76,6 +76,10 @@ void MyGame::onCreate()
 			L"InstancedMesh",
 			L"InstancedMesh"
 		});
+	ShaderPtr pointLightShader = m_graphicsEngine->createShader({
+			L"PointLight",
+			L"PointLight"
+		});
 
 	//Creating statue obj
 	m_ship = getEntitySystem()->createEntity<MeshEntity>();
@@ -153,16 +157,16 @@ void MyGame::onCreate()
 	// Initialize point lights
 	auto pointLight1 = getEntitySystem()->createEntity<MeshEntity>();
 	pointLight1->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
-	pointLight1->setTexture(solidBlueTexture);
+	pointLight1->setColor(Color::Blue);
 	pointLight1->setMesh(sphereMesh);
-	pointLight1->setShader(meshShader);
+	pointLight1->setShader(pointLightShader);
 	m_lightManager->createPointLight(pointLight1->getPosition(), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	auto pointLight2 = getEntitySystem()->createEntity<MeshEntity>();
 	pointLight2->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
-	pointLight2->setTexture(solidRedTexture);
+	pointLight2->setColor(Color::Red);
 	pointLight2->setMesh(sphereMesh);
-	pointLight2->setShader(meshShader);
+	pointLight2->setShader(pointLightShader);
 	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
 
 	m_lightManager->createDirectionalLight(glm::normalize(glm::vec3(0.5f, -1.0f, -0.5f)), glm::vec3(1.0f, 0.9f, 0.7f), 1.0f);
