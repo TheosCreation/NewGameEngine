@@ -23,12 +23,18 @@ struct SpotLight
 {
     vec3 Position;
     vec3 Direction;
+    vec3 Color;
+    float SpecularStrength;
     float CutOff;
+
+    float AttenuationConstant;
+    float AttenuationLinear;
+    float AttenuationExponent;
 };
 
+in vec3 FragPos;
 in vec2 FragTexcoord;
 in vec3 FragNormal;
-in vec3 FragPos;
 
 uniform sampler2D Texture0;
 uniform samplerCube Texture_Skybox;
@@ -65,7 +71,7 @@ vec3 CalculateLight_Point(unsigned int index, vec3 viewDir)
     vec3 Diffuse = DiffuseStrength * light.Color;
 
     // Specular shading
-    vec3 HalfwayDir = normalize(LightDir + viewDir);
+    vec3 HalfwayDir = normalize(LightDir - viewDir);
     float SpecularReflection = pow(max(dot(Normal, HalfwayDir), 0.0), ObjectShininess);
     vec3 Specular = light.SpecularStrength * SpecularReflection * light.Color;
 
@@ -82,51 +88,50 @@ vec3 CalculateLight_Directional(vec3 viewDir)
     vec3 Normal = normalize(FragNormal);
 
     // Light direction
-    vec3 LightDir = normalize(-DirLight.Direction);
+    vec3 LightDir = normalize(DirLight.Direction);
 
     // Diffuse shading
     float DiffuseStrength = max(dot(Normal, -LightDir), 0.0f);
     vec3 Diffuse = DiffuseStrength * DirLight.Color;
 
     // Specular shading
-    vec3 halfwayDir = normalize(LightDir + viewDir);
-    float SpecularStrength = pow(max(dot(Normal, halfwayDir), 0.0), ObjectShininess);
-    vec3 Specular = SpecularStrength * DirLight.Color;
+    vec3 HalfwayDir = normalize(LightDir - viewDir);
+    float SpecularReflection = pow(max(dot(Normal, HalfwayDir), 0.0), ObjectShininess);
+    vec3 Specular = DirLight.SpecularStrength * SpecularReflection * DirLight.Color;
 
     // Combine results
     vec3 result = Diffuse + Specular;
     return result;
 }
 
-vec3 CalculateLight_SpotLight()
+vec3 CalculateLight_SpotLight(vec3 viewDir)
 {
     // Light direction
     vec3 LightDir = normalize(FragPos - SpotLight1.Position);
-    float theta = dot(LightDir, normalize(-SpotLight1.Direction));
+    float theta = dot(LightDir, normalize(SpotLight1.Direction));
     
     if(theta > SpotLight1.CutOff) 
     {       
         float SpotLightIntensity = (1.0f - (1.0f - theta) / (1.0f - SpotLight1.CutOff));
         vec3 Normal = normalize(FragNormal);
 
-    // Light direction
-    vec3 LightDir = normalize(FragPos - SpotLight1.Position);
+        // Diffuse shading
+        float DiffuseStrength = max(dot(Normal, -LightDir), 0.0f);
+        vec3 Diffuse = DiffuseStrength * SpotLight1.Color;
 
-    // Diffuse shading
-    float DiffuseStrength = max(dot(Normal, -LightDir), 0.0f);
-    vec3 Diffuse = DiffuseStrength * vec3(1.0f, 0.0f, 0.0f);
+        // Specular shading
+        vec3 HalfwayDir = normalize(LightDir - viewDir);
+        float SpecularReflection = pow(max(dot(Normal, HalfwayDir), 0.0), ObjectShininess);
+        vec3 Specular = SpotLight1.SpecularStrength * SpecularReflection * SpotLight1.Color;
 
-    //// Specular shading
-    //vec3 HalfwayDir = normalize(LightDir + viewDir);
-    //float SpecularReflection = pow(max(dot(Normal, HalfwayDir), 0.0), ObjectShininess);
-    //vec3 Specular = light.SpecularStrength * SpecularReflection * light.Color;
-
-    // Combine results
-    vec3 result = Diffuse * SpotLightIntensity;
-
-    //float Distance = length(SpotLight1.Position - FragPos);
-    //float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * pow(Distance, 2));
-    return result;
+        // Combine results
+        vec3 result = (Diffuse + Specular) * SpotLightIntensity;
+        
+        // Attenuation
+        float Distance = length(SpotLight1.Position - FragPos);
+        float Attenuation = SpotLight1.AttenuationConstant + (SpotLight1.AttenuationLinear * Distance) + (SpotLight1.AttenuationExponent * pow(Distance, 2));
+        result /= Attenuation;
+        return result;
     }
     else
     {
@@ -138,7 +143,7 @@ void main()
 {
     // Normalize the normal and calculate view and reflection directions
     vec3 Normal = normalize(FragNormal);
-    vec3 ViewDir = normalize(CameraPos - FragPos);
+    vec3 ViewDir = normalize(FragPos - CameraPos);
     vec3 ReflectDir = reflect(ViewDir, Normal);
 
     // Ambient Component
@@ -157,7 +162,7 @@ void main()
     }
     if(SpotLightStatus == 1)
     {
-        TotalLightOutput += CalculateLight_SpotLight();
+        TotalLightOutput += CalculateLight_SpotLight(ViewDir);
     }
     TotalLightOutput += Ambient;
 

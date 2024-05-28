@@ -83,7 +83,7 @@ void MyGame::onCreate()
 
 	//Creating statue obj
 	m_ship = getEntitySystem()->createEntity<MeshEntity>();
-	m_ship->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	m_ship->setScale(glm::vec3(0.05f, 0.05f, 0.05f));
 	m_ship->setPosition(glm::vec3(0, 0, 0));
 	m_ship->setShininess(32.0f);
 	m_ship->setTexture(sciFiSpace);
@@ -159,24 +159,60 @@ void MyGame::onCreate()
 	//cubeEntity->setMesh(cubeMesh);
 	//cubeEntity->setShader(solidColorMeshShader);
 
-	// Initialize point lights
-	auto pointLight1 = getEntitySystem()->createEntity<MeshEntity>();
-	pointLight1->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
-	pointLight1->setColor(Color::Blue);
-	pointLight1->setMesh(sphereMesh);
-	pointLight1->setShader(solidColorMeshShader);
-	m_lightManager->createPointLight(pointLight1->getPosition(), glm::vec3(0.0f, 0.0f, 1.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
+	// Initialize point lights 
+	{
+		auto pointLightObject = getEntitySystem()->createEntity<MeshEntity>();
+		pointLightObject->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
+		pointLightObject->setColor(Color::Blue);
+		pointLightObject->setMesh(sphereMesh);
+		pointLightObject->setShader(solidColorMeshShader);
 
-	auto pointLight2 = getEntitySystem()->createEntity<MeshEntity>();
-	pointLight2->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
-	pointLight2->setColor(Color::Red);
-	pointLight2->setMesh(sphereMesh);
-	pointLight2->setShader(solidColorMeshShader);
-	m_lightManager->createPointLight(pointLight2->getPosition(), glm::vec3(1.0f, 0.0f, 0.0f), 1.0f, 1.0f, 0.045f, 0.0075f);
+		PointLight pointLight;
+		pointLight.Position = pointLightObject->getPosition();
+		pointLight.Color = Color::Blue;
+		pointLight.SpecularStrength = 1.0f;
+		pointLight.AttenuationConstant = 1.0f;
+		pointLight.AttenuationLinear = 0.045f;
+		pointLight.AttenuationExponent = 0.0075f;
+		m_lightManager->createPointLight(pointLight);
+	}
 
-	m_lightManager->createDirectionalLight(glm::normalize(glm::vec3(0.5f, -1.0f, -0.5f)), glm::vec3(1.0f, 0.9f, 0.7f), 1.0f);
+	{
+		auto pointLightObject = getEntitySystem()->createEntity<MeshEntity>();
+		pointLightObject->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
+		pointLightObject->setColor(Color::Red);
+		pointLightObject->setMesh(sphereMesh);
+		pointLightObject->setShader(solidColorMeshShader);
 
-	m_lightManager->createSpotLight(glm::vec3(10.0f), glm::normalize(glm::vec3(0.0f, 0.0f, -1.0f)), 1.0f);
+		PointLight pointLight;
+		pointLight.Position = pointLightObject->getPosition();
+		pointLight.Color = Color::Red;
+		pointLight.SpecularStrength = 1.0f;
+		pointLight.AttenuationConstant = 1.0f;
+		pointLight.AttenuationLinear = 0.045f;
+		pointLight.AttenuationExponent = 0.0075f;
+		m_lightManager->createPointLight(pointLight);
+	}
+
+	// Create and initialize DirectionalLight struct
+	DirectionalLight directionalLight;
+	directionalLight.Direction = glm::vec3(0.5f, -1.0f, -0.5f);
+	directionalLight.Color = glm::vec3(0.1f, 0.1f, 0.1f);
+	directionalLight.SpecularStrength = 0.5f;
+	m_lightManager->createDirectionalLight(directionalLight);
+
+	// Create and initialize SpotLight struct
+	SpotLight spotLight;
+	spotLight.Position = glm::vec3(0.0f);
+	spotLight.Direction = glm::vec3(0.0f, 0.0f, -1.0f);
+	spotLight.Color = Color::White;
+	spotLight.SpecularStrength = 1.0f;
+	spotLight.CutOff = glm::cos(glm::radians(30.0f));
+	spotLight.AttenuationConstant = 1.0f;
+	spotLight.AttenuationLinear = 0.014f;
+	spotLight.AttenuationExponent = 0.0007f;
+	m_lightManager->createSpotLight(spotLight);
+
 }
 
 void MyGame::onUpdate(float deltaTime)

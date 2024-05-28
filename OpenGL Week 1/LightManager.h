@@ -33,11 +33,9 @@ public:
      */
     ~LightManager();
 
-    void createPointLight(glm::vec3 position, glm::vec3 color, float specularStrength, float attenuationConstant, float attenuationLinear, float attenuationExponent);
-
-    void createDirectionalLight(glm::vec3 direction, glm::vec3 color, float specularStrength);
-
-    void createSpotLight(glm::vec3 position, glm::vec3 direction, float cutOff);
+    void createPointLight(const PointLight& newPointLight);
+    void createDirectionalLight(const DirectionalLight& newDrectionalLight);
+    void createSpotLight(const SpotLight& newSpotLight);
 
     /**
      * @brief Apply lighting to the shader
@@ -57,15 +55,15 @@ public:
     void setSpotlightDirection(glm::vec3 direction);
 
 private:
-    float AmbientStrength = 0.5f;
+    float AmbientStrength = 0.15f;
     glm::vec3 AmbientColor = glm::vec3(1.0f, 1.0f, 1.0f);
     static const int MAX_POINT_LIGHTS = 4;
-    PointLight PointLights[MAX_POINT_LIGHTS] = {};
-    uint PointLightCount = 0;
+    PointLight m_pointLights[MAX_POINT_LIGHTS] = {};
+    uint m_pointLightCount = 0;
 
-    DirectionalLight DirectionalLight;
+    DirectionalLight m_directionalLight;
 
-    SpotLight SpotLight;
+    SpotLight m_spotLight;
 
     bool PointLightsStatus = true;
     bool DirectionalLightStatus = true;

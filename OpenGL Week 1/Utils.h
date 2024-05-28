@@ -230,6 +230,7 @@ struct Color {
     static constexpr glm::vec3 Red = glm::vec3(1.0f, 0.0f, 0.0f);
     static constexpr glm::vec3 Green = glm::vec3(0.0f, 1.0f, 0.0f);
     static constexpr glm::vec3 Blue = glm::vec3(0.0f, 0.0f, 1.0f);
+    static constexpr glm::vec3 White = glm::vec3(1.0f, 1.0f, 1.0f);
 };
 
 struct DirectionalLight
@@ -254,7 +255,13 @@ struct SpotLight
 {
     glm::vec3 Position;
     glm::vec3 Direction;
+    glm::vec3 Color;
+    float SpecularStrength;
     float CutOff;
+
+    float AttenuationConstant;
+    float AttenuationLinear;
+    float AttenuationExponent;
 };
 
 // Macro for throwing an OpenGL error

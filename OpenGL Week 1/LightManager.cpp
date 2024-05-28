@@ -9,29 +9,20 @@ LightManager::~LightManager()
 {
 }
 
-void LightManager::createPointLight(glm::vec3 position, glm::vec3 color, float specularStrength, float attenuationConstant, float attenuationLinear, float attenuationExponent)
+void LightManager::createPointLight(const PointLight& newPointLight)
 {
-    PointLights[PointLightCount].Position = position;
-    PointLights[PointLightCount].Color = color;
-    PointLights[PointLightCount].SpecularStrength = specularStrength;
-    PointLights[PointLightCount].AttenuationConstant = attenuationConstant;
-    PointLights[PointLightCount].AttenuationLinear = attenuationLinear;
-    PointLights[PointLightCount].AttenuationExponent = attenuationExponent;
-    PointLightCount++;
+    m_pointLights[m_pointLightCount] = newPointLight;
+    m_pointLightCount++;
 }
 
-void LightManager::createDirectionalLight(glm::vec3 direction, glm::vec3 color, float specularStrength)
+void LightManager::createDirectionalLight(const DirectionalLight& newDirectionalLight)
 {
-    DirectionalLight.Direction = direction;
-    DirectionalLight.Color = color;
-    DirectionalLight.SpecularStrength = specularStrength;
+    m_directionalLight = newDirectionalLight;
 }
 
-void LightManager::createSpotLight(glm::vec3 position, glm::vec3 direction, float cutOff)
+void LightManager::createSpotLight(const SpotLight& newSpotLight)
 {
-    SpotLight.Position = position;
-    SpotLight.Direction = direction;
-    SpotLight.CutOff = cutOff;
+    m_spotLight = newSpotLight;
 }
 
 void LightManager::applyLighting(ShaderPtr shader)
@@ -41,19 +32,19 @@ void LightManager::applyLighting(ShaderPtr shader)
 
     if (PointLightsStatus)
     {
-        for (unsigned int i = 0; i < PointLightCount; i++)
+        for (unsigned int i = 0; i < m_pointLightCount; i++)
         {
             std::string index = std::to_string(i);
-            shader->setVec3("PointLightArray[" + index + "].Position", PointLights[i].Position);
-            shader->setVec3("PointLightArray[" + index + "].Color", PointLights[i].Color);
-            shader->setFloat("PointLightArray[" + index + "].SpecularStrength", PointLights[i].SpecularStrength);
+            shader->setVec3("PointLightArray[" + index + "].Position", m_pointLights[i].Position);
+            shader->setVec3("PointLightArray[" + index + "].Color", m_pointLights[i].Color);
+            shader->setFloat("PointLightArray[" + index + "].SpecularStrength", m_pointLights[i].SpecularStrength);
 
-            shader->setFloat("PointLightArray[" + index + "].AttenuationConstant", PointLights[i].AttenuationConstant);
-            shader->setFloat("PointLightArray[" + index + "].AttenuationLinear", PointLights[i].AttenuationLinear);
-            shader->setFloat("PointLightArray[" + index + "].AttenuationExponent", PointLights[i].AttenuationExponent);
+            shader->setFloat("PointLightArray[" + index + "].AttenuationConstant", m_pointLights[i].AttenuationConstant);
+            shader->setFloat("PointLightArray[" + index + "].AttenuationLinear", m_pointLights[i].AttenuationLinear);
+            shader->setFloat("PointLightArray[" + index + "].AttenuationExponent", m_pointLights[i].AttenuationExponent);
         }
 
-        shader->setUint("PointLightCount", PointLightCount);
+        shader->setUint("PointLightCount", m_pointLightCount);
     }
     else
     {
@@ -63,9 +54,9 @@ void LightManager::applyLighting(ShaderPtr shader)
     if (DirectionalLightStatus)
     {
         //apply directional light to shader
-        shader->setVec3("DirLight.Direction", DirectionalLight.Direction);
-        shader->setVec3("DirLight.Color", DirectionalLight.Color);
-        shader->setFloat("DirLight.SpecularStrength", DirectionalLight.SpecularStrength);
+        shader->setVec3("DirLight.Direction", m_directionalLight.Direction);
+        shader->setVec3("DirLight.Color", m_directionalLight.Color);
+        shader->setFloat("DirLight.SpecularStrength", m_directionalLight.SpecularStrength);
         shader->setInt("DirectionalLightStatus", 1);
     }
     else
@@ -73,11 +64,17 @@ void LightManager::applyLighting(ShaderPtr shader)
         shader->setInt("DirectionalLightStatus", 0);
     }
     
+    // Make this so i can have multiple spotlights
     if (SpotlightStatus)
     {
-        shader->setVec3("SpotLight1.Position", SpotLight.Position);
-        shader->setVec3("SpotLight1.Direction", SpotLight.Direction);
-        shader->setFloat("SpotLight1.CutOff", SpotLight.CutOff); 
+        shader->setVec3("SpotLight1.Position", m_spotLight.Position);
+        shader->setVec3("SpotLight1.Direction", m_spotLight.Direction);
+        shader->setVec3("SpotLight1.Color", m_spotLight.Color);
+        shader->setFloat("SpotLight1.SpecularStrength", m_spotLight.SpecularStrength);
+        shader->setFloat("SpotLight1.CutOff", m_spotLight.CutOff);
+        shader->setFloat("SpotLight1.AttenuationConstant", m_spotLight.AttenuationConstant);
+        shader->setFloat("SpotLight1.AttenuationLinear", m_spotLight.AttenuationLinear);
+        shader->setFloat("SpotLight1.AttenuationExponent", m_spotLight.AttenuationExponent);
         shader->setInt("SpotLightStatus", 1);
     }
     else
@@ -118,10 +115,10 @@ void LightManager::setSpotlightStatus(bool status)
 
 void LightManager::setSpotlightPosition(glm::vec3 position)
 {
-    SpotLight.Position = position;
+    m_spotLight.Position = position;
 }
 
 void LightManager::setSpotlightDirection(glm::vec3 direction)
 {
-    SpotLight.Direction = direction;
+    m_spotLight.Direction = direction;
 }
