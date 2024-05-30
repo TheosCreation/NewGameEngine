@@ -35,10 +35,10 @@ void LightManager::applyLighting(ShaderPtr shader)
         for (unsigned int i = 0; i < m_pointLightCount; i++)
         {
             std::string index = std::to_string(i);
-            shader->setVec3("PointLightArray[" + index + "].Position", m_pointLights[i].Position);
-            shader->setVec3("PointLightArray[" + index + "].Color", m_pointLights[i].Color);
-            shader->setFloat("PointLightArray[" + index + "].SpecularStrength", m_pointLights[i].SpecularStrength);
+            shader->setVec3("PointLightArray[" + index + "].Base.Color", m_pointLights[i].Color);
+            shader->setFloat("PointLightArray[" + index + "].Base.SpecularStrength", m_pointLights[i].SpecularStrength);
 
+            shader->setVec3("PointLightArray[" + index + "].Position", m_pointLights[i].Position);
             shader->setFloat("PointLightArray[" + index + "].AttenuationConstant", m_pointLights[i].AttenuationConstant);
             shader->setFloat("PointLightArray[" + index + "].AttenuationLinear", m_pointLights[i].AttenuationLinear);
             shader->setFloat("PointLightArray[" + index + "].AttenuationExponent", m_pointLights[i].AttenuationExponent);
@@ -54,9 +54,9 @@ void LightManager::applyLighting(ShaderPtr shader)
     if (DirectionalLightStatus)
     {
         //apply directional light to shader
+        shader->setVec3("DirLight.Base.Color", m_directionalLight.Color);
+        shader->setFloat("DirLight.Base.SpecularStrength", m_directionalLight.SpecularStrength);
         shader->setVec3("DirLight.Direction", m_directionalLight.Direction);
-        shader->setVec3("DirLight.Color", m_directionalLight.Color);
-        shader->setFloat("DirLight.SpecularStrength", m_directionalLight.SpecularStrength);
         shader->setInt("DirectionalLightStatus", 1);
     }
     else
@@ -67,10 +67,10 @@ void LightManager::applyLighting(ShaderPtr shader)
     // Make this so i can have multiple spotlights
     if (SpotlightStatus)
     {
+        shader->setVec3("SpotLight1.Base.Color", m_spotLight.Color);
+        shader->setFloat("SpotLight1.Base.SpecularStrength", m_spotLight.SpecularStrength);
         shader->setVec3("SpotLight1.Position", m_spotLight.Position);
         shader->setVec3("SpotLight1.Direction", m_spotLight.Direction);
-        shader->setVec3("SpotLight1.Color", m_spotLight.Color);
-        shader->setFloat("SpotLight1.SpecularStrength", m_spotLight.SpecularStrength);
         shader->setFloat("SpotLight1.CutOff", m_spotLight.CutOff);
         shader->setFloat("SpotLight1.AttenuationConstant", m_spotLight.AttenuationConstant);
         shader->setFloat("SpotLight1.AttenuationLinear", m_spotLight.AttenuationLinear);
