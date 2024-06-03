@@ -24,6 +24,7 @@ struct SpotLight {
     vec3 Position;
     vec3 Direction;
     float CutOff;
+    float OuterCutOff;
     float AttenuationConstant;
     float AttenuationLinear;
     float AttenuationExponent;
@@ -89,18 +90,11 @@ vec3 CalculateSpotLight(SpotLight light, vec3 viewDir)
 {
     vec3 LightDir = normalize(FragPos - light.Position);
     float theta = dot(LightDir, normalize(light.Direction));
-    
-    if (theta > light.CutOff)
-    {
-        float SpotLightIntensity = (1.0 - (1.0 - theta) / (1.0 - light.CutOff));
-        float Distance = length(light.Position - FragPos);
-        float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
-        return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), Attenuation) * SpotLightIntensity;
-    }
-    else
-    {
-        return vec3(0.0);
-    }
+    float epsilon   = light.CutOff - light.OuterCutOff;
+    float intensity = clamp((theta - light.OuterCutOff) / epsilon, 0.0, 1.0);  
+    float Distance = length(light.Position - FragPos);
+    float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
+    return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), Attenuation) * intensity;
 }
 
 void main()

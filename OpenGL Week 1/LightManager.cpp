@@ -72,6 +72,7 @@ void LightManager::applyLighting(ShaderPtr shader)
         shader->setVec3("SpotLight1.Position", m_spotLight.Position);
         shader->setVec3("SpotLight1.Direction", m_spotLight.Direction);
         shader->setFloat("SpotLight1.CutOff", m_spotLight.CutOff);
+        shader->setFloat("SpotLight1.OuterCutOff", m_spotLight.OuterCutOff);
         shader->setFloat("SpotLight1.AttenuationConstant", m_spotLight.AttenuationConstant);
         shader->setFloat("SpotLight1.AttenuationLinear", m_spotLight.AttenuationLinear);
         shader->setFloat("SpotLight1.AttenuationExponent", m_spotLight.AttenuationExponent);

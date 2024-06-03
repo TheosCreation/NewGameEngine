@@ -40,7 +40,7 @@ void MyGame::onCreate()
 	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
 	
 	TexturePtr sciFiSpace = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png"));
-	TexturePtr shipReflectiveMap = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/ReflectionMap.png"));
+	TexturePtr shipReflectiveMap = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/ReflectionMap_White.png"));
 
 	std::vector<std::string> skyboxCubeMapTextureFilePaths;
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
@@ -120,15 +120,6 @@ void MyGame::onCreate()
 	
 	//Init instance buffer
 	mineMesh->initInstanceBuffer();
-
-	//Creating ground object
-	//m_ground = getEntitySystem()->createEntity<MeshEntity>();
-	//m_ground->setScale(glm::vec3(800, 1, 800));
-	//m_ground->setPosition(glm::vec3(0, -1, 0));
-	//m_ground->setShininess(32.0f);
-	//m_ground->setTexture(groundTexture);
-	//m_ground->setMesh(sphereMesh);
-	//m_ground->setShader(meshShader);
 	
 	//Creating skybox object
 	m_skybox = getEntitySystem()->createEntity<SkyboxEntity>();
@@ -207,7 +198,8 @@ void MyGame::onCreate()
 	spotLight.Direction = glm::vec3(0.0f, 0.0f, -1.0f);
 	spotLight.Color = Color::White;
 	spotLight.SpecularStrength = 1.0f;
-	spotLight.CutOff = glm::cos(glm::radians(30.0f));
+	spotLight.CutOff = glm::cos(glm::radians(25.0f));
+	spotLight.OuterCutOff = glm::cos(glm::radians(35.0f));
 	spotLight.AttenuationConstant = 1.0f;
 	spotLight.AttenuationLinear = 0.014f;
 	spotLight.AttenuationExponent = 0.0007f;

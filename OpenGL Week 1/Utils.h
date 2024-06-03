@@ -258,6 +258,7 @@ struct SpotLight
     glm::vec3 Color;
     float SpecularStrength;
     float CutOff;
+    float OuterCutOff;
 
     float AttenuationConstant;
     float AttenuationLinear;
