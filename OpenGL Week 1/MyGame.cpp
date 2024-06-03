@@ -98,23 +98,26 @@ void MyGame::onCreate()
 	m_instancedTree->setShader(instancedMeshShader);
 	m_instancedTree->setMesh(mineMesh);
 	
-	float spacing = 30.0f;
-	for (int row = -16; row < 16; ++row) {
-		for (int col = -16; col < 16; ++col) {
-			if (row == 0 && col == 0) break;
-	
-			// Calculate the position of the current tree based on the grid and spacing
-			glm::vec3 position = glm::vec3(col * spacing, 0.0f, row * spacing);
-	
-			// Generate random rotation angles
-			float angleX = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
-			float angleY = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
-			float angleZ = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 10.0f - 5.0f;
-	
-			float randomScale = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 0.05f;
-	
-			// Add the tree instance with random rotations
-			mineMesh->addInstance(position, glm::vec3(0.05f, 0.025f, 0.05f) + randomScale, glm::vec3(angleX, angleY, angleZ));
+	float spacing = 50.0f;
+	for (int row = -4; row < 4; ++row) {
+		for (int col = -4; col < 4; ++col) {
+			for (int seg = -4; seg < 4; ++seg) {
+
+				// Calculate the position of the current tree based on the grid and spacing
+				glm::vec3 position = glm::vec3(col * spacing, seg * spacing, row * spacing);
+
+				if (position == glm::vec3(0.0f)) break;
+
+				// Generate random rotation angles
+				float angleX = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+				float angleY = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+				float angleZ = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+
+				float randomScale = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 0.15f;
+
+				// Add the tree instance with random rotations
+				mineMesh->addInstance(position, glm::vec3(0.05f, 0.025f, 0.05f) + randomScale, glm::vec3(angleX, angleY, angleZ));
+			}
 		}
 	}
 	
