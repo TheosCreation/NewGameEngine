@@ -12,12 +12,13 @@ Mail : theo.morris@mds.ac.nz
 
 #pragma once
 #include "Utils.h"
+#include "Texture.h"
 
 /**
  * @class Texture2D
  * @brief A representation of a 2D texture to be used by the graphics engine class.
  */
-class Texture2D
+class Texture2D : public Texture
 {
 public:
     /**

@@ -12,12 +12,13 @@ Mail : theo.morris@mds.ac.nz
 
 #pragma once
 #include "Utils.h"
+#include "Texture.h"
 
 /**
  * @class TextureCubeMap
  * @brief A resource that represents a cubemap texture used by the graphics engine.
  */
-class TextureCubeMap
+class TextureCubeMap : public Texture
 {
 public:
     /**

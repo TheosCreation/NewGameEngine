@@ -17,6 +17,7 @@ Mail : theo.morris@mds.ac.nz
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "Camera.h"
+#include "SkyBoxEntity.h"
 #include <glew.h>
 #include <glfw3.h>
 
@@ -29,7 +30,7 @@ Game::Game()
         return;
     }
 
-    
+    initRandomSeed();
     m_display = std::make_unique<Window>();
 
     m_resourceManager = std::make_unique<ResourceManager>(this);
@@ -87,6 +88,16 @@ void Game::onUpdateInternal()
     m_previousTime = m_currentTime;
 
     m_entitySystem->onUpdate(deltaTime);
+    // Accumulate time
+    m_accumulatedTime += deltaTime;
+
+    // Perform fixed updates
+    while (m_accumulatedTime >= m_fixedTimeStep)
+    {
+        onFixedUpdate();
+        m_entitySystem->onFixedUpdate();
+        m_accumulatedTime -= m_fixedTimeStep;
+    }
 
     onUpdate(deltaTime);
     
@@ -224,7 +235,7 @@ LightManager* Game::getLightingManager()
 
 TexturePtr Game::getSkyboxTexture()
 {
-    return m_skyBoxTexture;
+    return m_skyBox->getTexture();
 }
 
 ResourceManager* Game::getResourceManager()

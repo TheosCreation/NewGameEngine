@@ -101,6 +101,13 @@ protected:
     virtual void onUpdate(float deltaTime) {};
 
     /**
+     * @brief Called every frame to update the entity at a fixed frame rate.
+     * Can be overridden by derived classes to implement custom behavior.
+     * @param deltaTime The time elapsed since the last frame.
+     */
+    virtual void onFixedUpdate() {};
+
+    /**
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
@@ -131,9 +138,11 @@ protected:
     std::unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     std::unique_ptr<ResourceManager> m_resourceManager; //Pointer to the resource manager instance
     std::unique_ptr<LightManager> m_lightManager; //Pointer to the resource manager instance
-    TexturePtr m_skyBoxTexture;
+    std::unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
 
     float m_previousTime = 0; //The previous frame's time
     float m_currentTime = 0; //The current frame's time
+    const float m_fixedTimeStep = 1.0f / 60.0f; // Fixed time step (60 FPS)
+    float m_accumulatedTime = 0; //The current frame's time
     float m_scale = 0; //The scale factor for time
 };

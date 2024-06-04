@@ -43,15 +43,13 @@ public:
      */
     ResourcePtr createResourceFromFile(const char* path);
 
-    ResourcePtr createResourceFromFile(const std::vector<std::string>& paths);
+    TextureCubeMapPtr createCubeMapTextureFromFile(const std::vector<std::string>& filepaths);
 
-    /**
-     * @brief Creates a resource from a file with an option for instancing.
-     * @param path The file path to the resource.
-     * @param isInstanced Flag indicating whether the resource is instanced.
-     * @return A shared pointer to the created resource.
-     */
-    ResourcePtr createResourceFromFile(const char* path, bool isInstanced);
+    Texture2DPtr createTexture2DFromFile(const std::string& filepath);
+
+    MeshPtr createMeshFromFile(const std::string& filepath);
+
+    InstancedMeshPtr createInstancedMeshFromFile(const std::string& filepath);
 
     /**
      * @brief Gets the game instance.

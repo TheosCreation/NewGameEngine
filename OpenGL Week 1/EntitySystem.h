@@ -77,6 +77,8 @@ public:
      */
     void onUpdate(float deltaTime);
 
+    void onFixedUpdate();
+
     /**
      * @brief Map of entities categorized by their type ID.
      */

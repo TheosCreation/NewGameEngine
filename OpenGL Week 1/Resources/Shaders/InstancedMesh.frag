@@ -24,6 +24,7 @@ struct SpotLight {
     vec3 Position;
     vec3 Direction;
     float CutOff;
+    float OuterCutOff;
     float AttenuationConstant;
     float AttenuationLinear;
     float AttenuationExponent;
@@ -41,7 +42,7 @@ uniform float AmbientStrength = 0.15f;
 uniform vec3 AmbientColor = vec3(1.0f, 1.0f, 1.0f);
 
 uniform PointLight PointLightArray[MAX_POINT_LIGHTS];
-uniform unsigned int PointLightCount;
+uniform uint PointLightCount;
 
 uniform DirectionalLight DirLight;
 uniform int DirectionalLightStatus;
@@ -89,18 +90,11 @@ vec3 CalculateSpotLight(SpotLight light, vec3 viewDir)
 {
     vec3 LightDir = normalize(FragPos - light.Position);
     float theta = dot(LightDir, normalize(light.Direction));
-    
-    if (theta > light.CutOff)
-    {
-        float SpotLightIntensity = (1.0 - (1.0 - theta) / (1.0 - light.CutOff));
-        float Distance = length(light.Position - FragPos);
-        float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
-        return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), Attenuation) * SpotLightIntensity;
-    }
-    else
-    {
-        return vec3(0.0);
-    }
+    float epsilon   = light.CutOff - light.OuterCutOff;
+    float intensity = clamp((theta - light.OuterCutOff) / epsilon, 0.0, 1.0);  
+    float Distance = length(light.Position - FragPos);
+    float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
+    return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), Attenuation) * intensity;
 }
 
 void main()
@@ -114,7 +108,7 @@ void main()
     vec3 Ambient = AmbientStrength * AmbientColor;
 
     vec3 TotalLightOutput = vec3(0.0);
-    for (unsigned int i = 0; i < PointLightCount; ++i)
+    for (uint i = 0; i < PointLightCount; ++i)
     {
         TotalLightOutput += CalculatePointLight(PointLightArray[i], ViewDir);
     }

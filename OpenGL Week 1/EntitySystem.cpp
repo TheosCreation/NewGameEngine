@@ -68,3 +68,21 @@ void EntitySystem::onUpdate(float deltaTime)
 	}
 }
 
+void EntitySystem::onFixedUpdate()
+{
+	for (auto e : m_entitiesToDestroy)
+	{
+		m_entities[e->getId()].erase(e);
+	}
+	m_entitiesToDestroy.clear();
+
+
+	for (auto&& [id, entities] : m_entities)
+	{
+		for (auto&& [ptr, entity] : entities)
+		{
+			entity->onFixedUpdate();
+		}
+	}
+}
+

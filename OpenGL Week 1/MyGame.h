@@ -42,16 +42,17 @@ public:
      */
     virtual void onUpdate(float deltaTime);
 
+    virtual void onFixedUpdate();
+
     virtual void onLateUpdate(float deltaTime);
 
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 
     // Initialize all VBOs here
-    SkyboxEntity* m_skybox = nullptr; //Pointer to the skybox entity
     MeshEntity* m_ship = nullptr; //Pointer to the statue entity
     MeshEntity* m_ground = nullptr; //Pointer to the ground entity
-    InstancedMeshEntity* m_instancedTree = nullptr; //Pointer to the instanced tree entity
+    InstancedMeshEntity* m_instanceMines = nullptr; //Pointer to the instanced tree entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
     QuadEntity* m_button = nullptr; //Pointer to the button entity
 

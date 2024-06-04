@@ -42,7 +42,7 @@ uniform float AmbientStrength = 0.15f;
 uniform vec3 AmbientColor = vec3(1.0f, 1.0f, 1.0f);
 
 uniform PointLight PointLightArray[MAX_POINT_LIGHTS];
-uniform unsigned int PointLightCount;
+uniform uint PointLightCount;
 
 uniform DirectionalLight DirLight;
 uniform int DirectionalLightStatus;
@@ -108,7 +108,7 @@ void main()
     vec3 Ambient = AmbientStrength * AmbientColor;
 
     vec3 TotalLightOutput = vec3(0.0);
-    for (unsigned int i = 0; i < PointLightCount; ++i)
+    for (uint i = 0; i < PointLightCount; ++i)
     {
         TotalLightOutput += CalculatePointLight(PointLightArray[i], ViewDir);
     }

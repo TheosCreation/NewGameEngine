@@ -27,20 +27,14 @@ void MyGame::onCreate()
 	Game::onCreate();
 	
 	//Loading texture resources
-	TexturePtr buttonDownTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Down.png"));
-	TexturePtr buttonHoveringTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Hovering.png"));
-	TexturePtr buttonUpTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Button_Up.png"));
+	Texture2DPtr buttonDownTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Down.png");
+	Texture2DPtr buttonHoveringTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Hovering.png");
+	Texture2DPtr buttonUpTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Up.png");
 
-	TexturePtr groundTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/dirt.jpg"));
-
-	TexturePtr solidRedTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Red.png"));
-	TexturePtr solidBlueTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/Blue.png"));
-
-	TexturePtr colouredAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png"));
-	TexturePtr plainAncientTextureSheet = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png"));
+	Texture2DPtr plainAncientTextureSheet = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png");
 	
-	TexturePtr sciFiSpace = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png"));
-	TexturePtr shipReflectiveMap = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile("Resources/Textures/ReflectionMap_White.png"));
+	Texture2DPtr sciFiSpace = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
+	Texture2DPtr shipReflectiveMap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 
 	std::vector<std::string> skyboxCubeMapTextureFilePaths;
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
@@ -49,15 +43,15 @@ void MyGame::onCreate()
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
-	m_skyBoxTexture = std::dynamic_pointer_cast<Texture>(getResourceManager()->createResourceFromFile(skyboxCubeMapTextureFilePaths));
+	TextureCubeMapPtr skyBoxTexture = getResourceManager()->createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths));
 
 	
-	MeshPtr sphereMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/sphere.obj"));
-	MeshPtr cubeMesh = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/cube.obj"));
+	MeshPtr sphereMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/sphere.obj");
+	MeshPtr cubeMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/cube.obj");
 
 	//Loading meshes
-	MeshPtr fighterShip = std::dynamic_pointer_cast<Mesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj"));
-	InstancedMeshPtr mineMesh = std::dynamic_pointer_cast<InstancedMesh>(getResourceManager()->createResourceFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj", true));
+	MeshPtr fighterShip = getResourceManager()->createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
+	InstancedMeshPtr mineMesh = getResourceManager()->createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 	
 	//Loading Shader
 	ShaderPtr quadShader = m_graphicsEngine->createShader({
@@ -83,7 +77,7 @@ void MyGame::onCreate()
 
 	//Creating statue obj
 	m_ship = getEntitySystem()->createEntity<MeshEntity>();
-	m_ship->setScale(glm::vec3(0.05f, 0.05f, 0.05f));
+	m_ship->setScale(glm::vec3(0.05f));
 	m_ship->setPosition(glm::vec3(0, 0, 0));
 	m_ship->setShininess(32.0f);
 	m_ship->setTexture(sciFiSpace);
@@ -92,11 +86,11 @@ void MyGame::onCreate()
 	m_ship->setShader(meshShader);
 	
 	//Creating instanced tree obj
-	m_instancedTree = getEntitySystem()->createEntity<InstancedMeshEntity>();
-	m_instancedTree->setShininess(32.0f);
-	m_instancedTree->setTexture(colouredAncientTextureSheet);
-	m_instancedTree->setShader(instancedMeshShader);
-	m_instancedTree->setMesh(mineMesh);
+	m_instanceMines = getEntitySystem()->createEntity<InstancedMeshEntity>();
+	m_instanceMines->setShininess(32.0f);
+	m_instanceMines->setTexture(sciFiSpace);
+	m_instanceMines->setShader(instancedMeshShader);
+	m_instanceMines->setMesh(mineMesh);
 	
 	float spacing = 50.0f;
 	for (int row = -4; row < 4; ++row) {
@@ -109,14 +103,14 @@ void MyGame::onCreate()
 				if (position == glm::vec3(0.0f)) break;
 
 				// Generate random rotation angles
-				float angleX = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
-				float angleY = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
-				float angleZ = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 360.0f;
+				float angleX = randomNumber(360.0f);
+				float angleY = randomNumber(360.0f);
+				float angleZ = randomNumber(360.0f);
 
-				float randomScale = static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * 0.15f;
+				float randomScale = randomNumber(0.15f);
 
 				// Add the tree instance with random rotations
-				mineMesh->addInstance(position, glm::vec3(0.05f, 0.025f, 0.05f) + randomScale, glm::vec3(angleX, angleY, angleZ));
+				mineMesh->addInstance(position, glm::vec3(0.05f + randomScale), glm::vec3(angleX, angleY, angleZ));
 			}
 		}
 	}
@@ -125,10 +119,10 @@ void MyGame::onCreate()
 	mineMesh->initInstanceBuffer();
 	
 	//Creating skybox object
-	m_skybox = getEntitySystem()->createEntity<SkyboxEntity>();
-	m_skybox->setTexture(m_skyBoxTexture);
-	m_skybox->setMesh(cubeMesh);
-	m_skybox->setShader(skyboxShader);
+	m_skyBox = getEntitySystem()->createEntity<SkyboxEntity>();
+	m_skyBox->setTexture(skyBoxTexture);
+	m_skyBox->setMesh(cubeMesh);
+	m_skyBox->setShader(skyboxShader);
 
 	//ui button
 	m_button = getEntitySystem()->createEntity<QuadEntity>();
@@ -143,15 +137,8 @@ void MyGame::onCreate()
 	m_player->setScale(glm::vec3(0.0f));
 	m_player->setPosition(glm::vec3(0.0f));
 	m_player->addButtonRef(m_button);
-	m_player->setInstancedEntity(m_instancedTree, colouredAncientTextureSheet, plainAncientTextureSheet);
+	m_player->setInstancedEntity(m_instanceMines, sciFiSpace, plainAncientTextureSheet);
 	m_player->setButtonTextures(buttonUpTexture, buttonHoveringTexture, buttonDownTexture);
-
-	//auto cubeEntity = getEntitySystem()->createEntity<MeshEntity>();
-	//cubeEntity->setPosition(glm::vec3(0.0f, 30.0f, 0.0f));
-	//cubeEntity->setScale(glm::vec3(0.01f));
-	//cubeEntity->setColor(Color::Green);
-	//cubeEntity->setMesh(cubeMesh);
-	//cubeEntity->setShader(solidColorMeshShader);
 
 	// Initialize point lights 
 	{
@@ -214,8 +201,10 @@ void MyGame::onUpdate(float deltaTime)
 {
 }
 
+void MyGame::onFixedUpdate()
+{
+}
+
 void MyGame::onLateUpdate(float deltaTime)
 {
-	//m_ship->setPosition(m_player->getPosition());
-	//m_ship->setRotation(m_player->getRotation() + glm::vec3(0.0f, glm::degrees(90.0f), 0.0f));
 }

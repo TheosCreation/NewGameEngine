@@ -1,6 +1,5 @@
 #include "TextureCubeMap.h"
 #include <glew.h>
-#include "stb_image.h"
 
 TextureCubeMap::TextureCubeMap(const TextureCubeMapDesc& desc)
 {

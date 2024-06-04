@@ -14,56 +14,30 @@ Mail : theo.morris@mds.ac.nz
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#include <cstdlib>
+#include <ctime>
+
+inline void initRandomSeed()
+{
+    srand(static_cast<unsigned int>(time(0)));
+}
+
 
 /**
- * @brief Gets the backward direction vector from a transformation matrix.
- * @param matrix The transformation matrix.
- * @return The backward direction vector.
+ * @brief Generates a random number between 0 and max.
+ * @param max The largest number that can be generated.
  */
-inline glm::vec3 getBackwardDirection(glm::mat4 matrix)
+inline float randomNumber(float max)
 {
-    glm::vec3 backwardDir(matrix[2][0], matrix[2][1], matrix[2][2]);
-    return backwardDir;
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * max;
 }
 
 /**
- * @brief Gets the forward direction vector from a transformation matrix.
- * @param matrix The transformation matrix.
- * @return The forward direction vector.
+ * @brief Generates a random number between min and max.
+ * @param min The least number that can be generated.
+ * @param max The largest number that can be generated.
  */
-inline glm::vec3 getForwardDirection(glm::mat4 matrix)
+inline float randomRange(float min, float max)
 {
-    return -getBackwardDirection(matrix);
-}
-
-/**
- * @brief Gets the rightward direction vector from a transformation matrix.
- * @param matrix The transformation matrix.
- * @return The rightward direction vector.
- */
-inline glm::vec3 getRightwardDirection(glm::mat4 matrix)
-{
-    glm::vec3 rightwardDir(matrix[0][0], matrix[0][1], matrix[0][2]);
-    return rightwardDir;
-}
-
-/**
- * @brief Gets the downward direction vector from a transformation matrix.
- * @param matrix The transformation matrix.
- * @return The downward direction vector.
- */
-inline glm::vec3 getDownwardDirection(glm::mat4 matrix)
-{
-    glm::vec3 downwardDir(matrix[1][0], matrix[1][1], matrix[1][2]);
-    return downwardDir;
-}
-
-/**
- * @brief Gets the upward direction vector from a transformation matrix.
- * @param matrix The transformation matrix.
- * @return The upward direction vector.
- */
-inline glm::vec3 getUpwardDirection(glm::mat4 matrix)
-{
-    return -getDownwardDirection(matrix);
+    return min + static_cast<float>(rand()) / (static_cast<float>(RAND_MAX / (max - min)));
 }
