@@ -16,7 +16,7 @@ void SkyboxEntity::setUniformData(UniformData data)
 
 void SkyboxEntity::onGraphicsUpdate(float deltaTime)
 {
-    auto engine = getGame()->getGraphicsEngine();
+    GraphicsEngine* engine = getGame()->getGraphicsEngine();
     engine->setFaceCulling(CullType::FrontFace); // draw only the back faces, the front faces are discarded
     engine->setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
     engine->setDepthFunc(DepthType::LessEqual);

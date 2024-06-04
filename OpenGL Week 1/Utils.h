@@ -32,8 +32,6 @@ class Texture;
 class Mesh;
 class InstancedMesh;
 
-class SkyboxEntity;
-
 // Type definitions for variables
 typedef unsigned int uint;
 
@@ -46,7 +44,6 @@ typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<InstancedMesh> InstancedMeshPtr;
-typedef std::shared_ptr<SkyboxEntity> SkyboxPtr;
 
 // Struct representing a vertex attribute
 struct VertexAttribute

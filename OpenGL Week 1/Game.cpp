@@ -47,6 +47,9 @@ Game::Game()
     m_inputManager->setScreenArea(m_display->getInnerSize());
 
     m_lightManager = std::make_unique<LightManager>();
+
+    //Creating skybox object
+    m_skyBox = std::make_unique<SkyboxEntity>();
 }
 
 Game::~Game()
@@ -55,16 +58,15 @@ Game::~Game()
 
 void Game::onCreate()
 {
-    //Creating skybox object
-    m_skyBox = std::make_unique<SkyboxEntity>();
+    m_sphereMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/sphere.obj");
+    m_cubeMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/cube.obj");
+
     ShaderPtr skyboxShader = m_graphicsEngine->createShader({
             L"SkyBoxShader",
             L"SkyBoxShader"
         });
-    
-    m_sphereMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/sphere.obj");
-    m_cubeMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/cube.obj");
-    
+
+    m_skyBox->setEntitySystem(m_entitySystem.get());
     m_skyBox->setMesh(m_cubeMesh);
     m_skyBox->setShader(skyboxShader);
 }
@@ -185,8 +187,11 @@ void Game::onGraphicsUpdate(float deltaTime)
         }
     }
 
-   // m_skyBox->setUniformData(data);
-   // m_skyBox->onGraphicsUpdate(deltaTime);
+    // Render skybox last to save resources
+    ShaderPtr skyboxShader = m_skyBox->getShader();
+    m_graphicsEngine->setShader(skyboxShader);
+    m_skyBox->setUniformData(data);
+    m_skyBox->onGraphicsUpdate(deltaTime);
 
     // Render to window
     m_display->present();
