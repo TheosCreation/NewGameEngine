@@ -1,7 +1,7 @@
 #include "TextureCubeMap.h"
 #include <glew.h>
 
-TextureCubeMap::TextureCubeMap(const TextureCubeMapDesc& desc)
+TextureCubeMap::TextureCubeMap(const TextureCubeMapDesc& desc, const char* path, ResourceManager* manager) : Texture(path, manager)
 {
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureId);
@@ -40,9 +40,4 @@ TextureCubeMap::TextureCubeMap(const TextureCubeMapDesc& desc)
 TextureCubeMap::~TextureCubeMap()
 {
     glDeleteTextures(1, &m_textureId);
-}
-
-uint TextureCubeMap::getId() const
-{
-    return m_textureId;
 }

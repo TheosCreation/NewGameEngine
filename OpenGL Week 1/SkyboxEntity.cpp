@@ -21,7 +21,7 @@ void SkyboxEntity::onGraphicsUpdate(float deltaTime)
     engine->setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
     engine->setDepthFunc(DepthType::LessEqual);
 
-    engine->setTextureCubeMap(m_texture->getTextureCubeMap(), 1);
+    engine->setTextureCubeMap(m_texture, 1);
 
     //during the graphics update, we call the draw function
     auto meshVBO = getMesh()->getVertexArrayObject();

@@ -24,8 +24,10 @@ public:
     /**
      * @brief Constructor for the Texture2D class.
      * @param desc Description of the 2D texture.
+     * @param path File path of the 2D texture.
+     * @param manager Resource Manager of the 2D texture.
      */
-    Texture2D(const Texture2DDesc& desc);
+    Texture2D(const Texture2DDesc& desc, const char* path, ResourceManager* manager);
 
     /**
      * @brief Sets the texture wrapping mode to mirrored.
@@ -42,13 +44,6 @@ public:
      */
     ~Texture2D();
 
-    /**
-     * @brief Gets the ID of the texture.
-     * @return The ID of the texture.
-     */
-    uint getId() const;
-
 private:
-    uint m_textureId = 0; //The ID of the texture.
     Texture2DDesc m_desc = {}; //Description of the 2D texture.
 };

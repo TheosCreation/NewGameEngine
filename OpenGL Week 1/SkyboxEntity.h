@@ -15,6 +15,7 @@ Mail : theo.morris@mds.ac.nz
 
 class SkyboxEntity : public MeshEntity
 {
+public:
     /**
      * @brief Called when the entity is created.
      */
@@ -32,4 +33,3 @@ class SkyboxEntity : public MeshEntity
      */
     void onGraphicsUpdate(float deltaTime) override;
 };
-

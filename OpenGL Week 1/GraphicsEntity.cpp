@@ -44,13 +44,3 @@ void GraphicsEntity::setColor(glm::vec3 color)
 {
 	m_color = color;
 }
-
-float GraphicsEntity::getShininess() const
-{
-	return m_shininess;
-}
-
-void GraphicsEntity::setShininess(const float shininess)
-{
-	m_shininess = shininess;
-}

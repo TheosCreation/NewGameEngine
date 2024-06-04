@@ -50,10 +50,22 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onGraphicsUpdate(float deltaTime);
+    /**
+     * @brief Gets the Shininess used by this entity.
+     * @return A float of the amount of shininess.
+     */
+    float getShininess() const;
+
+    /**
+     * @brief Sets the Shininess to be used by this entity.
+     * @param shininess A float of the amount of shininess.
+     */
+    void setShininess(const float shininess);
 
 protected:
     TexturePtr m_reflectiveMap;
 
 private:
     MeshPtr m_mesh; //A shared pointer to the mesh.
+    float m_shininess = 32.0f; //Object Shininess used by the Lighting Manager and is applied to the shader
 };

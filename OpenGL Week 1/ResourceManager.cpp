@@ -31,18 +31,13 @@ ResourceManager::~ResourceManager()
 {
 }
 
-ResourcePtr ResourceManager::createResourceFromFile(const char* path)
-{
-    return createResourceFromFile(path, false);
-}
-
 TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vector<std::string>& filepaths)
 {
     // Check if the resource has already been loaded
     auto it = m_mapResources.find(filepaths[1]);
     if (it != m_mapResources.end())
     {
-        return it->second;
+        return std::static_pointer_cast<TextureCubeMap>(it->second);
     }
 
     stbi_set_flip_vertically_on_load(false);
@@ -50,7 +45,7 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
     if (filepaths.size() != 6)
     {
         OGL3D_ERROR("Cubemap texture requires exactly 6 images");
-        return;
+        return TextureCubeMapPtr();
     }
 
     TextureCubeMapDesc desc;
@@ -68,12 +63,12 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
         {
             OGL3D_ERROR("Cubemap texture failed to load at path: " + filepath);
             stbi_image_free(data);
-            return;
+            return TextureCubeMapPtr();
         }
     }
 
     // Create a cubemap texture using the graphics engine.
-    TextureCubeMapPtr textureCubeMapPtr = getGame()->getGraphicsEngine()->createTextureCubeMap(desc);
+    TextureCubeMapPtr textureCubeMapPtr = std::make_shared<TextureCubeMap>(desc, filepaths[0].c_str(), this);
     if (!textureCubeMapPtr)
     {
         OGL3D_ERROR("Cubemap texture not generated");
@@ -94,32 +89,36 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
     return TextureCubeMapPtr();
 }
 
-ResourcePtr ResourceManager::createTexture2DFromFile(const std::string& filepath)
+Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepath)
 {
     // Check if the resource has already been loaded
     auto it = m_mapResources.find(filepath);
     if (it != m_mapResources.end())
     {
-        return it->second;
+        return std::static_pointer_cast<Texture2D>(it->second);
     }
     stbi_set_flip_vertically_on_load(false);
 
-    Rect textureSize; // Structure to hold the texture size.
-    auto nrChannels = 0; // Number of color channels in the texture.
-
     // Load the image data using stb_image.
-    unsigned char* data = stbi_load(filepath.c_str(), &textureSize.width, &textureSize.height, &nrChannels, 0);
-    Texture2DPtr texture2DPtr;
+    Texture2DDesc desc;
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0);
     if (data)
     {
-        // Create a 2D texture using the graphics engine.
-        texture2DPtr = getGame()->getGraphicsEngine()->createTexture2D({ data, textureSize, (uint)nrChannels });
-        if (!texture2DPtr)
-        {
-            OGL3D_ERROR("Texture not generated");
-        }
+        desc.textureData = data;
+        desc.textureSize = { width, height };
+        desc.numChannels = nrChannels;
     }
     else
+    {
+        OGL3D_ERROR("Cubemap texture failed to load at path: " + filepath);
+        stbi_image_free(data);
+        return Texture2DPtr();
+    }
+
+    // Create a 2D texture using the graphics engine.
+    Texture2DPtr texture2DPtr = std::make_shared<Texture2D>(desc, filepath.c_str(), this);
+    if (!texture2DPtr)
     {
         OGL3D_ERROR("Texture not generated");
     }
@@ -133,44 +132,44 @@ ResourcePtr ResourceManager::createTexture2DFromFile(const std::string& filepath
         return texture2DPtr;
     }
 
-    return ResourcePtr();
+    return Texture2DPtr();
 }
 
-ResourcePtr ResourceManager::createMeshFromFile(const std::string& filepath)
+MeshPtr ResourceManager::createMeshFromFile(const std::string& filepath)
 {
     // Check if the resource has already been loaded
     auto it = m_mapResources.find(filepath);
     if (it != m_mapResources.end())
     {
-        return it->second;
+        return std::static_pointer_cast<Mesh>(it->second);
     }
 
-    MeshPtr meshPtr = std::make_shared<Mesh>(filepath, this);
+    MeshPtr meshPtr = std::make_shared<Mesh>(filepath.c_str(), this);
     if (meshPtr)
     {
         m_mapResources.emplace(filepath, meshPtr);
         return meshPtr;
     }
-    return ResourcePtr();
+    return MeshPtr();
 }
 
-ResourcePtr ResourceManager::createInstancedMeshFromFile(const std::string& filepath)
+InstancedMeshPtr ResourceManager::createInstancedMeshFromFile(const std::string& filepath)
 {
     // Check if the resource has already been loaded
     auto it = m_mapResources.find(filepath);
     if (it != m_mapResources.end())
     {
-        return it->second;
+        return std::static_pointer_cast<InstancedMesh>(it->second);
     }
 
-    InstancedMeshPtr instancedMeshPtr = std::make_shared<InstancedMesh>(filepath, this);
+    InstancedMeshPtr instancedMeshPtr = std::make_shared<InstancedMesh>(filepath.c_str(), this);
     if (instancedMeshPtr)
     {
         m_mapResources.emplace(filepath, instancedMeshPtr);
         return instancedMeshPtr;
     }
 
-    return ResourcePtr();
+    return InstancedMeshPtr();
 }
 
 Game* ResourceManager::getGame()

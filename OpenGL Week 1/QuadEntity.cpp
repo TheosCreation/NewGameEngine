@@ -99,7 +99,7 @@ void QuadEntity::onGraphicsUpdate(float deltaTime)
     engine->setWindingOrder(WindingOrder::ClockWise);
     engine->setDepthFunc(DepthType::Less);
 
-    engine->setTexture2D(m_texture->getTexture2D(), 0);
+    engine->setTexture2D(m_texture, 0);
 
     //during the graphcis update, we call the draw function
     engine->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline

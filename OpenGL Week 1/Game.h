@@ -21,6 +21,7 @@ Mail : theo.morris@mds.ac.nz
 // Forward declarations of classes
 class Window;
 class EntitySystem;
+class SkyboxEntity;
 
 /**
  * @class Game
@@ -145,4 +146,8 @@ protected:
     const float m_fixedTimeStep = 1.0f / 60.0f; // Fixed time step (60 FPS)
     float m_accumulatedTime = 0; //The current frame's time
     float m_scale = 0; //The scale factor for time
+
+    //collection of useful meshes
+    MeshPtr m_cubeMesh;
+    MeshPtr m_sphereMesh;
 };

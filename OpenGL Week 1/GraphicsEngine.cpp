@@ -33,16 +33,6 @@ ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
     return std::make_shared<Shader>(desc);
 }
 
-Texture2DPtr GraphicsEngine::createTexture2D(const Texture2DDesc& desc)
-{
-    return std::make_shared<Texture2D>(desc);
-}
-
-TextureCubeMapPtr GraphicsEngine::createTextureCubeMap(const TextureCubeMapDesc& desc)
-{
-    return std::make_shared<TextureCubeMap>(desc);
-}
-
 void GraphicsEngine::clear(const glm::vec4& color)
 {
     setDepthFunc(DepthType::Less);
@@ -115,14 +105,14 @@ void GraphicsEngine::setShader(const ShaderPtr& program)
     glUseProgram(program->getId());
 }
 
-void GraphicsEngine::setTexture2D(const Texture2DPtr& texture, uint slot)
+void GraphicsEngine::setTexture2D(const TexturePtr& texture, uint slot)
 {
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture->getId());
 }
 
-void GraphicsEngine::setTextureCubeMap(const TextureCubeMapPtr& texture, uint slot)
+void GraphicsEngine::setTextureCubeMap(const TexturePtr& texture, uint slot)
 {
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture

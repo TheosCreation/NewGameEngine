@@ -13,6 +13,7 @@ Mail : theo.morris@mds.ac.nz
 #pragma once
 #include "Utils.h"
 #include "Math.h"
+#include "ResourceManager.h"
 
 /**
  * @class GraphicsEngine
@@ -52,15 +53,6 @@ public:
      * @return A shared pointer to the created Shader.
      */
     ShaderPtr createShader(const ShaderDesc& desc);
-
-    /**
-     * @brief Creates a 2D Texture.
-     * @param desc Description of the Texture.
-     * @return A shared pointer to the created Texture2D.
-     */
-    Texture2DPtr createTexture2D(const Texture2DDesc& desc);
-
-    TextureCubeMapPtr createTextureCubeMap(const TextureCubeMapDesc& desc);
 
     /**
      * @brief Clears the screen with the specified color.
@@ -107,9 +99,9 @@ public:
      * @param texture A shared pointer to the Texture2D to set.
      * @param slot The texture slot to bind the texture to.
      */
-    void setTexture2D(const Texture2DPtr& texture, uint slot);
+    void setTexture2D(const TexturePtr& texture, uint slot);
 
-    void setTextureCubeMap(const TextureCubeMapPtr& texture, uint slot);
+    void setTextureCubeMap(const TexturePtr& texture, uint slot);
 
     /**
      * @brief Draws triangles.

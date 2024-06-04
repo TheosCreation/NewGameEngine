@@ -25,7 +25,20 @@ MyGame::~MyGame()
 void MyGame::onCreate()
 {
 	Game::onCreate();
-	
+
+	// create a cube map texture and set the texture of the skybox to the cubemap texture
+	std::vector<std::string> skyboxCubeMapTextureFilePaths;
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Left.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Top.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
+	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
+	TextureCubeMapPtr skyBoxTexture = getResourceManager()->createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths);
+
+	m_skyBox->setTexture(skyBoxTexture);
+
+
 	//Loading texture resources
 	Texture2DPtr buttonDownTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Down.png");
 	Texture2DPtr buttonHoveringTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Hovering.png");
@@ -35,19 +48,7 @@ void MyGame::onCreate()
 	
 	Texture2DPtr sciFiSpace = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
-
-	std::vector<std::string> skyboxCubeMapTextureFilePaths;
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Left.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Top.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
-	TextureCubeMapPtr skyBoxTexture = getResourceManager()->createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths));
-
 	
-	MeshPtr sphereMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/sphere.obj");
-	MeshPtr cubeMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/cube.obj");
 
 	//Loading meshes
 	MeshPtr fighterShip = getResourceManager()->createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
@@ -61,10 +62,6 @@ void MyGame::onCreate()
 	ShaderPtr meshShader = m_graphicsEngine->createShader({
 			L"MeshShader",
 			L"MeshShader"
-		});
-	ShaderPtr skyboxShader = m_graphicsEngine->createShader({
-			L"SkyBoxShader",
-			L"SkyBoxShader"
 		});
 	ShaderPtr instancedMeshShader = m_graphicsEngine->createShader({
 			L"InstancedMesh",
@@ -118,11 +115,6 @@ void MyGame::onCreate()
 	//Init instance buffer
 	mineMesh->initInstanceBuffer();
 	
-	//Creating skybox object
-	m_skyBox = getEntitySystem()->createEntity<SkyboxEntity>();
-	m_skyBox->setTexture(skyBoxTexture);
-	m_skyBox->setMesh(cubeMesh);
-	m_skyBox->setShader(skyboxShader);
 
 	//ui button
 	m_button = getEntitySystem()->createEntity<QuadEntity>();
@@ -145,7 +137,7 @@ void MyGame::onCreate()
 		auto pointLightObject = getEntitySystem()->createEntity<MeshEntity>();
 		pointLightObject->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
 		pointLightObject->setColor(Color::Blue);
-		pointLightObject->setMesh(sphereMesh);
+		pointLightObject->setMesh(m_sphereMesh);
 		pointLightObject->setShader(solidColorMeshShader);
 
 		PointLight pointLight;
@@ -162,7 +154,7 @@ void MyGame::onCreate()
 		auto pointLightObject = getEntitySystem()->createEntity<MeshEntity>();
 		pointLightObject->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
 		pointLightObject->setColor(Color::Red);
-		pointLightObject->setMesh(sphereMesh);
+		pointLightObject->setMesh(m_sphereMesh);
 		pointLightObject->setShader(solidColorMeshShader);
 
 		PointLight pointLight;

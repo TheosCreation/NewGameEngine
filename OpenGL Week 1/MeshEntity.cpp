@@ -55,7 +55,7 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
 
     if (m_texture)
     {
-        engine->setTexture2D(m_texture->getTexture2D(), 0);
+        engine->setTexture2D(m_texture, 0);
     }
     else
     {
@@ -65,16 +65,26 @@ void MeshEntity::onGraphicsUpdate(float deltaTime)
     auto skyboxTexture = getGame()->getSkyboxTexture();
     if (skyboxTexture)
     {
-        engine->setTextureCubeMap(skyboxTexture->getTextureCubeMap(), 1);
+        engine->setTextureCubeMap(skyboxTexture, 1);
     }
     
     if (m_reflectiveMap)
     {
-        engine->setTexture2D(m_reflectiveMap->getTexture2D(), 2);
+        engine->setTexture2D(m_reflectiveMap, 2);
     }
 
     //during the graphics update, we call the draw function
     auto meshVBO = m_mesh->getVertexArrayObject();
     engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
     engine->drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
+}
+
+float MeshEntity::getShininess() const
+{
+    return m_shininess;
+}
+
+void MeshEntity::setShininess(const float shininess)
+{
+    m_shininess = shininess;
 }

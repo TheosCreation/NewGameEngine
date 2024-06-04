@@ -18,13 +18,15 @@ Mail : theo.morris@mds.ac.nz
 
 #include "Shader.h"
 #include "VertexArrayObject.h"
-#include "Texture2D.h"
-
 #include "ResourceManager.h"
 #include "Resource.h"
-#include "Texture.h"
+
 #include "Mesh.h"
 #include "InstancedMesh.h"
+
+#include "Texture.h"
+#include "Texture2D.h"
+#include "TextureCubeMap.h"
 
 #include "Camera.h"
 #include "MeshEntity.h"

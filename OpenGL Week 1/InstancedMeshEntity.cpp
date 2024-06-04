@@ -49,18 +49,18 @@ void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
 
     if (m_texture)
     {
-        engine->setTexture2D(m_texture->getTexture2D(), 0);
+        engine->setTexture2D(m_texture, 0);
     }
 
     auto skyboxTexture = getGame()->getSkyboxTexture();
     if (skyboxTexture)
     {
-        engine->setTextureCubeMap(skyboxTexture->getTextureCubeMap(), 0);
+        engine->setTextureCubeMap(skyboxTexture, 0);
     }
 
     if (m_reflectiveMap)
     {
-        engine->setTexture2D(m_reflectiveMap->getTexture2D(), 2);
+        engine->setTexture2D(m_reflectiveMap, 2);
     }
 
     //during the graphics update, we call the draw function

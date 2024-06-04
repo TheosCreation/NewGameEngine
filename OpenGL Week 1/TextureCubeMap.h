@@ -26,20 +26,13 @@ public:
      * @param faces The file paths to the six faces of the cubemap.
      * @param manager Pointer to the resource manager.
      */
-    TextureCubeMap(const TextureCubeMapDesc& desc);
+    TextureCubeMap(const TextureCubeMapDesc& desc, const char* path, ResourceManager* manager);
 
     /**
      * @brief Destructor for the TextureCubeMap class.
      */
     ~TextureCubeMap();
 
-    /**
-     * @brief Gets the ID of the texture.
-     * @return The ID of the texture.
-     */
-    uint getId() const;
-
 private:
-    uint m_textureId = 0; //The ID of the texture.
     TextureCubeMapDesc m_desc = {}; //Description of the 2D texture.
 };

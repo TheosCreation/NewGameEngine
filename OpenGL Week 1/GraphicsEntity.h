@@ -66,28 +66,16 @@ public:
      */
     TexturePtr getTexture() const;
 
+    void setTexture(const TexturePtr& texture);
     /**
      * @brief Sets the texture to be used by this entity.
      * @param texture A shared pointer to the texture.
      */
-    void setTexture(const TexturePtr& texture);
     
     void setColor(glm::vec3 color);
-    /**
-     * @brief Gets the Shininess used by this entity.
-     * @return A float of the amount of shininess.
-     */
-    float getShininess() const;
-
-    /**
-     * @brief Sets the Shininess to be used by this entity.
-     * @param shininess A float of the amount of shininess.
-     */
-    void setShininess(const float shininess);
 
 protected:
     ShaderPtr m_shader; //The shader used by this entity
-    TexturePtr m_texture; //The texture used by this entity
     glm::vec3 m_color;
-    float m_shininess = 32.0f; //Object Shininess used by the Lighting Manager and is applied to the shader
+    TexturePtr m_texture; //The texture used by this entity
 };

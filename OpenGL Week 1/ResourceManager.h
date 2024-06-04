@@ -36,13 +36,6 @@ public:
      */
     virtual ~ResourceManager();
 
-    /**
-     * @brief Creates a resource from a file.
-     * @param path The file path to the resource.
-     * @return A shared pointer to the created resource.
-     */
-    ResourcePtr createResourceFromFile(const char* path);
-
     TextureCubeMapPtr createCubeMapTextureFromFile(const std::vector<std::string>& filepaths);
 
     Texture2DPtr createTexture2DFromFile(const std::string& filepath);
