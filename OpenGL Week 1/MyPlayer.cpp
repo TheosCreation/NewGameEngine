@@ -92,54 +92,6 @@ void MyPlayer::onUpdate(float deltaTime)
         std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
     }
 
-    // check all buttons to see if interaction have been made by the user with the mouse
-    for (auto & button : m_buttonRefs)
-    {
-        float buttonRightX = (button->getPosition().x / 2) + std::abs(button->getScale().x / 4);
-        float buttonLeftX = (button->getPosition().x / 2) - std::abs(button->getScale().x / 4);
-        float buttonBottomY = (-button->getPosition().y / 2) + std::abs(button->getScale().y / 4);
-        float buttonTopY = (-button->getPosition().y / 2) - std::abs(button->getScale().y / 4);
-        // when mouse is inside the button
-        if (cursorPosition.x <= buttonRightX && cursorPosition.x >= buttonLeftX && 
-            cursorPosition.y <= buttonBottomY && cursorPosition.y >= buttonTopY)
-        {  
-                // Change button texture when hovering
-                if (!m_buttonTextureSwitched)
-                {
-                    button->setTexture(m_buttonHoveringTexture);
-                    m_buttonTextureSwitched = true;
-                }
-
-
-                // Toggle texture when you press the button
-                if (input->isMousePressed(MouseButtonLeft))
-                {
-                    m_instancedTextureSwitched = !m_instancedTextureSwitched;
-                    if (m_instancedTextureSwitched)
-                    {
-                        m_instancedEntity->setTexture(m_instancedEntityTexture2Ptr);
-                    }
-                    else
-                    {
-                        m_instancedEntity->setTexture(m_instancedEntityTexture1Ptr);
-                    }
-                }
-                else
-                {
-                    // Reset button texture to hovering after mouse click
-                    button->setTexture(m_buttonHoveringTexture);
-                }
-
-                //while the mouse is held down keep the texture of the button in the down position
-                if (input->isMouseDown(MouseButtonLeft)) button->setTexture(m_buttonDownTexture);
-        }
-        else if(m_buttonTextureSwitched)
-        {
-            // Reset the texture to up position when mouse leaves the button
-            button->setTexture(m_buttonUpTexture);
-            m_buttonTextureSwitched = false;
-        }
-    }
     
     // Adjust camera speed if Shift key is pressed
     if (input->isKeyDown(Key::KeyShift)) {
@@ -210,23 +162,4 @@ void MyPlayer::onUpdate(float deltaTime)
         }
         m_cam->setFieldOfView(m_fov);
     }
-}
-
-void MyPlayer::addButtonRef(QuadEntity* buttonRef)
-{
-    m_buttonRefs.push_back(buttonRef);
-}
-
-void MyPlayer::setButtonTextures(TexturePtr buttonUpTexture, TexturePtr buttonHoveringTexture, TexturePtr buttonDownTexture)
-{
-    m_buttonUpTexture = buttonUpTexture;
-    m_buttonHoveringTexture = buttonHoveringTexture;
-    m_buttonDownTexture = buttonDownTexture;
-}
-
-void MyPlayer::setInstancedEntity(InstancedMeshEntity* instancedEntityRef, TexturePtr texture1, TexturePtr texture2)
-{
-    m_instancedEntity = instancedEntityRef;
-    m_instancedEntityTexture1Ptr = texture1;
-    m_instancedEntityTexture2Ptr = texture2;
 }

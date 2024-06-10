@@ -79,12 +79,22 @@ public:
 	{
 		glUniform3fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
 	}
-	
+
+	/**
+	 * @brief Sends a int into the shader.
+	 * @param name The name of the uniform variable in the shader.
+	 * @param value The int value to send.
+	 */
 	void setInt(const std::string& name, const int value) const
 	{
 		glUniform1i(glGetUniformLocation(m_programId, name.c_str()), value);
 	}
-	
+
+	/**
+	 * @brief Sends a unsigned int into the shader.
+	 * @param name The name of the uniform variable in the shader.
+	 * @param value The unsigned int value to send.
+	 */
 	void setUint(const std::string& name, const uint value) const
 	{
 		glUniform1ui(glGetUniformLocation(m_programId, name.c_str()), value);

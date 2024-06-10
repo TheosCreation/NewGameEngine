@@ -1,11 +1,36 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : Texture.h
+Description : Texture class handles the loading and management of texture resources.
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #pragma once
 #include "Resource.h"
 
+/**
+ * @class Texture
+ * @brief Handles the loading and management of texture resources.
+ */
 class Texture : public Resource
 {
 public:
-	Texture(const char* path, ResourceManager* manager);
-	~Texture();
+    /**
+     * @brief Constructor for the Texture class.
+     * @param path The file path to the texture.
+     * @param manager Pointer to the resource manager.
+     */
+    Texture(const char* path, ResourceManager* manager);
+
+    /**
+     * @brief Destructor for the Texture class.
+     */
+    ~Texture();
 
     /**
      * @brief Gets the ID of the texture.
@@ -14,6 +39,5 @@ public:
     uint getId() const;
 
 protected:
-    uint m_textureId = 0;
+    uint m_textureId = 0; //The ID of the texture.
 };
-

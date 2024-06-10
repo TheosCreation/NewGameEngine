@@ -5,7 +5,7 @@ Auckland
 New Zealand
 (c) 2024 Media Design School
 File Name : SkyboxEntity.h
-Description : 
+Description : SkyboxEntity class represents a skybox in the 3D scene, handling its creation, updating, and shader uniform data.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -13,6 +13,10 @@ Mail : theo.morris@mds.ac.nz
 #pragma once
 #include "MeshEntity.h"
 
+/**
+ * @class SkyboxEntity
+ * @brief Represents a skybox in the 3D scene, handling its creation, updating, and shader uniform data.
+ */
 class SkyboxEntity : public MeshEntity
 {
 public:

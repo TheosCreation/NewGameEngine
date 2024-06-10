@@ -42,8 +42,16 @@ public:
      */
     virtual void onUpdate(float deltaTime);
 
+    /**
+     * @brief Called every frame to update the game at a fixed frame rate.
+     */
     virtual void onFixedUpdate();
 
+    /**
+     * @brief Called every frame after rendering.
+     * Can be overridden by derived classes to implement custom behavior.
+     * @param deltaTime The time elapsed since the last frame.
+     */
     virtual void onLateUpdate(float deltaTime);
 
 private:

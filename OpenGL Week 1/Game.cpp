@@ -38,7 +38,7 @@ Game::Game()
     m_graphicsEngine->setViewport(m_display->getInnerSize());
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
-    m_graphicsEngine->setMultiSampling();
+    m_graphicsEngine->setMultiSampling(true);
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
@@ -147,7 +147,7 @@ void Game::onGraphicsUpdate(float deltaTime)
                 m_lightManager->setSpotlightDirection(cam->getForwardDirection());
                 
             }
-            else
+            else if(cam)
             {
                 // Second camera which should be UI camera
                 cam->getViewMatrix(data.uiViewMatrix);

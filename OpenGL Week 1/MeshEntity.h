@@ -32,6 +32,10 @@ public:
      */
     MeshPtr getMesh();
 
+    /**
+     * @brief Sets the reflective map texture to be used by this entity.
+     * @param texture A shared pointer to the texture.
+     */
     void setReflectiveMapTexture(const TexturePtr& texture);
 
     /**
@@ -63,7 +67,7 @@ public:
     void setShininess(const float shininess);
 
 protected:
-    TexturePtr m_reflectiveMap;
+    TexturePtr m_reflectiveMap; //A shared pointer to the reflective map
 
 private:
     MeshPtr m_mesh; //A shared pointer to the mesh.

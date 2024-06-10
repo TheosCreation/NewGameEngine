@@ -26,6 +26,8 @@ void MyGame::onCreate()
 {
 	Game::onCreate();
 
+	//Loading texture resources
+	
 	// create a cube map texture and set the texture of the skybox to the cubemap texture
 	std::vector<std::string> skyboxCubeMapTextureFilePaths;
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
@@ -36,16 +38,6 @@ void MyGame::onCreate()
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
 	TextureCubeMapPtr skyBoxTexture = getResourceManager()->createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths);
 
-	m_skyBox->setTexture(skyBoxTexture);
-
-
-	//Loading texture resources
-	Texture2DPtr buttonDownTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Down.png");
-	Texture2DPtr buttonHoveringTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Hovering.png");
-	Texture2DPtr buttonUpTexture = getResourceManager()->createTexture2DFromFile("Resources/Textures/Button_Up.png");
-
-	Texture2DPtr plainAncientTextureSheet = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonAncientWorlds_Statue_01.png");
-	
 	Texture2DPtr sciFiSpace = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	
@@ -54,7 +46,7 @@ void MyGame::onCreate()
 	MeshPtr fighterShip = getResourceManager()->createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 	InstancedMeshPtr mineMesh = getResourceManager()->createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 	
-	//Loading Shader
+	//Loading Shaders
 	ShaderPtr quadShader = m_graphicsEngine->createShader({
 			L"QuadShader",
 			L"QuadShader"
@@ -71,6 +63,9 @@ void MyGame::onCreate()
 			L"SolidColorMesh",
 			L"SolidColorMesh"
 		});
+	
+	//set the skybox texture
+	m_skyBox->setTexture(skyBoxTexture);
 
 	//Creating statue obj
 	m_ship = getEntitySystem()->createEntity<MeshEntity>();
@@ -89,6 +84,7 @@ void MyGame::onCreate()
 	m_instanceMines->setShader(instancedMeshShader);
 	m_instanceMines->setMesh(mineMesh);
 	
+	//adds instances to the instanced mine mesh
 	float spacing = 50.0f;
 	for (int row = -4; row < 4; ++row) {
 		for (int col = -4; col < 4; ++col) {
@@ -115,22 +111,11 @@ void MyGame::onCreate()
 	//Init instance buffer
 	mineMesh->initInstanceBuffer();
 	
-
-	//ui button
-	m_button = getEntitySystem()->createEntity<QuadEntity>();
-	m_button->setScale(glm::vec3(400.0f * -1, 200.0f, 1.0f));
-	m_button->setPosition(glm::vec3(200.0f * m_uiScaleX, 100.0f * m_uiScaleY, 0.0f));
-	m_button->setTexture(buttonUpTexture);
-	m_button->setShader(quadShader);
-
 	//Creating the player object
 	//all the input managements, creation of camera are inside Player class
 	m_player = getEntitySystem()->createEntity<MyPlayer>();
 	m_player->setScale(glm::vec3(0.0f));
 	m_player->setPosition(glm::vec3(0.0f));
-	m_player->addButtonRef(m_button);
-	m_player->setInstancedEntity(m_instanceMines, sciFiSpace, plainAncientTextureSheet);
-	m_player->setButtonTextures(buttonUpTexture, buttonHoveringTexture, buttonDownTexture);
 
 	// Initialize point lights 
 	{

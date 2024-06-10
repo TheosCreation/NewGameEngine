@@ -226,6 +226,7 @@ enum MouseButton
     MouseButtonMiddle, //Middle mouse button
 };
 
+// Struct of predefined color constants.
 struct Color {
     static constexpr glm::vec3 Red = glm::vec3(1.0f, 0.0f, 0.0f);
     static constexpr glm::vec3 Green = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -233,6 +234,7 @@ struct Color {
     static constexpr glm::vec3 White = glm::vec3(1.0f, 1.0f, 1.0f);
 };
 
+// Struct representing a directional light
 struct DirectionalLight
 {
     glm::vec3 Direction;
@@ -240,6 +242,7 @@ struct DirectionalLight
     float SpecularStrength;
 };
 
+// Struct representing a point light
 struct PointLight
 {
     glm::vec3 Position;
@@ -251,6 +254,7 @@ struct PointLight
     float AttenuationExponent;
 };
 
+// Struct representing a spot light
 struct SpotLight
 {
     glm::vec3 Position;

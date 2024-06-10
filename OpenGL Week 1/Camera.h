@@ -72,8 +72,22 @@ public:
      */
     void setTargetPosition(glm::vec3 newTargetPosition);
 
+    /**
+     * @brief Gets the forward direction of the camera.
+     * @return Forward vector of the camera.
+     */
     glm::vec3 getForwardDirection();
+
+    /**
+     * @brief Sets the forward direction of the camera.
+     * @param newForwardDirection The new forward direction.
+     */
     void setForwardDirection(glm::vec3 newForwardDirection);
+
+    /**
+     * @brief Gets the upward direction of the camera.
+     * @return Upward vector of the camera.
+     */
     glm::vec3 getUpwardDirection();
 
 private:

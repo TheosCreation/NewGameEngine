@@ -104,7 +104,6 @@ protected:
     /**
      * @brief Called every frame to update the entity at a fixed frame rate.
      * Can be overridden by derived classes to implement custom behavior.
-     * @param deltaTime The time elapsed since the last frame.
      */
     virtual void onFixedUpdate() {};
 
@@ -115,7 +114,7 @@ protected:
     virtual void onGraphicsUpdate(float deltaTime);
 
     /**
-     * @brief Called every frame to update the graphics.
+     * @brief Called every frame to post graphics update/render.
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onLateUpdate(float deltaTime);

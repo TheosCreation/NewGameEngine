@@ -82,9 +82,16 @@ void GraphicsEngine::setViewport(const Rect& size)
     glViewport(size.left, size.top, size.width, size.height);
 }
 
-void GraphicsEngine::setMultiSampling()
+void GraphicsEngine::setMultiSampling(bool enabled)
 {
-    glEnable(GL_MULTISAMPLE);
+    if (enabled)
+    {
+        glEnable(GL_MULTISAMPLE);
+    }
+    else
+    {
+        glDisable(GL_MULTISAMPLE);
+    }
 }
 
 GraphicsEngine::GraphicsEngine()

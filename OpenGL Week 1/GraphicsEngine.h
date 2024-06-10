@@ -66,6 +66,10 @@ public:
      */
     void setFaceCulling(const CullType& type);
 
+    /**
+     * @brief Sets the depth function mode.
+     * @param type The type of depth type to use.
+     */
     void setDepthFunc(const DepthType& type);
 
     /**
@@ -80,7 +84,11 @@ public:
      */
     void setViewport(const Rect& size);
 
-    void setMultiSampling();
+    /**
+     * @brief Sets multisampling to enabled or disabled.
+     * @param enabled If multisapling should be enabled or disabled.
+     */
+    void setMultiSampling(bool enabled);
 
     /**
      * @brief Sets the active Vertex Array Object (VAO).
@@ -101,6 +109,11 @@ public:
      */
     void setTexture2D(const TexturePtr& texture, uint slot);
 
+    /**
+     * @brief Sets the active Cube Map Texture.
+     * @param texture A shared pointer to the Texture2D to set.
+     * @param slot The texture slot to bind the texture to.
+     */
     void setTextureCubeMap(const TexturePtr& texture, uint slot);
 
     /**

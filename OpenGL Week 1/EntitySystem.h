@@ -77,6 +77,9 @@ public:
      */
     void onUpdate(float deltaTime);
 
+    /**
+     * @brief Called every frame to update the entity system at a fixed frame rate.
+     */
     void onFixedUpdate();
 
     /**

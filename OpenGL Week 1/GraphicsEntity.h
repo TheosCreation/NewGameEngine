@@ -66,12 +66,16 @@ public:
      */
     TexturePtr getTexture() const;
 
-    void setTexture(const TexturePtr& texture);
     /**
      * @brief Sets the texture to be used by this entity.
      * @param texture A shared pointer to the texture.
      */
-    
+    void setTexture(const TexturePtr& texture);
+
+    /**
+     * @brief Sets the color to be used by this entity.
+     * @param color A vec3 of rgb values.
+     */
     void setColor(glm::vec3 color);
 
 protected:

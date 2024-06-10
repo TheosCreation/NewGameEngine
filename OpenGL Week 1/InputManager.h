@@ -102,7 +102,10 @@ public:
      */
     glm::vec2 getMousePosition();
     
-    
+    /**
+     * @brief Returns the current mouse scroll as a vector2.
+     * @return The current mouse scroll.
+     */
     glm::vec2 getMouseScroll();
 
     /**
@@ -123,7 +126,7 @@ public:
     void onUpdate(); 
 
     /**
-     * @brief Update late after render.
+     * @brief Update late post graphics update/render.
      */
     void onLateUpdate();
 
@@ -136,17 +139,17 @@ private:
     static double currentMouseX; //Current mouse x position
     static double currentMouseY; //Current mouse y position
 
-    static double scrollX;
-    static double scrollY;
+    static double scrollX; //Current mouse x scroll
+    static double scrollY; //Current mouse y scroll
 
-    static std::map<Key, bool> currentKeyStates;
-    static std::map<Key, bool> previousKeyStates;
-    static std::map<MouseButton, bool> currentMouseStates;
-    static std::map<MouseButton, bool> previousMouseStates;
+    static std::map<Key, bool> currentKeyStates; //Map of all current key states
+    static std::map<Key, bool> previousKeyStates; //Map of all previous frames key states
+    static std::map<MouseButton, bool> currentMouseStates; //Map of all current mouse button states
+    static std::map<MouseButton, bool> previousMouseStates; //Map of all previous frames mouse button states
 
-    const double MOUSE_MOVEMENT_THRESHOLD = 0.0f;
+    const double MOUSE_MOVEMENT_THRESHOLD = 0.0f; //Const for the mouse movement threshhold
 
-    void resetMouseScroll();
+    void resetMouseScroll(); //Resets scroll x and y to 0
 
     GLFWwindow* WindowPtr = nullptr; //Pointer to the GLFW window
 

@@ -36,12 +36,32 @@ public:
      */
     virtual ~ResourceManager();
 
+    /**
+     * @brief Creates a cube map texture from file paths.
+     * @param filepaths A vector of file paths for the cube map textures.
+     * @return A shared pointer to the created cube map texture.
+     */
     TextureCubeMapPtr createCubeMapTextureFromFile(const std::vector<std::string>& filepaths);
 
+    /**
+     * @brief Creates a 2D texture from a file path.
+     * @param filepath The file path for the 2D texture.
+     * @return A shared pointer to the created 2D texture.
+     */
     Texture2DPtr createTexture2DFromFile(const std::string& filepath);
-
+    
+    /**
+     * @brief Creates a mesh from a file path.
+     * @param filepath The file path for the mesh.
+     * @return A shared pointer to the created mesh.
+     */
     MeshPtr createMeshFromFile(const std::string& filepath);
 
+    /**
+     * @brief Creates an instanced mesh from a file path.
+     * @param filepath The file path for the instanced mesh.
+     * @return A shared pointer to the created instanced mesh.
+     */
     InstancedMeshPtr createInstancedMeshFromFile(const std::string& filepath);
 
     /**
