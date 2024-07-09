@@ -36,7 +36,7 @@ void InputManager::setGameWindow(GLFWwindow* window)
 	glfwSetScrollCallback(window, scroll_callback); // Set the scroll callback function
 	glfwSetKeyCallback(window, key_callback);       // Set the key callback function
 	glfwSetMouseButtonCallback(window, mouse_button_callback); // Set the mouse button callback function
-	glfwSetCursorPosCallback(window, cursor_position_callback); // Set the cursor position callback function
+	//glfwSetCursorPosCallback(window, cursor_position_callback); // Set the cursor position callback function
 }
 
 bool InputManager::isKeyDown(Key key)
@@ -116,14 +116,24 @@ void InputManager::setScreenArea(const Rect& area)
 
 void InputManager::onUpdate()
 {
-	if (m_playEnable && (std::abs(currentMouseX - m_old_mouse_pos.x) > MOUSE_MOVEMENT_THRESHOLD || std::abs(currentMouseY - m_old_mouse_pos.y) > MOUSE_MOVEMENT_THRESHOLD)) {
-        // Update delta mouse position before resetting the cursor position
-        m_deltaMouse = glm::vec2(currentMouseX - m_screenArea.width / 2.0, currentMouseY - m_screenArea.height / 2.0);
+	double newMouseX, newMouseY;
+	glfwGetCursorPos(WindowPtr, &newMouseX, &newMouseY);
+	currentMouseX = newMouseX;
+	currentMouseY = newMouseY;
 
-    } else {
-        // Calculate delta mouse position based on the previous frame's position
-        m_deltaMouse = glm::vec2(currentMouseX - m_old_mouse_pos.x, currentMouseY - m_old_mouse_pos.y);
-    }
+	if (m_playEnable) {
+		// Calculate delta mouse position
+		m_deltaMouse = glm::vec2(currentMouseX - m_screenArea.width / 2.0, currentMouseY - m_screenArea.height / 2.0);
+		// Reset the cursor to the center of the window
+		glfwSetCursorPos(WindowPtr, m_screenArea.width / 2.0, m_screenArea.height / 2.0);
+	}
+	else {
+		// Calculate delta mouse position based on the previous frame's position
+		m_deltaMouse = glm::vec2(currentMouseX - m_oldMousePos.x, currentMouseY - m_oldMousePos.y);
+	}
+
+	// Update old mouse position
+	m_oldMousePos = glm::vec2(currentMouseX, currentMouseY);
 }
 
 void InputManager::onLateUpdate()
@@ -141,7 +151,7 @@ void InputManager::onLateUpdate()
 	}
 
 	// Update old mouse position
-	m_old_mouse_pos = glm::vec2(currentMouseX, currentMouseY);
+	m_oldMousePos = glm::vec2(currentMouseX, currentMouseY);
 }
 
 void InputManager::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -175,8 +185,8 @@ void InputManager::mouse_button_callback(GLFWwindow* window, int button, int act
 	}
 }
 
-void InputManager::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	currentMouseX = xpos;
-	currentMouseY = ypos;
-}
+//void InputManager::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+//{
+//	currentMouseX = xpos;
+//	currentMouseY = ypos;
+//}

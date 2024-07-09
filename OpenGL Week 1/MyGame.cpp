@@ -115,7 +115,7 @@ void MyGame::onCreate()
 	//all the input managements, creation of camera are inside Player class
 	m_player = getEntitySystem()->createEntity<MyPlayer>();
 	m_player->setScale(glm::vec3(0.0f));
-	m_player->setPosition(glm::vec3(0.0f));
+	m_player->setPosition(glm::vec3(0.0f, 20.0f, 0.0f));
 
 	// Initialize point lights 
 	{

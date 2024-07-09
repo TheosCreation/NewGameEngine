@@ -43,10 +43,16 @@ public:
      */
     virtual void onUpdate(float deltaTime);
 
+    /**
+     * @brief Called every frame after all Update functions have been called.
+     * Can be overridden by derived classes to implement custom behavior.
+     * @param deltaTime The time elapsed since the last frame.
+     */
+    virtual void onLateUpdate(float deltaTime);
+
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
     Entity* m_entity = nullptr; //Pointer to the entity
-
     
     float m_movementSpeed = 50.0f; //Movement speed of the movable object
     float m_originalMovementSpeed = m_movementSpeed; //Original movement speed
@@ -56,7 +62,6 @@ private:
     float m_fov = 90.0f; //Fov for the camera
     float m_maxFov = 120.0f; //Maximum fov for the camera
     float m_zoomSpeed = 0.5f; //Speed of zooming
-    glm::vec3 m_playerHeightOffset{0.0f, 20.0f, 0.0f}; //Height offset to position the camera
     bool m_playMode = false; //Flag for play mode
     bool m_wireframeMode = false; //Flag for wireframe mode
 

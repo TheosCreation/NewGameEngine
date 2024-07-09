@@ -83,9 +83,15 @@ void Camera::setForwardDirection(glm::vec3 newForwardDirection)
 	m_forwardDirection = newForwardDirection;
 }
 
+
 glm::vec3 Camera::getUpwardDirection()
 {
 	return m_upwardDirection;
+}
+
+void Camera::setUpwardDirection(glm::vec3 newUpwardDirection)
+{
+	m_upwardDirection = newUpwardDirection;
 }
 
 void Camera::computeProjectionMatrix()

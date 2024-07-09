@@ -90,6 +90,12 @@ public:
      */
     glm::vec3 getUpwardDirection();
 
+    /**
+     * @brief Sets the upward direction of the camera.
+     * @param newUpwardDirection The new upward direction.
+     */
+    void setUpwardDirection(glm::vec3 newUpwardDirection);
+
 private:
     /**
      * @brief Computes the projection matrix based on camera parameters.

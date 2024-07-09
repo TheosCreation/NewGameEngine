@@ -134,7 +134,6 @@ private:
     static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
     static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
-    static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
     static double currentMouseX; //Current mouse x position
     static double currentMouseY; //Current mouse y position
@@ -147,14 +146,14 @@ private:
     static std::map<MouseButton, bool> currentMouseStates; //Map of all current mouse button states
     static std::map<MouseButton, bool> previousMouseStates; //Map of all previous frames mouse button states
 
-    const double MOUSE_MOVEMENT_THRESHOLD = 0.0f; //Const for the mouse movement threshhold
+    const double MOUSE_MOVEMENT_THRESHOLD = 0.00001f; //Const for the mouse movement threshhold
 
     void resetMouseScroll(); //Resets scroll x and y to 0
 
     GLFWwindow* WindowPtr = nullptr; //Pointer to the GLFW window
 
     bool m_playEnable = false; //Indicates whether play mode is enabled
-    glm::vec2 m_old_mouse_pos{}; //Previous mouse position
+    glm::vec2 m_oldMousePos{}; //Previous mouse position
     Rect m_screenArea; //Screen area for cursor locking
     glm::vec2 m_deltaMouse{}; //Mouse movement delta
 

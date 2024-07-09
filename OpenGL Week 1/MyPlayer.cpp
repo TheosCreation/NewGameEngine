@@ -24,7 +24,7 @@ MyPlayer::~MyPlayer()
 void MyPlayer::onCreate()
 {
 	m_cam = getEntitySystem()->createEntity<Camera>();
-    m_cam->setPosition(m_position + m_playerHeightOffset);
+    m_cam->setPosition(m_position);
 
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
@@ -102,8 +102,7 @@ void MyPlayer::onUpdate(float deltaTime)
     }
 
     // Update the camera's position
-    m_cam->setPosition(m_position + m_playerHeightOffset);
-
+    m_cam->setPosition(m_position);
 
     float sensitivity = 0.1f;  // Sensitivity factor for mouse movement
     m_yaw += input->getMouseXAxis() * sensitivity;
@@ -120,17 +119,20 @@ void MyPlayer::onUpdate(float deltaTime)
     direction.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
     direction.y = sin(glm::radians(m_pitch));
     direction.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-    m_cam->setForwardDirection(glm::normalize(direction));
 
-    // Handle input for player movement based on camera direction
-    glm::vec3 forward = m_cam->getForwardDirection();
-    glm::vec3 up = m_cam->getUpwardDirection();
-    glm::vec3 right = glm::normalize(glm::cross(forward, up));
+    glm::vec3 forward = glm::normalize(direction);
+    m_cam->setForwardDirection(forward);
+
+    // Calculate the right and up vectors
+    glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 right = glm::normalize(glm::cross(forward, worldUp));
+    glm::vec3 up = glm::normalize(glm::cross(right, forward));
+    m_cam->setUpwardDirection(up);
 
     m_rotation.y = glm::radians(-m_yaw);
 
     // Project forward vector onto the XZ plane to remove vertical component
-    forward.y = 0.0f;
+    //forward.y = 0.0f;
     forward = glm::normalize(forward);
     
     if (input->isKeyDown(Key::KeyW))
@@ -144,9 +146,9 @@ void MyPlayer::onUpdate(float deltaTime)
 
     // Handle input for player rotation
     if (input->isKeyDown(Key::KeyQ))
-        m_position.y -= m_movementSpeed * deltaTime;
+        m_position -= up * m_movementSpeed * deltaTime;
     if (input->isKeyDown(Key::KeyE))
-        m_position.y += m_movementSpeed * deltaTime;
+        m_position += up * m_movementSpeed * deltaTime;
 
     glm::vec2 mouseScroll = input->getMouseScroll();
     if (mouseScroll.y < 0 || mouseScroll.y > 0)
@@ -162,4 +164,8 @@ void MyPlayer::onUpdate(float deltaTime)
         }
         m_cam->setFieldOfView(m_fov);
     }
+}
+
+void MyPlayer::onLateUpdate(float deltaTime)
+{
 }
