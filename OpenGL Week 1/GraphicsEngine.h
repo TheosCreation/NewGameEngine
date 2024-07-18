@@ -72,11 +72,19 @@ public:
      */
     void setDepthFunc(const DepthType& type);
 
+    void setScissorSize(const Rect size);
+
+    void setScissor(bool enabled);
+
+    void setBlendFunc(const BlendType& srcType, const BlendType& dstType);
+
     /**
      * @brief Sets the winding order for front-facing polygons.
      * @param type The winding order to use.
      */
     void setWindingOrder(const WindingOrder& type);
+
+    void setStencil(const StencilOperationType& type);
 
     /**
      * @brief Sets the viewport size.

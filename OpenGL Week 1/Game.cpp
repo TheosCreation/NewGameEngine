@@ -36,9 +36,13 @@ Game::Game()
     m_resourceManager = std::make_unique<ResourceManager>(this);
     m_graphicsEngine = std::make_unique<GraphicsEngine>();
     m_graphicsEngine->setViewport(m_display->getInnerSize());
+    m_graphicsEngine->setDepthFunc(DepthType::Less);
+    m_graphicsEngine->setBlendFunc(BlendType::SrcAlpha, BlendType::OneMinusSrcAlpha);
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
+    //m_graphicsEngine->setScissorSize(Rect(200, 200, 400, 300));
     m_graphicsEngine->setMultiSampling(true);
+    
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
@@ -118,7 +122,7 @@ void Game::onUpdateInternal()
 
     onLateUpdate(deltaTime);
 
-    double RenderTime_Begin = (double)glfwGetTime(); 
+    double RenderTime_Begin = (double)glfwGetTime();
     onGraphicsUpdate(deltaTime);
     double RenderTime_End = (double)glfwGetTime();
 }
@@ -157,6 +161,16 @@ void Game::onGraphicsUpdate(float deltaTime)
     }
     data.currentTime = m_currentTime;
 
+    // Render skybox
+    ShaderPtr skyboxShader = m_skyBox->getShader();
+    m_graphicsEngine->setShader(skyboxShader);
+    m_skyBox->setUniformData(data);
+    m_skyBox->onGraphicsUpdate(deltaTime);
+
+    //m_graphicsEngine->setScissor(true);
+    //m_graphicsEngine->setStencil(StencilOperationType::Set);
+    //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
+    
     ShaderPtr currentShader = nullptr;
     for (auto& [key, entities] : m_entitySystem->m_entities)
     {
@@ -186,12 +200,38 @@ void Game::onGraphicsUpdate(float deltaTime)
             }
         }
     }
-
-    // Render skybox last to save resources
-    ShaderPtr skyboxShader = m_skyBox->getShader();
-    m_graphicsEngine->setShader(skyboxShader);
-    m_skyBox->setUniformData(data);
-    m_skyBox->onGraphicsUpdate(deltaTime);
+    
+    //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);
+    //
+    //for (auto& [key, entities] : m_entitySystem->m_entities)
+    //{
+    //    // For each graphics entity
+    //    for (auto& [key, entity] : entities)
+    //    {
+    //        auto e = dynamic_cast<GraphicsEntity*>(entity.get());
+    //        if (e)
+    //        {
+    //            ShaderPtr shader = e->getShader();
+    //            if (shader != currentShader)
+    //            {
+    //                // Set the shader only if it is different from the current one
+    //                m_graphicsEngine->setShader(shader);
+    //                // Apply lighting to the shader
+    //                m_lightManager->applyLighting(shader);
+    //                currentShader = shader;
+    //            }
+    //
+    //            // Apply other uniform data to the shader
+    //            e->setUniformData(data);
+    //            e->onGraphicsUpdate(deltaTime);
+    //        }
+    //        else
+    //        {
+    //            break;
+    //        }
+    //    }
+    //}
+    //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
 
     // Render to window
     m_display->present();

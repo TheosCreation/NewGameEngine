@@ -91,7 +91,7 @@ protected:
     virtual void onCreate();
 
     /**
-     * @brief Called when the game and after onCreate.
+     * @brief Called when the game is created and after onCreate.
      */
     virtual void onCreateLate();
 

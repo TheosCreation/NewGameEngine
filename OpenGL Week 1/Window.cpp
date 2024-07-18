@@ -79,10 +79,6 @@ void Window::makeCurrentContext(bool vsync)
     glfwMakeContextCurrent(m_windowPtr);
 
     glfwSwapInterval(vsync ? 1 : 0);
-
-    glEnable(GL_DEPTH_TEST);
-
-    glEnable(GL_BLEND);
 }
 
 void Window::present()

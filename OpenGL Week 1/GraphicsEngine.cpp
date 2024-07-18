@@ -35,10 +35,8 @@ ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
 
 void GraphicsEngine::clear(const glm::vec4& color)
 {
-    setDepthFunc(DepthType::Less);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(color.x, color.y, color.z, color.w);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void GraphicsEngine::setFaceCulling(const CullType& type)
@@ -60,11 +58,100 @@ void GraphicsEngine::setFaceCulling(const CullType& type)
 
 void GraphicsEngine::setDepthFunc(const DepthType& type)
 {
-    auto depthType = GL_LESS;
-    if (type == DepthType::LessEqual) depthType = GL_LEQUAL;
-    else if (type == DepthType::Less) depthType = GL_LESS;
+    GLenum depthType = GL_LESS; // Default value
 
-    glDepthFunc(depthType);
+    switch (type)
+    {
+        case DepthType::Never:        depthType = GL_NEVER; break;
+        case DepthType::Less:         depthType = GL_LESS; break;
+        case DepthType::Equal:        depthType = GL_EQUAL; break;
+        case DepthType::LessEqual:    depthType = GL_LEQUAL; break;
+        case DepthType::Greater:      depthType = GL_GREATER; break;
+        case DepthType::NotEqual:     depthType = GL_NOTEQUAL; break;
+        case DepthType::GreaterEqual: depthType = GL_GEQUAL; break;
+        case DepthType::Always:       depthType = GL_ALWAYS; break;
+    }
+
+    if (type == DepthType::Never)
+    {
+        glDisable(GL_DEPTH_TEST);
+    }
+    else
+    {
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(depthType);
+    }
+}
+
+void GraphicsEngine::setScissorSize(const Rect size)
+{
+    glScissor(size.left, size.top, size.width, size.height);
+}
+
+void GraphicsEngine::setScissor(bool enabled)
+{
+    if (enabled)
+    {
+        glEnable(GL_SCISSOR_TEST);
+    }
+    else
+    {
+        glDisable(GL_SCISSOR_TEST);
+    }
+}
+
+void GraphicsEngine::setBlendFunc(const BlendType& srcType, const BlendType& dstType)
+{
+    GLenum blendType1 = GL_SRC_ALPHA; // Default source blend factor
+    GLenum blendType2 = GL_ONE_MINUS_SRC_ALPHA; // Default destination blend factor
+
+    // Determine the source blend factor
+    switch (srcType)
+    {
+        case BlendType::Zero:                    blendType1 = GL_ZERO; break;
+        case BlendType::One:                     blendType1 = GL_ONE; break;
+        case BlendType::SrcColor:                blendType1 = GL_SRC_COLOR; break;
+        case BlendType::OneMinusSrcColor:        blendType1 = GL_ONE_MINUS_SRC_COLOR; break;
+        case BlendType::DstColor:                blendType1 = GL_DST_COLOR; break;
+        case BlendType::OneMinusDstColor:        blendType1 = GL_ONE_MINUS_DST_COLOR; break;
+        case BlendType::SrcAlpha:                blendType1 = GL_SRC_ALPHA; break;
+        case BlendType::OneMinusSrcAlpha:        blendType1 = GL_ONE_MINUS_SRC_ALPHA; break;
+        case BlendType::DstAlpha:                blendType1 = GL_DST_ALPHA; break;
+        case BlendType::OneMinusDstAlpha:        blendType1 = GL_ONE_MINUS_DST_ALPHA; break;
+        case BlendType::ConstantColor:           blendType1 = GL_CONSTANT_COLOR; break;
+        case BlendType::OneMinusConstantColor:   blendType1 = GL_ONE_MINUS_CONSTANT_COLOR; break;
+        case BlendType::ConstantAlpha:           blendType1 = GL_CONSTANT_ALPHA; break;
+        case BlendType::OneMinusConstantAlpha:   blendType1 = GL_ONE_MINUS_CONSTANT_ALPHA; break;
+    }
+
+    // Determine the destination blend factor
+    switch (dstType)
+    {
+        case BlendType::Zero:                    blendType2 = GL_ZERO; break;
+        case BlendType::One:                     blendType2 = GL_ONE; break;
+        case BlendType::SrcColor:                blendType2 = GL_SRC_COLOR; break;
+        case BlendType::OneMinusSrcColor:        blendType2 = GL_ONE_MINUS_SRC_COLOR; break;
+        case BlendType::DstColor:                blendType2 = GL_DST_COLOR; break;
+        case BlendType::OneMinusDstColor:        blendType2 = GL_ONE_MINUS_DST_COLOR; break;
+        case BlendType::SrcAlpha:                blendType2 = GL_SRC_ALPHA; break;
+        case BlendType::OneMinusSrcAlpha:        blendType2 = GL_ONE_MINUS_SRC_ALPHA; break;
+        case BlendType::DstAlpha:                blendType2 = GL_DST_ALPHA; break;
+        case BlendType::OneMinusDstAlpha:        blendType2 = GL_ONE_MINUS_DST_ALPHA; break;
+        case BlendType::ConstantColor:           blendType2 = GL_CONSTANT_COLOR; break;
+        case BlendType::OneMinusConstantColor:   blendType2 = GL_ONE_MINUS_CONSTANT_COLOR; break;
+        case BlendType::ConstantAlpha:           blendType2 = GL_CONSTANT_ALPHA; break;
+        case BlendType::OneMinusConstantAlpha:   blendType2 = GL_ONE_MINUS_CONSTANT_ALPHA; break;
+    }
+
+    if (srcType == BlendType::Zero && dstType == BlendType::Zero)
+    {
+        glDisable(GL_BLEND);
+    }
+    else
+    {
+        glEnable(GL_BLEND);
+        glBlendFunc(blendType1, blendType2);
+    }
 }
 
 void GraphicsEngine::setWindingOrder(const WindingOrder& type)
@@ -75,6 +162,27 @@ void GraphicsEngine::setWindingOrder(const WindingOrder& type)
     else if (type == WindingOrder::CounterClockWise) orderType = GL_CCW;
 
     glFrontFace(orderType);
+}
+
+void GraphicsEngine::setStencil(const StencilOperationType& type)
+{
+    switch (type)
+    {
+    case StencilOperationType::Set:
+        glEnable(GL_STENCIL_TEST);
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        break;
+
+    case StencilOperationType::ResetNotEqual:
+        glStencilFunc(GL_NOTEQUAL, 0, 0xFF);
+        glStencilMask(0x00);
+        break;
+
+    case StencilOperationType::ResetAlways:
+        glStencilFunc(GL_ALWAYS, 0, 0xFF);
+        glStencilMask(0xFF);
+        break;
+    }
 }
 
 void GraphicsEngine::setViewport(const Rect& size)

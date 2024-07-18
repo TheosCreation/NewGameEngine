@@ -132,6 +132,25 @@ enum class CullType
     None //Cull no faces
 };
 
+// Enum representing blend types
+enum class BlendType
+{
+    Zero,
+    One,
+    SrcColor,
+    OneMinusSrcColor,
+    DstColor,
+    OneMinusDstColor,
+    SrcAlpha,
+    OneMinusSrcAlpha,
+    DstAlpha,
+    OneMinusDstAlpha,
+    ConstantColor,
+    OneMinusConstantColor,
+    ConstantAlpha,
+    OneMinusConstantAlpha
+};
+
 // Enum representing depth types
 enum class DepthType
 {
@@ -143,6 +162,13 @@ enum class DepthType
     NotEqual,
     GreaterEqual,
     Always
+};
+
+enum class StencilOperationType
+{
+    Set,
+    ResetNotEqual,
+    ResetAlways
 };
 
 // Enum representing winding orders
