@@ -40,7 +40,15 @@ void MyGame::onCreate()
 
 	Texture2DPtr sciFiSpace = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
+
+	Texture2DPtr heightmap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png", TextureType::Heightmap);
 	
+	//2048
+	OGL3D_INFO(heightmap->getHeight());
+	OGL3D_INFO(heightmap->getWidth());
+	
+	//m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
+
 
 	//Loading meshes
 	MeshPtr fighterShip = getResourceManager()->createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
@@ -83,7 +91,11 @@ void MyGame::onCreate()
 	m_instanceMines->setTexture(sciFiSpace);
 	m_instanceMines->setShader(instancedMeshShader);
 	m_instanceMines->setMesh(mineMesh);
-	
+
+
+	//m_terrain->setTexture(sciFiSpace);
+	//m_terrain->setShader(instancedMeshShader);
+
 	//adds instances to the instanced mine mesh
 	float spacing = 50.0f;
 	for (int row = -4; row < 4; ++row) {

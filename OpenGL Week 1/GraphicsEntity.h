@@ -72,6 +72,8 @@ public:
      */
     void setTexture(const TexturePtr& texture);
 
+    void setHeightmapTexture(const Texture2DPtr& heightmapTexture);
+
     /**
      * @brief Sets the color to be used by this entity.
      * @param color A vec3 of rgb values.
@@ -82,4 +84,5 @@ protected:
     ShaderPtr m_shader; //The shader used by this entity
     glm::vec3 m_color;
     TexturePtr m_texture; //The texture used by this entity
+    Texture2DPtr m_heightmap; //The texture used by this entity
 };

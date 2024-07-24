@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SkyboxEntity.cpp" />
+    <ClCompile Include="TerrainEntity.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureCubeMap.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="All.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="SkyboxEntity.h" />
+    <ClInclude Include="TerrainEntity.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureCubeMap.h" />
     <ClInclude Include="Entity.h" />

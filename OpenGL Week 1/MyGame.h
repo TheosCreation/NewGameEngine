@@ -60,6 +60,7 @@ private:
     // Initialize all VBOs here
     MeshEntity* m_ship = nullptr; //Pointer to the statue entity
     MeshEntity* m_ground = nullptr; //Pointer to the ground entity
+    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     InstancedMeshEntity* m_instanceMines = nullptr; //Pointer to the instanced tree entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
     QuadEntity* m_button = nullptr; //Pointer to the button entity

@@ -43,6 +43,25 @@ Texture2D::Texture2D(const Texture2DDesc& desc, const char* path, ResourceManage
     m_desc = desc;
 }
 
+float Texture2D::getHeight()
+{
+    return m_desc.textureSize.height;
+}
+
+float Texture2D::getWidth()
+{
+    return m_desc.textureSize.width;
+}
+
+unsigned char* Texture2D::getData() const
+{
+    if (!m_desc.textureData)
+    {
+        OGL3D_ERROR("Texture data is null");
+    }
+    return m_desc.textureData;
+}
+
 // Sets the texture wrapping mode to mirrored repeat.
 void Texture2D::setMirrored()
 {

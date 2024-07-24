@@ -45,6 +45,14 @@ typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<InstancedMesh> InstancedMeshPtr;
 
+
+struct Vertex
+{
+    glm::vec3 position;
+    glm::vec2 texCoords;
+    glm::vec3 normal;
+};
+
 // Struct representing a vertex attribute
 struct VertexAttribute
 {
@@ -96,7 +104,7 @@ struct UniformData
 // Struct representing a texture 2D description
 struct Texture2DDesc
 {
-    void* textureData = nullptr; //Pointer to the texture data
+    unsigned char* textureData = nullptr; //Pointer to the texture data
     Rect textureSize = {}; //Size of the texture
     uint numChannels = 0; //Number of channels in the texture
 };
@@ -149,6 +157,12 @@ enum class BlendType
     OneMinusConstantColor,
     ConstantAlpha,
     OneMinusConstantAlpha
+};
+
+enum class TextureType
+{
+    Default,
+    Heightmap
 };
 
 // Enum representing depth types

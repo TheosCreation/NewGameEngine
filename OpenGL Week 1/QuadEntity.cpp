@@ -15,12 +15,6 @@ Mail : theo.morris@mds.ac.nz
 #include "Game.h"
 #include "VertexArrayObject.h"
 
-struct Vertex
-{
-    glm::vec3 position;
-    glm::vec2 texCoords;
-};
-
 void QuadEntity::onCreate()
 {
     glm::vec3 position_list[] =

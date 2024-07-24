@@ -33,6 +33,7 @@ Mail : theo.morris@mds.ac.nz
 #include "InstancedMeshEntity.h"
 #include "QuadEntity.h"
 #include "SkyboxEntity.h"
+#include "TerrainEntity.h"
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"

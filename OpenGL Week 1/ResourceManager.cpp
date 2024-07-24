@@ -89,7 +89,7 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
     return TextureCubeMapPtr();
 }
 
-Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepath)
+Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepath, TextureType type)
 {
     // Check if the resource has already been loaded
     auto it = m_mapResources.find(filepath);
@@ -103,18 +103,33 @@ Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepat
     Texture2DDesc desc;
     int width, height, nrChannels;
     unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0);
-    if (data)
+    if (!data)
     {
-        desc.textureData = data;
-        desc.textureSize = { width, height };
-        desc.numChannels = nrChannels;
-    }
-    else
-    {
-        OGL3D_ERROR("Cubemap texture failed to load at path: " + filepath);
-        stbi_image_free(data);
+        OGL3D_ERROR("Texture failed to load at path: " + filepath);
         return Texture2DPtr();
     }
+
+    if (type == TextureType::Heightmap)
+    {
+        // Ensure the image is grayscale (one channel)
+        if (nrChannels != 1)
+        {
+            OGL3D_ERROR("Heightmap texture must be a grayscale image at path: " + filepath);
+            stbi_image_free(data);
+            return Texture2DPtr();
+        }
+        // Process heightmap data if needed (e.g., normalize values)
+        // For example, you might want to normalize the height values to a specific range
+        // This step is optional and depends on how you plan to use the heightmap data
+        for (int i = 0; i < width * height; ++i)
+        {
+            data[i] = static_cast<unsigned char>(data[i] / 255.0f * 1.0f); // Example normalization to 0.0 - 1.0 range
+        }
+    }
+
+    desc.textureData = data;
+    desc.textureSize = { width, height };
+    desc.numChannels = nrChannels;
 
     // Create a 2D texture using the graphics engine.
     Texture2DPtr texture2DPtr = std::make_shared<Texture2D>(desc, filepath.c_str(), this);
