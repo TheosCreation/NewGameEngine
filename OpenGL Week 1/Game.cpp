@@ -40,7 +40,7 @@ Game::Game()
     m_graphicsEngine->setBlendFunc(BlendType::SrcAlpha, BlendType::OneMinusSrcAlpha);
     m_graphicsEngine->setFaceCulling(CullType::BackFace);
     m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
-    //m_graphicsEngine->setScissorSize(Rect(200, 200, 400, 300));
+    m_graphicsEngine->setScissorSize(Rect(200, 200, 400, 300));
     m_graphicsEngine->setMultiSampling(true);
     
 
@@ -167,7 +167,7 @@ void Game::onGraphicsUpdate(float deltaTime)
     m_skyBox->setUniformData(data);
     m_skyBox->onGraphicsUpdate(deltaTime);
 
-    //m_graphicsEngine->setScissor(true);
+    m_graphicsEngine->setScissor(true);
     //m_graphicsEngine->setStencil(StencilOperationType::Set);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
     
@@ -200,7 +200,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             }
         }
     }
-    
+    m_graphicsEngine->setScissor(false);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);
     //
     //for (auto& [key, entities] : m_entitySystem->m_entities)
