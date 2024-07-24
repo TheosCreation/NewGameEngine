@@ -40,6 +40,11 @@ void GraphicsEntity::setTexture(const TexturePtr& texture)
 	m_texture = texture;
 }
 
+void GraphicsEntity::setHeightmapTexture(const Texture2DPtr& heightmapTexture)
+{
+	m_heightmap = heightmapTexture;
+}
+
 void GraphicsEntity::setColor(glm::vec3 color)
 {
 	m_color = color;

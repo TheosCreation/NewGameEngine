@@ -48,7 +48,7 @@ public:
      * @param filepath The file path for the 2D texture.
      * @return A shared pointer to the created 2D texture.
      */
-    Texture2DPtr createTexture2DFromFile(const std::string& filepath);
+    Texture2DPtr createTexture2DFromFile(const std::string& filepath, TextureType type = TextureType::Default);
     
     /**
      * @brief Creates a mesh from a file path.

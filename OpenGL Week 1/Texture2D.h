@@ -29,6 +29,13 @@ public:
      */
     Texture2D(const Texture2DDesc& desc, const char* path, ResourceManager* manager);
 
+    float getHeight();
+
+    float getWidth();
+
+
+    unsigned char* getData() const;
+
     /**
      * @brief Sets the texture wrapping mode to mirrored.
      */
