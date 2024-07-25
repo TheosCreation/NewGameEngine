@@ -43,6 +43,8 @@ public:
      */
     virtual void onUpdate(float deltaTime);
 
+    virtual void onFixedUpdate(float fixedDeltaTime);
+
     /**
      * @brief Called every frame after all Update functions have been called.
      * Can be overridden by derived classes to implement custom behavior.

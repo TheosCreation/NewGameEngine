@@ -128,7 +128,7 @@ public:
      * Can be overridden by derived classes to implement custom behavior.
      * @param deltaTime The time elapsed since the last frame.
      */
-    virtual void onFixedUpdate() {}
+    virtual void onFixedUpdate(float fixedDeltaTime) {}
 
     /**
      * @brief Called every frame after all Update functions have been called.
