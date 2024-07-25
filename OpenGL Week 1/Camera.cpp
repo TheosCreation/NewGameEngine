@@ -89,6 +89,12 @@ glm::vec3 Camera::getUpwardDirection()
 	return m_upwardDirection;
 }
 
+glm::vec3 Camera::getRightwardDirection()
+{
+	glm::vec3 right = glm::normalize(glm::cross(m_forwardDirection, m_worldUp));
+	return right;
+}
+
 void Camera::setUpwardDirection(glm::vec3 newUpwardDirection)
 {
 	m_upwardDirection = newUpwardDirection;

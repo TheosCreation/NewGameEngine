@@ -58,7 +58,7 @@ void MyPlayer::onUpdate(float deltaTime)
 
     // Calculate the right and up vectors
     glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 right = glm::normalize(glm::cross(forward, worldUp));
+    glm::vec3 right = m_cam->getRightwardDirection();
     glm::vec3 up = glm::normalize(glm::cross(right, forward));
     m_cam->setUpwardDirection(up);
 
@@ -68,9 +68,8 @@ void MyPlayer::onUpdate(float deltaTime)
 void MyPlayer::onFixedUpdate(float fixedDeltaTime)
 {
     glm::vec3 forward = m_cam->getForwardDirection();
-    glm::vec3 up = m_cam->getForwardDirection();
-    glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 right = glm::normalize(glm::cross(forward, worldUp));
+    glm::vec3 up = m_cam->getUpwardDirection();
+    glm::vec3 right = m_cam->getRightwardDirection();
 
     // Enable play mode when clicking on the window
     if (input->isMousePressed(MouseButtonLeft) && !m_playMode)
@@ -152,8 +151,8 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
     if (input->isKeyDown(Key::KeyQ))
         m_position -= up * m_movementSpeed * fixedDeltaTime;
     if (input->isKeyDown(Key::KeyE))
+        m_position += up * m_movementSpeed * fixedDeltaTime;glm::vec2 mouseScroll = input->getMouseScroll();
 
-    m_position += up * m_movementSpeed * fixedDeltaTime;glm::vec2 mouseScroll = input->getMouseScroll();
     if (mouseScroll.y < 0 || mouseScroll.y > 0)
     {
         m_fov -= mouseScroll.y * m_zoomSpeed;
