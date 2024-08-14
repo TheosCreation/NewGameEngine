@@ -105,7 +105,7 @@ protected:
      * @brief Called every frame to update the entity at a fixed frame rate.
      * Can be overridden by derived classes to implement custom behavior.
      */
-    virtual void onFixedUpdate() {};
+    virtual void onFixedUpdate(float fixedDeltaTime) {};
 
     /**
      * @brief Called every frame to update the graphics.
@@ -141,6 +141,7 @@ protected:
     std::unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
 
     float m_previousTime = 0; //The previous frame's time
+    float m_previousFixedUpdateTime = 0; //The previous fixedUpdate frame time
     float m_currentTime = 0; //The current frame's time
     const float m_fixedTimeStep = 1.0f / 60.0f; // Fixed time step (60 FPS)
     float m_accumulatedTime = 0; //The current frame's time

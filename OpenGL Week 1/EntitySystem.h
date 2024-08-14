@@ -77,10 +77,12 @@ public:
      */
     void onUpdate(float deltaTime);
 
+    void onLateUpdate(float deltaTime);
+
     /**
      * @brief Called every frame to update the entity system at a fixed frame rate.
      */
-    void onFixedUpdate();
+    void onFixedUpdate(float fixedDeltaTime);
 
     /**
      * @brief Map of entities categorized by their type ID.

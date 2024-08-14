@@ -104,23 +104,27 @@ void Game::onUpdateInternal()
     float deltaTime = m_currentTime - m_previousTime;
     m_previousTime = m_currentTime;
 
-    m_entitySystem->onUpdate(deltaTime);
     // Accumulate time
     m_accumulatedTime += deltaTime;
+
+    onUpdate(deltaTime);
+    m_entitySystem->onUpdate(deltaTime);
 
     // Perform fixed updates
     while (m_accumulatedTime >= m_fixedTimeStep)
     {
-        onFixedUpdate();
-        m_entitySystem->onFixedUpdate();
+        float fixedDeltaTime = m_currentTime - m_previousFixedUpdateTime;
+        m_previousFixedUpdateTime = m_currentTime;
+        onFixedUpdate(fixedDeltaTime);
+        m_entitySystem->onFixedUpdate(fixedDeltaTime);
         m_accumulatedTime -= m_fixedTimeStep;
     }
 
-    onUpdate(deltaTime);
+    onLateUpdate(deltaTime);
+
+    m_entitySystem->onLateUpdate(deltaTime);
 
     m_inputManager->onLateUpdate();
-
-    onLateUpdate(deltaTime);
 
     double RenderTime_Begin = (double)glfwGetTime();
     onGraphicsUpdate(deltaTime);
@@ -200,7 +204,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             }
         }
     }
-
+    m_graphicsEngine->setScissor(false);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);
     //
     //for (auto& [key, entities] : m_entitySystem->m_entities)
@@ -240,13 +244,6 @@ void Game::onGraphicsUpdate(float deltaTime)
 
 void Game::onLateUpdate(float deltaTime)
 {
-    for (auto& [key, entities] : m_entitySystem->m_entities)
-    {
-        for (auto& [key, entity] : entities)
-        {
-            entity->onLateUpdate(deltaTime);
-        }
-    }
 }
 
 void Game::onQuit()

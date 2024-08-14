@@ -131,9 +131,6 @@ void InputManager::onUpdate()
 		// Calculate delta mouse position based on the previous frame's position
 		m_deltaMouse = glm::vec2(currentMouseX - m_oldMousePos.x, currentMouseY - m_oldMousePos.y);
 	}
-
-	// Update old mouse position
-	m_oldMousePos = glm::vec2(currentMouseX, currentMouseY);
 }
 
 void InputManager::onLateUpdate()

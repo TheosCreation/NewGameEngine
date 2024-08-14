@@ -34,73 +34,6 @@ void MyPlayer::onCreate()
 
 void MyPlayer::onUpdate(float deltaTime)
 {
-    // Enable play mode when clicking on the window
-    if (input->isMousePressed(MouseButtonLeft) && !m_playMode)
-    {
-        m_playMode = true;
-        input->enablePlayMode(m_playMode);
-    }
-
-    // Disable play mode when pressing the Escape key
-    if (input->isKeyPressed(Key::KeyEscape) && m_playMode)
-    {
-        m_playMode = false;
-        input->enablePlayMode(m_playMode);
-    }
-    
-    // Toggle point lights on/off
-    if (input->isKeyPressed(Key::Key1))
-    {
-        bool currentLightStatus = lighting->getPointLightsStatus();
-        lighting->setPointLightsStatus(!currentLightStatus);
-    }
-    
-    // Toggle directional light on/off
-    if (input->isKeyPressed(Key::Key2))
-    {
-        bool currentLightStatus = lighting->getDirectionalLightStatus();
-        lighting->setDirectionalLightStatus(!currentLightStatus);
-    }
-
-    // Toggle spotlight on/off
-    if (input->isKeyPressed(Key::Key3))
-    {
-        bool currentLightStatus = lighting->getSpotlightStatus();
-        lighting->setSpotlightStatus(!currentLightStatus);
-    }
-    
-    // Toggle wireframe mode on/off
-    if (input->isKeyPressed(Key::Key4))
-    {
-        m_wireframeMode = !m_wireframeMode;
-        if (m_wireframeMode)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        }
-        else
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        }
-    }
-
-    // Get the mouse position from the input manager
-    glm::vec2 cursorPosition = input->getMousePosition();
-
-    // Toggle to print the cords of the cursor
-    if (input->isKeyPressed(Key::Key5))
-    {
-        std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
-    }
-
-    
-    // Adjust camera speed if Shift key is pressed
-    if (input->isKeyDown(Key::KeyShift)) {
-        m_movementSpeed = m_originalMovementSpeed * 2.0f;
-    }
-    else {
-        m_movementSpeed = m_originalMovementSpeed;
-    }
-
     // Update the camera's position
     m_cam->setPosition(m_position);
 
@@ -125,36 +58,105 @@ void MyPlayer::onUpdate(float deltaTime)
 
     // Calculate the right and up vectors
     glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 right = glm::normalize(glm::cross(forward, worldUp));
+    glm::vec3 right = m_cam->getRightwardDirection();
     glm::vec3 up = glm::normalize(glm::cross(right, forward));
     m_cam->setUpwardDirection(up);
 
     m_rotation.y = glm::radians(-m_yaw);
+}
 
-    // Project forward vector onto the XZ plane to remove vertical component
-    //forward.y = 0.0f;
-    forward = glm::normalize(forward);
-    
+void MyPlayer::onFixedUpdate(float fixedDeltaTime)
+{
+    glm::vec3 forward = m_cam->getForwardDirection();
+    glm::vec3 up = m_cam->getUpwardDirection();
+    glm::vec3 right = m_cam->getRightwardDirection();
+
+    // Enable play mode when clicking on the window
+    if (input->isMousePressed(MouseButtonLeft) && !m_playMode)
+    {
+        m_playMode = true;
+        input->enablePlayMode(m_playMode);
+    }
+
+    // Disable play mode when pressing the Escape key
+    if (input->isKeyPressed(Key::KeyEscape) && m_playMode)
+    {
+        m_playMode = false;
+        input->enablePlayMode(m_playMode);
+    }
+
+    // Toggle point lights on/off
+    if (input->isKeyPressed(Key::Key1))
+    {
+        bool currentLightStatus = lighting->getPointLightsStatus();
+        lighting->setPointLightsStatus(!currentLightStatus);
+    }
+
+    // Toggle directional light on/off
+    if (input->isKeyPressed(Key::Key2))
+    {
+        bool currentLightStatus = lighting->getDirectionalLightStatus();
+        lighting->setDirectionalLightStatus(!currentLightStatus);
+    }
+
+    // Toggle spotlight on/off
+    if (input->isKeyPressed(Key::Key3))
+    {
+        bool currentLightStatus = lighting->getSpotlightStatus();
+        lighting->setSpotlightStatus(!currentLightStatus);
+    }
+
+    // Toggle wireframe mode on/off
+    if (input->isKeyPressed(Key::Key4))
+    {
+        m_wireframeMode = !m_wireframeMode;
+        if (m_wireframeMode)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        else
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+    }
+
+    // Get the mouse position from the input manager
+    glm::vec2 cursorPosition = input->getMousePosition();
+
+    // Toggle to print the cords of the cursor
+    if (input->isKeyPressed(Key::Key5))
+    {
+        std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
+    }
+
+
+    // Adjust camera speed if Shift key is pressed
+    if (input->isKeyDown(Key::KeyShift)) {
+        m_movementSpeed = m_originalMovementSpeed * 2.0f;
+    }
+    else {
+        m_movementSpeed = m_originalMovementSpeed;
+    }
+
     if (input->isKeyDown(Key::KeyW))
-        m_position += forward * m_movementSpeed * deltaTime;
+        m_position += forward * m_movementSpeed * fixedDeltaTime;
     if (input->isKeyDown(Key::KeyS))
-        m_position -= forward * m_movementSpeed * deltaTime;
+        m_position -= forward * m_movementSpeed * fixedDeltaTime;
     if (input->isKeyDown(Key::KeyA))
-        m_position -= right * m_movementSpeed * deltaTime;
+        m_position -= right * m_movementSpeed * fixedDeltaTime;
     if (input->isKeyDown(Key::KeyD))
-        m_position += right * m_movementSpeed * deltaTime;
+        m_position += right * m_movementSpeed * fixedDeltaTime;
 
     // Handle input for player rotation
     if (input->isKeyDown(Key::KeyQ))
-        m_position -= up * m_movementSpeed * deltaTime;
+        m_position -= up * m_movementSpeed * fixedDeltaTime;
     if (input->isKeyDown(Key::KeyE))
-        m_position += up * m_movementSpeed * deltaTime;
+        m_position += up * m_movementSpeed * fixedDeltaTime;glm::vec2 mouseScroll = input->getMouseScroll();
 
-    glm::vec2 mouseScroll = input->getMouseScroll();
     if (mouseScroll.y < 0 || mouseScroll.y > 0)
     {
         m_fov -= mouseScroll.y * m_zoomSpeed;
-        
+
         // Clamp the FOV to prevent it from going out of a reasonable range
         if (m_fov < m_minFov) {
             m_fov = m_minFov;
@@ -164,6 +166,7 @@ void MyPlayer::onUpdate(float deltaTime)
         }
         m_cam->setFieldOfView(m_fov);
     }
+
 }
 
 void MyPlayer::onLateUpdate(float deltaTime)

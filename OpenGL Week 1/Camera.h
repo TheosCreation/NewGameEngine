@@ -90,6 +90,8 @@ public:
      */
     glm::vec3 getUpwardDirection();
 
+    glm::vec3 getRightwardDirection();
+
     /**
      * @brief Sets the upward direction of the camera.
      * @param newUpwardDirection The new upward direction.
@@ -108,6 +110,7 @@ private:
     glm::vec3 m_targetPosition{};       //The target position of the camera.
     glm::vec3 m_forwardDirection{0.0f, 0.0f, -1.0f};  //The forwards direction of the camera.
     glm::vec3 m_upwardDirection{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
+    glm::vec3 m_worldUp{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
 
     float m_farPlane = 10000.0f;       //The distance of the far plane.
     float m_nearPlane = 0.1f;          //The distance of the near plane.
