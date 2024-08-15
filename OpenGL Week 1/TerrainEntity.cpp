@@ -1,5 +1,5 @@
 #include "TerrainEntity.h"
-#include "Texture2D.h"
+#include "HeightMap.h"
 #include "GraphicsEngine.h"
 #include "Game.h"
 #include "VertexArrayObject.h"
@@ -42,40 +42,64 @@ void TerrainEntity::generateTerrainMesh()
             int texX = x * (width / m_gridSize.x);
             int texZ = z * (height / m_gridSize.y);
 
-            if (texX < 0 || texX >= width || texZ < 0 || texZ >= height)
-            {
-                OGL3D_ERROR("Texture coordinates out of bounds");
-                delete[] verticesList;
-                delete[] indicesList;
-                return;
-            }
-
             float heightValue = textureData[texZ * width + texX] / 255.0f; // Normalize height value
             float posX = static_cast<float>(x) / (m_gridSize.x - 1) * m_width;
             float posY = heightValue * m_height;
             float posZ = static_cast<float>(z) / (m_gridSize.y - 1) * m_width;
 
-            verticesList[vertexIndex] = { glm::vec3(posX, posY, posZ), glm::vec2(static_cast<float>(x) / (m_gridSize.x - 1), static_cast<float>(z) / (m_gridSize.y - 1)), glm::vec3(0.0f, 1.0f, 0.0f) };
+            verticesList[vertexIndex] = {
+                glm::vec3(posX, posY, posZ),
+                glm::vec2(static_cast<float>(x) / (m_gridSize.x - 1), static_cast<float>(z) / (m_gridSize.y - 1)),
+                glm::vec3(0.0f, 1.0f, 0.0f) // Placeholder for normals
+            };
             vertexIndex++;
         }
     }
 
     int index = 0;
-    for (int z = 0; z < m_gridSize.y - 1; ++z)
+    for (unsigned int row = 0; row < m_gridSize.y - 1; ++row)
     {
-        for (int x = 0; x < m_gridSize.x - 1; ++x)
+        for (unsigned int col = 0; col < m_gridSize.x - 1; ++col)
         {
-            int topLeft = z * m_gridSize.x + x;
-            int topRight = topLeft + 1;
-            int bottomLeft = (z + 1) * m_gridSize.x + x;
-            int bottomRight = bottomLeft + 1;
+            indicesList[index++] = row * m_gridSize.x + col;
+            indicesList[index++] = row * m_gridSize.x + col + 1;
+            indicesList[index++] = (row + 1) * m_gridSize.x + col;
 
-            indicesList[index++] = topLeft;
-            indicesList[index++] = bottomLeft;
-            indicesList[index++] = topRight;
-            indicesList[index++] = topRight;
-            indicesList[index++] = bottomLeft;
-            indicesList[index++] = bottomRight;
+            indicesList[index++] = (row + 1) * m_gridSize.x + col;
+            indicesList[index++] = row * m_gridSize.x + col + 1;
+            indicesList[index++] = (row + 1) * m_gridSize.x + col + 1;
+        }
+    }
+
+    // Calculate normals using central difference
+    float invCellSpacing = 1.0f / (2.0f * m_width / (m_gridSize.x - 1));
+    for (unsigned int row = 0; row < m_gridSize.y; ++row)
+    {
+        for (unsigned int col = 0; col < m_gridSize.x; ++col)
+        {
+            float rowNeg = textureData[(row == 0 ? row : row - 1) * width + col] / 255.0f;
+            float rowPos = textureData[(row < m_gridSize.y - 1 ? row + 1 : row) * width + col] / 255.0f;
+            float colNeg = textureData[row * width + (col == 0 ? col : col - 1)] / 255.0f;
+            float colPos = textureData[row * width + (col < m_gridSize.x - 1 ? col + 1 : col)] / 255.0f;
+
+            float x = (rowNeg - rowPos);
+            if (row == 0 || row == m_gridSize.y - 1)
+            {
+                x *= 2.0f;
+            }
+
+            float y = (colPos - colNeg);
+            if (col == 0 || col == m_gridSize.x - 1)
+            {
+                y *= 2.0f;
+            }
+
+            glm::vec3 tangentZ(0.0f, x * invCellSpacing, 1.0f);
+            glm::vec3 tangentX(1.0f, y * invCellSpacing, 0.0f);
+            glm::vec3 normal = glm::cross(tangentZ, tangentX);
+            normal = glm::normalize(normal);
+
+            verticesList[row * m_gridSize.x + col].normal = normal;
         }
     }
 
@@ -85,26 +109,27 @@ void TerrainEntity::generateTerrainMesh()
         { 3 }  // numElements normal attribute
     };
 
+    VertexBufferDesc vertexBufferDesc = {
+        (void*)verticesList,           // Pointer to vertex list
+        sizeof(Vertex),                // Size of a single vertex
+        numVertices,                   // Number of vertices
+        (VertexAttribute*)attribsList, // Pointer to vertex attributes list
+        3                              // Number of elements in attrib list
+    };
+
+    IndexBufferDesc indexBufferDesc = {
+        (void*)indicesList,
+        sizeof(uint) * numIndices
+    };
+
     m_mesh = getGame()->getGraphicsEngine()->createVertexArrayObject(
-        // Vertex buffer
-        {
-            (void*)verticesList,
-            sizeof(Vertex), // Size in bytes of a single composed vertex (in this case composed of vertex (3 nums * sizeof(float)) + texcoord (2 nums * sizeof(float)) + normal (3 nums * sizeof(float)))
-            sizeof(verticesList) / sizeof(Vertex),  // Number of composed vertices
-            (VertexAttribute*)attribsList,
-            3 // Num elements in attrib list
-        },
-        // Index buffer
-        {
-            (void*)indicesList,
-            sizeof(indicesList)
-        }
+        vertexBufferDesc,
+        indexBufferDesc
     );
 
     delete[] verticesList;
     delete[] indicesList;
 }
-
 
 void TerrainEntity::onCreate()
 {
@@ -112,6 +137,8 @@ void TerrainEntity::onCreate()
 
 void TerrainEntity::setUniformData(UniformData data)
 {
+    m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
+    m_shader->setMat4("modelMatrix", getModelMatrix());
 }
 
 void TerrainEntity::setShader(const ShaderPtr& shader)
@@ -122,13 +149,17 @@ void TerrainEntity::setShader(const ShaderPtr& shader)
 void TerrainEntity::onGraphicsUpdate(float deltaTime)
 {
     auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::BackFace);
+    engine->setFaceCulling(CullType::None);
     engine->setWindingOrder(WindingOrder::ClockWise);
     engine->setDepthFunc(DepthType::Less);
 
-    if (m_heightmap)
+    if (m_texture)
     {
-        engine->setTexture2D(m_heightmap, 0);
+        engine->setTexture2D(m_texture, 0);
+    }
+    else
+    {
+        m_shader->setVec3("uColor", m_color);
     }
 
     // During the graphics update, we call the draw function

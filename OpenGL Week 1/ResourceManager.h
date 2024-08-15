@@ -64,6 +64,9 @@ public:
      */
     InstancedMeshPtr createInstancedMeshFromFile(const std::string& filepath);
 
+
+    HeightMapPtr createHeightMapFromFile(const std::string& filepath);
+
     /**
      * @brief Gets the game instance.
      * @return A pointer to the game instance.

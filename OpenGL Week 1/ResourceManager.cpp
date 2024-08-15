@@ -15,6 +15,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Mesh.h"
 #include "Texture2D.h"
 #include "TextureCubeMap.h"
+#include "HeightMap.h"
 #include "Mesh.h"
 #include "Game.h"
 #include <filesystem>
@@ -109,24 +110,6 @@ Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepat
         return Texture2DPtr();
     }
 
-    if (type == TextureType::Heightmap)
-    {
-        // Ensure the image is grayscale (one channel)
-        if (nrChannels != 1)
-        {
-            OGL3D_ERROR("Heightmap texture must be a grayscale image at path: " + filepath);
-            stbi_image_free(data);
-            return Texture2DPtr();
-        }
-        // Process heightmap data if needed (e.g., normalize values)
-        // For example, you might want to normalize the height values to a specific range
-        // This step is optional and depends on how you plan to use the heightmap data
-        for (int i = 0; i < width * height; ++i)
-        {
-            data[i] = static_cast<unsigned char>(data[i] / 255.0f * 1.0f); // Example normalization to 0.0 - 1.0 range
-        }
-    }
-
     desc.textureData = data;
     desc.textureSize = { width, height };
     desc.numChannels = nrChannels;
@@ -185,6 +168,72 @@ InstancedMeshPtr ResourceManager::createInstancedMeshFromFile(const std::string&
     }
 
     return InstancedMeshPtr();
+}
+
+HeightMapPtr ResourceManager::createHeightMapFromFile(const std::string& filepath)
+{
+    // Check if the resource has already been loaded
+    auto it = m_mapResources.find(filepath);
+    if (it != m_mapResources.end())
+    {
+        return std::static_pointer_cast<HeightMap>(it->second);
+    }
+    stbi_set_flip_vertically_on_load(false);
+
+    // Load the image data using stb_image with original channels
+    HeightMapDesc desc;
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0); // Load with original channels
+    if (!data)
+    {
+        OGL3D_ERROR("Heightmap failed to load at path: " + filepath);
+        return HeightMapPtr();
+    }
+
+    if (nrChannels != 1)
+    {
+        // Manually convert the image to grayscale
+        unsigned char* grayData = new unsigned char[width * height];
+        for (int i = 0; i < width * height; ++i)
+        {
+            int r = data[i * nrChannels];
+            int g = data[i * nrChannels + 1];
+            int b = data[i * nrChannels + 2];
+            grayData[i] = static_cast<unsigned char>(0.3f * r + 0.59f * g + 0.11f * b); // Convert RGB to grayscale
+        }
+        stbi_image_free(data); // Free the original RGB data
+        data = grayData; // Use the grayscale data
+        nrChannels = 1; // Update the channel count
+        OGL3D_WARNING("Heightmap texture converted to grayscale texture at path: " << filepath.c_str());
+    }
+
+    // Process heightmap data if needed (e.g., normalize values)
+    for (int i = 0; i < width * height; ++i)
+    {
+        data[i] = static_cast<unsigned char>(data[i] / 255.0f * 1.0f); // Example normalization to 0.0 - 1.0 range
+    }
+
+    desc.textureData = data;
+    desc.textureSize = { width, height };
+    desc.numChannels = nrChannels;
+
+    // Create a HeightMap using the graphics engine.
+    HeightMapPtr heightMapPtr = std::make_shared<HeightMap>(desc, filepath.c_str(), this);
+    if (!heightMapPtr)
+    {
+        OGL3D_ERROR("Heightmap not generated");
+    }
+
+    // Free the grayscale image data.
+    stbi_image_free(data);
+
+    if (heightMapPtr)
+    {
+        m_mapResources.emplace(filepath, heightMapPtr);
+        return heightMapPtr;
+    }
+
+    return HeightMapPtr();
 }
 
 Game* ResourceManager::getGame()

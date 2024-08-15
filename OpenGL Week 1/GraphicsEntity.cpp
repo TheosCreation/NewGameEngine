@@ -40,7 +40,7 @@ void GraphicsEntity::setTexture(const TexturePtr& texture)
 	m_texture = texture;
 }
 
-void GraphicsEntity::setHeightmapTexture(const Texture2DPtr& heightmapTexture)
+void GraphicsEntity::setHeightmapTexture(const HeightMapPtr& heightmapTexture)
 {
 	m_heightmap = heightmapTexture;
 }

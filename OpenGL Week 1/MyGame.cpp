@@ -41,13 +41,8 @@ void MyGame::onCreate()
 	Texture2DPtr sciFiSpace = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 
-	Texture2DPtr heightmap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png", TextureType::Heightmap);
+	HeightMapPtr heightmap = getResourceManager()->createHeightMapFromFile("Resources/Textures/Heightmap0.jpg");
 	
-	//2048
-	OGL3D_INFO(heightmap->getHeight());
-	OGL3D_INFO(heightmap->getWidth());
-	
-	//m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
 
 
 	//Loading meshes
@@ -71,7 +66,17 @@ void MyGame::onCreate()
 			L"SolidColorMesh",
 			L"SolidColorMesh"
 		});
-	
+
+
+	m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
+	m_terrain->setHeightmapTexture(heightmap);
+	m_terrain->generateTerrainMesh();
+	m_terrain->setScale(glm::vec3(0.5f));
+	m_terrain->setPosition(glm::vec3(0, 0, 0));
+	m_terrain->setTexture(sciFiSpace);
+	//m_terrain->setColor(Color::Red);
+	m_terrain->setShader(meshShader);
+
 	//set the skybox texture
 	m_skyBox->setTexture(skyBoxTexture);
 
@@ -92,9 +97,6 @@ void MyGame::onCreate()
 	m_instanceMines->setShader(instancedMeshShader);
 	m_instanceMines->setMesh(mineMesh);
 
-
-	//m_terrain->setTexture(sciFiSpace);
-	//m_terrain->setShader(instancedMeshShader);
 
 	//adds instances to the instanced mine mesh
 	float spacing = 50.0f;

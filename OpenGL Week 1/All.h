@@ -27,6 +27,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Texture.h"
 #include "Texture2D.h"
 #include "TextureCubeMap.h"
+#include "HeightMap.h"
 
 #include "Camera.h"
 #include "MeshEntity.h"

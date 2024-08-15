@@ -29,6 +29,7 @@ class TextureCubeMap;
 class ResourceManager;
 class Resource;
 class Texture;
+class HeightMap;
 class Mesh;
 class InstancedMesh;
 
@@ -44,6 +45,7 @@ typedef std::shared_ptr<Resource> ResourcePtr;
 typedef std::shared_ptr<Texture> TexturePtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<InstancedMesh> InstancedMeshPtr;
+typedef std::shared_ptr<HeightMap> HeightMapPtr;
 
 
 struct Vertex
@@ -107,6 +109,18 @@ struct Texture2DDesc
     unsigned char* textureData = nullptr; //Pointer to the texture data
     Rect textureSize = {}; //Size of the texture
     uint numChannels = 0; //Number of channels in the texture
+};
+
+// Struct representing a height map description
+struct HeightMapDesc
+{
+    std::string filePath;             // File path to the height map texture
+    unsigned char* textureData = nullptr; // Pointer to the texture data
+    Rect textureSize = {};            // Size of the texture (width and height)
+    uint numChannels = 0;             // Number of channels in the texture (e.g., 1 for grayscale, 3 for RGB)
+    bool generateMipmaps = false;     // Flag to indicate whether mipmaps should be generated
+    bool useLinearFiltering = true;   // Flag to indicate if linear filtering should be used
+    bool isSRGB = false;              // Flag to indicate if the texture is in sRGB color space
 };
 
 // Struct representing a texture Cubemap description

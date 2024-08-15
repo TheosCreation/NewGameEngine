@@ -29,6 +29,7 @@ void MyPlayer::onCreate()
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
     input = getGame()->getInputManager();
+
     lighting = getGame()->getLightingManager();
 }
 
