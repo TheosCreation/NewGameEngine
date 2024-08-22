@@ -175,7 +175,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshEntity.cpp" />
-    <ClCompile Include="MyGame.cpp" />
+    <ClCompile Include="MyScene.cpp" />
     <ClCompile Include="MyPlayer.cpp" />
     <ClCompile Include="QuadEntity.cpp" />
     <ClCompile Include="Resource.cpp" />
@@ -220,7 +220,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshEntity.h" />
-    <ClInclude Include="MyGame.h" />
+    <ClInclude Include="MyScene.h" />
     <ClInclude Include="MyPlayer.h" />
     <ClInclude Include="QuadEntity.h" />
     <ClInclude Include="Utils.h" />

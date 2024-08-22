@@ -51,17 +51,19 @@ public:
      */
     void quit();
 
-    /**
-     * @brief Gets the EntitySystem instance.
-     * @return A pointer to the EntitySystem instance.
-     */
-    EntitySystem* getEntitySystem();
+    void SetScene(shared_ptr<Scene> _scene);
 
     /**
      * @brief Gets the Window instance.
      * @return A pointer to the Window instance.
      */
     Window* getWindow();
+
+    float GetCurrentTime();
+
+    MeshPtr getCubeMesh();
+
+    MeshPtr getSphereMesh();
 
 protected:
     /**
@@ -73,30 +75,6 @@ protected:
      * @brief Called when the game is created and after onCreate.
      */
     virtual void onCreateLate();
-
-    /**
-     * @brief Called every frame to update the game logic.
-     * @param deltaTime The time elapsed since the last update.
-     */
-    virtual void onUpdate(float deltaTime) {};
-
-    /**
-     * @brief Called every frame to update the entity at a fixed frame rate.
-     * Can be overridden by derived classes to implement custom behavior.
-     */
-    virtual void onFixedUpdate(float fixedDeltaTime) {};
-
-    /**
-     * @brief Called every frame to update the graphics.
-     * @param deltaTime The time elapsed since the last update.
-     */
-    virtual void onGraphicsUpdate(float deltaTime);
-
-    /**
-     * @brief Called every frame to post graphics update/render.
-     * @param deltaTime The time elapsed since the last update.
-     */
-    virtual void onLateUpdate(float deltaTime);
 
     /**
      * @brief Called when the game is quitting.
@@ -112,8 +90,6 @@ private:
 protected:
     bool m_isRunning = true; //Indicates whether the game is running
     std::unique_ptr<Window> m_display; //Pointer to the window instance
-    std::unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
-    std::unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
 
     float m_previousTime = 0; //The previous frame's time
     float m_previousFixedUpdateTime = 0; //The previous fixedUpdate frame time
@@ -127,5 +103,4 @@ protected:
     MeshPtr m_sphereMesh;
 
     shared_ptr<Scene> m_currentScene;
-    shared_ptr<Scene> m_previousScene;
 };

@@ -10,21 +10,21 @@ Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
-#include "MyGame.h"
+#include "MyScene.h"
 #include "MyPlayer.h"
 #include <time.h>
 
-MyGame::MyGame()
+MyScene::MyScene(Game* game) : Scene(game)
 {
 }
 
-MyGame::~MyGame()
+MyScene::~MyScene()
 {
 }
 
-void MyGame::onCreate()
+void MyScene::onCreate()
 {
-	Game::onCreate();
+	Scene::onCreate();
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto& lightManager = LightManager::GetInstance();
 	auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -67,7 +67,7 @@ void MyGame::onCreate()
 
 
 	//Creating statue obj
-	m_ship = getEntitySystem()->createEntity<MeshEntity>();
+	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(glm::vec3(0.05f));
 	m_ship->setPosition(glm::vec3(0, 0, 0));
 	m_ship->setShininess(32.0f);
@@ -77,7 +77,7 @@ void MyGame::onCreate()
 	m_ship->setShader(meshShader);
 	
 	//Creating instanced tree obj
-	m_instanceMines = getEntitySystem()->createEntity<InstancedMeshEntity>();
+	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
 	m_instanceMines->setShininess(32.0f);
 	m_instanceMines->setTexture(sciFiSpace);
 	m_instanceMines->setShader(instancedMeshShader);
@@ -110,19 +110,19 @@ void MyGame::onCreate()
 	
 	//Init instance buffer
 	mineMesh->initInstanceBuffer();
-	
+
 	//Creating the player object
 	//all the input managements, creation of camera are inside Player class
-	m_player = getEntitySystem()->createEntity<MyPlayer>();
+	m_player = m_entitySystem->createEntity<MyPlayer>();
 	m_player->setScale(glm::vec3(0.0f));
 	m_player->setPosition(glm::vec3(0.0f, 20.0f, 0.0f));
 
 	// Initialize point lights 
 	{
-		auto pointLightObject = getEntitySystem()->createEntity<MeshEntity>();
+		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
 		pointLightObject->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
 		pointLightObject->setColor(Color::Blue);
-		pointLightObject->setMesh(m_sphereMesh);
+		pointLightObject->setMesh(gameOwner->getSphereMesh());
 		pointLightObject->setShader(solidColorMeshShader);
 
 		PointLight pointLight;
@@ -136,10 +136,10 @@ void MyGame::onCreate()
 	}
 
 	{
-		auto pointLightObject = getEntitySystem()->createEntity<MeshEntity>();
+		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
 		pointLightObject->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
 		pointLightObject->setColor(Color::Red);
-		pointLightObject->setMesh(m_sphereMesh);
+		pointLightObject->setMesh(gameOwner->getSphereMesh());
 		pointLightObject->setShader(solidColorMeshShader);
 
 		PointLight pointLight;
@@ -173,14 +173,20 @@ void MyGame::onCreate()
 	lightManager.createSpotLight(spotLight);
 }
 
-void MyGame::onUpdate(float deltaTime)
+void MyScene::onUpdate(float deltaTime)
 {
+	Scene::onUpdate(deltaTime);
+	m_elapsedSeconds += deltaTime;
+	m_ship->setRotation(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
+	m_instanceMines->setRotation(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
 }
 
-void MyGame::onFixedUpdate()
+void MyScene::onFixedUpdate(float _fixedDeltaTime)
 {
+	Scene::onFixedUpdate(_fixedDeltaTime);
 }
 
-void MyGame::onLateUpdate(float deltaTime)
+void MyScene::onLateUpdate(float deltaTime)
 {
+	Scene::onLateUpdate(deltaTime);
 }

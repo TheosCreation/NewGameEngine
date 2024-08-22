@@ -14,6 +14,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Math.h"
 #include "Rect.h"
 
+#include "Window.h"
 #include "GraphicsEngine.h"
 
 #include "Shader.h"

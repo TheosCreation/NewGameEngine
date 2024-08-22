@@ -66,7 +66,7 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame.cpp">
+    <ClCompile Include="MyScene.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -172,7 +172,7 @@
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame.h">
+    <ClInclude Include="MyScene.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="All.h">

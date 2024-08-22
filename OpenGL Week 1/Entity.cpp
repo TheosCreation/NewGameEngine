@@ -12,7 +12,6 @@ Mail : theo.morris@mds.ac.nz
 
 #include "Entity.h"
 #include "EntitySystem.h"
-#include "Game.h"
 
 Entity::Entity()
 {

@@ -10,13 +10,13 @@ Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
-#include "MyGame.h"
+#include "Game.h"
 
 int main()
 {
     try
     {
-        MyGame game; // Create an instance of the game
+        Game game; // Create an instance of the game
         game.run();  // Run the game
     }
     catch (const std::exception& e)

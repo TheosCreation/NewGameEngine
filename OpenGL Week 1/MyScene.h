@@ -15,21 +15,21 @@ Mail : theo.morris@mds.ac.nz
 #include "MyPlayer.h"
 
 /**
- * @class MyGame
- * @brief A stripped-down class of the base game class to allow end user to create their own entities.
+ * @class MyScene
+ * @brief A stripped-down class of the scene class to allow end user to create their own entities.
  */
-class MyGame : public Game
+class MyScene : public Scene
 {
 public:
     /**
      * @brief Constructor for the MyGame class.
      */
-    MyGame();
+    MyScene(Game* game);
 
     /**
      * @brief Destructor for the MyGame class.
      */
-    ~MyGame();
+    ~MyScene();
 
     /**
      * @brief Called when the game is created.
@@ -45,7 +45,7 @@ public:
     /**
      * @brief Called every frame to update the game at a fixed frame rate.
      */
-    virtual void onFixedUpdate();
+    virtual void onFixedUpdate(float fixedDeltaTime);
 
     /**
      * @brief Called every frame after rendering.

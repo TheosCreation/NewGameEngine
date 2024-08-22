@@ -19,18 +19,18 @@ EntitySystem::EntitySystem()
 {
 }
 
-EntitySystem::EntitySystem(Game* game)
+EntitySystem::EntitySystem(Scene* scene)
 {
-	m_game = game;
+	m_scene = scene;
 }
 
 EntitySystem::~EntitySystem()
 {
 }
 
-Game* EntitySystem::getGame()
+Scene* EntitySystem::getScene()
 {
-	return m_game;
+	return m_scene;
 }
 
 bool EntitySystem::createEntityInternal(Entity* entity, size_t id)

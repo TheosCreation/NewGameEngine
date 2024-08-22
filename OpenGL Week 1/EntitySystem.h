@@ -20,11 +20,11 @@ Mail : theo.morris@mds.ac.nz
 class Entity;
 class GraphicsEntity;
 class Camera;
-class Game;
+class Scene;
 
 /**
  * @class EntitySystem
- * @brief A container and controller of the entities for the game.
+ * @brief A container and controller of the entities for the scene.
  */
 class EntitySystem
 {
@@ -35,15 +35,17 @@ public:
     EntitySystem();
 
     /**
-     * @brief Constructor for the EntitySystem class with a game pointer.
-     * @param game Pointer to the game instance.
+     * @brief Constructor for the EntitySystem class with a scene pointer.
+     * @param scene Pointer to the Scene.
      */
-    EntitySystem(Game* game);
+    EntitySystem(Scene* scene);
 
     /**
      * @brief Destructor for the EntitySystem class.
      */
     ~EntitySystem();
+
+    Scene* getScene();
 
     /**
      * @brief Creates an entity of type T.
@@ -60,12 +62,6 @@ public:
             return e;
         return nullptr;
     }
-
-    /**
-     * @brief Gets the game instance.
-     * @return A pointer to the game instance.
-     */
-    Game* getGame();
 
     /**
      * @brief Removes an entity from the system.
@@ -128,7 +124,7 @@ private:
     std::vector<Camera*> m_cameras;
 
     /**
-     * @brief Pointer to the game instance.
+     * @brief Pointer to the scene instance.
      */
-    Game* m_game = nullptr;
+    Scene* m_scene = nullptr;
 };
