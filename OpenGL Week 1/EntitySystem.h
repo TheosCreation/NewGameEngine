@@ -18,6 +18,8 @@ Mail : theo.morris@mds.ac.nz
 
 // Forward declarations of classes
 class Entity;
+class GraphicsEntity;
+class Camera;
 class Game;
 
 /**
@@ -85,6 +87,18 @@ public:
     void onFixedUpdate(float fixedDeltaTime);
 
     /**
+     * @brief Gets all graphics entities.
+     * @return A vector of pointers to the graphics entities.
+     */
+    std::vector<GraphicsEntity*> getGraphicsEntities() const;
+
+    /**
+     * @brief Gets all camera entities.
+     * @return A vector of pointers to the camera entities.
+     */
+    std::vector<Camera*> getCameras() const;
+
+    /**
      * @brief Map of entities categorized by their type ID.
      */
     std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
@@ -102,6 +116,16 @@ private:
      * @brief Set of entities scheduled for destruction.
      */
     std::set<Entity*> m_entitiesToDestroy;
+
+    /**
+     * @brief Vector of all graphics entities.
+     */
+    std::vector<GraphicsEntity*> m_graphicsEntities;
+
+    /**
+     * @brief Vector of all camera entities.
+     */
+    std::vector<Camera*> m_cameras;
 
     /**
      * @brief Pointer to the game instance.

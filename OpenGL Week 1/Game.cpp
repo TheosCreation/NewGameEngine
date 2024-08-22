@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Shader.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
+#include "TextureCubeMap.h"
 #include "Camera.h"
 #include "SkyBoxEntity.h"
 #include <glew.h>
@@ -71,25 +72,25 @@ void Game::onCreate()
     m_skyBox->setEntitySystem(m_entitySystem.get());
     m_skyBox->setMesh(m_cubeMesh);
     m_skyBox->setShader(skyboxShader);
+
+    // create a cube map texture and set the texture of the skybox to the cubemap texture
+    std::vector<std::string> skyboxCubeMapTextureFilePaths;
+    skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
+    skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Left.png");
+    skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Top.png");
+    skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
+    skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
+    skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
+    TextureCubeMapPtr skyBoxTexture = resourceManager.createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths);
+    m_skyBox->setTexture(skyBoxTexture);
 }
 
 void Game::onCreateLate()
 {
-    auto camId = typeid(Camera).hash_code();
-
-    auto it = m_entitySystem->m_entities.find(camId);
-
-    if (it != m_entitySystem->m_entities.end())
+    for (auto& camera : m_entitySystem->getCameras())
     {
-        for (auto& [key, camera] : it->second)
-        {
-            auto cam = dynamic_cast<Camera*>(camera.get());
-            if (cam)
-            {
-                // Set the screen area for all cameras
-                cam->setScreenArea(m_display->getInnerSize());
-            }
-        }
+        // Set the screen area for all cameras
+        camera->setScreenArea(m_display->getInnerSize());
     }
 }
 
@@ -137,35 +138,23 @@ void Game::onGraphicsUpdate(float deltaTime)
 
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
-
-    auto camId = typeid(Camera).hash_code();
-
-    auto it = m_entitySystem->m_entities.find(camId);
-
-    if (it != m_entitySystem->m_entities.end())
-    {
-        for (auto& [key, camera] : it->second)
-        {
-            auto cam = dynamic_cast<Camera*>(camera.get());
-            if (cam && cam->getCameraType() == CameraType::Perspective)
-            {
-                // First camera should be game camera
-                cam->getViewMatrix(data.viewMatrix);
-                cam->getProjectionMatrix(data.projectionMatrix);
-                data.cameraPosition = cam->getPosition();
-                lightManager.setSpotlightPosition(data.cameraPosition);
-                lightManager.setSpotlightDirection(cam->getForwardDirection());
-                
-            }
-            else if(cam)
-            {
-                // Second camera which should be UI camera
-                cam->getViewMatrix(data.uiViewMatrix);
-                cam->getProjectionMatrix(data.uiProjectionMatrix);
-            }
-        }
-    }
     data.currentTime = m_currentTime;
+    for (auto& camera : m_entitySystem->getCameras())
+    {
+        if(camera->getCameraType() == CameraType::Perspective)
+		{
+			camera->getViewMatrix(data.viewMatrix);
+			camera->getProjectionMatrix(data.projectionMatrix);
+			data.cameraPosition = camera->getPosition();
+			lightManager.setSpotlightPosition(data.cameraPosition);
+			lightManager.setSpotlightDirection(camera->getForwardDirection());
+		}
+		else
+		{
+			camera->getViewMatrix(data.uiViewMatrix);
+			camera->getProjectionMatrix(data.uiProjectionMatrix);
+		}
+    }
 
     // Render skybox
     ShaderPtr skyboxShader = m_skyBox->getShader();
@@ -173,40 +162,29 @@ void Game::onGraphicsUpdate(float deltaTime)
     m_skyBox->setUniformData(data);
     m_skyBox->onGraphicsUpdate(deltaTime);
 
-    graphicsEngine.setScissor(true);
+    //graphicsEngine.setScissor(true);
     //m_graphicsEngine->setStencil(StencilOperationType::Set);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
     
     ShaderPtr currentShader = nullptr;
-    for (auto& [key, entities] : m_entitySystem->m_entities)
+    for (auto& graphicsEntity : m_entitySystem->getGraphicsEntities())
     {
-        // For each graphics entity
-        for (auto& [key, entity] : entities)
+        ShaderPtr shader = graphicsEntity->getShader();
+        if (shader != currentShader)
         {
-            auto e = dynamic_cast<GraphicsEntity*>(entity.get());
-            if (e)
-            {
-                ShaderPtr shader = e->getShader();
-                if (shader != currentShader)
-                {
-                    // Set the shader only if it is different from the current one
-                    graphicsEngine.setShader(shader);
-                    // Apply lighting to the shader
-                    lightManager.applyLighting(shader);
-                    currentShader = shader;
-                }
-                // Apply other uniform data to the shader
-                e->setUniformData(data);
-
-                e->onGraphicsUpdate(deltaTime);
-            }
-            else
-            {
-                break;
-            }
+            // Set the shader only if it is different from the current one
+            graphicsEngine.setShader(shader);
+            // Apply lighting to the shader
+            lightManager.applyLighting(shader);
+            currentShader = shader;
         }
+        // Apply other uniform data to the shader
+        graphicsEntity->setUniformData(data);
+
+        graphicsEntity->onGraphicsUpdate(deltaTime);
     }
-    graphicsEngine.setScissor(false);
+
+    //graphicsEngine.setScissor(false);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);
     //
     //for (auto& [key, entities] : m_entitySystem->m_entities)
@@ -239,7 +217,7 @@ void Game::onGraphicsUpdate(float deltaTime)
     //}
     //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
 
-    graphicsEngine.setScissor(false);
+    //graphicsEngine.setScissor(false);
     // Render to window
     m_display->present();
 }

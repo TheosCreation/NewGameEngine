@@ -36,7 +36,7 @@ void LightManager::applyLighting(ShaderPtr shader)
             shader->setFloat("PointLightArray[" + index + "].AttenuationExponent", m_pointLights[i].AttenuationExponent);
         }
 
-        shader->setUnt("PointLightCount", m_pointLightCount);
+        shader->setUint("PointLightCount", m_pointLightCount);
     }
     else
     {

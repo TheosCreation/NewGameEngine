@@ -27,24 +27,15 @@ void MyGame::onCreate()
 	Game::onCreate();
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto& lightManager = LightManager::GetInstance();
+	auto& graphicsEngine = GraphicsEngine::GetInstance();
 	//Loading texture resources
 	
-	// create a cube map texture and set the texture of the skybox to the cubemap texture
-	std::vector<std::string> skyboxCubeMapTextureFilePaths;
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Right.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Left.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Top.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
-	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
-	TextureCubeMapPtr skyBoxTexture = resourceManager.createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths);
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	HeightMapPtr heightmap = resourceManager.createHeightMapFromFile("Resources/Textures/Heightmap0.jpg");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 
-	auto& graphicsEngine = GraphicsEngine::GetInstance();
 	//Loading Shaders into the graphics engine
 	ShaderPtr quadShader = graphicsEngine.createShader({
 			L"QuadShader",
@@ -65,17 +56,15 @@ void MyGame::onCreate()
 
 
 	//auto& entitySystem = EntitySystem::GetInstance();
-	m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
-	m_terrain->setHeightmapTexture(heightmap);
-	m_terrain->generateTerrainMesh();
-	m_terrain->setScale(glm::vec3(0.5f));
-	m_terrain->setPosition(glm::vec3(0, 0, 0));
-	m_terrain->setTexture(sciFiSpace);
-	//m_terrain->setColor(Color::Red);
-	m_terrain->setShader(meshShader);
+	//m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
+	//m_terrain->setHeightmapTexture(heightmap);
+	//m_terrain->generateTerrainMesh();
+	//m_terrain->setScale(glm::vec3(0.5f));
+	//m_terrain->setPosition(glm::vec3(0, 0, 0));
+	//m_terrain->setTexture(sciFiSpace);
+	////m_terrain->setColor(Color::Red);
+	//m_terrain->setShader(meshShader);
 
-	//set the skybox texture
-	m_skyBox->setTexture(skyBoxTexture);
 
 	//Creating statue obj
 	m_ship = getEntitySystem()->createEntity<MeshEntity>();

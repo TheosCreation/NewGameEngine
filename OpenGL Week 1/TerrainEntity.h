@@ -34,8 +34,8 @@ protected:
 
 private:
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the terrian
-    glm::ivec2 m_gridSize = { 64, 64 }; // Grid size (number of vertices along width and height)
-    float m_width = 100.0f;      // Width of the terrain
-    float m_height = 15.0f;      // Height scale of the terrain
+    glm::ivec2 m_gridSize = { 32, 32 }; // Grid size (number of vertices along width and height)
+    float m_width = 500.0f;      // Width of the terrain
+    float m_height = 100.0f;      // Height scale of the terrain
 };
 

@@ -12,6 +12,8 @@ Mail : theo.morris@mds.ac.nz
 
 #include "EntitySystem.h"
 #include "Entity.h"
+#include "Camera.h"
+#include "GraphicsEntity.h"
 
 EntitySystem::EntitySystem()
 {
@@ -35,11 +37,21 @@ bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
 {
 	auto ptr = std::unique_ptr<Entity>(entity);
 
+	// Check if the entity is of type Camera
+	if (dynamic_cast<Camera*>(entity)) {
+		m_cameras.push_back(static_cast<Camera*>(entity));
+	}
+	// Check if the entity is of type GraphicsEntity
+	else if (dynamic_cast<GraphicsEntity*>(entity)) {
+		m_graphicsEntities.push_back(static_cast<GraphicsEntity*>(entity));
+	}
+
+	// Add the entity to the internal map
 	m_entities[id].emplace(entity, std::move(ptr));
 
+	// Initialize the entity
 	entity->setId(id);
 	entity->setEntitySystem(this);
-
 	entity->onCreate();
 
 	return true;
@@ -90,3 +102,12 @@ void EntitySystem::onFixedUpdate(float fixedDeltaTime)
 	}
 }
 
+std::vector<GraphicsEntity*> EntitySystem::getGraphicsEntities() const
+{
+	return m_graphicsEntities;
+}
+
+std::vector<Camera*> EntitySystem::getCameras() const
+{
+	return m_cameras;
+}

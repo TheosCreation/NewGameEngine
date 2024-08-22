@@ -47,6 +47,9 @@ typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<InstancedMesh> InstancedMeshPtr;
 typedef std::shared_ptr<HeightMap> HeightMapPtr;
 
+using std::shared_ptr;
+using std::unique_ptr;
+
 
 struct Vertex
 {

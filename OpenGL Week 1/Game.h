@@ -17,6 +17,7 @@ Mail : theo.morris@mds.ac.nz
 #include "ResourceManager.h"
 #include "Entity.h"
 #include "LightManager.h"
+#include "Scene.h"
 
 // Forward declarations of classes
 class Window;
@@ -124,4 +125,7 @@ protected:
     //collection of useful meshes
     MeshPtr m_cubeMesh;
     MeshPtr m_sphereMesh;
+
+    shared_ptr<Scene> m_currentScene;
+    shared_ptr<Scene> m_previousScene;
 };

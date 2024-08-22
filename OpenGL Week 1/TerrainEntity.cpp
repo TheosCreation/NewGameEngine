@@ -28,6 +28,13 @@ void TerrainEntity::generateTerrainMesh()
         return;
     }
 
+    // Debug print height map data
+    std::cout << "Height Map Width: " << width << ", Height: " << height << std::endl;
+    for (int i = 0; i < 10; ++i)
+    {
+        std::cout << "Height Value [" << i << "]: " << static_cast<int>(textureData[i]) << std::endl;
+    }
+
     int numVertices = m_gridSize.x * m_gridSize.y;
     int numIndices = (m_gridSize.x - 1) * (m_gridSize.y - 1) * 6;
 
@@ -42,6 +49,12 @@ void TerrainEntity::generateTerrainMesh()
             int texX = x * (width / m_gridSize.x);
             int texZ = z * (height / m_gridSize.y);
 
+            if (texX >= width || texZ >= height)
+            {
+                OGL3D_ERROR("Calculated texture coordinates out of bounds");
+                continue; // Skip this iteration
+            }
+
             float heightValue = textureData[texZ * width + texX] / 255.0f; // Normalize height value
             float posX = static_cast<float>(x) / (m_gridSize.x - 1) * m_width;
             float posY = heightValue * m_height;
@@ -52,6 +65,10 @@ void TerrainEntity::generateTerrainMesh()
                 glm::vec2(static_cast<float>(x) / (m_gridSize.x - 1), static_cast<float>(z) / (m_gridSize.y - 1)),
                 glm::vec3(0.0f, 1.0f, 0.0f) // Placeholder for normals
             };
+
+            // Debug print vertex positions
+            std::cout << "Vertex [" << vertexIndex << "]: (" << posX << ", " << posY << ", " << posZ << ")" << std::endl;
+
             vertexIndex++;
         }
     }
@@ -130,7 +147,6 @@ void TerrainEntity::generateTerrainMesh()
     delete[] verticesList;
     delete[] indicesList;
 }
-
 void TerrainEntity::onCreate()
 {
 }
