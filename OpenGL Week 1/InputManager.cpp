@@ -22,14 +22,6 @@ std::map<Key, bool> InputManager::previousKeyStates;
 std::map<MouseButton, bool> InputManager::currentMouseStates;
 std::map<MouseButton, bool> InputManager::previousMouseStates;
 
-InputManager::InputManager()
-{
-}
-
-InputManager::~InputManager()
-{
-}
-
 void InputManager::setGameWindow(GLFWwindow* window)
 {
 	WindowPtr = window; 

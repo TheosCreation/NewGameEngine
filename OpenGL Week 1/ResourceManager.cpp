@@ -22,24 +22,8 @@ Mail : theo.morris@mds.ac.nz
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-
-ResourceManager::ResourceManager(Game* game)
-{
-	m_game = game;
-}
-
-ResourceManager::~ResourceManager()
-{
-}
-
 TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vector<std::string>& filepaths)
 {
-    // Check if the resource has already been loaded
-    auto it = m_mapResources.find(filepaths[1]);
-    if (it != m_mapResources.end())
-    {
-        return std::static_pointer_cast<TextureCubeMap>(it->second);
-    }
 
     stbi_set_flip_vertically_on_load(false);
 
@@ -83,7 +67,7 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
 
     if (textureCubeMapPtr)
     {
-        m_mapResources.emplace(filepaths[1], textureCubeMapPtr);
+        m_textureCubeMap = textureCubeMapPtr;
         return textureCubeMapPtr;
     }
 
@@ -236,7 +220,7 @@ HeightMapPtr ResourceManager::createHeightMapFromFile(const std::string& filepat
     return HeightMapPtr();
 }
 
-Game* ResourceManager::getGame()
+TexturePtr ResourceManager::getSkyboxTexture()
 {
-    return m_game;
+    return m_textureCubeMap;
 }

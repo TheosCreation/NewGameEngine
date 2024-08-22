@@ -1,15 +1,3 @@
-/***
-Bachelor of Software Engineering
-Media Design School
-Auckland
-New Zealand
-(c) 2024 Media Design School
-File Name : InputManager.h
-Description : Handles inputs from the player/user of the program
-Author : Theo Morris
-Mail : theo.morris@mds.ac.nz
-**/
-
 #pragma once
 
 #include "Utils.h"
@@ -27,14 +15,24 @@ class InputManager
 {
 public:
     /**
-     * @brief Constructor for the InputManager class.
+     * @brief Provides access to the singleton instance of InputManager.
+     * @return Reference to the singleton instance.
      */
-    InputManager();
+    static InputManager& GetInstance()
+    {
+        static InputManager instance; // Guaranteed to be destroyed, instantiated on first use.
+        return instance;
+    }
 
     /**
-     * @brief Destructor for the InputManager class.
+     * @brief Deleted copy constructor to prevent copying.
      */
-    ~InputManager();
+    InputManager(const InputManager&) = delete;
+
+    /**
+     * @brief Deleted assignment operator to prevent assignment.
+     */
+    void operator=(const InputManager&) = delete;
 
     /**
      * @brief Sets the game window for input handling.
@@ -101,7 +99,7 @@ public:
      * @return The current mouse position.
      */
     glm::vec2 getMousePosition();
-    
+
     /**
      * @brief Returns the current mouse scroll as a vector2.
      * @return The current mouse scroll.
@@ -123,7 +121,7 @@ public:
     /**
      * @brief Updates the input states.
      */
-    void onUpdate(); 
+    void onUpdate();
 
     /**
      * @brief Update late post graphics update/render.
@@ -131,30 +129,42 @@ public:
     void onLateUpdate();
 
 private:
+    /**
+     * @brief Private constructor to prevent external instantiation.
+     */
+    InputManager() = default;
+
+    /**
+     * @brief Private destructor.
+     */
+    ~InputManager() = default;
+
+    /**
+     * @brief Static callback functions for handling input events.
+     */
     static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
     static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
-    static double currentMouseX; //Current mouse x position
-    static double currentMouseY; //Current mouse y position
+    static double currentMouseX; // Current mouse x position
+    static double currentMouseY; // Current mouse y position
 
-    static double scrollX; //Current mouse x scroll
-    static double scrollY; //Current mouse y scroll
+    static double scrollX; // Current mouse x scroll
+    static double scrollY; // Current mouse y scroll
 
-    static std::map<Key, bool> currentKeyStates; //Map of all current key states
-    static std::map<Key, bool> previousKeyStates; //Map of all previous frames key states
-    static std::map<MouseButton, bool> currentMouseStates; //Map of all current mouse button states
-    static std::map<MouseButton, bool> previousMouseStates; //Map of all previous frames mouse button states
+    static std::map<Key, bool> currentKeyStates; // Map of all current key states
+    static std::map<Key, bool> previousKeyStates; // Map of all previous frames key states
+    static std::map<MouseButton, bool> currentMouseStates; // Map of all current mouse button states
+    static std::map<MouseButton, bool> previousMouseStates; // Map of all previous frames mouse button states
 
-    const double MOUSE_MOVEMENT_THRESHOLD = 0.00001f; //Const for the mouse movement threshhold
+    const double MOUSE_MOVEMENT_THRESHOLD = 0.00001f; // Const for the mouse movement threshold
 
-    void resetMouseScroll(); //Resets scroll x and y to 0
+    void resetMouseScroll(); // Resets scroll x and y to 0
 
-    GLFWwindow* WindowPtr = nullptr; //Pointer to the GLFW window
+    GLFWwindow* WindowPtr = nullptr; // Pointer to the GLFW window
 
-    bool m_playEnable = false; //Indicates whether play mode is enabled
-    glm::vec2 m_oldMousePos{}; //Previous mouse position
-    Rect m_screenArea; //Screen area for cursor locking
-    glm::vec2 m_deltaMouse{}; //Mouse movement delta
-
+    bool m_playEnable = false; // Indicates whether play mode is enabled
+    glm::vec2 m_oldMousePos{}; // Previous mouse position
+    Rect m_screenArea; // Screen area for cursor locking
+    glm::vec2 m_deltaMouse{}; // Mouse movement delta
 };

@@ -1,14 +1,6 @@
 #include "LightManager.h"
 #include "Shader.h"
 
-LightManager::LightManager()
-{
-}
-
-LightManager::~LightManager()
-{
-}
-
 void LightManager::createPointLight(const PointLight& newPointLight)
 {
     m_pointLights[m_pointLightCount] = newPointLight;
@@ -44,7 +36,7 @@ void LightManager::applyLighting(ShaderPtr shader)
             shader->setFloat("PointLightArray[" + index + "].AttenuationExponent", m_pointLights[i].AttenuationExponent);
         }
 
-        shader->setUint("PointLightCount", m_pointLightCount);
+        shader->setUnt("PointLightCount", m_pointLightCount);
     }
     else
     {

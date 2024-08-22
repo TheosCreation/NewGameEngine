@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SkyboxEntity.cpp" />
     <ClCompile Include="TerrainEntity.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="All.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="SkyboxEntity.h" />
     <ClInclude Include="TerrainEntity.h" />
     <ClInclude Include="Texture.h" />

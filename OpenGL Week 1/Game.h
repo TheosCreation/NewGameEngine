@@ -57,28 +57,6 @@ public:
     EntitySystem* getEntitySystem();
 
     /**
-     * @brief Gets the GraphicsEngine instance.
-     * @return A pointer to the GraphicsEngine instance.
-     */
-    GraphicsEngine* getGraphicsEngine();
-
-    /**
-     * @brief Gets the InputManager instance.
-     * @return A pointer to the InputManager instance.
-     */
-    InputManager* getInputManager();
-
-    LightManager* getLightingManager();
-
-    TexturePtr getSkyboxTexture();
-
-    /**
-     * @brief Gets the ResourceManager instance.
-     * @return A pointer to the ResourceManager instance.
-     */
-    ResourceManager* getResourceManager();
-
-    /**
      * @brief Gets the Window instance.
      * @return A pointer to the Window instance.
      */
@@ -133,11 +111,7 @@ private:
 protected:
     bool m_isRunning = true; //Indicates whether the game is running
     std::unique_ptr<Window> m_display; //Pointer to the window instance
-    std::unique_ptr<InputManager> m_inputManager; //Pointer to the input manager instance
-    std::unique_ptr<GraphicsEngine> m_graphicsEngine; //Pointer to the graphics engine instance
     std::unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
-    std::unique_ptr<ResourceManager> m_resourceManager; //Pointer to the resource manager instance
-    std::unique_ptr<LightManager> m_lightManager; //Pointer to the resource manager instance
     std::unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
 
     float m_previousTime = 0; //The previous frame's time

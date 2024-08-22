@@ -28,19 +28,17 @@ void MyPlayer::onCreate()
 
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
-    input = getGame()->getInputManager();
-
-    lighting = getGame()->getLightingManager();
 }
 
 void MyPlayer::onUpdate(float deltaTime)
 {
+    auto& inputManager = InputManager::GetInstance();
     // Update the camera's position
     m_cam->setPosition(m_position);
 
     float sensitivity = 0.1f;  // Sensitivity factor for mouse movement
-    m_yaw += input->getMouseXAxis() * sensitivity;
-    m_pitch -= input->getMouseYAxis() * sensitivity;
+    m_yaw += inputManager.getMouseXAxis() * sensitivity;
+    m_pitch -= inputManager.getMouseYAxis() * sensitivity;
 
     // Clamp the pitch value to prevent flipping the camera
     if (m_pitch > 89.0f)
@@ -68,47 +66,50 @@ void MyPlayer::onUpdate(float deltaTime)
 
 void MyPlayer::onFixedUpdate(float fixedDeltaTime)
 {
+    auto& inputManager = InputManager::GetInstance();
+    auto& lightManager = LightManager::GetInstance();
+
     glm::vec3 forward = m_cam->getForwardDirection();
     glm::vec3 up = m_cam->getUpwardDirection();
     glm::vec3 right = m_cam->getRightwardDirection();
 
     // Enable play mode when clicking on the window
-    if (input->isMousePressed(MouseButtonLeft) && !m_playMode)
+    if (inputManager.isMousePressed(MouseButtonLeft) && !m_playMode)
     {
         m_playMode = true;
-        input->enablePlayMode(m_playMode);
+        inputManager.enablePlayMode(m_playMode);
     }
 
     // Disable play mode when pressing the Escape key
-    if (input->isKeyPressed(Key::KeyEscape) && m_playMode)
+    if (inputManager.isKeyPressed(Key::KeyEscape) && m_playMode)
     {
         m_playMode = false;
-        input->enablePlayMode(m_playMode);
+        inputManager.enablePlayMode(m_playMode);
     }
 
     // Toggle point lights on/off
-    if (input->isKeyPressed(Key::Key1))
+    if (inputManager.isKeyPressed(Key::Key1))
     {
-        bool currentLightStatus = lighting->getPointLightsStatus();
-        lighting->setPointLightsStatus(!currentLightStatus);
+        bool currentLightStatus = lightManager.getPointLightsStatus();
+        lightManager.setPointLightsStatus(!currentLightStatus);
     }
 
     // Toggle directional light on/off
-    if (input->isKeyPressed(Key::Key2))
+    if (inputManager.isKeyPressed(Key::Key2))
     {
-        bool currentLightStatus = lighting->getDirectionalLightStatus();
-        lighting->setDirectionalLightStatus(!currentLightStatus);
+        bool currentLightStatus = lightManager.getDirectionalLightStatus();
+        lightManager.setDirectionalLightStatus(!currentLightStatus);
     }
 
     // Toggle spotlight on/off
-    if (input->isKeyPressed(Key::Key3))
+    if (inputManager.isKeyPressed(Key::Key3))
     {
-        bool currentLightStatus = lighting->getSpotlightStatus();
-        lighting->setSpotlightStatus(!currentLightStatus);
+        bool currentLightStatus = lightManager.getSpotlightStatus();
+        lightManager.setSpotlightStatus(!currentLightStatus);
     }
 
     // Toggle wireframe mode on/off
-    if (input->isKeyPressed(Key::Key4))
+    if (inputManager.isKeyPressed(Key::Key4))
     {
         m_wireframeMode = !m_wireframeMode;
         if (m_wireframeMode)
@@ -122,37 +123,37 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
     }
 
     // Get the mouse position from the input manager
-    glm::vec2 cursorPosition = input->getMousePosition();
+    glm::vec2 cursorPosition = inputManager.getMousePosition();
 
     // Toggle to print the cords of the cursor
-    if (input->isKeyPressed(Key::Key5))
+    if (inputManager.isKeyPressed(Key::Key5))
     {
         std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
     }
 
 
     // Adjust camera speed if Shift key is pressed
-    if (input->isKeyDown(Key::KeyShift)) {
+    if (inputManager.isKeyDown(Key::KeyShift)) {
         m_movementSpeed = m_originalMovementSpeed * 2.0f;
     }
     else {
         m_movementSpeed = m_originalMovementSpeed;
     }
 
-    if (input->isKeyDown(Key::KeyW))
+    if (inputManager.isKeyDown(Key::KeyW))
         m_position += forward * m_movementSpeed * fixedDeltaTime;
-    if (input->isKeyDown(Key::KeyS))
+    if (inputManager.isKeyDown(Key::KeyS))
         m_position -= forward * m_movementSpeed * fixedDeltaTime;
-    if (input->isKeyDown(Key::KeyA))
+    if (inputManager.isKeyDown(Key::KeyA))
         m_position -= right * m_movementSpeed * fixedDeltaTime;
-    if (input->isKeyDown(Key::KeyD))
+    if (inputManager.isKeyDown(Key::KeyD))
         m_position += right * m_movementSpeed * fixedDeltaTime;
 
     // Handle input for player rotation
-    if (input->isKeyDown(Key::KeyQ))
+    if (inputManager.isKeyDown(Key::KeyQ))
         m_position -= up * m_movementSpeed * fixedDeltaTime;
-    if (input->isKeyDown(Key::KeyE))
-        m_position += up * m_movementSpeed * fixedDeltaTime;glm::vec2 mouseScroll = input->getMouseScroll();
+    if (inputManager.isKeyDown(Key::KeyE))
+        m_position += up * m_movementSpeed * fixedDeltaTime;glm::vec2 mouseScroll = inputManager.getMouseScroll();
 
     if (mouseScroll.y < 0 || mouseScroll.y > 0)
     {

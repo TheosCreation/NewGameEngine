@@ -25,7 +25,8 @@ MyGame::~MyGame()
 void MyGame::onCreate()
 {
 	Game::onCreate();
-
+	auto& resourceManager = ResourceManager::GetInstance();
+	auto& lightManager = LightManager::GetInstance();
 	//Loading texture resources
 	
 	// create a cube map texture and set the texture of the skybox to the cubemap texture
@@ -36,38 +37,34 @@ void MyGame::onCreate()
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Bottom.png");
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Back.png");
 	skyboxCubeMapTextureFilePaths.push_back("Resources/Textures/RedEclipse/Front.png");
-	TextureCubeMapPtr skyBoxTexture = getResourceManager()->createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths);
+	TextureCubeMapPtr skyBoxTexture = resourceManager.createCubeMapTextureFromFile(skyboxCubeMapTextureFilePaths);
+	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
+	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
+	HeightMapPtr heightmap = resourceManager.createHeightMapFromFile("Resources/Textures/Heightmap0.jpg");
+	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
+	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 
-	Texture2DPtr sciFiSpace = getResourceManager()->createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
-	Texture2DPtr shipReflectiveMap = getResourceManager()->createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
-
-	HeightMapPtr heightmap = getResourceManager()->createHeightMapFromFile("Resources/Textures/Heightmap0.jpg");
-	
-
-
-	//Loading meshes
-	MeshPtr fighterShip = getResourceManager()->createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
-	InstancedMeshPtr mineMesh = getResourceManager()->createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
-	
-	//Loading Shaders
-	ShaderPtr quadShader = m_graphicsEngine->createShader({
+	auto& graphicsEngine = GraphicsEngine::GetInstance();
+	//Loading Shaders into the graphics engine
+	ShaderPtr quadShader = graphicsEngine.createShader({
 			L"QuadShader",
 			L"QuadShader"
 		});
-	ShaderPtr meshShader = m_graphicsEngine->createShader({
+	ShaderPtr meshShader = graphicsEngine.createShader({
 			L"MeshShader",
 			L"MeshShader"
 		});
-	ShaderPtr instancedMeshShader = m_graphicsEngine->createShader({
+	ShaderPtr instancedMeshShader = graphicsEngine.createShader({
 			L"InstancedMesh",
 			L"InstancedMesh"
 		});
-	ShaderPtr solidColorMeshShader = m_graphicsEngine->createShader({
+	ShaderPtr solidColorMeshShader = graphicsEngine.createShader({
 			L"SolidColorMesh",
 			L"SolidColorMesh"
 		});
 
 
+	//auto& entitySystem = EntitySystem::GetInstance();
 	m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
 	m_terrain->setHeightmapTexture(heightmap);
 	m_terrain->generateTerrainMesh();
@@ -146,7 +143,7 @@ void MyGame::onCreate()
 		pointLight.AttenuationConstant = 1.0f;
 		pointLight.AttenuationLinear = 0.045f;
 		pointLight.AttenuationExponent = 0.0075f;
-		m_lightManager->createPointLight(pointLight);
+		lightManager.createPointLight(pointLight);
 	}
 
 	{
@@ -163,7 +160,7 @@ void MyGame::onCreate()
 		pointLight.AttenuationConstant = 1.0f;
 		pointLight.AttenuationLinear = 0.045f;
 		pointLight.AttenuationExponent = 0.0075f;
-		m_lightManager->createPointLight(pointLight);
+		lightManager.createPointLight(pointLight);
 	}
 
 	// Create and initialize DirectionalLight struct
@@ -171,7 +168,7 @@ void MyGame::onCreate()
 	directionalLight.Direction = glm::vec3(0.5f, -1.0f, -0.5f);
 	directionalLight.Color = glm::vec3(0.1f, 0.1f, 0.1f);
 	directionalLight.SpecularStrength = 0.5f;
-	m_lightManager->createDirectionalLight(directionalLight);
+	lightManager.createDirectionalLight(directionalLight);
 
 	// Create and initialize SpotLight struct
 	SpotLight spotLight;
@@ -184,8 +181,7 @@ void MyGame::onCreate()
 	spotLight.AttenuationConstant = 1.0f;
 	spotLight.AttenuationLinear = 0.014f;
 	spotLight.AttenuationExponent = 0.0007f;
-	m_lightManager->createSpotLight(spotLight);
-
+	lightManager.createSpotLight(spotLight);
 }
 
 void MyGame::onUpdate(float deltaTime)

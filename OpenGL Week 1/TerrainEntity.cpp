@@ -122,7 +122,7 @@ void TerrainEntity::generateTerrainMesh()
         sizeof(uint) * numIndices
     };
 
-    m_mesh = getGame()->getGraphicsEngine()->createVertexArrayObject(
+    m_mesh = GraphicsEngine::GetInstance().createVertexArrayObject(
         vertexBufferDesc,
         indexBufferDesc
     );
@@ -148,14 +148,14 @@ void TerrainEntity::setShader(const ShaderPtr& shader)
 
 void TerrainEntity::onGraphicsUpdate(float deltaTime)
 {
-    auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::None);
-    engine->setWindingOrder(WindingOrder::ClockWise);
-    engine->setDepthFunc(DepthType::Less);
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::None);
+    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
 
     if (m_texture)
     {
-        engine->setTexture2D(m_texture, 0);
+        graphicsEngine.setTexture2D(m_texture, 0);
     }
     else
     {
@@ -163,6 +163,6 @@ void TerrainEntity::onGraphicsUpdate(float deltaTime)
     }
 
     // During the graphics update, we call the draw function
-    engine->setVertexArrayObject(m_mesh); // Bind vertex buffer to graphics pipeline
-    engine->drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices()); // Draw triangles through the usage of index buffer
+    graphicsEngine.setVertexArrayObject(m_mesh); // Bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices()); // Draw triangles through the usage of index buffer
 }

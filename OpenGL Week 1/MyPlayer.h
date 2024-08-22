@@ -69,6 +69,4 @@ private:
 
     Camera* m_cam = nullptr; //Pointer to the main camera
     Camera* m_uiCamera = nullptr; //Pointer to the UI camera
-    InputManager* input = nullptr; //Pointer to the input manager
-    LightManager* lighting = nullptr; //Pointer to the light manager
 };

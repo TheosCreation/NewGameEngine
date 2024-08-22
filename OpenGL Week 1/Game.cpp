@@ -33,24 +33,21 @@ Game::Game()
     initRandomSeed();
     m_display = std::make_unique<Window>();
 
-    m_resourceManager = std::make_unique<ResourceManager>(this);
-    m_graphicsEngine = std::make_unique<GraphicsEngine>();
-    m_graphicsEngine->setViewport(m_display->getInnerSize());
-    m_graphicsEngine->setDepthFunc(DepthType::Less);
-    m_graphicsEngine->setBlendFunc(BlendType::SrcAlpha, BlendType::OneMinusSrcAlpha);
-    m_graphicsEngine->setFaceCulling(CullType::BackFace);
-    m_graphicsEngine->setWindingOrder(WindingOrder::CounterClockWise);
-    m_graphicsEngine->setScissorSize(Rect(200, 200, 400, 300));
-    m_graphicsEngine->setMultiSampling(true);
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setViewport(m_display->getInnerSize());
+    graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setBlendFunc(BlendType::SrcAlpha, BlendType::OneMinusSrcAlpha);
+    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
+    graphicsEngine.setScissorSize(Rect(200, 200, 400, 300));
+    graphicsEngine.setMultiSampling(true);
     
 
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
-    m_inputManager = std::make_unique<InputManager>();
-    m_inputManager->setGameWindow(m_display->getWindow());
-    m_inputManager->setScreenArea(m_display->getInnerSize());
-
-    m_lightManager = std::make_unique<LightManager>();
+    auto& inputManger = InputManager::GetInstance();
+    inputManger.setGameWindow(m_display->getWindow());
+    inputManger.setScreenArea(m_display->getInnerSize());
 
     //Creating skybox object
     m_skyBox = std::make_unique<SkyboxEntity>();
@@ -62,10 +59,11 @@ Game::~Game()
 
 void Game::onCreate()
 {
-    m_sphereMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/sphere.obj");
-    m_cubeMesh = getResourceManager()->createMeshFromFile("Resources/Meshes/cube.obj");
+    auto& resourceManager = ResourceManager::GetInstance();
+    m_sphereMesh = resourceManager.createMeshFromFile("Resources/Meshes/sphere.obj");
+    m_cubeMesh = resourceManager.createMeshFromFile("Resources/Meshes/cube.obj");
 
-    ShaderPtr skyboxShader = m_graphicsEngine->createShader({
+    ShaderPtr skyboxShader = GraphicsEngine::GetInstance().createShader({
             L"SkyBoxShader",
             L"SkyBoxShader"
         });
@@ -97,7 +95,8 @@ void Game::onCreateLate()
 
 void Game::onUpdateInternal()
 {
-    m_inputManager->onUpdate();
+    auto& inputManager = InputManager::GetInstance();
+    inputManager.onUpdate();
 
     // delta time
     m_currentTime = static_cast<float>(glfwGetTime());
@@ -124,7 +123,7 @@ void Game::onUpdateInternal()
 
     m_entitySystem->onLateUpdate(deltaTime);
 
-    m_inputManager->onLateUpdate();
+    inputManager.onLateUpdate();
 
     double RenderTime_Begin = (double)glfwGetTime();
     onGraphicsUpdate(deltaTime);
@@ -133,7 +132,10 @@ void Game::onUpdateInternal()
 
 void Game::onGraphicsUpdate(float deltaTime)
 {
-    m_graphicsEngine->clear(glm::vec4(0, 0, 0, 1));
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    auto& lightManager = LightManager::GetInstance();
+
+    graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
 
     auto camId = typeid(Camera).hash_code();
@@ -151,8 +153,8 @@ void Game::onGraphicsUpdate(float deltaTime)
                 cam->getViewMatrix(data.viewMatrix);
                 cam->getProjectionMatrix(data.projectionMatrix);
                 data.cameraPosition = cam->getPosition();
-                m_lightManager->setSpotlightPosition(data.cameraPosition);
-                m_lightManager->setSpotlightDirection(cam->getForwardDirection());
+                lightManager.setSpotlightPosition(data.cameraPosition);
+                lightManager.setSpotlightDirection(cam->getForwardDirection());
                 
             }
             else if(cam)
@@ -167,11 +169,11 @@ void Game::onGraphicsUpdate(float deltaTime)
 
     // Render skybox
     ShaderPtr skyboxShader = m_skyBox->getShader();
-    m_graphicsEngine->setShader(skyboxShader);
+    graphicsEngine.setShader(skyboxShader);
     m_skyBox->setUniformData(data);
     m_skyBox->onGraphicsUpdate(deltaTime);
 
-    m_graphicsEngine->setScissor(true);
+    graphicsEngine.setScissor(true);
     //m_graphicsEngine->setStencil(StencilOperationType::Set);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
     
@@ -188,9 +190,9 @@ void Game::onGraphicsUpdate(float deltaTime)
                 if (shader != currentShader)
                 {
                     // Set the shader only if it is different from the current one
-                    m_graphicsEngine->setShader(shader);
+                    graphicsEngine.setShader(shader);
                     // Apply lighting to the shader
-                    m_lightManager->applyLighting(shader);
+                    lightManager.applyLighting(shader);
                     currentShader = shader;
                 }
                 // Apply other uniform data to the shader
@@ -204,7 +206,7 @@ void Game::onGraphicsUpdate(float deltaTime)
             }
         }
     }
-    m_graphicsEngine->setScissor(false);
+    graphicsEngine.setScissor(false);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);
     //
     //for (auto& [key, entities] : m_entitySystem->m_entities)
@@ -237,7 +239,7 @@ void Game::onGraphicsUpdate(float deltaTime)
     //}
     //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
 
-    m_graphicsEngine->setScissor(false);
+    graphicsEngine.setScissor(false);
     // Render to window
     m_display->present();
 }
@@ -274,31 +276,6 @@ void Game::quit()
 EntitySystem* Game::getEntitySystem()
 {
     return m_entitySystem.get();
-}
-
-GraphicsEngine* Game::getGraphicsEngine()
-{
-    return m_graphicsEngine.get();
-}
-
-InputManager* Game::getInputManager()
-{
-    return m_inputManager.get();
-}
-
-LightManager* Game::getLightingManager()
-{
-    return m_lightManager.get();
-}
-
-TexturePtr Game::getSkyboxTexture()
-{
-    return m_skyBox->getTexture();
-}
-
-ResourceManager* Game::getResourceManager()
-{
-    return m_resourceManager.get();
 }
 
 Window* Game::getWindow()

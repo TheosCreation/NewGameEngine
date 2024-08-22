@@ -202,14 +202,6 @@ void GraphicsEngine::setMultiSampling(bool enabled)
     }
 }
 
-GraphicsEngine::GraphicsEngine()
-{
-}
-
-GraphicsEngine::~GraphicsEngine()
-{
-}
-
 void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
 {
     glBindVertexArray(vao->getId());

@@ -79,12 +79,6 @@ EntitySystem* Entity::getEntitySystem()
 	return m_entitySystem;
 }
 
-Game* Entity::getGame()
-{
-	// Get the Game instance associated with this entity via its EntitySystem
-	return m_entitySystem->getGame();
-}
-
 glm::mat4 Entity::getModelMatrix()
 {
 	glm::mat4 modelMatrix = glm::identity<glm::mat4>();

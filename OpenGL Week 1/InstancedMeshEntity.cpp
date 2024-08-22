@@ -43,28 +43,28 @@ void InstancedMeshEntity::setUniformData(UniformData data)
 
 void InstancedMeshEntity::onGraphicsUpdate(float deltaTime)
 {
-    auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::BackFace); // draw only the front faces, the back faces are discarded
-    engine->setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::BackFace); // draw only the front faces, the back faces are discarded
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
 
     if (m_texture)
     {
-        engine->setTexture2D(m_texture, 0);
+        graphicsEngine.setTexture2D(m_texture, 0);
     }
 
-    auto skyboxTexture = getGame()->getSkyboxTexture();
+    auto skyboxTexture = ResourceManager::GetInstance().getSkyboxTexture();
     if (skyboxTexture)
     {
-        engine->setTextureCubeMap(skyboxTexture, 0);
+        graphicsEngine.setTextureCubeMap(skyboxTexture, 0);
     }
 
     if (m_reflectiveMap)
     {
-        engine->setTexture2D(m_reflectiveMap, 2);
+        graphicsEngine.setTexture2D(m_reflectiveMap, 2);
     }
 
     //during the graphics update, we call the draw function
     auto meshVBO = m_mesh->getVertexArrayObject();
-    engine->setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-    engine->drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
+    graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 }

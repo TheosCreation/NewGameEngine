@@ -24,14 +24,18 @@ class LightManager
 {
 public:
     /**
-     * @brief Constructor for the LightManager class.
+     * @brief Static method to get the singleton instance of the LightManager class.
+     * @return The singleton instance of the LightManager.
      */
-    LightManager();
+    static LightManager& GetInstance()
+    {
+        static LightManager instance;
+        return instance;
+    }
 
-    /**
-     * @brief Destructor for the LightManager class.
-     */
-    ~LightManager();
+    // Delete copy constructor and assignment operator to prevent copying.
+    LightManager(const LightManager&) = delete;
+    LightManager& operator=(const LightManager&) = delete;
 
     /**
     * @brief Creates a point light and adds it to the manager.
@@ -43,8 +47,8 @@ public:
      * @brief Creates a directional light and adds it to the manager.
      * @param newDirectionalLight The directional light to be added.
      */
-    void createDirectionalLight(const DirectionalLight& newDrectionalLight);
-    
+    void createDirectionalLight(const DirectionalLight& newDirectionalLight);
+
     /**
      * @brief Creates a spotlight and adds it to the manager.
      * @param newSpotLight The spotlight to be added.
@@ -52,7 +56,7 @@ public:
     void createSpotLight(const SpotLight& newSpotLight);
 
     /**
-     * @brief Apply lighting to the shader
+     * @brief Apply lighting to the shader.
      * @param shader A shared pointer to the shader.
      */
     void applyLighting(ShaderPtr shader);
@@ -62,7 +66,7 @@ public:
      * @return True if point lights are enabled, false otherwise.
      */
     bool getPointLightsStatus();
-    
+
     /**
      * @brief Sets the status of point lights.
      * @param status The new status of point lights.
@@ -105,7 +109,19 @@ public:
      */
     void setSpotlightDirection(glm::vec3 direction);
 
+protected:
+
 private:
+    /**
+     * @brief Private constructor for the LightManager class.
+     */
+    LightManager() = default;
+
+    /**
+     * @brief Private destructor for the LightManager class.
+     */
+    ~LightManager() = default;
+
     float AmbientStrength = 0.15f; //The strength of the ambient light
     glm::vec3 AmbientColor = glm::vec3(1.0f, 1.0f, 1.0f); //The color of the ambient light
     static const int MAX_POINT_LIGHTS = 4; //The maximum number of point lights

@@ -1,15 +1,3 @@
-/***
-Bachelor of Software Engineering
-Media Design School
-Auckland
-New Zealand
-(c) 2024 Media Design School
-File Name : GraphicsEngine.h
-Description : GraphicsEngine class contains all the render functionality of opengl
-Author : Theo Morris
-Mail : theo.morris@mds.ac.nz
-**/
-
 #pragma once
 #include "Utils.h"
 #include "Math.h"
@@ -23,14 +11,18 @@ class GraphicsEngine
 {
 public:
     /**
-     * @brief Constructor for the GraphicsEngine class.
+     * @brief Provides access to the singleton instance of GraphicsEngine.
+     * @return A reference to the GraphicsEngine instance.
      */
-    GraphicsEngine();
+    static GraphicsEngine& GetInstance()
+    {
+        static GraphicsEngine instance;
+        return instance;
+    }
 
-    /**
-     * @brief Destructor for the GraphicsEngine class.
-     */
-    ~GraphicsEngine();
+    // Delete the copy constructor and assignment operator to prevent copying
+    GraphicsEngine(const GraphicsEngine& other) = delete;
+    GraphicsEngine& operator=(const GraphicsEngine& other) = delete;
 
     /**
      * @brief Creates a Vertex Array Object (VAO) without an Index Buffer.
@@ -94,7 +86,7 @@ public:
 
     /**
      * @brief Sets multisampling to enabled or disabled.
-     * @param enabled If multisapling should be enabled or disabled.
+     * @param enabled If multisampling should be enabled or disabled.
      */
     void setMultiSampling(bool enabled);
 
@@ -146,4 +138,15 @@ public:
      * @param instanceCount The number of instances to draw.
      */
     void drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, int instanceCount);
+
+private:
+    /**
+     * @brief Private constructor to prevent external instantiation.
+     */
+    GraphicsEngine() = default;
+
+    /**
+     * @brief Private destructor to prevent external deletion.
+     */
+    ~GraphicsEngine() = default;
 };

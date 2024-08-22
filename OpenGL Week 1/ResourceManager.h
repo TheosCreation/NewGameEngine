@@ -15,9 +15,6 @@ Mail : theo.morris@mds.ac.nz
 #include <string>
 #include "Utils.h"
 
-// Forward declaration of Game class
-class Game;
-
 /**
  * @class ResourceManager
  * @brief Manages the resources created with the Resource class.
@@ -25,55 +22,31 @@ class Game;
 class ResourceManager
 {
 public:
-    /**
-     * @brief Constructor for the ResourceManager class.
-     * @param game Pointer to the game instance.
-     */
-    ResourceManager(Game* game);
+    // Singleton access method
+    static ResourceManager& GetInstance()
+    {
+        static ResourceManager instance;
+        return instance;
+    }
 
-    /**
-     * @brief Destructor for the ResourceManager class.
-     */
-    virtual ~ResourceManager();
+    // Delete copy constructor and assignment operator
+    ResourceManager(const ResourceManager& _copy) = delete;
+    ResourceManager& operator=(const ResourceManager& _copy) = delete;
 
-    /**
-     * @brief Creates a cube map texture from file paths.
-     * @param filepaths A vector of file paths for the cube map textures.
-     * @return A shared pointer to the created cube map texture.
-     */
+    // Methods to create various resources
     TextureCubeMapPtr createCubeMapTextureFromFile(const std::vector<std::string>& filepaths);
-
-    /**
-     * @brief Creates a 2D texture from a file path.
-     * @param filepath The file path for the 2D texture.
-     * @return A shared pointer to the created 2D texture.
-     */
     Texture2DPtr createTexture2DFromFile(const std::string& filepath, TextureType type = TextureType::Default);
-    
-    /**
-     * @brief Creates a mesh from a file path.
-     * @param filepath The file path for the mesh.
-     * @return A shared pointer to the created mesh.
-     */
     MeshPtr createMeshFromFile(const std::string& filepath);
-
-    /**
-     * @brief Creates an instanced mesh from a file path.
-     * @param filepath The file path for the instanced mesh.
-     * @return A shared pointer to the created instanced mesh.
-     */
     InstancedMeshPtr createInstancedMeshFromFile(const std::string& filepath);
-
-
     HeightMapPtr createHeightMapFromFile(const std::string& filepath);
 
-    /**
-     * @brief Gets the game instance.
-     * @return A pointer to the game instance.
-     */
-    Game* getGame();
+    TexturePtr getSkyboxTexture();
 
 protected:
-    std::map<std::string, ResourcePtr> m_mapResources; //Map of resources keyed by their file paths
-    Game* m_game = nullptr; //Pointer to the game instance
+    std::map<std::string, ResourcePtr> m_mapResources; // Map of resources keyed by their file paths
+    TextureCubeMapPtr m_textureCubeMap;
+
+private:
+    ResourceManager() = default;
+    ~ResourceManager() = default;
 };

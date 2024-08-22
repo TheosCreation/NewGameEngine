@@ -99,15 +99,13 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
         }
     }
     
-    auto engine = manager->getGame()->getGraphicsEngine();
-    
     const VertexAttribute attribsList[] = {
         { 3 }, // numElements position attribute
         { 2 }, // numElements texture coordinates attribute
         { 3 }  // numElements normal attribute
     };
     
-    m_vao = engine->createVertexArrayObject(
+    m_vao = GraphicsEngine::GetInstance().createVertexArrayObject(
         // vertex buffer
         {
             (void*)&list_vertices[0],

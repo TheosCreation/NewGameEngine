@@ -57,7 +57,7 @@ void QuadEntity::onCreate()
         { 2 } //numElements texture coordinates attribute
     };
 
-    m_mesh = getGame()->getGraphicsEngine()->createVertexArrayObject(
+    m_mesh = GraphicsEngine::GetInstance().createVertexArrayObject(
         //vertex buffer
         {
                 (void*)verticesList,
@@ -88,15 +88,12 @@ void QuadEntity::setShader(const ShaderPtr& shader)
 
 void QuadEntity::onGraphicsUpdate(float deltaTime)
 {
-    auto engine = getGame()->getGraphicsEngine();
-    engine->setFaceCulling(CullType::BackFace);
-    engine->setWindingOrder(WindingOrder::ClockWise);
-    engine->setDepthFunc(DepthType::Less);
-
-    engine->setTexture2D(m_texture, 0);
-
-    //during the graphcis update, we call the draw function
-    engine->setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
-    engine->drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setTexture2D(m_texture, 0);
+    graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 
 }

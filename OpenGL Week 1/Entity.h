@@ -105,12 +105,6 @@ public:
 	void release();
 
     /**
-     * @brief Gets the Game instance associated with this entity.
-     * @return A pointer to the Game instance.
-     */
-	Game* getGame();
-
-    /**
      * @brief Called when the entity is created.
      * Can be overridden by derived classes to perform initialization.
      */
