@@ -42,6 +42,8 @@ public:
 
     TexturePtr getSkyboxTexture();
 
+    void ClearInstancesFromMeshes();
+
 protected:
     std::map<std::string, ResourcePtr> m_mapResources; // Map of resources keyed by their file paths
     TextureCubeMapPtr m_textureCubeMap;

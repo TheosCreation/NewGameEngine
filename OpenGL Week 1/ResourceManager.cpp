@@ -224,3 +224,17 @@ TexturePtr ResourceManager::getSkyboxTexture()
 {
     return m_textureCubeMap;
 }
+
+void ResourceManager::ClearInstancesFromMeshes()
+{
+    // Iterate over all resources in the map
+    for (auto& [key, resource] : m_mapResources)
+    {
+        // Check if the resource is of type InstancedMesh
+        InstancedMeshPtr instancedMeshPtr = std::dynamic_pointer_cast<InstancedMesh>(resource);
+        if (instancedMeshPtr)
+        {
+            instancedMeshPtr->clearInstances();
+        }
+    }
+}

@@ -109,6 +109,8 @@ public:
      */
     void setSpotlightDirection(glm::vec3 direction);
 
+    void clearLights();
+
 protected:
 
 private:

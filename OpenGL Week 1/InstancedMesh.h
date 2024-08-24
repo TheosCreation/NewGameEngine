@@ -53,6 +53,8 @@ public:
      */
     int getInstanceCount();
 
+    void clearInstances();
+
 private:
     std::vector<glm::mat4> m_instanceTransforms; //A vector of transformation matrices for each instance.
 };

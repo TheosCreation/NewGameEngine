@@ -152,4 +152,5 @@ void Scene::onLateUpdate(float deltaTime)
 
 void Scene::onQuit()
 {
+    m_entitySystem->clearEntities();
 }

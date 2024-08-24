@@ -99,6 +99,8 @@ public:
      */
     std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
 
+    void clearEntities();
+
 private:
     /**
      * @brief Internal function to create an entity.

@@ -44,3 +44,8 @@ int InstancedMesh::getInstanceCount()
 {
     return static_cast<int>(m_instanceTransforms.size());
 }
+
+void InstancedMesh::clearInstances()
+{
+	m_instanceTransforms.clear();
+}

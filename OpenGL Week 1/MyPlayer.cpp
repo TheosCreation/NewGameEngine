@@ -87,12 +87,13 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
         inputManager.enablePlayMode(m_playMode);
     }
 
-    // Toggle point lights on/off
-    if (inputManager.isKeyPressed(Key::Key1))
-    {
-        bool currentLightStatus = lightManager.getPointLightsStatus();
-        lightManager.setPointLightsStatus(!currentLightStatus);
-    }
+    //// Toggle point lights on/off
+    //if (inputManager.isKeyPressed(Key::Key1))
+    //{
+    //    bool currentLightStatus = lightManager.getPointLightsStatus();
+    //    lightManager.setPointLightsStatus(!currentLightStatus);
+    //}
+    
 
     // Toggle directional light on/off
     if (inputManager.isKeyPressed(Key::Key2))

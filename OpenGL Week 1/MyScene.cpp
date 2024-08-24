@@ -190,3 +190,8 @@ void MyScene::onLateUpdate(float deltaTime)
 {
 	Scene::onLateUpdate(deltaTime);
 }
+
+void MyScene::onQuit()
+{
+	Scene::onQuit();
+}

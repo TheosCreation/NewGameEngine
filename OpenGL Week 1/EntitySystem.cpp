@@ -111,3 +111,17 @@ std::vector<Camera*> EntitySystem::getCameras() const
 {
 	return m_cameras;
 }
+
+void EntitySystem::clearEntities()
+{
+	// Clear the entities in the map
+	m_entities.clear();
+
+	// Clear the graphics entities vector
+	m_graphicsEntities.clear();
+
+	// Clear the cameras vector
+	m_cameras.clear();
+
+	m_entitiesToDestroy.clear();
+}

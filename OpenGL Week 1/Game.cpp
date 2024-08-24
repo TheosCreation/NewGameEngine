@@ -60,9 +60,8 @@ void Game::onCreate()
     m_sphereMesh = resourceManager.createMeshFromFile("Resources/Meshes/sphere.obj");
     m_cubeMesh = resourceManager.createMeshFromFile("Resources/Meshes/cube.obj");
 
-    m_currentScene = std::make_shared<MyScene>(this);
-
-    m_currentScene->onCreate();
+    auto scene = std::make_shared<MyScene>(this);
+    SetScene(scene);
 }
 
 void Game::onCreateLate()
@@ -85,6 +84,11 @@ void Game::onUpdateInternal()
 
     m_currentScene->onUpdate(deltaTime);
 
+    if (inputManager.isKeyPressed(Key::Key1))
+    {
+        auto scene = std::make_shared<MyScene>(this);
+        SetScene(scene);
+    }
     // Perform fixed updates
     while (m_accumulatedTime >= m_fixedTimeStep)
     {
@@ -133,8 +137,17 @@ void Game::quit()
 
 void Game::SetScene(shared_ptr<Scene> _scene)
 {
-    // Unload Current Scene then store next Scene
+    // if there is a current scene, call onQuit
+    if (m_currentScene != nullptr)
+    {
+        m_currentScene->onQuit();
+        LightManager::GetInstance().clearLights(); 
+        ResourceManager::GetInstance().ClearInstancesFromMeshes();
+    }
+    // set the current scene to the new scene
     m_currentScene = _scene;
+    m_currentScene->onCreate();
+    m_currentScene->onCreateLate();
 }
 
 Window* Game::getWindow()

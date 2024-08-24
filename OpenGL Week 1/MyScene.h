@@ -54,6 +54,8 @@ public:
      */
     virtual void onLateUpdate(float deltaTime);
 
+    virtual void onQuit() override;
+
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 

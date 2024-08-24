@@ -115,3 +115,19 @@ void LightManager::setSpotlightDirection(glm::vec3 direction)
 {
     m_spotLight.Direction = direction;
 }
+
+void LightManager::clearLights()
+{
+    // Reset point lights
+    m_pointLightCount = 0;
+    for (auto& pointLight : m_pointLights)
+    {
+        pointLight = PointLight(); // Reset each point light to its default state
+    }
+
+    // Reset the spot light
+    m_spotLight = SpotLight(); // Reset the spot light to its default state
+
+    // Reset the directional light
+    m_directionalLight = DirectionalLight(); // Reset the directional light to its default state
+}
