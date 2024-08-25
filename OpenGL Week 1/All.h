@@ -31,6 +31,7 @@ Mail : theo.morris@mds.ac.nz
 #include "HeightMap.h"
 
 #include "Camera.h"
+#include "Framebuffer.h"
 #include "MeshEntity.h"
 #include "InstancedMeshEntity.h"
 #include "QuadEntity.h"
@@ -39,4 +40,5 @@ Mail : theo.morris@mds.ac.nz
 #include "Entity.h"
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
+#include "ScreenQuad.h"
 #include "Game.h"

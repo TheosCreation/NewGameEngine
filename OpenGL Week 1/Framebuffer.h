@@ -4,14 +4,17 @@
 class Framebuffer
 {
 public:
-	Framebuffer(Vector2 _windowSize);
+	Framebuffer(Rect _windowSize);
 	~Framebuffer();
+
+	uint GetRenderTexture();
 
 	void Bind();
 	void UnBind();
 
 private:
 	uint FBO;
+	uint RBO;
 	uint RenderTexture;
 };
 

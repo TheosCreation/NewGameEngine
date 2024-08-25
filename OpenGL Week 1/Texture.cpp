@@ -16,6 +16,11 @@ Texture::Texture(const char* path, ResourceManager* manager) : Resource(path, ma
 {
 }
 
+Texture::Texture(const uint id, ResourceManager* manager) : Resource("", manager)
+{
+    m_textureId = id;
+}
+
 Texture::~Texture()
 {
 }

@@ -17,7 +17,7 @@ void Camera::getViewMatrix(Mat4& view)
 {
 	if (m_type == CameraType::Perspective)
 	{
-		m_view = glm::lookAt(m_position, m_position + m_forwardDirection, m_upwardDirection);
+		m_view = glm::lookAt(m_transform.position, m_transform.position + m_forwardDirection, m_upwardDirection);
 	}
 	else if (m_type == CameraType::Orthogonal)
 	{

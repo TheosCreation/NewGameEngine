@@ -34,9 +34,11 @@ Game::Game()
 
     initRandomSeed();
     m_display = std::make_unique<Window>();
+    auto windowSize = m_display->getInnerSize();
+    m_framebuffer = std::make_unique<Framebuffer>(windowSize);
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
-    graphicsEngine.setViewport(m_display->getInnerSize());
+    graphicsEngine.setViewport(windowSize);
     graphicsEngine.setDepthFunc(DepthType::Less);
     graphicsEngine.setBlendFunc(BlendType::SrcAlpha, BlendType::OneMinusSrcAlpha);
     graphicsEngine.setFaceCulling(CullType::BackFace);
@@ -44,9 +46,23 @@ Game::Game()
     graphicsEngine.setScissorSize(Rect(200, 200, 400, 300));
     graphicsEngine.setMultiSampling(true);
 
+    auto& resourceManager = ResourceManager::GetInstance();
+    TexturePtr renderTexture = resourceManager.createTextureFromId(m_framebuffer->GetRenderTexture());
+
+
+    //Loading Shaders into the graphics engine
+    ShaderPtr ScreenSpaceShader = graphicsEngine.createShader({
+            L"ScreenSpaceShader",
+            L"ScreenSpaceShader"
+        });
+
+    m_screenQuad = std::make_unique<ScreenQuad>();
+    m_screenQuad->setTexture(renderTexture);
+    m_screenQuad->setShader(ScreenSpaceShader);
+
     auto& inputManger = InputManager::GetInstance();
     inputManger.setGameWindow(m_display->getWindow());
-    inputManger.setScreenArea(m_display->getInnerSize());
+    inputManger.setScreenArea(windowSize);
 
 }
 
@@ -59,6 +75,8 @@ void Game::onCreate()
     auto& resourceManager = ResourceManager::GetInstance();
     m_sphereMesh = resourceManager.createMeshFromFile("Resources/Meshes/sphere.obj");
     m_cubeMesh = resourceManager.createMeshFromFile("Resources/Meshes/cube.obj");
+
+    m_screenQuad->onCreate();
 
     auto scene = std::make_shared<MyScene>(this);
     SetScene(scene);
@@ -102,7 +120,10 @@ void Game::onUpdateInternal()
     inputManager.onLateUpdate();
 
     double RenderTime_Begin = (double)glfwGetTime();
+    m_framebuffer->Bind();
     m_currentScene->onGraphicsUpdate(deltaTime);
+    m_framebuffer->UnBind();
+    m_screenQuad->onGraphicsUpdate(deltaTime);
     double RenderTime_End = (double)glfwGetTime();
 
     // Render to window

@@ -4,7 +4,7 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : QuadEntity.h
+File Name : ScreenQuad.h
 Description : Entity type that renders a quad
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
@@ -15,10 +15,10 @@ Mail : theo.morris@mds.ac.nz
 #include "Rect.h"
 
 /**
- * @class QuadEntity
+ * @class ScreenQuad
  * @brief Entity type that renders a quad.
  */
-class QuadEntity : public GraphicsEntity
+class ScreenQuad : public GraphicsEntity
 {
 public:
 
@@ -28,12 +28,6 @@ public:
     virtual void onCreate();
 
     void updateVertices(Vector2 size);
-
-    /**
-     * @brief Sets the uniform data for the shader.
-     * @param data The uniform data to set.
-     */
-    virtual void setUniformData(UniformData data);
 
     /**
      * @brief Sets the shader for the quad entity.

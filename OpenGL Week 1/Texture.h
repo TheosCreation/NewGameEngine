@@ -26,6 +26,7 @@ public:
      * @param manager Pointer to the resource manager.
      */
     Texture(const char* path, ResourceManager* manager);
+    Texture(const uint id, ResourceManager* manager);
 
     /**
      * @brief Destructor for the Texture class.

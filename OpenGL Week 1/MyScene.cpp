@@ -36,6 +36,7 @@ void MyScene::onCreate()
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 
+
 	//Loading Shaders into the graphics engine
 	ShaderPtr quadShader = graphicsEngine.createShader({
 			L"QuadShader",
@@ -177,8 +178,14 @@ void MyScene::onUpdate(float deltaTime)
 {
 	Scene::onUpdate(deltaTime);
 	m_elapsedSeconds += deltaTime;
-	m_ship->setRotation(Vector3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
-	m_instanceMines->setRotation(Vector3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
+	
+	// Convert the Euler angles to a quaternion
+	Quaternion shipRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
+	Quaternion minesRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
+
+	// Set the rotations using quaternions
+	m_ship->setRotation(shipRotation);
+	m_instanceMines->setRotation(minesRotation);
 }
 
 void MyScene::onFixedUpdate(float _fixedDeltaTime)

@@ -74,6 +74,12 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
     return TextureCubeMapPtr();
 }
 
+TexturePtr ResourceManager::createTextureFromId(const uint id)
+{
+    TexturePtr texturePtr = std::make_shared<Texture>(id, this);
+    return texturePtr;
+}
+
 Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepath, TextureType type)
 {
     // Check if the resource has already been loaded

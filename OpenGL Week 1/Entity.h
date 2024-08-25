@@ -60,13 +60,13 @@ public:
      * @brief Gets the rotation of the entity in 3D space.
      * @return The rotation of the entity.
      */
-    Vector3 getRotation();
+    Quaternion getRotation();
 
     /**
      * @brief Sets the rotation of the entity in 3D space.
      * @param rotation The new rotation to set.
      */
-    void setRotation(const Vector3& rotation);
+    void setRotation(const Quaternion& rotation);
 
     /**
      * @brief Gets the scale of the entity.
@@ -96,7 +96,7 @@ public:
      * @brief Gets the model matrix representing the entity's transformation.
      * @return The model matrix.
      */
-	Mat4 getModelMatrix();
+	Mat4 getModelMatrix() const;
 
     /**
      * @brief Releases the entity, preparing it for destruction.
@@ -130,10 +130,9 @@ public:
      */
     virtual void onLateUpdate(float deltaTime) {}
 
+
 protected:
-	Vector3 m_position{}; //The position of the entity in 3D space.
-    Vector3 m_rotation{}; //The rotation of the entity in 3D space.
-    Vector3 m_scale = Vector3(1, 1, 1); //The scale of the entity.
+    Transform m_transform;
 
 	EntitySystem* m_entitySystem = nullptr; //Pointer to the EntitySystem managing this entity.
 

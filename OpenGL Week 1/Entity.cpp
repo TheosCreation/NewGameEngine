@@ -33,17 +33,22 @@ void Entity::setId(size_t id)
 
 void Entity::setPosition(const Vector3& position)
 {
-	m_position = position;
+	m_transform.position = position;
 }
 
-void Entity::setRotation(const Vector3& rotation)
+void Entity::setRotation(const Quaternion& rotation)
 {
-	m_rotation = rotation;
+	m_transform.rotation = rotation;
 }
 
 void Entity::setScale(const Vector3& scale)
 {
-	m_scale = scale;
+	m_transform.scale = scale;
+}
+
+Mat4 Entity::getModelMatrix() const
+{
+	return m_transform.GetMatrix();
 }
 
 void Entity::release()
@@ -54,17 +59,17 @@ void Entity::release()
 
 Vector3 Entity::getPosition()
 {
-	return m_position;
+	return m_transform.position;
 }
 
-Vector3 Entity::getRotation()
+Quaternion Entity::getRotation()
 {
-	return m_rotation;
+	return m_transform.rotation;
 }
 
 Vector3 Entity::getScale()
 {
-	return m_scale;
+	return m_transform.scale;
 }
 
 void Entity::setEntitySystem(EntitySystem* entitySystem)
@@ -76,24 +81,4 @@ void Entity::setEntitySystem(EntitySystem* entitySystem)
 EntitySystem* Entity::getEntitySystem()
 {
 	return m_entitySystem;
-}
-
-Mat4 Entity::getModelMatrix()
-{
-	Mat4 modelMatrix = glm::identity<Mat4>();
-
-	//translate first
-	modelMatrix = glm::translate(modelMatrix, m_position);
-
-	//rotate around x
-	modelMatrix = glm::rotate(modelMatrix, m_rotation.x, Vector3(1.0f, 0.0f, 0.0f));
-	//rotate around y
-	modelMatrix = glm::rotate(modelMatrix, m_rotation.y, Vector3(0.0f, 1.0f, 0.0f));
-	//rotate around z
-	modelMatrix = glm::rotate(modelMatrix, m_rotation.z, Vector3(0.0f, 0.0f, 1.0f));
-
-	//scale
-	modelMatrix = glm::scale(modelMatrix, m_scale);
-
-	return modelMatrix;
 }

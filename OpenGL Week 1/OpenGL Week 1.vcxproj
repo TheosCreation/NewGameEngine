@@ -160,6 +160,7 @@
     <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ScreenQuad.cpp" />
     <ClCompile Include="SkyboxEntity.cpp" />
     <ClCompile Include="TerrainEntity.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -193,6 +194,8 @@
     <None Include="Resources\Shaders\InstancedMesh.vert" />
     <None Include="Resources\Shaders\MeshShader.frag" />
     <None Include="Resources\Shaders\MeshShader.vert" />
+    <None Include="Resources\Shaders\ScreenSpaceShader.frag" />
+    <None Include="Resources\Shaders\ScreenSpaceShader.vert" />
     <None Include="Resources\Shaders\SolidColorMesh.frag" />
     <None Include="Resources\Shaders\SolidColorMesh.vert" />
     <None Include="Resources\Shaders\QuadShader.frag" />
@@ -206,6 +209,7 @@
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ScreenQuad.h" />
     <ClInclude Include="SkyboxEntity.h" />
     <ClInclude Include="TerrainEntity.h" />
     <ClInclude Include="Texture.h" />

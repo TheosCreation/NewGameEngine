@@ -18,6 +18,7 @@ Mail : theo.morris@mds.ac.nz
 #include <vector>
 #include <glm.hpp>
 #include "Rect.h"
+#include "Math.h"
 
 // Forward declarations of classes
 
@@ -36,6 +37,7 @@ class InstancedMesh;
 // Type definitions for variables
 typedef unsigned int uint;
 typedef glm::mat4 Mat4;
+typedef glm::quat Quaternion;
 typedef glm::vec3 Vector3;
 typedef glm::vec2 Vector2;
 
@@ -52,6 +54,74 @@ typedef std::shared_ptr<HeightMap> HeightMapPtr;
 
 using std::shared_ptr;
 using std::unique_ptr;
+
+struct Transform
+{
+    Vector3 position;   // Position of the object in world space
+    Quaternion rotation;   // Rotation of the object in world space
+    Vector3 scale;      // Scale of the object in world space
+
+    Transform()
+        : position(Vector3(0.0f, 0.0f, 0.0f)),
+        rotation(Quaternion(1.0f, 0.0f, 0.0f, 0.0f)),
+        scale(Vector3(1.0f, 1.0f, 1.0f))
+    {
+    }
+
+    Mat4 GetMatrix() const
+    {
+        Mat4 translationMatrix = glm::translate(Mat4(1.0f), position);
+        Mat4 rotationMatrix = glm::toMat4(rotation);
+        Mat4 scaleMatrix = glm::scale(Mat4(1.0f), scale);
+
+        return translationMatrix * rotationMatrix * scaleMatrix;
+    }
+
+    void SetPosition(const Vector3& newPosition)
+    {
+        position = newPosition;
+    }
+
+    void SetRotation(const Quaternion& newRotation)
+    {
+        rotation = newRotation;
+    }
+
+    void SetScale(const Vector3& newScale)
+    {
+        scale = newScale;
+    }
+
+    void Translate(const Vector3& translation)
+    {
+        position += translation;
+    }
+
+    void Rotate(const Quaternion& deltaRotation)
+    {
+        rotation = glm::normalize(deltaRotation * rotation);
+    }
+
+    void Scale(const Vector3& scaleFactor)
+    {
+        scale *= scaleFactor;
+    }
+
+    Vector3 GetForward() const
+    {
+        return rotation * Vector3(0.0f, 0.0f, 1.0f);
+    }
+
+    Vector3 GetRight() const
+    {
+        return rotation * Vector3(1.0f, 0.0f, 0.0f);
+    }
+
+    Vector3 GetUp() const
+    {
+        return rotation * Vector3(0.0f, 1.0f, 0.0f);
+    }
+};
 
 struct Vertex
 {

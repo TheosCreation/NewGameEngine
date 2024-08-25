@@ -10,18 +10,18 @@ Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
-#include "QuadEntity.h"
+#include "ScreenQuad.h"
 #include "GraphicsEngine.h"
 #include "Game.h"
 #include "VertexArrayObject.h"
 
-void QuadEntity::onCreate()
+void ScreenQuad::onCreate()
 {
     // Initial vertex and texture coordinate setup
     updateVertices({ -1.0f, 1.0f });
 }
 
-void QuadEntity::updateVertices(Vector2 size)
+void ScreenQuad::updateVertices(Vector2 size)
 {
     Vector3 position_list[] =
     {
@@ -79,30 +79,24 @@ void QuadEntity::updateVertices(Vector2 size)
     );
 }
 
-void QuadEntity::setUniformData(UniformData data)
-{
-    m_shader->setMat4("VPMatrix", data.uiProjectionMatrix * data.uiViewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
-}
-
-void QuadEntity::setShader(const ShaderPtr& shader)
+void ScreenQuad::setShader(const ShaderPtr& shader)
 {
     m_shader = shader;
 }
 
-void QuadEntity::onGraphicsUpdate(float deltaTime)
+void ScreenQuad::onGraphicsUpdate(float deltaTime)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
-    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
-    graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setDepthFunc(DepthType::Never);
     graphicsEngine.setTexture2D(m_texture, 0);
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 
 }
 
-void QuadEntity::setSize(Rect size)
+void ScreenQuad::setSize(Rect size)
 {
     // Update vertices based on the new size
     updateVertices({ size.width, size.height });

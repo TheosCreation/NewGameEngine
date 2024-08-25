@@ -24,7 +24,7 @@ MyPlayer::~MyPlayer()
 void MyPlayer::onCreate()
 {
 	m_cam = getEntitySystem()->createEntity<Camera>();
-    m_cam->setPosition(m_position);
+    m_cam->setPosition(m_transform.position);
 
     m_uiCamera = getEntitySystem()->createEntity<Camera>();
     m_uiCamera->setCameraType(CameraType::Orthogonal);
@@ -33,11 +33,13 @@ void MyPlayer::onCreate()
 void MyPlayer::onUpdate(float deltaTime)
 {
     auto& inputManager = InputManager::GetInstance();
+    auto& lightManager = LightManager::GetInstance();
+
     // Update the camera's position
-    m_cam->setPosition(m_position);
+    m_cam->setPosition(m_transform.position);
 
     float sensitivity = 0.1f;  // Sensitivity factor for mouse movement
-    m_yaw += inputManager.getMouseXAxis() * sensitivity;
+    m_yaw -= inputManager.getMouseXAxis() * sensitivity;
     m_pitch -= inputManager.getMouseYAxis() * sensitivity;
 
     // Clamp the pitch value to prevent flipping the camera
@@ -46,32 +48,24 @@ void MyPlayer::onUpdate(float deltaTime)
     if (m_pitch < -89.0f)
         m_pitch = -89.0f;
 
-    // Update the camera's forward direction based on yaw and pitch
-    Vector3 direction;
-    direction.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
-    direction.y = sin(glm::radians(m_pitch));
-    direction.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
+    // Create quaternions for yaw (around the y-axis) and pitch (around the x-axis)
+    glm::quat yawRotation = glm::angleAxis(glm::radians(m_yaw), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::quat pitchRotation = glm::angleAxis(glm::radians(m_pitch), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    Vector3 forward = glm::normalize(direction);
+    // Combine yaw and pitch rotations
+    glm::quat orientation = yawRotation * pitchRotation;
+
+    // Update the camera's forward direction by rotating the default forward vector (0, 0, -1)
+    Vector3 forward = glm::normalize(orientation * glm::vec3(0.0f, 0.0f, -1.0f));
     m_cam->setForwardDirection(forward);
 
-    // Calculate the right and up vectors
-    Vector3 worldUp = Vector3(0.0f, 1.0f, 0.0f);
-    Vector3 right = m_cam->getRightwardDirection();
+    // Calculate the right and up vectors based on the new forward direction
+    Vector3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
     Vector3 up = glm::normalize(glm::cross(right, forward));
     m_cam->setUpwardDirection(up);
 
-    m_rotation.y = glm::radians(-m_yaw);
-}
-
-void MyPlayer::onFixedUpdate(float fixedDeltaTime)
-{
-    auto& inputManager = InputManager::GetInstance();
-    auto& lightManager = LightManager::GetInstance();
-
-    Vector3 forward = m_cam->getForwardDirection();
-    Vector3 up = m_cam->getUpwardDirection();
-    Vector3 right = m_cam->getRightwardDirection();
+    // Combine this yaw rotation with the existing rotation
+    m_transform.rotation = yawRotation * m_transform.rotation;
 
     // Enable play mode when clicking on the window
     if (inputManager.isMousePressed(MouseButtonLeft) && !m_playMode)
@@ -93,7 +87,7 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
     //    bool currentLightStatus = lightManager.getPointLightsStatus();
     //    lightManager.setPointLightsStatus(!currentLightStatus);
     //}
-    
+
 
     // Toggle directional light on/off
     if (inputManager.isKeyPressed(Key::Key2))
@@ -131,8 +125,6 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
     {
         std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
     }
-
-
     // Adjust camera speed if Shift key is pressed
     if (inputManager.isKeyDown(Key::KeyShift)) {
         m_movementSpeed = m_originalMovementSpeed * 2.0f;
@@ -142,19 +134,19 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
     }
 
     if (inputManager.isKeyDown(Key::KeyW))
-        m_position += forward * m_movementSpeed * fixedDeltaTime;
+        m_transform.position += forward * m_movementSpeed * deltaTime;
     if (inputManager.isKeyDown(Key::KeyS))
-        m_position -= forward * m_movementSpeed * fixedDeltaTime;
+        m_transform.position -= forward * m_movementSpeed * deltaTime;
     if (inputManager.isKeyDown(Key::KeyA))
-        m_position -= right * m_movementSpeed * fixedDeltaTime;
+        m_transform.position -= right * m_movementSpeed * deltaTime;
     if (inputManager.isKeyDown(Key::KeyD))
-        m_position += right * m_movementSpeed * fixedDeltaTime;
+        m_transform.position += right * m_movementSpeed * deltaTime;
 
     // Handle input for player rotation
     if (inputManager.isKeyDown(Key::KeyQ))
-        m_position -= up * m_movementSpeed * fixedDeltaTime;
+        m_transform.position -= up * m_movementSpeed * deltaTime;
     if (inputManager.isKeyDown(Key::KeyE))
-        m_position += up * m_movementSpeed * fixedDeltaTime;glm::vec2 mouseScroll = inputManager.getMouseScroll();
+        m_transform.position += up * m_movementSpeed * deltaTime; glm::vec2 mouseScroll = inputManager.getMouseScroll();
 
     if (mouseScroll.y < 0 || mouseScroll.y > 0)
     {
@@ -169,7 +161,11 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
         }
         m_cam->setFieldOfView(m_fov);
     }
+}
 
+void MyPlayer::onFixedUpdate(float fixedDeltaTime)
+{
+    // do physics here
 }
 
 void MyPlayer::onLateUpdate(float deltaTime)

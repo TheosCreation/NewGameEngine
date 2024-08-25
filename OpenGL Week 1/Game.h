@@ -18,6 +18,8 @@ Mail : theo.morris@mds.ac.nz
 #include "Entity.h"
 #include "LightManager.h"
 #include "Scene.h"
+#include "Framebuffer.h"
+#include "ScreenQuad.h"
 
 // Forward declarations of classes
 class Window;
@@ -90,6 +92,8 @@ private:
 protected:
     bool m_isRunning = true; //Indicates whether the game is running
     std::unique_ptr<Window> m_display; //Pointer to the window instance
+    std::unique_ptr<Framebuffer> m_framebuffer; //Pointer to the framebuffer instance
+    std::unique_ptr<ScreenQuad> m_screenQuad; //Pointer to the framebuffer instance
 
     float m_previousTime = 0; //The previous frame's time
     float m_previousFixedUpdateTime = 0; //The previous fixedUpdate frame time

@@ -14,9 +14,13 @@ Mail : theo.morris@mds.ac.nz
 #include <glm.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#include <gtc/quaternion.hpp>
 #include <cstdlib>
 #include <ctime>
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <gtx/component_wise.hpp>
+#include <gtx/quaternion.hpp>
 inline void initRandomSeed()
 {
     srand(static_cast<unsigned int>(time(0)));
