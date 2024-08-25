@@ -106,12 +106,12 @@ void LightManager::setSpotlightStatus(bool status)
     SpotlightStatus = status;
 }
 
-void LightManager::setSpotlightPosition(glm::vec3 position)
+void LightManager::setSpotlightPosition(Vector3 position)
 {
     m_spotLight.Position = position;
 }
 
-void LightManager::setSpotlightDirection(glm::vec3 direction)
+void LightManager::setSpotlightDirection(Vector3 direction)
 {
     m_spotLight.Direction = direction;
 }

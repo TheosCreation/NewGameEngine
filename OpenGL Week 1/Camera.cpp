@@ -13,7 +13,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Camera.h"
 #include "EntitySystem.h"
 
-void Camera::getViewMatrix(glm::mat4& view)
+void Camera::getViewMatrix(Mat4& view)
 {
 	if (m_type == CameraType::Perspective)
 	{
@@ -21,14 +21,14 @@ void Camera::getViewMatrix(glm::mat4& view)
 	}
 	else if (m_type == CameraType::Orthogonal)
 	{
-		glm::vec3 cameraPosition = glm::vec3(m_screenArea.width, -m_screenArea.height, 1.0f);
-		glm::vec3 targetPosition = glm::vec3(m_screenArea.width, -m_screenArea.height, 0.0f);
+		Vector3 cameraPosition = Vector3(m_screenArea.width, -m_screenArea.height, 1.0f);
+		Vector3 targetPosition = Vector3(m_screenArea.width, -m_screenArea.height, 0.0f);
 		m_view = glm::lookAt(cameraPosition, targetPosition, m_upwardDirection);
 	}
 	view = m_view;
 }
 
-void Camera::getProjectionMatrix(glm::mat4& proj) const
+void Camera::getProjectionMatrix(Mat4& proj) const
 {
 	proj = m_projection;
 }
@@ -68,34 +68,34 @@ void Camera::setScreenArea(const Rect& screen)
 	computeProjectionMatrix();
 }
 
-void Camera::setTargetPosition(glm::vec3 newTargetPosition)
+void Camera::setTargetPosition(Vector3 newTargetPosition)
 {
 	m_targetPosition = newTargetPosition;
 }
 
-glm::vec3 Camera::getForwardDirection()
+Vector3 Camera::getForwardDirection()
 {
 	return m_forwardDirection;
 }
 
-void Camera::setForwardDirection(glm::vec3 newForwardDirection)
+void Camera::setForwardDirection(Vector3 newForwardDirection)
 {
 	m_forwardDirection = newForwardDirection;
 }
 
 
-glm::vec3 Camera::getUpwardDirection()
+Vector3 Camera::getUpwardDirection()
 {
 	return m_upwardDirection;
 }
 
-glm::vec3 Camera::getRightwardDirection()
+Vector3 Camera::getRightwardDirection()
 {
-	glm::vec3 right = glm::normalize(glm::cross(m_forwardDirection, m_worldUp));
+	Vector3 right = glm::normalize(glm::cross(m_forwardDirection, m_worldUp));
 	return right;
 }
 
-void Camera::setUpwardDirection(glm::vec3 newUpwardDirection)
+void Camera::setUpwardDirection(Vector3 newUpwardDirection)
 {
 	m_upwardDirection = newUpwardDirection;
 }

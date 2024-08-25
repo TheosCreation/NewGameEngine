@@ -17,13 +17,13 @@ Mail : theo.morris@mds.ac.nz
 
 void QuadEntity::onCreate()
 {
-    glm::vec3 position_list[] =
+    Vector3 position_list[] =
     {
         //front face
-        { glm::vec3(0.5f,-0.5f,0.5f) },
-        { glm::vec3(0.5f,0.5f,0.5f) },
-        { glm::vec3(-0.5f,0.5f,0.5f)},
-        { glm::vec3(-0.5f,-0.5f,0.5f) }
+        { Vector3(0.5f,-0.5f,0.5f) },
+        { Vector3(0.5f,0.5f,0.5f) },
+        { Vector3(-0.5f,0.5f,0.5f)},
+        { Vector3(-0.5f,-0.5f,0.5f) }
     };
 
     glm::vec2 texcoord_list[] =

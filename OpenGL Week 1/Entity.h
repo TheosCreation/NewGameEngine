@@ -48,37 +48,37 @@ public:
 	 * @brief Gets the position of the entity in 3D space.
 	 * @return The position of the entity.
 	 */
-	glm::vec3 getPosition();
+	Vector3 getPosition();
 
     /**
      * @brief Sets the position of the entity in 3D space.
      * @param position The new position to set.
      */
-    void setPosition(const glm::vec3& position);
+    void setPosition(const Vector3& position);
 
     /**
      * @brief Gets the rotation of the entity in 3D space.
      * @return The rotation of the entity.
      */
-    glm::vec3 getRotation();
+    Vector3 getRotation();
 
     /**
      * @brief Sets the rotation of the entity in 3D space.
      * @param rotation The new rotation to set.
      */
-    void setRotation(const glm::vec3& rotation);
+    void setRotation(const Vector3& rotation);
 
     /**
      * @brief Gets the scale of the entity.
      * @return The scale of the entity.
      */
-    glm::vec3 getScale();
+    Vector3 getScale();
 
     /**
      * @brief Sets the scale of the entity.
      * @param scale The new scale to set.
      */
-    void setScale(const glm::vec3& scale);
+    void setScale(const Vector3& scale);
 
     /**
      * @brief Gets the EntitySystem that manages this entity.
@@ -96,7 +96,7 @@ public:
      * @brief Gets the model matrix representing the entity's transformation.
      * @return The model matrix.
      */
-	glm::mat4 getModelMatrix();
+	Mat4 getModelMatrix();
 
     /**
      * @brief Releases the entity, preparing it for destruction.
@@ -131,9 +131,9 @@ public:
     virtual void onLateUpdate(float deltaTime) {}
 
 protected:
-	glm::vec3 m_position{}; //The position of the entity in 3D space.
-	glm::vec3 m_rotation{}; //The rotation of the entity in 3D space.
-	glm::vec3 m_scale = glm::vec3(1, 1, 1); //The scale of the entity.
+	Vector3 m_position{}; //The position of the entity in 3D space.
+    Vector3 m_rotation{}; //The rotation of the entity in 3D space.
+    Vector3 m_scale = Vector3(1, 1, 1); //The scale of the entity.
 
 	EntitySystem* m_entitySystem = nullptr; //Pointer to the EntitySystem managing this entity.
 

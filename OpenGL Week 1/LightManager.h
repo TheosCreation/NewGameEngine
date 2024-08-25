@@ -101,13 +101,13 @@ public:
      * @brief Sets the position of the spotlight.
      * @param position The new position of the spotlight.
      */
-    void setSpotlightPosition(glm::vec3 position);
+    void setSpotlightPosition(Vector3 position);
 
     /**
      * @brief Sets the direction of the spotlight.
      * @param direction The new direction of the spotlight.
      */
-    void setSpotlightDirection(glm::vec3 direction);
+    void setSpotlightDirection(Vector3 direction);
 
     void clearLights();
 
@@ -125,7 +125,7 @@ private:
     ~LightManager() = default;
 
     float AmbientStrength = 0.15f; //The strength of the ambient light
-    glm::vec3 AmbientColor = glm::vec3(1.0f, 1.0f, 1.0f); //The color of the ambient light
+    Vector3 AmbientColor = Vector3(1.0f, 1.0f, 1.0f); //The color of the ambient light
     static const int MAX_POINT_LIGHTS = 4; //The maximum number of point lights
     PointLight m_pointLights[MAX_POINT_LIGHTS] = {}; //Array of point lights
     uint m_pointLightCount = 0; //The current count of point lights

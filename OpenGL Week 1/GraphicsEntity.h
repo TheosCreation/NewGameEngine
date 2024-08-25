@@ -78,11 +78,11 @@ public:
      * @brief Sets the color to be used by this entity.
      * @param color A vec3 of rgb values.
      */
-    void setColor(glm::vec3 color);
+    void setColor(Vector3 color);
 
 protected:
     ShaderPtr m_shader; //The shader used by this entity
-    glm::vec3 m_color;
+    Vector3 m_color;
     TexturePtr m_texture; //The texture used by this entity
     HeightMapPtr m_heightmap; //The texture used by this entity
 };

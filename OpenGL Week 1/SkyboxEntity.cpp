@@ -10,7 +10,7 @@ void SkyboxEntity::onCreate()
 
 void SkyboxEntity::setUniformData(UniformData data)
 {
-    glm::mat4 viewNoTranslationMatrix = glm::mat3(data.viewMatrix);
+    Mat4 viewNoTranslationMatrix = glm::mat3(data.viewMatrix);
     m_shader->setMat4("VPMatrix", data.projectionMatrix * viewNoTranslationMatrix);
 }
 

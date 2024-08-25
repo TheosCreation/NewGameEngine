@@ -33,7 +33,7 @@ public:
      * @param texcoord The texture coordinate of the vertex.
      * @param normal The normal vector of the vertex.
      */
-    VertexMesh(const glm::vec3& position, const glm::vec2& texcoord, const glm::vec3& normal) :
+    VertexMesh(const Vector3& position, const glm::vec2& texcoord, const Vector3& normal) :
         m_position(position),
         m_texcoord(texcoord),
         m_normal(normal)
@@ -52,7 +52,7 @@ public:
     }
 
 public:
-    glm::vec3 m_position; //The position of the vertex.
+    Vector3 m_position; //The position of the vertex.
     glm::vec2 m_texcoord; //The texture coordinate of the vertex.
-    glm::vec3 m_normal; //The normal vector of the vertex.
+    Vector3 m_normal; //The normal vector of the vertex.
 };

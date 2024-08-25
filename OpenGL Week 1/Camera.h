@@ -22,13 +22,13 @@ public:
      * @brief Gets the view matrix for the camera.
      * @param[out] view The view matrix to fill.
      */
-    void getViewMatrix(glm::mat4& view);
+    void getViewMatrix(Mat4& view);
 
     /**
      * @brief Gets the projection matrix for the camera.
      * @param[out] proj The projection matrix to fill.
      */
-    void getProjectionMatrix(glm::mat4& proj) const;
+    void getProjectionMatrix(Mat4& proj) const;
 
     /**
      * @brief Sets the far plane distance of the camera.
@@ -70,33 +70,33 @@ public:
      * @brief Sets the target position that the camera is looking at.
      * @param newTargetPosition The new target position.
      */
-    void setTargetPosition(glm::vec3 newTargetPosition);
+    void setTargetPosition(Vector3 newTargetPosition);
 
     /**
      * @brief Gets the forward direction of the camera.
      * @return Forward vector of the camera.
      */
-    glm::vec3 getForwardDirection();
+    Vector3 getForwardDirection();
 
     /**
      * @brief Sets the forward direction of the camera.
      * @param newForwardDirection The new forward direction.
      */
-    void setForwardDirection(glm::vec3 newForwardDirection);
+    void setForwardDirection(Vector3 newForwardDirection);
 
     /**
      * @brief Gets the upward direction of the camera.
      * @return Upward vector of the camera.
      */
-    glm::vec3 getUpwardDirection();
+    Vector3 getUpwardDirection();
 
-    glm::vec3 getRightwardDirection();
+    Vector3 getRightwardDirection();
 
     /**
      * @brief Sets the upward direction of the camera.
      * @param newUpwardDirection The new upward direction.
      */
-    void setUpwardDirection(glm::vec3 newUpwardDirection);
+    void setUpwardDirection(Vector3 newUpwardDirection);
 
 private:
     /**
@@ -105,12 +105,12 @@ private:
     void computeProjectionMatrix();
 
 private:
-    glm::mat4 m_view{};                 //The view matrix of the camera.
-    glm::mat4 m_projection{};           //The projection matrix of the camera.
-    glm::vec3 m_targetPosition{};       //The target position of the camera.
-    glm::vec3 m_forwardDirection{0.0f, 0.0f, -1.0f};  //The forwards direction of the camera.
-    glm::vec3 m_upwardDirection{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
-    glm::vec3 m_worldUp{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
+    Mat4 m_view{};                 //The view matrix of the camera.
+    Mat4 m_projection{};           //The projection matrix of the camera.
+    Vector3 m_targetPosition{};       //The target position of the camera.
+    Vector3 m_forwardDirection{0.0f, 0.0f, -1.0f};  //The forwards direction of the camera.
+    Vector3 m_upwardDirection{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
+    Vector3 m_worldUp{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
 
     float m_farPlane = 10000.0f;       //The distance of the far plane.
     float m_nearPlane = 0.1f;          //The distance of the near plane.

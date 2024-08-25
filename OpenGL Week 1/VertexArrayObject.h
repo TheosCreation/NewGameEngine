@@ -43,7 +43,7 @@ public:
      * @param instanceData Pointer to the instance data.
      * @param instanceCount Number of instances.
      */
-    void initInstanceBuffer(glm::mat4* instanceData, size_t instanceCount);
+    void initInstanceBuffer(Mat4* instanceData, size_t instanceCount);
 
     /**
      * @brief Gets the ID of the vertex array object.

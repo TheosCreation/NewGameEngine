@@ -35,6 +35,9 @@ class InstancedMesh;
 
 // Type definitions for variables
 typedef unsigned int uint;
+typedef glm::mat4 Mat4;
+typedef glm::vec3 Vector3;
+typedef glm::vec2 Vector2;
 
 // Type definitions for shared pointers
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
@@ -50,12 +53,11 @@ typedef std::shared_ptr<HeightMap> HeightMapPtr;
 using std::shared_ptr;
 using std::unique_ptr;
 
-
 struct Vertex
 {
-    glm::vec3 position;
-    glm::vec2 texCoords;
-    glm::vec3 normal;
+    Vector3 position;
+    Vector2 texCoords;
+    Vector3 normal;
 };
 
 // Struct representing a vertex attribute
@@ -98,12 +100,12 @@ struct UniformBufferDesc
 // Struct representing uniform data
 struct UniformData
 {
-    glm::mat4 viewMatrix; //View matrix
-    glm::mat4 projectionMatrix; //Projection matrix
-    glm::mat4 uiViewMatrix; //UI view matrix
-    glm::mat4 uiProjectionMatrix; //UI projection matrix
+    Mat4 viewMatrix; //View matrix
+    Mat4 projectionMatrix; //Projection matrix
+    Mat4 uiViewMatrix; //UI view matrix
+    Mat4 uiProjectionMatrix; //UI projection matrix
     float currentTime; //Current time
-    glm::vec3 cameraPosition; //Camera Position
+    Vector3 cameraPosition; //Camera Position
 };
 
 // Struct representing a texture 2D description
@@ -285,25 +287,25 @@ enum MouseButton
 
 // Struct of predefined color constants.
 struct Color {
-    static constexpr glm::vec3 Red = glm::vec3(1.0f, 0.0f, 0.0f);
-    static constexpr glm::vec3 Green = glm::vec3(0.0f, 1.0f, 0.0f);
-    static constexpr glm::vec3 Blue = glm::vec3(0.0f, 0.0f, 1.0f);
-    static constexpr glm::vec3 White = glm::vec3(1.0f, 1.0f, 1.0f);
+    static constexpr Vector3 Red = Vector3(1.0f, 0.0f, 0.0f);
+    static constexpr Vector3 Green = Vector3(0.0f, 1.0f, 0.0f);
+    static constexpr Vector3 Blue = Vector3(0.0f, 0.0f, 1.0f);
+    static constexpr Vector3 White = Vector3(1.0f, 1.0f, 1.0f);
 };
 
 // Struct representing a directional light
 struct DirectionalLight
 {
-    glm::vec3 Direction;
-    glm::vec3 Color;
+    Vector3 Direction;
+    Vector3 Color;
     float SpecularStrength;
 };
 
 // Struct representing a point light
 struct PointLight
 {
-    glm::vec3 Position;
-    glm::vec3 Color;
+    Vector3 Position;
+    Vector3 Color;
     float SpecularStrength;
 
     float AttenuationConstant;
@@ -314,9 +316,9 @@ struct PointLight
 // Struct representing a spot light
 struct SpotLight
 {
-    glm::vec3 Position;
-    glm::vec3 Direction;
-    glm::vec3 Color;
+    Vector3 Position;
+    Vector3 Direction;
+    Vector3 Color;
     float SpecularStrength;
     float CutOff;
     float OuterCutOff;

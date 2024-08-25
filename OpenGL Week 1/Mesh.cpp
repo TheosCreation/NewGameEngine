@@ -80,7 +80,7 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
                 }
 
                 //adding normal
-                glm::vec3 normal(0.0f);
+                Vector3 normal(0.0f);
                 if (attribs.normals.size())
                 {
                     normal.x = attribs.normals[(int)(index.normal_index * 3 + 0)];
@@ -88,7 +88,7 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
                     normal.z = attribs.normals[(int)(index.normal_index * 3 + 2)];
                 }
 
-                VertexMesh vertex(glm::vec3(vx, vy, vz), glm::vec2(tx, ty), normal);
+                VertexMesh vertex(Vector3(vx, vy, vz), Vector2(tx, ty), normal);
                 list_vertices.push_back(vertex);
     
                 list_indices.push_back((unsigned int)index_global_offset + v);

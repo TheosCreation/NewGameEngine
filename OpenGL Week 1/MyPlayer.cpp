@@ -47,18 +47,18 @@ void MyPlayer::onUpdate(float deltaTime)
         m_pitch = -89.0f;
 
     // Update the camera's forward direction based on yaw and pitch
-    glm::vec3 direction;
+    Vector3 direction;
     direction.x = cos(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
     direction.y = sin(glm::radians(m_pitch));
     direction.z = sin(glm::radians(m_yaw)) * cos(glm::radians(m_pitch));
 
-    glm::vec3 forward = glm::normalize(direction);
+    Vector3 forward = glm::normalize(direction);
     m_cam->setForwardDirection(forward);
 
     // Calculate the right and up vectors
-    glm::vec3 worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-    glm::vec3 right = m_cam->getRightwardDirection();
-    glm::vec3 up = glm::normalize(glm::cross(right, forward));
+    Vector3 worldUp = Vector3(0.0f, 1.0f, 0.0f);
+    Vector3 right = m_cam->getRightwardDirection();
+    Vector3 up = glm::normalize(glm::cross(right, forward));
     m_cam->setUpwardDirection(up);
 
     m_rotation.y = glm::radians(-m_yaw);
@@ -69,9 +69,9 @@ void MyPlayer::onFixedUpdate(float fixedDeltaTime)
     auto& inputManager = InputManager::GetInstance();
     auto& lightManager = LightManager::GetInstance();
 
-    glm::vec3 forward = m_cam->getForwardDirection();
-    glm::vec3 up = m_cam->getUpwardDirection();
-    glm::vec3 right = m_cam->getRightwardDirection();
+    Vector3 forward = m_cam->getForwardDirection();
+    Vector3 up = m_cam->getUpwardDirection();
+    Vector3 right = m_cam->getRightwardDirection();
 
     // Enable play mode when clicking on the window
     if (inputManager.isMousePressed(MouseButtonLeft) && !m_playMode)

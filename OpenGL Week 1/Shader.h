@@ -44,7 +44,7 @@ public:
 	 * @param name The name of the uniform variable in the shader.
 	 * @param mat The mat4 value to send.
 	 */
-	void setMat4(const std::string& name, const glm::mat4& mat) const
+	void setMat4(const std::string& name, const Mat4& mat) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_programId, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
@@ -55,7 +55,7 @@ public:
 	 * @param mat The array of mat4 values to send.
 	 * @param count The number of mat4 values in the array.
 	 */
-	void setMat4Array(const std::string& name, const glm::mat4 mat[], int count) const
+	void setMat4Array(const std::string& name, const Mat4 mat[], int count) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_programId, name.c_str()), count, GL_FALSE, &mat[0][0][0]);
 	}
@@ -75,7 +75,7 @@ public:
 	 * @param name The name of the uniform variable in the shader.
 	 * @param value The vec3 value to send.
 	 */
-	void setVec3(const std::string& name, const glm::vec3& value) const
+	void setVec3(const std::string& name, const Vector3& value) const
 	{
 		glUniform3fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
 	}

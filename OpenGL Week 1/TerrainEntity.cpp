@@ -61,9 +61,9 @@ void TerrainEntity::generateTerrainMesh()
             float posZ = static_cast<float>(z) / (m_gridSize.y - 1) * m_width;
 
             verticesList[vertexIndex] = {
-                glm::vec3(posX, posY, posZ),
+                Vector3(posX, posY, posZ),
                 glm::vec2(static_cast<float>(x) / (m_gridSize.x - 1), static_cast<float>(z) / (m_gridSize.y - 1)),
-                glm::vec3(0.0f, 1.0f, 0.0f) // Placeholder for normals
+                Vector3(0.0f, 1.0f, 0.0f) // Placeholder for normals
             };
 
             // Debug print vertex positions
@@ -111,9 +111,9 @@ void TerrainEntity::generateTerrainMesh()
                 y *= 2.0f;
             }
 
-            glm::vec3 tangentZ(0.0f, x * invCellSpacing, 1.0f);
-            glm::vec3 tangentX(1.0f, y * invCellSpacing, 0.0f);
-            glm::vec3 normal = glm::cross(tangentZ, tangentX);
+            Vector3 tangentZ(0.0f, x * invCellSpacing, 1.0f);
+            Vector3 tangentX(1.0f, y * invCellSpacing, 0.0f);
+            Vector3 normal = glm::cross(tangentZ, tangentX);
             normal = glm::normalize(normal);
 
             verticesList[row * m_gridSize.x + col].normal = normal;

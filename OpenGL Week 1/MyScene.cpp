@@ -59,8 +59,8 @@ void MyScene::onCreate()
 	//m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
 	//m_terrain->setHeightmapTexture(heightmap);
 	//m_terrain->generateTerrainMesh();
-	//m_terrain->setScale(glm::vec3(0.5f));
-	//m_terrain->setPosition(glm::vec3(0, 0, 0));
+	//m_terrain->setScale(Vector3(0.5f));
+	//m_terrain->setPosition(Vector3(0, 0, 0));
 	//m_terrain->setTexture(sciFiSpace);
 	////m_terrain->setColor(Color::Red);
 	//m_terrain->setShader(meshShader);
@@ -68,8 +68,8 @@ void MyScene::onCreate()
 
 	//Creating statue obj
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
-	m_ship->setScale(glm::vec3(0.05f));
-	m_ship->setPosition(glm::vec3(0, 0, 0));
+	m_ship->setScale(Vector3(0.05f));
+	m_ship->setPosition(Vector3(0, 0, 0));
 	m_ship->setShininess(32.0f);
 	m_ship->setTexture(sciFiSpace);
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
@@ -91,9 +91,9 @@ void MyScene::onCreate()
 			for (int seg = -4; seg < 4; ++seg) {
 
 				// Calculate the position of the current tree based on the grid and spacing
-				glm::vec3 position = glm::vec3(col * spacing, seg * spacing, row * spacing);
+				Vector3 position = Vector3(col * spacing, seg * spacing, row * spacing);
 
-				if (position == glm::vec3(0.0f)) break;
+				if (position == Vector3(0.0f)) break;
 
 				// Generate random rotation angles
 				float angleX = randomNumber(360.0f);
@@ -103,7 +103,7 @@ void MyScene::onCreate()
 				float randomScale = randomNumber(0.15f);
 
 				// Add the tree instance with random rotations
-				mineMesh->addInstance(position, glm::vec3(0.05f + randomScale), glm::vec3(angleX, angleY, angleZ));
+				mineMesh->addInstance(position, Vector3(0.05f + randomScale), Vector3(angleX, angleY, angleZ));
 			}
 		}
 	}
@@ -114,13 +114,13 @@ void MyScene::onCreate()
 	//Creating the player object
 	//all the input managements, creation of camera are inside Player class
 	m_player = m_entitySystem->createEntity<MyPlayer>();
-	m_player->setScale(glm::vec3(0.0f));
-	m_player->setPosition(glm::vec3(0.0f, 20.0f, 0.0f));
+	m_player->setScale(Vector3(0.0f));
+	m_player->setPosition(Vector3(0.0f, 20.0f, 0.0f));
 
 	// Initialize point lights 
 	{
 		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setPosition(glm::vec3(25.0f, 15.0f, 0.0f));
+		pointLightObject->setPosition(Vector3(25.0f, 15.0f, 0.0f));
 		pointLightObject->setColor(Color::Blue);
 		pointLightObject->setMesh(gameOwner->getSphereMesh());
 		pointLightObject->setShader(solidColorMeshShader);
@@ -137,7 +137,7 @@ void MyScene::onCreate()
 
 	{
 		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setPosition(glm::vec3(-25.0f, 15.0f, 0.0f));
+		pointLightObject->setPosition(Vector3(-25.0f, 15.0f, 0.0f));
 		pointLightObject->setColor(Color::Red);
 		pointLightObject->setMesh(gameOwner->getSphereMesh());
 		pointLightObject->setShader(solidColorMeshShader);
@@ -154,15 +154,15 @@ void MyScene::onCreate()
 
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
-	directionalLight.Direction = glm::vec3(0.5f, -1.0f, -0.5f);
-	directionalLight.Color = glm::vec3(0.1f, 0.1f, 0.1f);
+	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
+	directionalLight.Color = Vector3(0.1f, 0.1f, 0.1f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);
 
 	// Create and initialize SpotLight struct
 	SpotLight spotLight;
-	spotLight.Position = glm::vec3(0.0f);
-	spotLight.Direction = glm::vec3(0.0f, 0.0f, -1.0f);
+	spotLight.Position = Vector3(0.0f);
+	spotLight.Direction = Vector3(0.0f, 0.0f, -1.0f);
 	spotLight.Color = Color::White;
 	spotLight.SpecularStrength = 1.0f;
 	spotLight.CutOff = glm::cos(glm::radians(25.0f));
@@ -177,8 +177,8 @@ void MyScene::onUpdate(float deltaTime)
 {
 	Scene::onUpdate(deltaTime);
 	m_elapsedSeconds += deltaTime;
-	m_ship->setRotation(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
-	m_instanceMines->setRotation(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
+	m_ship->setRotation(Vector3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
+	m_instanceMines->setRotation(Vector3(0.0f, m_elapsedSeconds * 10.0f, 0.0f));
 }
 
 void MyScene::onFixedUpdate(float _fixedDeltaTime)

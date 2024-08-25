@@ -40,7 +40,7 @@ public:
      * @param Scale The scale of the instance.
      * @param Rotation The rotation of the instance.
      */
-    void addInstance(glm::vec3 Position, glm::vec3 Scale, glm::vec3 Rotation);
+    void addInstance(Vector3 Position, Vector3 Scale, Vector3 Rotation);
 
     /**
      * @brief Initializes the instance buffer for rendering.
@@ -56,5 +56,5 @@ public:
     void clearInstances();
 
 private:
-    std::vector<glm::mat4> m_instanceTransforms; //A vector of transformation matrices for each instance.
+    std::vector<Mat4> m_instanceTransforms; //A vector of transformation matrices for each instance.
 };
