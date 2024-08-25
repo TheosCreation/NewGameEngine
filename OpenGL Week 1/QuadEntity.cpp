@@ -17,13 +17,18 @@ Mail : theo.morris@mds.ac.nz
 
 void QuadEntity::onCreate()
 {
+    updateVertices({ 2.0f, 2.0f });
+}
+
+void QuadEntity::updateVertices(Vector2 size)
+{
     Vector3 position_list[] =
     {
         //front face
-        { Vector3(0.5f,-0.5f,0.5f) },
-        { Vector3(0.5f,0.5f,0.5f) },
-        { Vector3(-0.5f,0.5f,0.5f)},
-        { Vector3(-0.5f,-0.5f,0.5f) }
+        { Vector3(size.x / 2, -size.y / 2, 0.5f) },
+        { Vector3(size.x / 2, size.y / 2, 0.5f) },
+        { Vector3(-size.x / 2, size.y / 2, 0.5f)},
+        { Vector3(-size.x / 2, -size.y / 2, 0.5f) }
     };
 
     glm::vec2 texcoord_list[] =
@@ -49,8 +54,6 @@ void QuadEntity::onCreate()
         0,1,2,  //first triangle
         2,3,0,  //second triangle
     };
-
-
 
     static const VertexAttribute attribsList[] = {
         { 3 }, //numElements position attribute
@@ -89,11 +92,23 @@ void QuadEntity::setShader(const ShaderPtr& shader)
 void QuadEntity::onGraphicsUpdate(float deltaTime)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
-    graphicsEngine.setFaceCulling(CullType::BackFace);
-    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
+    graphicsEngine.setFaceCulling(CullType::None);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
     graphicsEngine.setDepthFunc(DepthType::Less);
-    graphicsEngine.setTexture2D(m_texture, 0);
+    if (m_texture != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture, 0);
+    }
+    else
+    {
+        m_shader->setVec3("uColor", m_color);
+    }
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+}
 
+void QuadEntity::setTexture(uint textureId)
+{
+    m_texture = std::make_shared<Texture>();
+    m_texture->setId(textureId);
 }

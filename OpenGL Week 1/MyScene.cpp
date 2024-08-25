@@ -32,16 +32,13 @@ void MyScene::onCreate()
 	
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
-	HeightMapPtr heightmap = resourceManager.createHeightMapFromFile("Resources/Textures/Heightmap0.jpg");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 
+	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 1.0f };
+	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
 	//Loading Shaders into the graphics engine
-	ShaderPtr quadShader = graphicsEngine.createShader({
-			L"QuadShader",
-			L"QuadShader"
-		});
 	ShaderPtr meshShader = graphicsEngine.createShader({
 			L"MeshShader",
 			L"MeshShader"
@@ -55,25 +52,23 @@ void MyScene::onCreate()
 			L"SolidColorMesh"
 		});
 
-
 	//auto& entitySystem = EntitySystem::GetInstance();
-	//m_terrain = getEntitySystem()->createEntity<TerrainEntity>();
-	//m_terrain->setHeightmapTexture(heightmap);
-	//m_terrain->generateTerrainMesh();
-	//m_terrain->setScale(Vector3(0.5f));
+
+	//m_terrain = m_entitySystem->createEntity<TerrainEntity>();
+	//m_terrain->generateTerrainMesh(heightmap);
 	//m_terrain->setPosition(Vector3(0, 0, 0));
 	//m_terrain->setTexture(sciFiSpace);
-	////m_terrain->setColor(Color::Red);
+	//m_terrain->setColor(Color::Red);
 	//m_terrain->setShader(meshShader);
 
-	m_ship = m_entitySystem->createEntity<MeshEntity>();
-	m_ship->setScale(Vector3(0.05f));
-	m_ship->setPosition(Vector3(0, 0, 0));
-	m_ship->setShininess(32.0f);
-	m_ship->setTexture(sciFiSpace);
-	m_ship->setReflectiveMapTexture(shipReflectiveMap);
-	m_ship->setMesh(fighterShip);
-	m_ship->setShader(meshShader);
+	//m_ship = m_entitySystem->createEntity<MeshEntity>();
+	//m_ship->setScale(Vector3(0.05f));
+	//m_ship->setPosition(Vector3(0, 0, 0));
+	//m_ship->setShininess(32.0f);
+	//m_ship->setTexture(sciFiSpace);
+	//m_ship->setReflectiveMapTexture(shipReflectiveMap);
+	//m_ship->setMesh(fighterShip);
+	//m_ship->setShader(meshShader);
 	
 	//Creating instanced tree obj
 	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
@@ -81,6 +76,7 @@ void MyScene::onCreate()
 	m_instanceMines->setTexture(sciFiSpace);
 	m_instanceMines->setShader(instancedMeshShader);
 	m_instanceMines->setMesh(mineMesh);
+	m_instanceMines->setReflectiveMapTexture(shipReflectiveMap);
 
 
 	//adds instances to the instanced mine mesh
@@ -182,8 +178,8 @@ void MyScene::onUpdate(float deltaTime)
 	Quaternion minesRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
 
 	// Set the rotations using quaternions
-	m_ship->setRotation(shipRotation);
-	m_instanceMines->setRotation(minesRotation);
+	//m_ship->setRotation(shipRotation);
+	//m_instanceMines->setRotation(minesRotation);
 }
 
 void MyScene::onFixedUpdate(float _fixedDeltaTime)

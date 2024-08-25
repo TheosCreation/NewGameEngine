@@ -35,12 +35,10 @@ public:
 
     // Methods to create various resources
     TextureCubeMapPtr createCubeMapTextureFromFile(const std::vector<std::string>& filepaths);
-
-    TexturePtr createTextureFromId(const uint id);
     Texture2DPtr createTexture2DFromFile(const std::string& filepath, TextureType type = TextureType::Default);
     MeshPtr createMeshFromFile(const std::string& filepath);
     InstancedMeshPtr createInstancedMeshFromFile(const std::string& filepath);
-    HeightMapPtr createHeightMapFromFile(const std::string& filepath);
+    HeightMapPtr createHeightMap(HeightMapInfo& _buildInfo);
 
     TexturePtr getSkyboxTexture();
 

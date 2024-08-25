@@ -44,7 +44,6 @@ void MeshEntity::setUniformData(UniformData data)
 
     m_shader->setFloat("ObjectShininess", getShininess());
     m_shader->setInt("Texture_Skybox", 1);
-    m_shader->setInt("Texture_Skybox", 1);
     m_shader->setInt("ReflectionMap", 2);
 }
 

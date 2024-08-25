@@ -186,16 +186,17 @@ struct Texture2DDesc
     uint numChannels = 0; //Number of channels in the texture
 };
 
+struct HeightMapInfo {
+    std::string filePath = "";
+    uint width = 0;
+    uint depth = 0;
+    float cellSpacing = 1.0f;
+};
+
 // Struct representing a height map description
 struct HeightMapDesc
 {
-    std::string filePath;             // File path to the height map texture
-    unsigned char* textureData = nullptr; // Pointer to the texture data
-    Rect textureSize = {};            // Size of the texture (width and height)
-    uint numChannels = 0;             // Number of channels in the texture (e.g., 1 for grayscale, 3 for RGB)
-    bool generateMipmaps = false;     // Flag to indicate whether mipmaps should be generated
-    bool useLinearFiltering = true;   // Flag to indicate if linear filtering should be used
-    bool isSRGB = false;              // Flag to indicate if the texture is in sRGB color space
+    std::vector<float> data;
 };
 
 // Struct representing a texture Cubemap description

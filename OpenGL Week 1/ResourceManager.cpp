@@ -19,6 +19,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Mesh.h"
 #include "Game.h"
 #include <filesystem>
+#include <fstream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -72,12 +73,6 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
     }
 
     return TextureCubeMapPtr();
-}
-
-TexturePtr ResourceManager::createTextureFromId(const uint id)
-{
-    TexturePtr texturePtr = std::make_shared<Texture>(id, this);
-    return texturePtr;
 }
 
 Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepath, TextureType type)
@@ -160,71 +155,40 @@ InstancedMeshPtr ResourceManager::createInstancedMeshFromFile(const std::string&
     return InstancedMeshPtr();
 }
 
-HeightMapPtr ResourceManager::createHeightMapFromFile(const std::string& filepath)
+HeightMapPtr ResourceManager::createHeightMap(HeightMapInfo& _buildInfo)
 {
-    // Check if the resource has already been loaded
-    auto it = m_mapResources.find(filepath);
-    if (it != m_mapResources.end())
-    {
-        return std::static_pointer_cast<HeightMap>(it->second);
-    }
-    stbi_set_flip_vertically_on_load(false);
-
-    // Load the image data using stb_image with original channels
     HeightMapDesc desc;
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0); // Load with original channels
-    if (!data)
-    {
-        OGL3D_ERROR("Heightmap failed to load at path: " + filepath);
-        return HeightMapPtr();
+    uint vertexCount = _buildInfo.width * _buildInfo.depth;
+    std::vector<unsigned char> heightValue(vertexCount);
+
+    std::ifstream file(_buildInfo.filePath, std::ios_base::binary);
+    if (file) {
+        file.read((char*)&heightValue[0], (std::streamsize)heightValue.size());
+        file.close();
+    }
+    else {
+        OGL3D_ERROR("Error: Height map failed to load: " << _buildInfo.filePath);
+        return HeightMapPtr();  // Return null pointer if file reading fails
     }
 
-    if (nrChannels != 1)
-    {
-        // Manually convert the image to grayscale
-        unsigned char* grayData = new unsigned char[width * height];
-        for (int i = 0; i < width * height; ++i)
-        {
-            int r = data[i * nrChannels];
-            int g = data[i * nrChannels + 1];
-            int b = data[i * nrChannels + 2];
-            grayData[i] = static_cast<unsigned char>(0.3f * r + 0.59f * g + 0.11f * b); // Convert RGB to grayscale
-        }
-        stbi_image_free(data); // Free the original RGB data
-        data = grayData; // Use the grayscale data
-        nrChannels = 1; // Update the channel count
-        OGL3D_WARNING("Heightmap texture converted to grayscale texture at path: " << filepath.c_str());
+    // Convert height values from unsigned char to float
+    desc.data.resize(vertexCount, 0);
+    for (uint i = 0; i < vertexCount; ++i) {
+        desc.data[i] = (float)heightValue[i];
     }
 
-    // Process heightmap data if needed (e.g., normalize values)
-    for (int i = 0; i < width * height; ++i)
-    {
-        data[i] = static_cast<unsigned char>(data[i] / 255.0f * 1.0f); // Example normalization to 0.0 - 1.0 range
-    }
-
-    desc.textureData = data;
-    desc.textureSize = { width, height };
-    desc.numChannels = nrChannels;
-
-    // Create a HeightMap using the graphics engine.
-    HeightMapPtr heightMapPtr = std::make_shared<HeightMap>(desc, filepath.c_str(), this);
-    if (!heightMapPtr)
-    {
+    // Create a HeightMap
+    HeightMapPtr heightMapPtr = std::make_shared<HeightMap>(desc, _buildInfo, _buildInfo.filePath.c_str(), this);
+    if (!heightMapPtr) {
         OGL3D_ERROR("Heightmap not generated");
+        return HeightMapPtr();  // Return null pointer if HeightMap creation fails
     }
 
-    // Free the grayscale image data.
-    stbi_image_free(data);
-
-    if (heightMapPtr)
-    {
-        m_mapResources.emplace(filepath, heightMapPtr);
-        return heightMapPtr;
-    }
-
-    return HeightMapPtr();
+    // Store and return the created HeightMap
+    m_mapResources.emplace(_buildInfo.filePath, heightMapPtr);
+    return heightMapPtr;
 }
+
 
 TexturePtr ResourceManager::getSkyboxTexture()
 {

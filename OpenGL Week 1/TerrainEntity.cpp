@@ -1,122 +1,82 @@
 #include "TerrainEntity.h"
-#include "HeightMap.h"
 #include "GraphicsEngine.h"
-#include "Game.h"
 #include "VertexArrayObject.h"
 
-void TerrainEntity::generateTerrainMesh()
+void TerrainEntity::generateTerrainMesh(HeightMapPtr _heightMap)
 {
-    if (!m_heightmap)
-    {
-        OGL3D_ERROR("Heightmap texture not set");
+    if (!_heightMap) {
+        // Handle the error if _heightMap is null
         return;
     }
 
-    unsigned char* textureData = m_heightmap->getData();
-    if (!textureData)
-    {
-        OGL3D_ERROR("Failed to retrieve texture data");
-        return;
-    }
+    std::vector<float> data = _heightMap->getData();
+    uint depth = _heightMap->getDepth();
+    uint width = _heightMap->getWidth();
+    float cellSpacing = _heightMap->getCellSpacing();
 
-    int width = m_heightmap->getWidth();
-    int height = m_heightmap->getHeight();
-
-    if (width <= 0 || height <= 0)
-    {
-        OGL3D_ERROR("Invalid texture dimensions");
-        return;
-    }
-
-    // Debug print height map data
-    std::cout << "Height Map Width: " << width << ", Height: " << height << std::endl;
-    for (int i = 0; i < 10; ++i)
-    {
-        std::cout << "Height Value [" << i << "]: " << static_cast<int>(textureData[i]) << std::endl;
-    }
-
-    int numVertices = m_gridSize.x * m_gridSize.y;
-    int numIndices = (m_gridSize.x - 1) * (m_gridSize.y - 1) * 6;
+    uint numVertices = width * depth;
+    uint numIndices = (width - 1) * (depth - 1) * 6;
 
     Vertex* verticesList = new Vertex[numVertices];
     uint* indicesList = new uint[numIndices];
+    
+    float halfWidth = (width - 1) * cellSpacing * 0.5f;
+    float halfDepth = (depth - 1) * cellSpacing * 0.5f;
+    float texU = 1.0f / (width - 1);
+    float texV = 1.0f / (depth - 1);
 
-    int vertexIndex = 0;
-    for (int z = 0; z < m_gridSize.y; ++z)
-    {
-        for (int x = 0; x < m_gridSize.x; ++x)
-        {
-            int texX = x * (width / m_gridSize.x);
-            int texZ = z * (height / m_gridSize.y);
+    for (uint row = 0; row < depth; ++row) {
+        float posZ = halfDepth - (row * cellSpacing);
+        for (uint col = 0; col < width; ++col) {
+            uint i = row * width + col;
+            float posX = -halfWidth + (col * cellSpacing);
+            float posY = data[i];
 
-            if (texX >= width || texZ >= height)
-            {
-                OGL3D_ERROR("Calculated texture coordinates out of bounds");
-                continue; // Skip this iteration
-            }
-
-            float heightValue = textureData[texZ * width + texX] / 255.0f; // Normalize height value
-            float posX = static_cast<float>(x) / (m_gridSize.x - 1) * m_width;
-            float posY = heightValue * m_height;
-            float posZ = static_cast<float>(z) / (m_gridSize.y - 1) * m_width;
-
-            verticesList[vertexIndex] = {
-                Vector3(posX, posY, posZ),
-                glm::vec2(static_cast<float>(x) / (m_gridSize.x - 1), static_cast<float>(z) / (m_gridSize.y - 1)),
-                Vector3(0.0f, 1.0f, 0.0f) // Placeholder for normals
-            };
-
-            // Debug print vertex positions
-            std::cout << "Vertex [" << vertexIndex << "]: (" << posX << ", " << posY << ", " << posZ << ")" << std::endl;
-
-            vertexIndex++;
+            verticesList[i].position = Vector3(posX, posY, posZ);
+            verticesList[i].texCoords = Vector2(col * texU, row * texV);
+            verticesList[i].normal = Vector3(0.0f, 1.0f, 0.0f);
         }
     }
 
-    int index = 0;
-    for (unsigned int row = 0; row < m_gridSize.y - 1; ++row)
-    {
-        for (unsigned int col = 0; col < m_gridSize.x - 1; ++col)
-        {
-            indicesList[index++] = row * m_gridSize.x + col;
-            indicesList[index++] = row * m_gridSize.x + col + 1;
-            indicesList[index++] = (row + 1) * m_gridSize.x + col;
+    uint k = 0;
+    for (uint row = 0; row < (width - 1); ++row) {
+        for (uint col = 0; col < (depth - 1); ++col) {
+            indicesList[k] = row * depth + col;
+            indicesList[k + 1] = row * depth + col + 1;
+            indicesList[k + 2] = (row + 1) * depth + col;
 
-            indicesList[index++] = (row + 1) * m_gridSize.x + col;
-            indicesList[index++] = row * m_gridSize.x + col + 1;
-            indicesList[index++] = (row + 1) * m_gridSize.x + col + 1;
+            indicesList[k + 3] = (row + 1) * depth + col;
+            indicesList[k + 4] = row * depth + col + 1;
+            indicesList[k + 5] = (row + 1) * depth + col + 1;
+
+            k += 6;
         }
     }
 
     // Calculate normals using central difference
-    float invCellSpacing = 1.0f / (2.0f * m_width / (m_gridSize.x - 1));
-    for (unsigned int row = 0; row < m_gridSize.y; ++row)
-    {
-        for (unsigned int col = 0; col < m_gridSize.x; ++col)
-        {
-            float rowNeg = textureData[(row == 0 ? row : row - 1) * width + col] / 255.0f;
-            float rowPos = textureData[(row < m_gridSize.y - 1 ? row + 1 : row) * width + col] / 255.0f;
-            float colNeg = textureData[row * width + (col == 0 ? col : col - 1)] / 255.0f;
-            float colPos = textureData[row * width + (col < m_gridSize.x - 1 ? col + 1 : col)] / 255.0f;
+    float invCellSpacing = 1.0f / (2.0f * cellSpacing);
+    for (uint row = 0; row < width; ++row) {
+        for (uint col = 0; col < depth; ++col) {
+            float rowNeg = data[(row == 0 ? row : row - 1) * depth + col];
+            float rowPos = data[(row == width - 1 ? row : row + 1) * depth + col];
+            float colNeg = data[row * depth + (col == 0 ? col : col - 1)];
+            float colPos = data[row * depth + (col == depth - 1 ? col : col + 1)];
 
             float x = (rowNeg - rowPos);
-            if (row == 0 || row == m_gridSize.y - 1)
-            {
+            if (row == 0 || row == width - 1) {
                 x *= 2.0f;
             }
 
             float y = (colPos - colNeg);
-            if (col == 0 || col == m_gridSize.x - 1)
-            {
+            if (col == 0 || col == depth - 1) {
                 y *= 2.0f;
             }
 
             Vector3 tangentZ(0.0f, x * invCellSpacing, 1.0f);
             Vector3 tangentX(1.0f, y * invCellSpacing, 0.0f);
-            Vector3 normal = glm::cross(tangentZ, tangentX);
-            normal = glm::normalize(normal);
-
-            verticesList[row * m_gridSize.x + col].normal = normal;
+            Vector3 normal = glm::normalize(glm::cross(tangentZ, tangentX));
+            unsigned int i = row * depth + col;
+            verticesList[i].normal = normal;
         }
     }
 
@@ -126,27 +86,27 @@ void TerrainEntity::generateTerrainMesh()
         { 3 }  // numElements normal attribute
     };
 
-    VertexBufferDesc vertexBufferDesc = {
-        (void*)verticesList,           // Pointer to vertex list
-        sizeof(Vertex),                // Size of a single vertex
-        numVertices,                   // Number of vertices
-        (VertexAttribute*)attribsList, // Pointer to vertex attributes list
-        3                              // Number of elements in attrib list
-    };
-
-    IndexBufferDesc indexBufferDesc = {
-        (void*)indicesList,
-        sizeof(uint) * numIndices
-    };
-
     m_mesh = GraphicsEngine::GetInstance().createVertexArrayObject(
-        vertexBufferDesc,
-        indexBufferDesc
+        //vertex buffer
+        {
+                (void*)verticesList,
+                sizeof(Vertex), //size in bytes of a single composed vertex (in this case composed by vertex (3 nums* sizeof float) + texcoord (2 nums* sizeof float))
+                numVertices,  //number of composed vertices,
+
+                (VertexAttribute*)attribsList,
+                3 //numelements attrib list
+        },
+        //index buffer
+        {
+            (void*)indicesList,
+            numIndices
+        }
     );
 
     delete[] verticesList;
     delete[] indicesList;
 }
+
 void TerrainEntity::onCreate()
 {
 }

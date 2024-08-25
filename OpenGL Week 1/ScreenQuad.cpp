@@ -88,9 +88,16 @@ void ScreenQuad::onGraphicsUpdate(float deltaTime)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::None);
-    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
-    graphicsEngine.setDepthFunc(DepthType::Never);
-    graphicsEngine.setTexture(m_renderTextureId, 0);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+    if (m_renderTextureId)
+    {
+        graphicsEngine.setTexture(m_renderTextureId, 0);
+    }
+    else
+    {
+        m_shader->setVec3("uColor", m_color);
+    }
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 

@@ -12,13 +12,13 @@ Mail : theo.morris@mds.ac.nz
 
 #pragma once
 #include "Utils.h"
-#include "Texture.h"
+#include "Resource.h"
 
 /**
  * @class HeightMap
  * @brief A representation of a HeightMap texture to be used by the graphics engine class.
  */
-class HeightMap : public Texture
+class HeightMap : public Resource
 {
 public:
     /**
@@ -27,14 +27,14 @@ public:
      * @param path File path of the HeightMap texture.
      * @param manager Resource Manager of the HeightMap texture.
      */
-    HeightMap(const HeightMapDesc& desc, const char* path, ResourceManager* manager);
 
-    float getHeight();
+    HeightMap(const HeightMapDesc& desc, const HeightMapInfo& buildInfo, const char* path, ResourceManager* manager);
 
-    float getWidth();
+    uint getWidth();
+    uint getDepth();
+    float getCellSpacing();
 
-
-    unsigned char* getData() const;
+    std::vector<float> getData() const;
 
     /**
      * @brief Destructor for the HeightMap class.
@@ -43,4 +43,5 @@ public:
 
 private:
     HeightMapDesc m_desc = {}; //Description of the HeightMap texture.
+    HeightMapInfo m_buildInfo;
 };

@@ -25,8 +25,8 @@ public:
      * @param path The file path to the texture.
      * @param manager Pointer to the resource manager.
      */
+    Texture();
     Texture(const char* path, ResourceManager* manager);
-    Texture(const uint id, ResourceManager* manager);
 
     /**
      * @brief Destructor for the Texture class.
@@ -38,6 +38,7 @@ public:
      * @return The ID of the texture.
      */
     uint getId() const;
+    void setId(uint id);
 
 protected:
     uint m_textureId = 0; //The ID of the texture.

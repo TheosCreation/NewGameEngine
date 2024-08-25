@@ -47,6 +47,8 @@ public:
      */
     virtual void onGraphicsUpdate(float deltaTime);
 
+    void setTexture(uint textureId);
+
 private:
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the quad mesh.
 };
