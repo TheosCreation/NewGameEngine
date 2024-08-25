@@ -7,14 +7,12 @@ public:
 	Framebuffer(Rect _windowSize);
 	~Framebuffer();
 
-	uint GetRenderTexture();
-
 	void Bind();
 	void UnBind();
 
+	uint RenderTexture;
 private:
 	uint FBO;
 	uint RBO;
-	uint RenderTexture;
 };
 

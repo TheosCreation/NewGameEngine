@@ -18,7 +18,7 @@ Mail : theo.morris@mds.ac.nz
 void ScreenQuad::onCreate()
 {
     // Initial vertex and texture coordinate setup
-    updateVertices({ -1.0f, 1.0f });
+    updateVertices({ 1.0f, 1.0f });
 }
 
 void ScreenQuad::updateVertices(Vector2 size)
@@ -90,10 +90,15 @@ void ScreenQuad::onGraphicsUpdate(float deltaTime)
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
     graphicsEngine.setDepthFunc(DepthType::Never);
-    graphicsEngine.setTexture2D(m_texture, 0);
+    graphicsEngine.setTexture(m_renderTextureId, 0);
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 
+}
+
+void ScreenQuad::setRenderTexture(uint RenderTexture)
+{
+    m_renderTextureId = RenderTexture;
 }
 
 void ScreenQuad::setSize(Rect size)

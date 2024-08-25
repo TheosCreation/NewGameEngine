@@ -47,7 +47,6 @@ Game::Game()
     graphicsEngine.setMultiSampling(true);
 
     auto& resourceManager = ResourceManager::GetInstance();
-    TexturePtr renderTexture = resourceManager.createTextureFromId(m_framebuffer->GetRenderTexture());
 
 
     //Loading Shaders into the graphics engine
@@ -57,10 +56,8 @@ Game::Game()
         });
 
     m_screenQuad = std::make_unique<ScreenQuad>();
-    Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
-    //m_screenQuad->setTexture(renderTexture);
-    m_screenQuad->setTexture(sciFiSpace);
     m_screenQuad->setShader(ScreenSpaceShader);
+    m_screenQuad->setRenderTexture(m_framebuffer->RenderTexture);
 
     auto& inputManger = InputManager::GetInstance();
     inputManger.setGameWindow(m_display->getWindow());
@@ -122,9 +119,9 @@ void Game::onUpdateInternal()
     inputManager.onLateUpdate();
 
     double RenderTime_Begin = (double)glfwGetTime();
-    //m_framebuffer->Bind();
+    m_framebuffer->Bind();
     m_currentScene->onGraphicsUpdate(deltaTime);
-    //m_framebuffer->UnBind();
+    m_framebuffer->UnBind();
     m_screenQuad->onGraphicsUpdate(deltaTime);
     double RenderTime_End = (double)glfwGetTime();
 

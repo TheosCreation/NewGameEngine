@@ -102,6 +102,8 @@ public:
      */
     void setShader(const ShaderPtr& program);
 
+    void setTexture(const uint textureId, uint slot);
+
     /**
      * @brief Sets the active 2D Texture.
      * @param texture A shared pointer to the Texture2D to set.

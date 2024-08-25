@@ -66,11 +66,6 @@ void MyScene::onCreate()
 	////m_terrain->setColor(Color::Red);
 	//m_terrain->setShader(meshShader);
 
-
-	auto quad = m_entitySystem->createEntity<QuadEntity>();
-	quad->setShader(quadShader);
-	quad->setTexture(sciFiSpace);
-
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(Vector3(0.05f));
 	m_ship->setPosition(Vector3(0, 0, 0));

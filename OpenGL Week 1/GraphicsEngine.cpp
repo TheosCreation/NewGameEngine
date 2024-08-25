@@ -212,6 +212,13 @@ void GraphicsEngine::setShader(const ShaderPtr& program)
     glUseProgram(program->getId());
 }
 
+void GraphicsEngine::setTexture(const uint textureId, uint slot)
+{
+    auto glSlot = GL_TEXTURE0 + slot;
+    glActiveTexture(glSlot); // activate the texture unit first before binding texture
+    glBindTexture(GL_TEXTURE_2D, textureId);
+}
+
 void GraphicsEngine::setTexture2D(const TexturePtr& texture, uint slot)
 {
     auto glSlot = GL_TEXTURE0 + slot;

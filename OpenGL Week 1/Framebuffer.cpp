@@ -49,19 +49,10 @@ Framebuffer::~Framebuffer()
     glDeleteRenderbuffers(1, &RBO);
 }
 
-uint Framebuffer::GetRenderTexture()
-{
-    return RenderTexture;
-}
-
 // Bind the framebuffer
 void Framebuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT |
-        GL_DEPTH_BUFFER_BIT |
-        GL_STENCIL_BUFFER_BIT);
 }
 
 // Unbind the framebuffer

@@ -41,8 +41,11 @@ public:
      */
     virtual void onGraphicsUpdate(float deltaTime);
 
+    void setRenderTexture(uint RenderTexture);
+
     void setSize(Rect size);
 
 private:
+    uint m_renderTextureId;
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the quad mesh.
 };
