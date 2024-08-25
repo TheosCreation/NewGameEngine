@@ -47,8 +47,6 @@ public:
      */
     virtual void onGraphicsUpdate(float deltaTime);
 
-    void setSize(Rect size);
-
 private:
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the quad mesh.
 };

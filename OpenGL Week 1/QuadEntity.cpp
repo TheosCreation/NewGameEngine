@@ -17,19 +17,13 @@ Mail : theo.morris@mds.ac.nz
 
 void QuadEntity::onCreate()
 {
-    // Initial vertex and texture coordinate setup
-    updateVertices({ -1.0f, 1.0f });
-}
-
-void QuadEntity::updateVertices(Vector2 size)
-{
     Vector3 position_list[] =
     {
         //front face
-        { Vector3(size.x / 2, -size.y / 2, 0.5f) },
-        { Vector3(size.x / 2, size.y / 2, 0.5f) },
-        { Vector3(-size.x / 2, size.y / 2, 0.5f)},
-        { Vector3(-size.x / 2, -size.y / 2, 0.5f) }
+        { Vector3(0.5f,-0.5f,0.5f) },
+        { Vector3(0.5f,0.5f,0.5f) },
+        { Vector3(-0.5f,0.5f,0.5f)},
+        { Vector3(-0.5f,-0.5f,0.5f) }
     };
 
     glm::vec2 texcoord_list[] =
@@ -55,6 +49,8 @@ void QuadEntity::updateVertices(Vector2 size)
         0,1,2,  //first triangle
         2,3,0,  //second triangle
     };
+
+
 
     static const VertexAttribute attribsList[] = {
         { 3 }, //numElements position attribute
@@ -100,10 +96,4 @@ void QuadEntity::onGraphicsUpdate(float deltaTime)
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 
-}
-
-void QuadEntity::setSize(Rect size)
-{
-    // Update vertices based on the new size
-    updateVertices({ size.width, size.height });
 }
