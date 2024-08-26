@@ -40,7 +40,7 @@ public:
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
-    virtual void onGraphicsUpdate(float deltaTime) {}
+    virtual void onGraphicsUpdate(UniformData data);
 
     /**
      * @brief Sets the uniform data for the shader.
@@ -82,4 +82,7 @@ protected:
     ShaderPtr m_shader; //The shader used by this entity
     Vector3 m_color;
     TexturePtr m_texture; //The texture used by this entity
+
+    void ProcessUniformData(const std::string& name, const std::any& value);
+    void ProcessTextureData(const std::string& name, const std::tuple<TexturePtr, uint>& value);
 };

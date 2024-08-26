@@ -19,6 +19,9 @@ Mail : theo.morris@mds.ac.nz
 #include <glm.hpp>
 #include "Rect.h"
 #include "Math.h"
+#include <unordered_map>
+#include <any>
+#include <functional>
 
 // Forward declarations of classes
 
@@ -176,6 +179,30 @@ struct UniformData
     Mat4 uiProjectionMatrix; //UI projection matrix
     float currentTime; //Current time
     Vector3 cameraPosition; //Camera Position
+};
+
+struct NewExtraTextureData {
+    // Map from string to a tuple of TexturePtr and uint
+    std::unordered_map<std::string, std::tuple<TexturePtr, uint>> textureMap;
+
+    // Add a texture with a string key
+    void AddTexture(const std::string& key, TexturePtr texture, uint value) {
+        textureMap[key] = std::make_tuple(texture, value);
+    }
+};
+
+struct NewUniformData {
+    std::unordered_map<std::string, std::any> dataMap;
+
+    template<typename T>
+    void CreateData(const std::string& name, const T& value) {
+        dataMap[name] = value;
+    }
+
+    template<typename T>
+    T GetData(const std::string& name) const {
+        return std::any_cast<T>(dataMap.at(name));
+    }
 };
 
 // Struct representing a texture 2D description

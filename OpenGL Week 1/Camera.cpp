@@ -62,9 +62,9 @@ void Camera::setCameraType(const CameraType& type)
 	computeProjectionMatrix();
 }
 
-void Camera::setScreenArea(const Rect& screen)
+void Camera::setScreenArea(const Vector2& screen)
 {
-	m_screenArea = screen;
+	m_screenArea = Rect(0, 0, screen.x, screen.y);
 	computeProjectionMatrix();
 }
 

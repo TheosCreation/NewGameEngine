@@ -53,7 +53,7 @@ public:
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
-    virtual void onGraphicsUpdate(float deltaTime);
+    virtual void onGraphicsUpdate(UniformData data) override;;
     /**
      * @brief Gets the Shininess used by this entity.
      * @return A float of the amount of shininess.

@@ -31,9 +31,10 @@ public:
      */
     void setUniformData(UniformData data) override;
 
+
     /**
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
-    void onGraphicsUpdate(float deltaTime) override;
+    void onGraphicsUpdate(UniformData data) override;
 };

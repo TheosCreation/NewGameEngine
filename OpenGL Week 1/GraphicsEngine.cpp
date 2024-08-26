@@ -185,9 +185,9 @@ void GraphicsEngine::setStencil(const StencilOperationType& type)
     }
 }
 
-void GraphicsEngine::setViewport(const Rect& size)
+void GraphicsEngine::setViewport(const Vector2& size)
 {
-    glViewport(size.left, size.top, size.width, size.height);
+    glViewport(0, 0, size.x, size.y);
 }
 
 void GraphicsEngine::setMultiSampling(bool enabled)
@@ -209,28 +209,32 @@ void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
 
 void GraphicsEngine::setShader(const ShaderPtr& program)
 {
+    currentShader = program;
     glUseProgram(program->getId());
 }
 
-void GraphicsEngine::setTexture(const uint textureId, uint slot)
+void GraphicsEngine::setTexture(const uint textureId, uint slot, std::string bindingName)
 {
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, textureId);
+    currentShader->setInt(bindingName, slot);
 }
 
-void GraphicsEngine::setTexture2D(const TexturePtr& texture, uint slot)
+void GraphicsEngine::setTexture2D(const TexturePtr& texture, uint slot, std::string bindingName)
 {
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_2D, texture->getId());
+    currentShader->setInt(bindingName, slot);
 }
 
-void GraphicsEngine::setTextureCubeMap(const TexturePtr& texture, uint slot)
+void GraphicsEngine::setTextureCubeMap(const TexturePtr& texture, uint slot, std::string bindingName)
 {
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture->getId());
+    currentShader->setInt(bindingName, slot);
 
 }
 

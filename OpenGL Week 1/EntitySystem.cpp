@@ -14,6 +14,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Entity.h"
 #include "Camera.h"
 #include "GraphicsEntity.h"
+#include "GraphicsEngine.h"
 
 EntitySystem::EntitySystem()
 {
@@ -88,6 +89,20 @@ void EntitySystem::onLateUpdate(float deltaTime)
 		{
 			entity->onLateUpdate(deltaTime);
 		}
+	}
+}
+
+void EntitySystem::onGraphicsUpdate(float deltaTime, UniformData _data)
+{
+	for (auto& graphicsEntity : m_graphicsEntities)
+	{
+		//ShaderPtr shader = graphicsEntity->getShader();
+		//GraphicsEngine::GetInstance().setShader(shader);
+
+		// Apply other uniform data to the shader
+		graphicsEntity->setUniformData(_data);
+
+		graphicsEntity->onGraphicsUpdate(_data);
 	}
 }
 

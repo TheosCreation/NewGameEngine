@@ -108,5 +108,8 @@ protected:
     MeshPtr m_cubeMesh;
     MeshPtr m_sphereMesh;
 
+    Texture2DPtr m_oldRipple = nullptr;
+    Texture2DPtr m_grayNoiseSmall = nullptr;
+
     shared_ptr<Scene> m_currentScene;
 };

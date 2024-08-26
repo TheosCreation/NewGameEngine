@@ -14,7 +14,7 @@ Mail : theo.morris@mds.ac.nz
 #include <memory>
 #include <glew.h>
 #include <glfw3.h>
-#include "Rect.h"
+#include "Utils.h"
 
 /**
  * @class Window
@@ -37,7 +37,7 @@ public:
      * @brief Gets the inner size of the window.
      * @return A Rect representing the inner size of the window.
      */
-    Rect getInnerSize();
+    glm::vec2 getInnerSize();
 
     /**
      * @brief Gets the GLFWwindow pointer.

@@ -76,6 +76,7 @@ public:
     void onUpdate(float deltaTime);
 
     void onLateUpdate(float deltaTime);
+    void onGraphicsUpdate(float deltaTime, UniformData _data);
 
     /**
      * @brief Called every frame to update the entity system at a fixed frame rate.

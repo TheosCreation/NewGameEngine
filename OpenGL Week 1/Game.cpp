@@ -34,7 +34,7 @@ Game::Game()
 
     initRandomSeed();
     m_display = std::make_unique<Window>();
-    auto windowSize = m_display->getInnerSize();
+    Vector2 windowSize = m_display->getInnerSize();
     m_framebuffer = std::make_unique<Framebuffer>(windowSize);
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -61,22 +61,22 @@ void Game::onCreate()
     auto& resourceManager = ResourceManager::GetInstance();
     m_sphereMesh = resourceManager.createMeshFromFile("Resources/Meshes/sphere.obj");
     m_cubeMesh = resourceManager.createMeshFromFile("Resources/Meshes/cube.obj");
-
+    
     auto scene = std::make_shared<MyScene>(this);
     SetScene(scene);
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
-    ShaderPtr quadShader = graphicsEngine.createShader({
+    ShaderPtr fullScreenShader = graphicsEngine.createShader({
             L"QuadShader",
             L"QuadShader"
         });
     m_canvasQuad = std::make_unique<QuadEntity>();
     m_canvasQuad->onCreate();
-    m_canvasQuad->setShader(quadShader);
-    Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
-    //m_canvasQuad->setTexture(getFrameBufferRenderTexureId());
-    m_canvasQuad->setTexture(sciFiSpace->getId());
-    //m_canvasQuad->setColor(Color::Red);
+    m_canvasQuad->setShader(fullScreenShader);
+    m_canvasQuad->setTexture(getFrameBufferRenderTexureId());
+
+    m_oldRipple = resourceManager.createTexture2DFromFile("Resources/Textures/old.png");
+    m_grayNoiseSmall = resourceManager.createTexture2DFromFile("Resources/Textures/grayNoiseSmall.png");
 }
 
 void Game::onCreateLate()
@@ -86,6 +86,7 @@ void Game::onCreateLate()
 
 void Game::onUpdateInternal()
 {
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
     auto& inputManager = InputManager::GetInstance();
     inputManager.onUpdate();
 
@@ -98,7 +99,6 @@ void Game::onUpdateInternal()
     m_accumulatedTime += deltaTime;
 
     m_currentScene->onUpdate(deltaTime);
-    m_canvasQuad->onUpdate(deltaTime);
 
     if (inputManager.isKeyPressed(Key::Key1))
     {
@@ -111,21 +111,29 @@ void Game::onUpdateInternal()
         float fixedDeltaTime = m_currentTime - m_previousFixedUpdateTime;
         m_previousFixedUpdateTime = m_currentTime;
         m_currentScene->onFixedUpdate(fixedDeltaTime);
-        m_canvasQuad->onFixedUpdate(fixedDeltaTime);
         m_accumulatedTime -= m_fixedTimeStep;
     }
 
     m_currentScene->onLateUpdate(deltaTime);
-    m_canvasQuad->onLateUpdate(deltaTime);
     inputManager.onLateUpdate();
 
     double RenderTime_Begin = (double)glfwGetTime();
-    //m_framebuffer->Bind();
+
+    graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the default frame buffer
+    m_framebuffer->Bind();
     m_currentScene->onGraphicsUpdate(deltaTime);
-    //m_framebuffer->UnBind();
-    ShaderPtr shader = m_canvasQuad->getShader();
-    GraphicsEngine::GetInstance().setShader(shader);
-    m_canvasQuad->onGraphicsUpdate(deltaTime);
+    m_framebuffer->UnBind();
+    graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the scene
+
+
+
+    NewUniformData uniformData;
+    uniformData.CreateData<float>("Time", m_currentTime);
+    uniformData.CreateData<Vector2>("Resolution", m_display->getInnerSize());
+    //NewExtraTextureData textureData;
+    //textureData.AddTexture("Texture1", m_oldRipple, 1);
+    m_canvasQuad->onGraphicsUpdate(uniformData);
+
     double RenderTime_End = (double)glfwGetTime();
 
     // Render to window

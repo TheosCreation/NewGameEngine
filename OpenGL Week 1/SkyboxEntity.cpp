@@ -10,18 +10,22 @@ void SkyboxEntity::onCreate()
 
 void SkyboxEntity::setUniformData(UniformData data)
 {
-    Mat4 viewNoTranslationMatrix = glm::mat3(data.viewMatrix);
-    m_shader->setMat4("VPMatrix", data.projectionMatrix * viewNoTranslationMatrix);
 }
 
-void SkyboxEntity::onGraphicsUpdate(float deltaTime)
+void SkyboxEntity::onGraphicsUpdate(UniformData data)
 {
-    auto& graphicsEngine = GraphicsEngine::GetInstance();
-    graphicsEngine.setFaceCulling(CullType::FrontFace); // draw only the back faces, the front faces are discarded
-    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise); //consider the position of vertices in clock wise way.
-    graphicsEngine.setDepthFunc(DepthType::LessEqual);
+    GraphicsEntity::onGraphicsUpdate(data);
 
-    graphicsEngine.setTextureCubeMap(m_texture, 1);
+    Mat4 viewNoTranslationMatrix = glm::mat3(data.viewMatrix);
+    m_shader->setMat4("VPMatrix", data.projectionMatrix * viewNoTranslationMatrix);
+
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::FrontFace);
+    graphicsEngine.setDepthFunc(DepthType::LessEqual);
+    if (m_texture != nullptr)
+    {
+        graphicsEngine.setTextureCubeMap(m_texture, 0, "Texture_Skybox");
+    }
 
     //during the graphics update, we call the draw function
     auto meshVBO = getMesh()->getVertexArrayObject();

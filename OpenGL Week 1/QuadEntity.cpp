@@ -17,7 +17,7 @@ Mail : theo.morris@mds.ac.nz
 
 void QuadEntity::onCreate()
 {
-    updateVertices({ 2.0f, 2.0f });
+    updateVertices({ -2.0f, 2.0f });
 }
 
 void QuadEntity::updateVertices(Vector2 size)
@@ -33,10 +33,10 @@ void QuadEntity::updateVertices(Vector2 size)
 
     glm::vec2 texcoord_list[] =
     {
-        { glm::vec2(0.0f,0.0f) },
         { glm::vec2(0.0f,1.0f) },
-        { glm::vec2(1.0f,0.0f) },
-        { glm::vec2(1.0f,1.0f) }
+        { glm::vec2(0.0f,0.0f) },
+        { glm::vec2(1.0f,1.0f) },
+        { glm::vec2(1.0f,0.0f) }
     };
 
     Vertex verticesList[] =
@@ -80,8 +80,6 @@ void QuadEntity::updateVertices(Vector2 size)
 
 void QuadEntity::setUniformData(UniformData data)
 {
-    m_shader->setMat4("VPMatrix", data.uiProjectionMatrix * data.uiViewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
 }
 
 void QuadEntity::setShader(const ShaderPtr& shader)
@@ -89,20 +87,32 @@ void QuadEntity::setShader(const ShaderPtr& shader)
     m_shader = shader;
 }
 
-void QuadEntity::onGraphicsUpdate(float deltaTime)
+void QuadEntity::onGraphicsUpdate(NewUniformData& _data)
 {
+    NewExtraTextureData _textureData;
+    onGraphicsUpdate(_data, _textureData);
+}
+
+void QuadEntity::onGraphicsUpdate(NewUniformData& _data, NewExtraTextureData& _textureData)
+{
+    UniformData data = {};
+    GraphicsEntity::onGraphicsUpdate(data); 
+
+    for (const auto& [key, value] : _data.dataMap) {
+        ProcessUniformData(key, value);
+    }
+    
+    for (const auto& [key, value] : _textureData.textureMap) {
+        ProcessTextureData(key, value);
+    }
+
     auto& graphicsEngine = GraphicsEngine::GetInstance();
-    graphicsEngine.setFaceCulling(CullType::None);
-    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
-    graphicsEngine.setDepthFunc(DepthType::Less);
     if (m_texture != nullptr)
     {
-        graphicsEngine.setTexture2D(m_texture, 0);
+        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
     }
-    else
-    {
-        m_shader->setVec3("uColor", m_color);
-    }
+    graphicsEngine.setFaceCulling(CullType::None);
+    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 }

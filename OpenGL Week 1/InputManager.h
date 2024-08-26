@@ -112,11 +112,12 @@ public:
      */
     void enablePlayMode(bool enable);
 
+
     /**
      * @brief Sets the screen area the cursor will be locked into when play mode is enabled.
      * @param area The screen area to set.
      */
-    void setScreenArea(const Rect& area);
+    void setScreenArea(const Vector2& area);
 
     /**
      * @brief Updates the input states.

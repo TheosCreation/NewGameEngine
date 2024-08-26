@@ -4,7 +4,7 @@
 class Framebuffer
 {
 public:
-	Framebuffer(Rect _windowSize);
+	Framebuffer(Vector2 _windowSize);
 	~Framebuffer();
 
 	void Bind();

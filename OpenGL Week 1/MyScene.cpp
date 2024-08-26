@@ -52,23 +52,22 @@ void MyScene::onCreate()
 			L"SolidColorMesh"
 		});
 
-	//auto& entitySystem = EntitySystem::GetInstance();
 
-	//m_terrain = m_entitySystem->createEntity<TerrainEntity>();
-	//m_terrain->generateTerrainMesh(heightmap);
-	//m_terrain->setPosition(Vector3(0, 0, 0));
-	//m_terrain->setTexture(sciFiSpace);
-	//m_terrain->setColor(Color::Red);
-	//m_terrain->setShader(meshShader);
+	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
+	m_terrain->generateTerrainMesh(heightmap);
+	m_terrain->setPosition(Vector3(0, -100, 0));
+	m_terrain->setTexture(sciFiSpace);
+	m_terrain->setColor(Color::Red);
+	m_terrain->setShader(meshShader);
 
-	//m_ship = m_entitySystem->createEntity<MeshEntity>();
-	//m_ship->setScale(Vector3(0.05f));
-	//m_ship->setPosition(Vector3(0, 0, 0));
-	//m_ship->setShininess(32.0f);
-	//m_ship->setTexture(sciFiSpace);
-	//m_ship->setReflectiveMapTexture(shipReflectiveMap);
-	//m_ship->setMesh(fighterShip);
-	//m_ship->setShader(meshShader);
+	m_ship = m_entitySystem->createEntity<MeshEntity>();
+	m_ship->setScale(Vector3(0.05f));
+	m_ship->setPosition(Vector3(0, 0, 0));
+	m_ship->setShininess(32.0f);
+	m_ship->setTexture(sciFiSpace);
+	m_ship->setReflectiveMapTexture(shipReflectiveMap);
+	m_ship->setMesh(fighterShip);
+	m_ship->setShader(meshShader);
 	
 	//Creating instanced tree obj
 	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
@@ -150,7 +149,7 @@ void MyScene::onCreate()
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
 	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
-	directionalLight.Color = Vector3(0.1f, 0.1f, 0.1f);
+	directionalLight.Color = Vector3(0.9f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);
 

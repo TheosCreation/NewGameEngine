@@ -78,11 +78,12 @@ public:
 
     void setStencil(const StencilOperationType& type);
 
+
     /**
      * @brief Sets the viewport size.
      * @param size The size of the viewport.
      */
-    void setViewport(const Rect& size);
+    void setViewport(const Vector2& size);
 
     /**
      * @brief Sets multisampling to enabled or disabled.
@@ -102,21 +103,22 @@ public:
      */
     void setShader(const ShaderPtr& program);
 
-    void setTexture(const uint textureId, uint slot);
+    void setTexture(const uint textureId, uint slot, std::string bindingName);
+
 
     /**
      * @brief Sets the active 2D Texture.
      * @param texture A shared pointer to the Texture2D to set.
      * @param slot The texture slot to bind the texture to.
      */
-    void setTexture2D(const TexturePtr& texture, uint slot);
+    void setTexture2D(const TexturePtr& texture, uint slot, std::string bindingName);
 
     /**
      * @brief Sets the active Cube Map Texture.
      * @param texture A shared pointer to the Texture2D to set.
      * @param slot The texture slot to bind the texture to.
      */
-    void setTextureCubeMap(const TexturePtr& texture, uint slot);
+    void setTextureCubeMap(const TexturePtr& texture, uint slot, std::string bindingName);
 
     /**
      * @brief Draws triangles.
@@ -142,6 +144,7 @@ public:
     void drawIndexedTrianglesInstanced(const TriangleType& triangleType, uint indicesCount, int instanceCount);
 
 private:
+    ShaderPtr currentShader = nullptr;
     /**
      * @brief Private constructor to prevent external instantiation.
      */

@@ -37,30 +37,24 @@ void Scene::onGraphicsUpdate(float deltaTime)
     // Render skybox
     ShaderPtr skyboxShader = m_skyBox->getShader();
     graphicsEngine.setShader(skyboxShader);
-    m_skyBox->setUniformData(data);
-    m_skyBox->onGraphicsUpdate(deltaTime);
+    m_skyBox->onGraphicsUpdate(data);
 
     //graphicsEngine.setScissor(true);
     //m_graphicsEngine->setStencil(StencilOperationType::Set);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
 
-    ShaderPtr currentShader = nullptr;
-    for (auto& graphicsEntity : m_entitySystem->getGraphicsEntities())
-    {
-        ShaderPtr shader = graphicsEntity->getShader();
-        if (shader != currentShader)
-        {
-            // Set the shader only if it is different from the current one
-            graphicsEngine.setShader(shader);
-            // Apply lighting to the shader
-            lightManager.applyLighting(shader);
-            currentShader = shader;
-        }
-        // Apply other uniform data to the shader
-        graphicsEntity->setUniformData(data);
+    //for (auto& graphicsEntity : m_entitySystem->getGraphicsEntities())
+    //{
+    //    ShaderPtr shader = graphicsEntity->getShader();
+    //    graphicsEngine.setShader(shader);
 
-        graphicsEntity->onGraphicsUpdate(deltaTime);
-    }
+    //    // Apply other uniform data to the shader
+    //    graphicsEntity->setUniformData(data);
+
+    //    graphicsEntity->onGraphicsUpdate(deltaTime);
+    //}
+
+    m_entitySystem->onGraphicsUpdate(deltaTime, data);
     
     //graphicsEngine.setScissor(false);
     //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);

@@ -84,19 +84,16 @@ void ScreenQuad::setShader(const ShaderPtr& shader)
     m_shader = shader;
 }
 
-void ScreenQuad::onGraphicsUpdate(float deltaTime)
+void ScreenQuad::onGraphicsUpdate(UniformData data)
 {
+
+    GraphicsEntity::onGraphicsUpdate(data);
+
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::None);
-    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
-    graphicsEngine.setDepthFunc(DepthType::Less);
-    if (m_renderTextureId)
+    if (m_texture != nullptr)
     {
-        graphicsEngine.setTexture(m_renderTextureId, 0);
-    }
-    else
-    {
-        m_shader->setVec3("uColor", m_color);
+        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
     }
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer

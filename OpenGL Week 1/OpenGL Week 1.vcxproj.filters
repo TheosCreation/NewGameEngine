@@ -154,6 +154,22 @@
     <None Include="Resources\Shaders\SolidColorMesh.vert" />
     <None Include="Resources\Shaders\ScreenSpaceShader.vert" />
     <None Include="Resources\Shaders\ScreenSpaceShader.frag" />
+    <None Include="Resources\Shaders\InvertColorFullRenderPass.frag" />
+    <None Include="Resources\Shaders\InvertColorFullRenderPass.vert" />
+    <None Include="Resources\Shaders\GreyScaleFullRenderPass.frag" />
+    <None Include="Resources\Shaders\GreyScaleFullRenderPass.vert" />
+    <None Include="Resources\Shaders\GreyScaleLuminosityFullRenderPass.vert" />
+    <None Include="Resources\Shaders\GreyScaleLuminosityFullRenderPass.frag" />
+    <None Include="Resources\Shaders\RainFullRenderPass.vert" />
+    <None Include="Resources\Shaders\RainFullRenderPass.frag" />
+    <None Include="Resources\Shaders\ScanLineFullRenderPass.frag" />
+    <None Include="Resources\Shaders\ScanLineFullRenderPass.vert" />
+    <None Include="Resources\Shaders\OldFilmRenderPass.frag" />
+    <None Include="Resources\Shaders\OldFilmRenderPass.vert" />
+    <None Include="Resources\Shaders\ChromaticAberrationRenderPass.frag" />
+    <None Include="Resources\Shaders\ChromaticAberrationRenderPass.vert" />
+    <None Include="Resources\Shaders\MattiasCRTRenderPass.vert" />
+    <None Include="Resources\Shaders\MattiasCRTRenderPass.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

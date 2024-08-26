@@ -1,9 +1,10 @@
 #include "Framebuffer.h"
+#include "GraphicsEngine.h"
 #include <glew.h>
 #include <glfw3.h>
 
 // Constructor: Initialize the framebuffer and create a texture
-Framebuffer::Framebuffer(Rect _windowSize)
+Framebuffer::Framebuffer(Vector2 _windowSize)
 {
     // Generate and bind the framebuffer
     glGenFramebuffers(1, &FBO);
@@ -14,7 +15,7 @@ Framebuffer::Framebuffer(Rect _windowSize)
     glBindTexture(GL_TEXTURE_2D, RenderTexture);
 
     // Define the texture parameters
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _windowSize.width, _windowSize.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -24,7 +25,7 @@ Framebuffer::Framebuffer(Rect _windowSize)
     // Generate and bind the renderbuffer for depth and stencil
     glGenRenderbuffers(1, &RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _windowSize.width, _windowSize.height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _windowSize.x, _windowSize.y);
 
     // Attach the renderbuffer to the framebuffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);

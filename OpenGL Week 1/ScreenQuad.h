@@ -39,7 +39,7 @@ public:
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
-    virtual void onGraphicsUpdate(float deltaTime);
+    void onGraphicsUpdate(UniformData data);
 
     void setRenderTexture(uint RenderTexture);
 

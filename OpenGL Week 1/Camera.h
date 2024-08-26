@@ -60,11 +60,12 @@ public:
      */
     void setCameraType(const CameraType& type);
 
+
     /**
      * @brief Sets the screen area of the camera.
      * @param screen The screen area rectangle.
      */
-    void setScreenArea(const Rect& screen);
+    void setScreenArea(const Vector2& screen);
 
     /**
      * @brief Sets the target position that the camera is looking at.

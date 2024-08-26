@@ -79,6 +79,11 @@ public:
 	{
 		glUniform3fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
 	}
+	
+	void setVec2(const std::string& name, const Vector2& value) const
+	{
+		glUniform2fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
+	}
 
 	/**
 	 * @brief Sends a int into the shader.

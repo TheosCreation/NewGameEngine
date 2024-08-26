@@ -101,9 +101,9 @@ void InputManager::enablePlayMode(bool enable)
 	}
 }
 
-void InputManager::setScreenArea(const Rect& area)
+void InputManager::setScreenArea(const Vector2& area)
 {
-	m_screenArea = area;
+	m_screenArea = Rect(0, 0, area.x, area.y);
 }
 
 void InputManager::onUpdate()

@@ -113,8 +113,6 @@ void TerrainEntity::onCreate()
 
 void TerrainEntity::setUniformData(UniformData data)
 {
-    m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
 }
 
 void TerrainEntity::setShader(const ShaderPtr& shader)
@@ -122,23 +120,20 @@ void TerrainEntity::setShader(const ShaderPtr& shader)
     m_shader = shader;
 }
 
-void TerrainEntity::onGraphicsUpdate(float deltaTime)
+void TerrainEntity::onGraphicsUpdate(UniformData data)
 {
+    GraphicsEntity::onGraphicsUpdate(data);
+
+    m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
+    m_shader->setMat4("modelMatrix", getModelMatrix());
+
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
-    graphicsEngine.setDepthFunc(DepthType::Less);
-
-    if (m_texture)
+    if (m_texture != nullptr)
     {
-        graphicsEngine.setTexture2D(m_texture, 0);
+        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
     }
-    else
-    {
-        m_shader->setVec3("uColor", m_color);
-    }
-
-    // During the graphics update, we call the draw function
-    graphicsEngine.setVertexArrayObject(m_mesh); // Bind vertex buffer to graphics pipeline
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices()); // Draw triangles through the usage of index buffer
+    graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 }
