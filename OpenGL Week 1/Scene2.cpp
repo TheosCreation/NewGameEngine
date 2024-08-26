@@ -34,6 +34,8 @@ void Scene2::onCreate()
 	//Loading texture resources
 
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
+	Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/dirt.jpg");
+	Texture2DPtr heightMapTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Heightmap0.jpg");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 
@@ -45,6 +47,10 @@ void Scene2::onCreate()
 			"MeshShader",
 			"MeshShader"
 		});
+	ShaderPtr terrainShader = graphicsEngine.createShader({
+			"MeshShader",
+			"TerrainShader"
+		});
 	ShaderPtr solidColorMeshShader = graphicsEngine.createShader({
 			"SolidColorMesh",
 			"SolidColorMesh"
@@ -55,8 +61,10 @@ void Scene2::onCreate()
 	m_terrain->generateTerrainMesh(heightmap);
 	m_terrain->setPosition(Vector3(0, -100, 0));
 	m_terrain->setTexture(sciFiSpace);
+	m_terrain->setTexture1(dirtTexture);
+	m_terrain->setHeightMap(heightMapTexture);
 	m_terrain->setColor(Color::Red);
-	m_terrain->setShader(meshShader);
+	m_terrain->setShader(terrainShader);
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(Vector3(0.05f));

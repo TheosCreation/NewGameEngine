@@ -22,6 +22,7 @@ Mail : theo.morris@mds.ac.nz
 #include <unordered_map>
 #include <any>
 #include <functional>
+#include <algorithm>
 
 // Forward declarations of classes
 

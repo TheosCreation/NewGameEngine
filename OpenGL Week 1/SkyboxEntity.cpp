@@ -24,7 +24,7 @@ void SkyboxEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setDepthFunc(DepthType::LessEqual);
     if (m_texture != nullptr)
     {
-        graphicsEngine.setTextureCubeMap(m_texture, 0, "Texture_Skybox");
+        graphicsEngine.setTextureCubeMap(m_texture, 1, "Texture_Skybox");
     }
 
     //during the graphics update, we call the draw function

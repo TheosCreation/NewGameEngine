@@ -26,6 +26,8 @@ public:
 
     void generateTerrainMesh(HeightMapPtr _heightMap);
 
+    void setTexture1(const TexturePtr& texture);
+
 protected:
     /**
      * @brief Called every frame to update the graphics.
@@ -33,8 +35,10 @@ protected:
      */
     virtual void onGraphicsUpdate(UniformData data);
 
+    void smoothHeightMap(std::vector<float>& heightData, uint width, uint depth);
+
 private:
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the terrian
-    HeightMapPtr m_heightMap;
+    TexturePtr m_texture1 = nullptr;
 };
 

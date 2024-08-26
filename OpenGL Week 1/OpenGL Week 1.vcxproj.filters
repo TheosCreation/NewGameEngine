@@ -172,6 +172,7 @@
     <None Include="Resources\Shaders\Fragment\OldFilmRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\ChromaticAberrationRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\MattiasCRTRenderPass.frag" />
+    <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

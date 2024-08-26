@@ -93,6 +93,11 @@ void GraphicsEntity::setTexture(const TexturePtr& texture)
 	m_texture = texture;
 }
 
+void GraphicsEntity::setHeightMap(const TexturePtr& heightMapTexture)
+{
+    m_heightMap = heightMapTexture;
+}
+
 void GraphicsEntity::setColor(Vector3 color)
 {
 	m_color = color;

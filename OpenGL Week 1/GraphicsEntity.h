@@ -71,6 +71,7 @@ public:
      * @param texture A shared pointer to the texture.
      */
     void setTexture(const TexturePtr& texture);
+    void setHeightMap(const TexturePtr& heightMapTexture);
 
     /**
      * @brief Sets the color to be used by this entity.
@@ -82,6 +83,7 @@ protected:
     ShaderPtr m_shader; //The shader used by this entity
     Vector3 m_color;
     TexturePtr m_texture; //The texture used by this entity
+    TexturePtr m_heightMap; //The texture used by this entity
 
     void ProcessUniformData(const std::string& name, const std::any& value);
     void ProcessTextureData(const std::string& name, const std::tuple<TexturePtr, uint>& value);

@@ -1,6 +1,7 @@
 #include "TerrainEntity.h"
 #include "GraphicsEngine.h"
 #include "VertexArrayObject.h"
+#include "LightManager.h"
 
 void TerrainEntity::generateTerrainMesh(HeightMapPtr _heightMap)
 {
@@ -13,6 +14,12 @@ void TerrainEntity::generateTerrainMesh(HeightMapPtr _heightMap)
     uint depth = _heightMap->getDepth();
     uint width = _heightMap->getWidth();
     float cellSpacing = _heightMap->getCellSpacing();
+
+    smoothHeightMap(data, width, depth);
+    smoothHeightMap(data, width, depth);
+    smoothHeightMap(data, width, depth);
+    smoothHeightMap(data, width, depth);
+    smoothHeightMap(data, width, depth);
 
     uint numVertices = width * depth;
     uint numIndices = (width - 1) * (depth - 1) * 6;
@@ -107,6 +114,11 @@ void TerrainEntity::generateTerrainMesh(HeightMapPtr _heightMap)
     delete[] indicesList;
 }
 
+void TerrainEntity::setTexture1(const TexturePtr& texture)
+{
+    m_texture1 = texture;
+}
+
 void TerrainEntity::onCreate()
 {
 }
@@ -130,10 +142,50 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
+    LightManager::GetInstance().applyLighting(m_shader);
     if (m_texture != nullptr)
     {
         graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
+
     }
+    if (m_texture1 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture1, 3, "Texture1");
+    }
+
+    if (m_heightMap != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_heightMap, 4, "HeightMap");
+    }
+
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+}
+
+void TerrainEntity::smoothHeightMap(std::vector<float>& heightData, uint width, uint depth)
+{
+    std::vector<float> smoothedData(heightData.size());
+
+    // Apply a simple box blur filter
+    for (uint row = 0; row < depth; ++row) {
+        for (uint col = 0; col < width; ++col) {
+            float sum = 0.0f;
+            uint count = 0;
+
+            // Iterate over a 3x3 grid around the current cell
+            for (int r = -1; r <= 1; ++r) {
+                for (int c = -1; c <= 1; ++c) {
+                    uint newRow = std::clamp<int>(row + r, 0, depth - 1);
+                    uint newCol = std::clamp<int>(col + c, 0, width - 1);
+                    sum += heightData[newRow * width + newCol];
+                    count++;
+                }
+            }
+
+            smoothedData[row * width + col] = sum / count;
+        }
+    }
+
+    // Copy the smoothed data back to the original heightData
+    heightData = std::move(smoothedData);
 }
