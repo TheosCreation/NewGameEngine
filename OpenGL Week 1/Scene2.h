@@ -15,21 +15,21 @@ Mail : theo.morris@mds.ac.nz
 #include "MyPlayer.h"
 
 /**
- * @class MyScene
+ * @class Scene2
  * @brief A stripped-down class of the scene class to allow end user to create their own entities.
  */
-class MyScene : public Scene
+class Scene2 : public Scene
 {
 public:
     /**
      * @brief Constructor for the MyGame class.
      */
-    MyScene(Game* game);
+    Scene2(Game* game);
 
     /**
      * @brief Destructor for the MyGame class.
      */
-    ~MyScene();
+    ~Scene2();
 
     /**
      * @brief Called when the game is created.
@@ -56,26 +56,11 @@ public:
 
     virtual void onQuit() override;
 
-    void switchFullscreenShader();
-
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 
     // Initialize all VBOs here
     MeshEntity* m_ship = nullptr; //Pointer to the statue entity
-    MeshEntity* m_ground = nullptr; //Pointer to the ground entity
     TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
-    InstancedMeshEntity* m_instanceMines = nullptr; //Pointer to the instanced tree entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
-    QuadEntity* m_button = nullptr; //Pointer to the button entity
-
-    float m_uiScaleX = 2.0; //UI scale factor for the x-axis
-    float m_uiScaleY = -2.0; //UI scale factor for the y-axis
-
-    //shader stuff
-    vector<ShaderPtr> m_fullScreenShaders;
-    uint currentIndex = -1;
-
-    Texture2DPtr m_oldRipple = nullptr;
-    Texture2DPtr m_grayNoiseSmall = nullptr;
 };

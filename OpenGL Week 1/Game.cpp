@@ -22,13 +22,15 @@ Mail : theo.morris@mds.ac.nz
 #include <glew.h>
 #include <glfw3.h>
 #include "MyScene.h"
+#include "Scene4.h"
+#include "Scene2.h"
 
 Game::Game()
 {
     //init GLFW ver 4.6
     if (!glfwInit())
     {
-        OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
+        Debug::LogError("GLFW failed to initialize properly. Terminating program.");
         return;
     }
 
@@ -62,21 +64,20 @@ void Game::onCreate()
     m_sphereMesh = resourceManager.createMeshFromFile("Resources/Meshes/sphere.obj");
     m_cubeMesh = resourceManager.createMeshFromFile("Resources/Meshes/cube.obj");
     
-    auto scene = std::make_shared<MyScene>(this);
-    SetScene(scene);
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
-    ShaderPtr fullScreenShader = graphicsEngine.createShader({
-            L"QuadShader",
-            L"QuadShader"
+    defaultQuadShader = graphicsEngine.createShader({
+            "QuadShader",
+            "QuadShader"
         });
+
     m_canvasQuad = std::make_unique<QuadEntity>();
     m_canvasQuad->onCreate();
-    m_canvasQuad->setShader(fullScreenShader);
-    m_canvasQuad->setTexture(getFrameBufferRenderTexureId());
+    m_canvasQuad->setTexture(m_framebuffer->RenderTexture);
+    m_canvasQuad->setShader(defaultQuadShader);
 
-    m_oldRipple = resourceManager.createTexture2DFromFile("Resources/Textures/old.png");
-    m_grayNoiseSmall = resourceManager.createTexture2DFromFile("Resources/Textures/grayNoiseSmall.png");
+    auto scene4 = std::make_shared<Scene4>(this);
+    SetScene(scene4);
 }
 
 void Game::onCreateLate()
@@ -102,8 +103,26 @@ void Game::onUpdateInternal()
 
     if (inputManager.isKeyPressed(Key::Key1))
     {
-        auto scene = std::make_shared<MyScene>(this);
-        SetScene(scene);
+        //auto scene1 = std::make_shared<Scene1>(this);
+        //SetScene(scene1);
+    }
+    
+    if (inputManager.isKeyPressed(Key::Key2))
+    {
+        auto scene2 = std::make_shared<Scene2>(this);
+        SetScene(scene2);
+    }
+    
+    if (inputManager.isKeyPressed(Key::Key3))
+    {
+        //auto scene3 = std::make_shared<Scene3>(this);
+        //SetScene(scene3);
+    }
+    
+    if (inputManager.isKeyPressed(Key::Key4))
+    {
+        auto scene4 = std::make_shared<Scene4>(this);
+        SetScene(scene4);
     }
     // Perform fixed updates
     while (m_accumulatedTime >= m_fixedTimeStep)
@@ -130,9 +149,17 @@ void Game::onUpdateInternal()
     NewUniformData uniformData;
     uniformData.CreateData<float>("Time", m_currentTime);
     uniformData.CreateData<Vector2>("Resolution", m_display->getInnerSize());
-    //NewExtraTextureData textureData;
-    //textureData.AddTexture("Texture1", m_oldRipple, 1);
-    m_canvasQuad->onGraphicsUpdate(uniformData);
+    if (currentTexture1)
+    {
+        //if the current shader needs a second texture we pass that into it
+        NewExtraTextureData textureData;
+        textureData.AddTexture("Texture1", currentTexture1, 1);
+        m_canvasQuad->onGraphicsUpdate(uniformData, textureData);
+    }
+    else
+    {
+        m_canvasQuad->onGraphicsUpdate(uniformData);
+    }
 
     double RenderTime_End = (double)glfwGetTime();
 
@@ -168,12 +195,14 @@ void Game::quit()
 
 void Game::SetScene(shared_ptr<Scene> _scene)
 {
+    //m_canvasQuad->setShader(defaultQuadShader);
     // if there is a current scene, call onQuit
     if (m_currentScene != nullptr)
     {
         m_currentScene->onQuit();
-        LightManager::GetInstance().clearLights(); 
+        LightManager::GetInstance().reset(); 
         ResourceManager::GetInstance().ClearInstancesFromMeshes();
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
     // set the current scene to the new scene
     m_currentScene = _scene;
@@ -200,8 +229,15 @@ MeshPtr Game::getSphereMesh()
 {
     return m_sphereMesh;
 }
-
-uint Game::getFrameBufferRenderTexureId()
+void Game::SetFullScreenShader(ShaderPtr _shader, Texture2DPtr _texture)
 {
-    return m_framebuffer->RenderTexture;
+    if (_shader == nullptr)
+    {
+        m_canvasQuad->setShader(defaultQuadShader);
+    }
+    else
+    {
+        m_canvasQuad->setShader(_shader);
+    }
+    currentTexture1 = _texture;
 }

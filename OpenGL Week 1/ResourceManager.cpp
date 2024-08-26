@@ -30,7 +30,7 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
 
     if (filepaths.size() != 6)
     {
-        OGL3D_ERROR("Cubemap texture requires exactly 6 images");
+        Debug::LogError("Cubemap texture requires exactly 6 images");
         return TextureCubeMapPtr();
     }
 
@@ -47,7 +47,7 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
         }
         else
         {
-            OGL3D_ERROR("Cubemap texture failed to load at path: " + filepath);
+            Debug::LogError("Cubemap texture failed to load at path: " + filepath);
             stbi_image_free(data);
             return TextureCubeMapPtr();
         }
@@ -57,7 +57,7 @@ TextureCubeMapPtr ResourceManager::createCubeMapTextureFromFile(const std::vecto
     TextureCubeMapPtr textureCubeMapPtr = std::make_shared<TextureCubeMap>(desc, filepaths[0].c_str(), this);
     if (!textureCubeMapPtr)
     {
-        OGL3D_ERROR("Cubemap texture not generated");
+        Debug::LogError("Cubemap texture not generated");
     }
 
     // Free the image data.
@@ -91,7 +91,7 @@ Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepat
     unsigned char* data = stbi_load(filepath.c_str(), &width, &height, &nrChannels, 0);
     if (!data)
     {
-        OGL3D_ERROR("Texture failed to load at path: " + filepath);
+        Debug::LogError("Texture failed to load at path: " + filepath);
         return Texture2DPtr();
     }
 
@@ -103,7 +103,7 @@ Texture2DPtr ResourceManager::createTexture2DFromFile(const std::string& filepat
     Texture2DPtr texture2DPtr = std::make_shared<Texture2D>(desc, filepath.c_str(), this);
     if (!texture2DPtr)
     {
-        OGL3D_ERROR("Texture not generated");
+        Debug::LogError("Texture not generated");
     }
 
     // Free the image data.
@@ -167,7 +167,7 @@ HeightMapPtr ResourceManager::createHeightMap(HeightMapInfo& _buildInfo)
         file.close();
     }
     else {
-        OGL3D_ERROR("Error: Height map failed to load: " << _buildInfo.filePath);
+        Debug::LogError("Error: Height map failed to load: " + _buildInfo.filePath);
         return HeightMapPtr();  // Return null pointer if file reading fails
     }
 
@@ -180,7 +180,7 @@ HeightMapPtr ResourceManager::createHeightMap(HeightMapInfo& _buildInfo)
     // Create a HeightMap
     HeightMapPtr heightMapPtr = std::make_shared<HeightMap>(desc, _buildInfo, _buildInfo.filePath.c_str(), this);
     if (!heightMapPtr) {
-        OGL3D_ERROR("Heightmap not generated");
+        Debug::LogError("Heightmap not generated");
         return HeightMapPtr();  // Return null pointer if HeightMap creation fails
     }
 

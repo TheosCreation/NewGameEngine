@@ -34,27 +34,24 @@ Shader::~Shader()
 	glDeleteProgram(m_programId);
 }
 
-void Shader::attach(const wchar_t* filename, const ShaderType& type)
+void Shader::attach(string filename, const ShaderType& type)
 {
-	// for file reading
-	std::wstring wstr(filename);
-	std::wstring filePath;
-
+	string filePath;
 	// Open the file for reading
 	std::ifstream shaderStream;
-	std::string shaderCode;
+	string shaderCode;
 
 	if (type == ShaderType::VertexShader)
 	{
-		filePath = L"Resources/Shaders/" + wstr + L".vert";
+		filePath = "Resources/Shaders/Vertex/" + filename + ".vert";
 	}
 	else if (type == ShaderType::FragmentShader)
 	{
-		filePath = L"Resources/Shaders/" + wstr + L".frag";
+		filePath = "Resources/Shaders/Fragment/" + filename + ".frag";
 	}
 	else
 	{
-		OGL3D_WARNING("Shader | Cannot find file: " << filename << std::endl);
+		Debug::LogWarning("Shader | Cannot find file: " + filePath);
 
 		return;
 	}
@@ -62,7 +59,7 @@ void Shader::attach(const wchar_t* filename, const ShaderType& type)
 	shaderStream.open(filePath.c_str(), std::ios::in);
 
 	if (!shaderStream.good()) {
-		OGL3D_WARNING("Shader | Cannot read file: " << filename << std::endl);
+		Debug::LogWarning("Shader | Cannot read file: " + filePath);
 
 		shaderStream.close();
 		return;
@@ -99,14 +96,14 @@ void Shader::attach(const wchar_t* filename, const ShaderType& type)
 	{
 		std::vector<char> errorMessage(logLength + 1);
 		glGetShaderInfoLog(shaderId, logLength, NULL, &errorMessage[0]);
-		OGL3D_WARNING("Shader | " << filename << " compiled with errors:" << std::endl << &errorMessage[0]);
+		Debug::LogError("Shader | " + filePath + " compiled with errors: "  + errorMessage[0]);
 		return;
 	}
 
 	glAttachShader(m_programId, shaderId);
 	m_attachedShaders[(uint)type] = shaderId;
 
-	OGL3D_INFO("Shader | " << filename << " compiled successfully");
+	Debug::Log("Shader | " + filePath + " compiled successfully");
 }
 
 void Shader::link()
@@ -120,7 +117,7 @@ void Shader::link()
 	{
 		std::vector<char> errorMessage(logLength + 1);
 		glGetShaderInfoLog(m_programId, logLength, NULL, &errorMessage[0]);
-		OGL3D_WARNING("Shader | " << &errorMessage[0]);
+		Debug::LogWarning("Shader | " + errorMessage[0]);
 		return;
 	}
 }

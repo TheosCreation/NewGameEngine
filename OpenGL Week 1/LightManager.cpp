@@ -116,6 +116,14 @@ void LightManager::setSpotlightDirection(Vector3 direction)
     m_spotLight.Direction = direction;
 }
 
+void LightManager::reset()
+{
+    DirectionalLightStatus = true;
+    SpotlightStatus = true;
+    PointLightsStatus = true; 
+    clearLights();
+}
+
 void LightManager::clearLights()
 {
     // Reset point lights

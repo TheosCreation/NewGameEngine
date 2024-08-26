@@ -89,42 +89,42 @@ void MyPlayer::onUpdate(float deltaTime)
     //}
 
 
-    // Toggle directional light on/off
-    if (inputManager.isKeyPressed(Key::Key2))
-    {
-        bool currentLightStatus = lightManager.getDirectionalLightStatus();
-        lightManager.setDirectionalLightStatus(!currentLightStatus);
-    }
+    //// Toggle directional light on/off
+    //if (inputManager.isKeyPressed(Key::Key2))
+    //{
+    //    bool currentLightStatus = lightManager.getDirectionalLightStatus();
+    //    lightManager.setDirectionalLightStatus(!currentLightStatus);
+    //}
 
-    // Toggle spotlight on/off
-    if (inputManager.isKeyPressed(Key::Key3))
-    {
-        bool currentLightStatus = lightManager.getSpotlightStatus();
-        lightManager.setSpotlightStatus(!currentLightStatus);
-    }
+    //// Toggle spotlight on/off
+    //if (inputManager.isKeyPressed(Key::Key3))
+    //{
+    //    bool currentLightStatus = lightManager.getSpotlightStatus();
+    //    lightManager.setSpotlightStatus(!currentLightStatus);
+    //}
 
-    // Toggle wireframe mode on/off
-    if (inputManager.isKeyPressed(Key::Key4))
-    {
-        m_wireframeMode = !m_wireframeMode;
-        if (m_wireframeMode)
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        }
-        else
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        }
-    }
+    //// Toggle wireframe mode on/off
+    //if (inputManager.isKeyPressed(Key::Key4))
+    //{
+    //    m_wireframeMode = !m_wireframeMode;
+    //    if (m_wireframeMode)
+    //    {
+    //        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //    }
+    //    else
+    //    {
+    //        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //    }
+    //}
 
-    // Get the mouse position from the input manager
-    glm::vec2 cursorPosition = inputManager.getMousePosition();
+    //// Get the mouse position from the input manager
+    //glm::vec2 cursorPosition = inputManager.getMousePosition();
 
-    // Toggle to print the cords of the cursor
-    if (inputManager.isKeyPressed(Key::Key5))
-    {
-        std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
-    }
+    //// Toggle to print the cords of the cursor
+    //if (inputManager.isKeyPressed(Key::Key5))
+    //{
+    //    std::cout << "Mouse Coordinates: (" << cursorPosition.x << ", " << cursorPosition.y << ")" << std::endl;
+    //}
     // Adjust camera speed if Shift key is pressed
     if (inputManager.isKeyDown(Key::KeyShift)) {
         m_movementSpeed = m_originalMovementSpeed * 2.0f;

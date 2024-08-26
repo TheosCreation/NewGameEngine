@@ -67,7 +67,7 @@ public:
 
     MeshPtr getSphereMesh();
 
-    uint getFrameBufferRenderTexureId();
+    void SetFullScreenShader(ShaderPtr _shader = nullptr, Texture2DPtr _texture = nullptr);
 
 protected:
     /**
@@ -108,8 +108,8 @@ protected:
     MeshPtr m_cubeMesh;
     MeshPtr m_sphereMesh;
 
-    Texture2DPtr m_oldRipple = nullptr;
-    Texture2DPtr m_grayNoiseSmall = nullptr;
+    ShaderPtr defaultQuadShader = nullptr;
+    Texture2DPtr currentTexture1 = nullptr;
 
     shared_ptr<Scene> m_currentScene;
 };

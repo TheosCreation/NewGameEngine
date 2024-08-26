@@ -15,9 +15,9 @@ Mail : theo.morris@mds.ac.nz
 
 VertexArrayObject::VertexArrayObject(const VertexBufferDesc& data)
 {
-	if (!data.listSize) OGL3D_ERROR("VertexArrayObject | vertexBuffer.listSize is NULL");
-	if (!data.vertexSize) OGL3D_ERROR("VertexArrayObject | vertexBuffer.vertexSize is NULL");
-	if (!data.verticesList) OGL3D_ERROR("VertexArrayObject | vertexBuffer.verticesList is NULL");
+	if (!data.listSize) Debug::LogError("VertexArrayObject | vertexBuffer.listSize is NULL");
+	if (!data.vertexSize) Debug::LogError("VertexArrayObject | vertexBuffer.vertexSize is NULL");
+	if (!data.verticesList) Debug::LogError("VertexArrayObject | vertexBuffer.verticesList is NULL");
 
 	glGenVertexArrays(1, &m_vertexArrayObjectID);
 	glBindVertexArray(m_vertexArrayObjectID);
@@ -52,8 +52,8 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const Index
 	: VertexArrayObject(vbDesc)
 {
 
-	if (!ibDesc.listSize) OGL3D_ERROR("VertexArrayObject | indexBuffer.listSize is NULL");
-	if (!ibDesc.indicesList) OGL3D_ERROR("VertexArrayObject | indexBuffer.indicesList is NULL");
+	if (!ibDesc.listSize) Debug::LogError("VertexArrayObject | indexBuffer.listSize is NULL");
+	if (!ibDesc.indicesList) Debug::LogError("VertexArrayObject | indexBuffer.indicesList is NULL");
 
 	glBindVertexArray(m_vertexArrayObjectID);
 

@@ -109,6 +109,7 @@ public:
      */
     void setSpotlightDirection(Vector3 direction);
 
+    void reset();
     void clearLights();
 
 protected:

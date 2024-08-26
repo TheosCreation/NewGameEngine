@@ -100,8 +100,8 @@ void Scene::onCreate()
     //Creating skybox object
     m_skyBox = std::make_unique<SkyboxEntity>();
     ShaderPtr skyboxShader = GraphicsEngine::GetInstance().createShader({
-            L"SkyBoxShader",
-            L"SkyBoxShader"
+            "SkyBoxShader",
+            "SkyBoxShader"
         });
 
     m_skyBox->setEntitySystem(m_entitySystem.get());

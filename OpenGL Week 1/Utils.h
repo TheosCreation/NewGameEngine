@@ -57,6 +57,9 @@ typedef std::shared_ptr<HeightMap> HeightMapPtr;
 
 using std::shared_ptr;
 using std::unique_ptr;
+using std::vector;
+using std::string;
+
 
 struct Transform
 {
@@ -160,8 +163,8 @@ struct IndexBufferDesc
 // Struct representing a shader description
 struct ShaderDesc
 {
-    const wchar_t* vertexShaderFileName; //Filename of the vertex shader
-    const wchar_t* fragmentShaderFileName; //Filename of the fragment shader
+    string vertexShaderFileName; //Filename of the vertex shader
+    string fragmentShaderFileName; //Filename of the fragment shader
 };
 
 // Struct representing a uniform buffer description
@@ -354,7 +357,8 @@ enum Key
     KeyW,
     KeyX,
     KeyY,
-    KeyZ,
+    KeyZ, 
+    KeyTab = 258,
     KeyF1 = 290,
     KeyF2,
     KeyF3,
@@ -426,18 +430,29 @@ struct SpotLight
     float AttenuationExponent;
 };
 
-// Macro for throwing an OpenGL error
-#define OGL3D_ERROR(message)\
-{\
-	std::stringstream m;\
-	m << "OGL3D Error: " << message << std::endl;\
-	throw std::runtime_error(m.str());\
+template <typename T>
+std::string ToString(const T& value) {
+    return std::to_string(value);
 }
 
-// Macro for logging an OpenGL warning
-#define OGL3D_WARNING(message)\
-std::wclog << "OGL3D Warning: " << message << std::endl;
+class Debug
+{
+public:
+    // Static methods for logging messages
+    static void Log(const string& message) {
+        PrintMessage(message, "Log");
+    };
+    static void LogError(const string& message) {
+        PrintMessage(message, "Error");
+        throw std::runtime_error(message);
+    }
+    static void LogWarning(const string& message) {
+        PrintMessage(message, "Warning");
+    }
 
-// Macro for logging OpenGL information
-#define OGL3D_INFO(message)\
-std::wclog << "OGL3D Info: " << message << std::endl;
+private:
+    // Helper methods to format and print messages
+    static void PrintMessage(const string& message, const string& type) {
+        printf("[%s] %s\n", type.c_str(), message.c_str());
+    }
+};

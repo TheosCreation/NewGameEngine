@@ -111,7 +111,7 @@ private:
      * @param filename The filename of the shader source.
      * @param type The type of the shader (vertex, fragment, etc.).
      */
-	void attach(const wchar_t* filename, const ShaderType& type);
+	void attach(string, const ShaderType& type);
 
 	/**
 	 * @brief Links the shader program.

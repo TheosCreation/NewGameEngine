@@ -10,22 +10,24 @@ Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
-#include "MyScene.h"
+#include "Scene2.h"
 #include "MyPlayer.h"
 #include "Game.h"
 #include <time.h>
 
-MyScene::MyScene(Game* game) : Scene(game)
+Scene2::Scene2(Game* game) : Scene(game)
 {
 }
 
-MyScene::~MyScene()
+Scene2::~Scene2()
 {
 }
 
-void MyScene::onCreate()
+void Scene2::onCreate()
 {
 	Scene::onCreate();
+	gameOwner->SetFullScreenShader();
+
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto& lightManager = LightManager::GetInstance();
 	auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -34,7 +36,6 @@ void MyScene::onCreate()
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
-	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 
 	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 1.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
@@ -43,10 +44,6 @@ void MyScene::onCreate()
 	ShaderPtr meshShader = graphicsEngine.createShader({
 			"MeshShader",
 			"MeshShader"
-		});
-	ShaderPtr instancedMeshShader = graphicsEngine.createShader({
-			"InstancedMesh",
-			"InstancedMesh"
 		});
 	ShaderPtr solidColorMeshShader = graphicsEngine.createShader({
 			"SolidColorMesh",
@@ -69,42 +66,7 @@ void MyScene::onCreate()
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
-	
-	//Creating instanced tree obj
-	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
-	m_instanceMines->setShininess(32.0f);
-	m_instanceMines->setTexture(sciFiSpace);
-	m_instanceMines->setShader(instancedMeshShader);
-	m_instanceMines->setMesh(mineMesh);
-	m_instanceMines->setReflectiveMapTexture(shipReflectiveMap);
 
-
-	//adds instances to the instanced mine mesh
-	float spacing = 50.0f;
-	for (int row = -4; row < 4; ++row) {
-		for (int col = -4; col < 4; ++col) {
-			for (int seg = -4; seg < 4; ++seg) {
-
-				// Calculate the position of the current tree based on the grid and spacing
-				Vector3 position = Vector3(col * spacing, seg * spacing, row * spacing);
-
-				if (position == Vector3(0.0f)) break;
-
-				// Generate random rotation angles
-				float angleX = randomNumber(360.0f);
-				float angleY = randomNumber(360.0f);
-				float angleZ = randomNumber(360.0f);
-
-				float randomScale = randomNumber(0.15f);
-
-				// Add the tree instance with random rotations
-				mineMesh->addInstance(position, Vector3(0.05f + randomScale), Vector3(angleX, angleY, angleZ));
-			}
-		}
-	}
-	
-	//Init instance buffer
-	mineMesh->initInstanceBuffer();
 
 	//Creating the player object
 	//all the input managements, creation of camera are inside Player class
@@ -167,113 +129,32 @@ void MyScene::onCreate()
 	spotLight.AttenuationExponent = 0.0007f;
 	lightManager.createSpotLight(spotLight);
 
-	ShaderPtr colorInversionShader = graphicsEngine.createShader({
-			"QuadShader",
-			"InvertColorFullRenderPass"
-		});
-	m_fullScreenShaders.push_back(colorInversionShader);
-
-	ShaderPtr grayScaleLuminosityShader = graphicsEngine.createShader({
-			"QuadShader",
-			"GreyScaleLuminosityFullRenderPass"
-		});
-	m_fullScreenShaders.push_back(grayScaleLuminosityShader);
-
-	ShaderPtr rainShader = graphicsEngine.createShader({
-			"QuadShader",
-			"RainFullRenderPass"
-		});
-	m_fullScreenShaders.push_back(rainShader);
-
-	ShaderPtr crtShader = graphicsEngine.createShader({
-			"QuadShader",
-			"MattiasCRTRenderPass"
-		});
-	m_fullScreenShaders.push_back(crtShader);
-
-	ShaderPtr chromaticAberration = graphicsEngine.createShader({
-			"QuadShader",
-			"ChromaticAberrationRenderPass"
-		});
-	m_fullScreenShaders.push_back(chromaticAberration);
-
-	ShaderPtr oldFilmShader = graphicsEngine.createShader({
-			"QuadShader",
-			"OldFilmRenderPass"
-		});
-	m_fullScreenShaders.push_back(oldFilmShader);
-
-	ShaderPtr scanLinesShader = graphicsEngine.createShader({
-			"QuadShader",
-			"ScanLineFullRenderPass"
-		});
-	m_fullScreenShaders.push_back(scanLinesShader);
-
-	m_oldRipple = resourceManager.createTexture2DFromFile("Resources/Textures/old.png");
-	m_grayNoiseSmall = resourceManager.createTexture2DFromFile("Resources/Textures/grayNoiseSmall.png");
-	gameOwner->SetFullScreenShader();
 }
 
-void MyScene::onUpdate(float deltaTime)
+void Scene2::onUpdate(float deltaTime)
 {
-	Scene::onUpdate(deltaTime); 
-	auto& inputManager = InputManager::GetInstance();
-	if (inputManager.isKeyPressed(Key::KeyTab))
-	{
-		switchFullscreenShader();
-	}
+	Scene::onUpdate(deltaTime);
 	m_elapsedSeconds += deltaTime;
-	
+
 
 	// Convert the Euler angles to a quaternion
 	Quaternion shipRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
-	Quaternion minesRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
 
 	// Set the rotations using quaternions
 	m_ship->setRotation(shipRotation);
-	m_instanceMines->setRotation(minesRotation);
 }
 
-void MyScene::onFixedUpdate(float _fixedDeltaTime)
+void Scene2::onFixedUpdate(float _fixedDeltaTime)
 {
 	Scene::onFixedUpdate(_fixedDeltaTime);
 }
 
-void MyScene::onLateUpdate(float deltaTime)
+void Scene2::onLateUpdate(float deltaTime)
 {
 	Scene::onLateUpdate(deltaTime);
 }
 
-void MyScene::onQuit()
+void Scene2::onQuit()
 {
 	Scene::onQuit();
-}
-
-void MyScene::switchFullscreenShader()
-{
-	// Increment the current index and wrap it around
-	currentIndex = (currentIndex + 1) % (m_fullScreenShaders.size() + 1); // +1 to include the default shader
-
-	if (currentIndex < m_fullScreenShaders.size())
-	{
-		// Check which shader is currently active and set the appropriate texture
-		if (m_fullScreenShaders[currentIndex] == m_fullScreenShaders[2])
-		{
-			gameOwner->SetFullScreenShader(m_fullScreenShaders[currentIndex], m_grayNoiseSmall);
-		}
-		else if (m_fullScreenShaders[currentIndex] == m_fullScreenShaders[5])
-		{
-			gameOwner->SetFullScreenShader(m_fullScreenShaders[currentIndex], m_oldRipple);
-		}
-		else
-		{
-			gameOwner->SetFullScreenShader(m_fullScreenShaders[currentIndex]);
-		}
-	}
-	else
-	{
-		// Reset to the default shader after reaching the max index
-		gameOwner->SetFullScreenShader();
-		currentIndex = -1; // Set to -1 so the next increment starts from 0
-	}
 }

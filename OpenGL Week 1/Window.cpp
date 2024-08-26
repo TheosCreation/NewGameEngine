@@ -30,7 +30,7 @@ Window::Window()
     m_windowPtr = glfwCreateWindow(m_size.width, m_size.height, "TheoCreates | OpenGL 3D Game", nullptr, nullptr);
     if (!m_windowPtr)
     {
-        OGL3D_ERROR("GLFW failed to initialize properly. Terminating program.");
+        Debug::LogError("GLFW failed to initialize properly. Terminating program.");
         glfwTerminate();
         return;
     }
@@ -41,7 +41,7 @@ Window::Window()
     // Initialize GLEW or GLAD here if needed
     if (glewInit() != GLEW_OK)
     {
-        OGL3D_ERROR("GLEW failed to initialize properly. Terminating program.");
+        Debug::LogError("GLEW failed to initialize properly. Terminating program.");
         glfwTerminate();
         return;
     }

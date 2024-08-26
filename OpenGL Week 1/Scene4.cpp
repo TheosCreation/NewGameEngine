@@ -10,20 +10,20 @@ Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
-#include "MyScene.h"
+#include "Scene4.h"
 #include "MyPlayer.h"
 #include "Game.h"
 #include <time.h>
 
-MyScene::MyScene(Game* game) : Scene(game)
+Scene4::Scene4(Game* game) : Scene(game)
 {
 }
 
-MyScene::~MyScene()
+Scene4::~Scene4()
 {
 }
 
-void MyScene::onCreate()
+void Scene4::onCreate()
 {
 	Scene::onCreate();
 	auto& resourceManager = ResourceManager::GetInstance();
@@ -35,9 +35,6 @@ void MyScene::onCreate()
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
-
-	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 1.0f };
-	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
 	//Loading Shaders into the graphics engine
 	ShaderPtr meshShader = graphicsEngine.createShader({
@@ -53,14 +50,6 @@ void MyScene::onCreate()
 			"SolidColorMesh"
 		});
 
-
-	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
-	m_terrain->generateTerrainMesh(heightmap);
-	m_terrain->setPosition(Vector3(0, -100, 0));
-	m_terrain->setTexture(sciFiSpace);
-	m_terrain->setColor(Color::Red);
-	m_terrain->setShader(meshShader);
-
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(Vector3(0.05f));
 	m_ship->setPosition(Vector3(0, 0, 0));
@@ -69,7 +58,7 @@ void MyScene::onCreate()
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
-	
+
 	//Creating instanced tree obj
 	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
 	m_instanceMines->setShininess(32.0f);
@@ -102,7 +91,7 @@ void MyScene::onCreate()
 			}
 		}
 	}
-	
+
 	//Init instance buffer
 	mineMesh->initInstanceBuffer();
 
@@ -214,16 +203,16 @@ void MyScene::onCreate()
 	gameOwner->SetFullScreenShader();
 }
 
-void MyScene::onUpdate(float deltaTime)
+void Scene4::onUpdate(float deltaTime)
 {
-	Scene::onUpdate(deltaTime); 
+	Scene::onUpdate(deltaTime);
 	auto& inputManager = InputManager::GetInstance();
 	if (inputManager.isKeyPressed(Key::KeyTab))
 	{
 		switchFullscreenShader();
 	}
 	m_elapsedSeconds += deltaTime;
-	
+
 
 	// Convert the Euler angles to a quaternion
 	Quaternion shipRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
@@ -234,22 +223,22 @@ void MyScene::onUpdate(float deltaTime)
 	m_instanceMines->setRotation(minesRotation);
 }
 
-void MyScene::onFixedUpdate(float _fixedDeltaTime)
+void Scene4::onFixedUpdate(float _fixedDeltaTime)
 {
 	Scene::onFixedUpdate(_fixedDeltaTime);
 }
 
-void MyScene::onLateUpdate(float deltaTime)
+void Scene4::onLateUpdate(float deltaTime)
 {
 	Scene::onLateUpdate(deltaTime);
 }
 
-void MyScene::onQuit()
+void Scene4::onQuit()
 {
 	Scene::onQuit();
 }
 
-void MyScene::switchFullscreenShader()
+void Scene4::switchFullscreenShader()
 {
 	// Increment the current index and wrap it around
 	currentIndex = (currentIndex + 1) % (m_fullScreenShaders.size() + 1); // +1 to include the default shader

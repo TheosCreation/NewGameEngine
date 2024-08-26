@@ -32,9 +32,9 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
     
     bool res = tinyobj::LoadObj(&attribs, &shapes, nullptr, &warn, &err, inputfile.c_str(), nullptr);
     
-    if (!err.empty()) OGL3D_ERROR("Mesh | creation failed with the following errors:");
+    if (!err.empty()) Debug::LogError("Mesh | creation failed with the following errors:");
     
-    if (!res) OGL3D_ERROR("Mesh | not created successfully");
+    if (!res) Debug::LogError("Mesh | not created successfully");
     
     std::vector<VertexMesh> list_vertices;
     std::vector<uint> list_indices;
@@ -51,7 +51,7 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
     
     size_t index_global_offset = 0;
     
-    if (shapes.size() == 0 || shapes.size() > 1) OGL3D_ERROR("Mesh not created successfully");
+    if (shapes.size() == 0 || shapes.size() > 1) Debug::LogError("Mesh not created successfully");
     
     for (size_t s = 0; s < shapes.size(); s++)
     {
