@@ -39,69 +39,48 @@ void Scene::onGraphicsUpdate(float deltaTime)
     graphicsEngine.setShader(skyboxShader);
     m_skyBox->onGraphicsUpdate(data);
 
-    //graphicsEngine.setScissor(true);
-    //m_graphicsEngine->setStencil(StencilOperationType::Set);
-    //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
-
-    //for (auto& graphicsEntity : m_entitySystem->getGraphicsEntities())
-    //{
-    //    ShaderPtr shader = graphicsEntity->getShader();
-    //    graphicsEngine.setShader(shader);
-
-    //    // Apply other uniform data to the shader
-    //    graphicsEntity->setUniformData(data);
-
-    //    graphicsEntity->onGraphicsUpdate(deltaTime);
-    //}
-
     m_entitySystem->onGraphicsUpdate(deltaTime, data);
-    
-    //graphicsEngine.setScissor(false);
-    //m_graphicsEngine->setStencil(StencilOperationType::ResetNotEqual);
-    //
-    //for (auto& [key, entities] : m_entitySystem->m_entities)
-    //{
-    //    // For each graphics entity
-    //    for (auto& [key, entity] : entities)
-    //    {
-    //        auto e = dynamic_cast<GraphicsEntity*>(entity.get());
-    //        if (e)
-    //        {
-    //            ShaderPtr shader = e->getShader();
-    //            if (shader != currentShader)
-    //            {
-    //                // Set the shader only if it is different from the current one
-    //                m_graphicsEngine->setShader(shader);
-    //                // Apply lighting to the shader
-    //                m_lightManager->applyLighting(shader);
-    //                currentShader = shader;
-    //            }
-    //
-    //            // Apply other uniform data to the shader
-    //            e->setUniformData(data);
-    //            e->onGraphicsUpdate(deltaTime);
-    //        }
-    //        else
-    //        {
-    //            break;
-    //        }
-    //    }
-    //}
-    //m_graphicsEngine->setStencil(StencilOperationType::ResetAlways);
 
-    //graphicsEngine.setScissor(false);
+   //graphicsEngine.setStencil(StencilOperationType::Set);
+   //graphicsEngine.setStencil(StencilOperationType::ResetAlways);
+   //
+   //m_entitySystem->onGraphicsUpdate(deltaTime, data);
+   //
+   //graphicsEngine.setStencil(StencilOperationType::ResetNotEqual);
+   //
+   //for (auto& graphicEntity : m_entitySystem->getGraphicsEntities())
+   //{
+   //    Vector3 originalScale = graphicEntity->getScale();
+   //    graphicEntity->setScale(Vector3(originalScale * 1.1f));
+   //    graphicEntity->setColor(Color::Red);
+   //    ShaderPtr originalShader = graphicEntity->getShader();
+   //    graphicEntity->setShader(m_solidColorMeshShader);
+   //    graphicEntity->onGraphicsUpdate(data);
+   //    graphicEntity->setScale(originalScale);
+   //    graphicEntity->setShader(originalShader);
+   //}
+   ////m_entitySystem->onGraphicsUpdate(deltaTime, data);
+   //
+   //glDisable(GL_STENCIL_TEST);
+   //graphicsEngine.setStencil(StencilOperationType::ResetAlways);
 }
 
 void Scene::onCreate()
 {
     auto& resourceManager = ResourceManager::GetInstance();
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
     m_entitySystem = std::make_unique<EntitySystem>(this);
 
     //Creating skybox object
     m_skyBox = std::make_unique<SkyboxEntity>();
-    ShaderPtr skyboxShader = GraphicsEngine::GetInstance().createShader({
+    ShaderPtr skyboxShader = graphicsEngine.createShader({
             "SkyBoxShader",
             "SkyBoxShader"
+        });
+
+    m_solidColorMeshShader = graphicsEngine.createShader({
+            "SolidColorMesh",
+            "SolidColorMesh"
         });
 
     m_skyBox->setEntitySystem(m_entitySystem.get());

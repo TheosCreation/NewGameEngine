@@ -96,9 +96,6 @@ void EntitySystem::onGraphicsUpdate(float deltaTime, UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
-		//ShaderPtr shader = graphicsEntity->getShader();
-		//GraphicsEngine::GetInstance().setShader(shader);
-
 		// Apply other uniform data to the shader
 		graphicsEntity->setUniformData(_data);
 

@@ -47,6 +47,7 @@ public:
     virtual void onQuit();
 
 protected:
+    ShaderPtr m_solidColorMeshShader = nullptr;
     unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
     unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     Game* gameOwner;
