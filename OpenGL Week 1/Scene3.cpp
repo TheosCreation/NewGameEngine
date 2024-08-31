@@ -57,39 +57,51 @@ void Scene3::onCreate()
     // Create an instance of the PerlinNoise class
     PerlinNoise noiseGenerator; //will init the seed in the contructor
 
-    // Loop through each pixel in the image
+    float minNoise = std::numeric_limits<float>::max();
+    float maxNoise = std::numeric_limits<float>::lowest();
+
+    // First pass to find min and max noise values
     for (unsigned int Col = 0; Col < Height; Col++)
     {
         for (unsigned int Row = 0; Row < Width; Row++)
         {
-            // Generate the noise value for the current pixel
+            float Noise = static_cast<float>(noiseGenerator.TotalNoisePerPoint(Row, Col));
+            minNoise = glm::min(minNoise, Noise);
+            maxNoise = glm::max(maxNoise, Noise);
+        }
+    }
+
+    // Second pass to apply normalization
+    for (unsigned int Col = 0; Col < Height; Col++)
+    {
+        for (unsigned int Row = 0; Row < Width; Row++)
+        {
             float Noise = static_cast<float>(noiseGenerator.TotalNoisePerPoint(Row, Col));
 
-            // The above returns -1 -> 1. Not enough range!
-            // Change to use a formula/algorithm to stretch the range to get desired results.
-            Noise = (Noise + 1.0f) * 0.5f * 255.0f; // Map from [-1, 1] to [0, 255]
-
-            // Clamp the noise value to ensure it is within the valid range
+            // Normalize the noise value to the [0, 255] range
+            Noise = ((Noise - minNoise) / (maxNoise - minNoise)) * 255.0f;
             Noise = glm::clamp(Noise, 0.0f, 255.0f);
+
             Pixels[Index++] = static_cast<uint8_t>(Noise);
         }
     }
 
     // Create the RAW file
-    string savePath = "Resources/Heightmaps/" + ToString(noiseGenerator.Seed) + ".raw";
-    std::ofstream RawFile(savePath, std::ios_base::binary);
+    string savePathRaw = "Resources/Heightmaps/" + ToString(noiseGenerator.Seed) + ".raw";
+    std::ofstream RawFile(savePathRaw, std::ios_base::binary);
     if (RawFile)
     {
         RawFile.write(reinterpret_cast<char*>(Pixels), static_cast<std::streamsize>(Width * Height));
         RawFile.close();
     }
 
-    stbi_write_jpg(("Resources/Textures/Noise/" + ToString(noiseGenerator.Seed) + ".jpg").c_str(), Width, Height, 1, Pixels, 100);
+    string savePathJpg = "Resources/Textures/Noise/" + ToString(noiseGenerator.Seed) + ".jpg";
+    stbi_write_jpg(savePathJpg.c_str(), Width, Height, 1, Pixels, 100);
 
     // Clean up the allocated memory
     delete[] Pixels;
 
-    HeightMapInfo buildInfo = { savePath, 512, 512, 1.0f };
+    HeightMapInfo buildInfo = { savePathRaw, 512, 512, 1.0f };
     HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
     ShaderPtr terrainShader = graphicsEngine.createShader({
@@ -107,14 +119,19 @@ void Scene3::onCreate()
     Texture2DPtr stoneTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
     Texture2DPtr snowTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/snow.png");
 
+    Texture2DPtr perlinNoise = resourceManager.createTexture2DFromFile(savePathJpg);
+
     auto quad = m_entitySystem->createEntity<QuadEntity>();
+    quad->setPosition(Vector3(0, 0, -100));
     quad->setScale(Vector3(100.0f));
     quad->setTexture(grassTexture);
+    quad->setTexture1(snowTexture);
+    quad->setHeightMap(perlinNoise);
     quad->setShader(quadShader);
 
     m_terrain = m_entitySystem->createEntity<TerrainEntity>();
     m_terrain->generateTerrainMesh(heightmap);
-    m_terrain->setPosition(Vector3(0, -150, 0));
+    m_terrain->setPosition(Vector3(0, -500, 0));
     m_terrain->setTexture(grassTexture);
     m_terrain->setTexture1(dirtTexture);
     m_terrain->setTexture2(stoneTexture);

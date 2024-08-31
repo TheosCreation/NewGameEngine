@@ -114,21 +114,6 @@ void TerrainEntity::generateTerrainMesh(HeightMapPtr _heightMap)
     delete[] indicesList;
 }
 
-void TerrainEntity::setTexture1(const TexturePtr& texture)
-{
-    m_texture1 = texture;
-}
-
-void TerrainEntity::setTexture2(const TexturePtr& texture)
-{
-    m_texture2 = texture;
-}
-
-void TerrainEntity::setTexture3(const TexturePtr& texture)
-{
-    m_texture3 = texture;
-}
-
 void TerrainEntity::onCreate()
 {
 }

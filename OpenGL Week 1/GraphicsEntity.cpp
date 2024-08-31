@@ -93,6 +93,21 @@ void GraphicsEntity::setTexture(const TexturePtr& texture)
 	m_texture = texture;
 }
 
+void GraphicsEntity::setTexture1(const TexturePtr& texture)
+{
+    m_texture1 = texture;
+}
+
+void GraphicsEntity::setTexture2(const TexturePtr& texture)
+{
+    m_texture2 = texture;
+}
+
+void GraphicsEntity::setTexture3(const TexturePtr& texture)
+{
+    m_texture3 = texture;
+}
+
 void GraphicsEntity::setHeightMap(const TexturePtr& heightMapTexture)
 {
     m_heightMap = heightMapTexture;

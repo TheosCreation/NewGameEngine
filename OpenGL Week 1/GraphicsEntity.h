@@ -71,6 +71,9 @@ public:
      * @param texture A shared pointer to the texture.
      */
     void setTexture(const TexturePtr& texture);
+    void setTexture1(const TexturePtr& texture);
+    void setTexture2(const TexturePtr& texture);
+    void setTexture3(const TexturePtr& texture);
     void setHeightMap(const TexturePtr& heightMapTexture);
 
     /**
@@ -80,10 +83,13 @@ public:
     void setColor(Vector3 color);
 
 protected:
-    ShaderPtr m_shader; //The shader used by this entity
-    Vector3 m_color = Color::Red;
-    TexturePtr m_texture; //The texture used by this entity
-    TexturePtr m_heightMap; //The texture used by this entity
+    ShaderPtr m_shader = nullptr; //The shader used by this entity
+    Vector3 m_color = Color::Red; //backup color or for solid colored objects
+    TexturePtr m_texture = nullptr; //The texture used by this entity
+    TexturePtr m_texture1 = nullptr;
+    TexturePtr m_texture2 = nullptr;
+    TexturePtr m_texture3 = nullptr;
+    TexturePtr m_heightMap = nullptr;
 
     void ProcessUniformData(const std::string& name, const std::any& value);
     void ProcessTextureData(const std::string& name, const std::tuple<TexturePtr, uint>& value);

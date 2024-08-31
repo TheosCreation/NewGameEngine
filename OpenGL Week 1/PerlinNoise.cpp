@@ -11,18 +11,18 @@ double PerlinNoise::RandomValue(int x, int y)
     int noise = x + y * Seed;
     noise = (noise << 13) ^ noise;
     int t = (noise * (noise * noise * 15731 + 789221) + 1376312589) & 0x7fffffff;
-    return 1.0 - ((double)t / 1073741824.0);
+    return 1.0 - (double)t * 0.93132257461548515625e-9;
 }
 
 double PerlinNoise::Smooth(int x, int y)
 {
     double Corners = (RandomValue(x - 1, y - 1) + RandomValue(x + 1, y - 1) +
-        RandomValue(x - 1, y + 1) + RandomValue(x + 1, y + 1)) / 16.0;
+        RandomValue(x - 1, y + 1) + RandomValue(x + 1, y + 1)) / 16.0f;
 
     double Sides = (RandomValue(x - 1, y) + RandomValue(x + 1, y) +
-        RandomValue(x, y - 1) + RandomValue(x, y + 1)) / 8.0;
+        RandomValue(x, y - 1) + RandomValue(x, y + 1)) / 8.0f;
 
-    double Center = RandomValue(x, y) / 4.0;
+    double Center = RandomValue(x, y) / 4.0f;
 
     // Return the sum of the contributions
     return Corners + Sides + Center;
@@ -68,7 +68,7 @@ double PerlinNoise::SmoothInterpolate(double X, double Y)
 
 double PerlinNoise::TotalNoisePerPoint(int X, int Y)
 {
-    int Octaves = 6;
+    int Octaves = 4;
     float Wavelength = 128.0f;
     float Gain = 0.5f;
     float Lacunarity = 2.0f;
@@ -78,8 +78,8 @@ double PerlinNoise::TotalNoisePerPoint(int X, int Y)
 
     for (int i = 0; i < Octaves; i++)
     {
-        float Frequency = static_cast<float>(pow(Lacunarity, i)) / Wavelength;
-        float Amplitude = static_cast<float>(pow(Gain, i));
+        float Frequency = (float)(pow(Lacunarity, i)) / Wavelength;
+        float Amplitude = (float)(pow(Gain, i));
         MaxValue += Amplitude;
 
         Total += SmoothInterpolate(X * Frequency, Y * Frequency) * Amplitude;

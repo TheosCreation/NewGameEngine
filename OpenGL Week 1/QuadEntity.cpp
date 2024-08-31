@@ -99,7 +99,22 @@ void QuadEntity::onGraphicsUpdate(UniformData data)
     {
         graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
     }
-
+    if (m_texture1 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture1, 1, "Texture1");
+    }
+    if (m_texture2 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture2, 2, "Texture2");
+    }
+    if (m_texture3 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture3, 3, "Texture3");
+    }
+    if (m_heightMap != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_heightMap, 4, "HeightMap");
+    }
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
