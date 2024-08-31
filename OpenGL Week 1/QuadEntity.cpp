@@ -52,7 +52,7 @@ void QuadEntity::updateVertices(Vector2 size)
     {
         //front face
         0,1,2,  //first triangle
-        2,3,0,  //second triangle
+        2,3,0  //second triangle
     };
 
     static const VertexAttribute attribsList[] = {
@@ -87,6 +87,25 @@ void QuadEntity::setShader(const ShaderPtr& shader)
     m_shader = shader;
 }
 
+void QuadEntity::onGraphicsUpdate(UniformData data)
+{
+    GraphicsEntity::onGraphicsUpdate(data);
+
+    m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
+    m_shader->setMat4("modelMatrix", getModelMatrix());
+
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    if (m_texture != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
+    }
+
+    graphicsEngine.setFaceCulling(CullType::None);
+    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
+    graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+}
+
 void QuadEntity::onGraphicsUpdate(NewUniformData& _data)
 {
     NewExtraTextureData _textureData;
@@ -117,7 +136,7 @@ void QuadEntity::onGraphicsUpdate(NewUniformData& _data, NewExtraTextureData& _t
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 }
 
-void QuadEntity::setTexture(uint textureId)
+void QuadEntity::setTextureFromId(uint textureId)
 {
     m_texture = std::make_shared<Texture>();
     m_texture->setId(textureId);

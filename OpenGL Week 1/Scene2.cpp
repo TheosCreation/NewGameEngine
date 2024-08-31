@@ -13,7 +13,6 @@ Mail : theo.morris@mds.ac.nz
 #include "Scene2.h"
 #include "MyPlayer.h"
 #include "Game.h"
-#include <time.h>
 
 Scene2::Scene2(Game* game) : Scene(game)
 {
@@ -34,7 +33,6 @@ void Scene2::onCreate()
 	//Loading texture resources
 
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
-	Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/dirt.jpg");
 	Texture2DPtr heightMapTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Heightmap0.jpg");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
@@ -48,22 +46,28 @@ void Scene2::onCreate()
 			"MeshShader"
 		});
 	ShaderPtr terrainShader = graphicsEngine.createShader({
-			"MeshShader",
+			"TerrainShader",
 			"TerrainShader"
 		});
+
 	ShaderPtr solidColorMeshShader = graphicsEngine.createShader({
 			"SolidColorMesh",
 			"SolidColorMesh"
 		});
 
+	Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/grass.png");
+	Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/dirt.png");
+	Texture2DPtr stoneTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
+	Texture2DPtr snowTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/snow.png");
 
 	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
 	m_terrain->generateTerrainMesh(heightmap);
-	m_terrain->setPosition(Vector3(0, -100, 0));
-	m_terrain->setTexture(sciFiSpace);
+	m_terrain->setPosition(Vector3(0, -150, 0));
+	m_terrain->setTexture(grassTexture);
 	m_terrain->setTexture1(dirtTexture);
+	m_terrain->setTexture2(stoneTexture);
+	m_terrain->setTexture3(snowTexture);
 	m_terrain->setHeightMap(heightMapTexture);
-	m_terrain->setColor(Color::Red);
 	m_terrain->setShader(terrainShader);
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();

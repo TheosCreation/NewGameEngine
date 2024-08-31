@@ -22,8 +22,10 @@ Mail : theo.morris@mds.ac.nz
 #include <glew.h>
 #include <glfw3.h>
 #include "MyScene.h"
-#include "Scene4.h"
+#include "Scene1.h"
 #include "Scene2.h"
+#include "Scene3.h"
+#include "Scene4.h"
 
 Game::Game()
 {
@@ -67,17 +69,17 @@ void Game::onCreate()
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     defaultQuadShader = graphicsEngine.createShader({
-            "QuadShader",
+            "ScreenQuad",
             "QuadShader"
         });
 
     m_canvasQuad = std::make_unique<QuadEntity>();
     m_canvasQuad->onCreate();
-    m_canvasQuad->setTexture(m_framebuffer->RenderTexture);
+    m_canvasQuad->setTextureFromId(m_framebuffer->RenderTexture);
     m_canvasQuad->setShader(defaultQuadShader);
 
-    auto scene4 = std::make_shared<Scene4>(this);
-    SetScene(scene4);
+    auto scene1 = std::make_shared<Scene1>(this);
+    SetScene(scene1);
 }
 
 void Game::onCreateLate()
@@ -103,8 +105,8 @@ void Game::onUpdateInternal()
 
     if (inputManager.isKeyPressed(Key::Key1))
     {
-        //auto scene1 = std::make_shared<Scene1>(this);
-        //SetScene(scene1);
+        auto scene1 = std::make_shared<Scene1>(this);
+        SetScene(scene1);
     }
     
     if (inputManager.isKeyPressed(Key::Key2))
@@ -115,8 +117,8 @@ void Game::onUpdateInternal()
     
     if (inputManager.isKeyPressed(Key::Key3))
     {
-        //auto scene3 = std::make_shared<Scene3>(this);
-        //SetScene(scene3);
+        auto scene3 = std::make_shared<Scene3>(this);
+        SetScene(scene3);
     }
     
     if (inputManager.isKeyPressed(Key::Key4))
@@ -205,7 +207,7 @@ void Game::SetScene(shared_ptr<Scene> _scene)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     }
     // set the current scene to the new scene
-    m_currentScene = _scene;
+    m_currentScene = std::move(_scene);
     m_currentScene->onCreate();
     m_currentScene->onCreateLate();
 }

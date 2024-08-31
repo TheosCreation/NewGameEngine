@@ -33,11 +33,12 @@ struct SpotLight {
 in vec3 FragPos;
 in vec2 FragTexcoord;
 in vec3 FragNormal;
+in float Height;
 
 layout(binding = 0) uniform sampler2D Texture0; // Base texture
-layout(binding = 1) uniform samplerCube Texture_Skybox; // Skybox texture
-layout(binding = 2) uniform sampler2D ReflectionMap; // Reflection map
-layout(binding = 3) uniform sampler2D Texture1; // Additional texture
+layout(binding = 1) uniform sampler2D Texture1; // Additional texture
+layout(binding = 2) uniform sampler2D Texture2; // Additional texture
+layout(binding = 3) uniform sampler2D Texture3; // Additional texture
 layout(binding = 4) uniform sampler2D HeightMap; // Height map for blending
 
 uniform float AmbientStrength = 0.15f;
@@ -54,6 +55,11 @@ uniform int SpotLightStatus;
 
 uniform vec3 CameraPos;
 uniform float ObjectShininess = 32.0f;
+
+const float lowerHeight = 30;
+const float lowerMiddleHeight = 60;
+const float upperMiddleHeight = 90;
+const float upperHeight = 120;
 
 // Out
 out vec4 FinalColor;
@@ -131,20 +137,17 @@ void main()
 
     // Sample textures
     vec4 BaseTexture = texture(Texture0, FragTexcoord);
-    vec4 AdditionalTexture = texture(Texture1, FragTexcoord); // Additional texture for blending
-    vec4 ReflectionTexture = texture(Texture_Skybox, ReflectDir);
-    float Reflectivity = texture(ReflectionMap, FragTexcoord).r; // Sample the red channel of the reflection map
-    float Height = texture(HeightMap, FragTexcoord).r; // Sample the height map for blending
+    vec4 AdditionalTexture1 = texture(Texture1, FragTexcoord); // Additional texture for blending
+    vec4 AdditionalTexture2 = texture(Texture2, FragTexcoord);
+    vec4 AdditionalTexture3 = texture(Texture3, FragTexcoord);
 
-    // Determine blend factor based on height (assuming height ranges from 0 to 1)
-    float BlendFactor = clamp(Height, 0.0, 1.0); // Ensure the blend factor is between 0 and 1
-
-    // Blend textures based on the blend factor
-    vec4 BlendedTexture = mix(BaseTexture, AdditionalTexture, BlendFactor);
-
-    // Mix object texture and reflection texture based on reflectivity
-    vec4 MixedTexture = mix(BlendedTexture, ReflectionTexture, Reflectivity);
+    float blendGrass = 1.0 - smoothstep(lowerHeight, lowerMiddleHeight, Height);
+    float blendDirt = smoothstep(lowerHeight, lowerMiddleHeight, Height) * (1.0 - smoothstep(lowerMiddleHeight, upperMiddleHeight, Height));
+    float blendStone = smoothstep(lowerMiddleHeight, upperMiddleHeight, Height) * (1.0 - smoothstep(upperMiddleHeight, upperHeight, Height));
+    float blendSnow = smoothstep(upperMiddleHeight, upperHeight, Height);
+    
+    vec4 BlendedTexture = BaseTexture * blendGrass + AdditionalTexture1 * blendDirt + AdditionalTexture2 * blendStone + AdditionalTexture3 * blendSnow;
 
     // Calculate the final color
-    FinalColor = vec4(TotalLightOutput, 1.0) * MixedTexture;
+    FinalColor = vec4(TotalLightOutput, 1.0) * BlendedTexture;
 }

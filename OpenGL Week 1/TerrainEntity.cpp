@@ -119,6 +119,16 @@ void TerrainEntity::setTexture1(const TexturePtr& texture)
     m_texture1 = texture;
 }
 
+void TerrainEntity::setTexture2(const TexturePtr& texture)
+{
+    m_texture2 = texture;
+}
+
+void TerrainEntity::setTexture3(const TexturePtr& texture)
+{
+    m_texture3 = texture;
+}
+
 void TerrainEntity::onCreate()
 {
 }
@@ -150,13 +160,22 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
     }
     if (m_texture1 != nullptr)
     {
-        graphicsEngine.setTexture2D(m_texture1, 3, "Texture1");
+        graphicsEngine.setTexture2D(m_texture1, 1, "Texture1");
+    }
+    if (m_texture2 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture2, 2, "Texture2");
+    }
+    if (m_texture3 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture3, 3, "Texture3");
     }
 
     if (m_heightMap != nullptr)
     {
         graphicsEngine.setTexture2D(m_heightMap, 4, "HeightMap");
     }
+
 
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer

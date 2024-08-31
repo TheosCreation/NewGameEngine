@@ -150,6 +150,9 @@
     <ClCompile Include="Scene3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PerlinNoise.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Fragment\SkyBoxShader.frag" />
@@ -173,6 +176,8 @@
     <None Include="Resources\Shaders\Fragment\ChromaticAberrationRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\MattiasCRTRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />
+    <None Include="Resources\Shaders\Vertex\TerrainShader.vert" />
+    <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -287,6 +292,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PerlinNoise.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

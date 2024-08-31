@@ -27,6 +27,8 @@ public:
     void generateTerrainMesh(HeightMapPtr _heightMap);
 
     void setTexture1(const TexturePtr& texture);
+    void setTexture2(const TexturePtr& texture);
+    void setTexture3(const TexturePtr& texture);
 
 protected:
     /**
@@ -40,5 +42,7 @@ protected:
 private:
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the terrian
     TexturePtr m_texture1 = nullptr;
+    TexturePtr m_texture2 = nullptr;
+    TexturePtr m_texture3 = nullptr;
 };
 

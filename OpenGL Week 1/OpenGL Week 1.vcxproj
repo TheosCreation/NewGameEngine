@@ -72,12 +72,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/Dependencies/STB;$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/Dependencies/STB;$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)</OutDir>
   </PropertyGroup>
@@ -159,6 +159,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene1.cpp" />
     <ClCompile Include="Scene2.cpp" />
@@ -208,17 +209,20 @@
     <None Include="Resources\Shaders\Fragment\RainFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\ScanLineFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\SolidColorMesh.frag" />
+    <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
     <None Include="Resources\Shaders\Vertex\SolidColorMesh.vert" />
     <None Include="Resources\Shaders\Fragment\QuadShader.frag" />
     <None Include="Resources\Shaders\Vertex\QuadShader.vert" />
     <None Include="Resources\Shaders\Fragment\SkyBoxShader.frag" />
     <None Include="Resources\Shaders\Vertex\SkyBoxShader.vert" />
+    <None Include="Resources\Shaders\Vertex\TerrainShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="All.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scene1.h" />
     <ClInclude Include="Scene2.h" />

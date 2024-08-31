@@ -81,7 +81,7 @@ public:
 
 protected:
     ShaderPtr m_shader; //The shader used by this entity
-    Vector3 m_color;
+    Vector3 m_color = Color::Red;
     TexturePtr m_texture; //The texture used by this entity
     TexturePtr m_heightMap; //The texture used by this entity
 

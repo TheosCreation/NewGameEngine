@@ -13,7 +13,6 @@ Mail : theo.morris@mds.ac.nz
 #include "Scene4.h"
 #include "MyPlayer.h"
 #include "Game.h"
-#include <time.h>
 
 Scene4::Scene4(Game* game) : Scene(game)
 {
@@ -139,7 +138,7 @@ void Scene4::onCreate()
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
 	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
-	directionalLight.Color = Vector3(0.9f);
+	directionalLight.Color = Vector3(0.1f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);
 
@@ -157,43 +156,43 @@ void Scene4::onCreate()
 	lightManager.createSpotLight(spotLight);
 
 	ShaderPtr colorInversionShader = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"InvertColorFullRenderPass"
 		});
 	m_fullScreenShaders.push_back(colorInversionShader);
 
 	ShaderPtr grayScaleLuminosityShader = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"GreyScaleLuminosityFullRenderPass"
 		});
 	m_fullScreenShaders.push_back(grayScaleLuminosityShader);
 
 	ShaderPtr rainShader = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"RainFullRenderPass"
 		});
 	m_fullScreenShaders.push_back(rainShader);
 
 	ShaderPtr crtShader = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"MattiasCRTRenderPass"
 		});
 	m_fullScreenShaders.push_back(crtShader);
 
 	ShaderPtr chromaticAberration = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"ChromaticAberrationRenderPass"
 		});
 	m_fullScreenShaders.push_back(chromaticAberration);
 
 	ShaderPtr oldFilmShader = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"OldFilmRenderPass"
 		});
 	m_fullScreenShaders.push_back(oldFilmShader);
 
 	ShaderPtr scanLinesShader = graphicsEngine.createShader({
-			"QuadShader",
+			"ScreenQuad",
 			"ScanLineFullRenderPass"
 		});
 	m_fullScreenShaders.push_back(scanLinesShader);

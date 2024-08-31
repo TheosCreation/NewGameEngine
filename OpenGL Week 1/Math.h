@@ -21,6 +21,9 @@ Mail : theo.morris@mds.ac.nz
 #define GLM_ENABLE_EXPERIMENTAL
 #include <gtx/component_wise.hpp>
 #include <gtx/quaternion.hpp>
+
+#define PI 3.14159265358979323846
+
 inline void initRandomSeed()
 {
     srand(static_cast<unsigned int>(time(0)));
