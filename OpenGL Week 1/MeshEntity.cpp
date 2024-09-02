@@ -75,6 +75,10 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
+
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+    graphicsEngine.setTextureCubeMap(nullptr, 1, "");
+    graphicsEngine.setTexture2D(nullptr, 2, "");
 }
 
 float MeshEntity::getShininess() const

@@ -113,6 +113,10 @@ void Scene3::onCreate()
             "QuadShader",
             "QuadShader"
         });
+    ShaderPtr quadBlendedShader = graphicsEngine.createShader({
+            "QuadShader",
+            "QuadBlendingShader"
+        });
 
     Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/grass.png");
     Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/dirt.png");
@@ -121,13 +125,19 @@ void Scene3::onCreate()
 
     Texture2DPtr perlinNoise = resourceManager.createTexture2DFromFile(savePathJpg);
 
-    auto quad = m_entitySystem->createEntity<QuadEntity>();
-    quad->setPosition(Vector3(0, 0, -100));
-    quad->setScale(Vector3(100.0f));
-    quad->setTexture(grassTexture);
-    quad->setTexture1(snowTexture);
-    quad->setHeightMap(perlinNoise);
-    quad->setShader(quadShader);
+    auto quad1 = m_entitySystem->createEntity<QuadEntity>();
+    quad1->setPosition(Vector3(100, 0, -300));
+    quad1->setScale(Vector3(100.0f));
+    quad1->setTexture(grassTexture);
+    quad1->setTexture1(dirtTexture);
+    quad1->setHeightMap(perlinNoise);
+    quad1->setShader(quadBlendedShader);
+
+    auto quad2 = m_entitySystem->createEntity<QuadEntity>();
+    quad2->setPosition(Vector3(-100, 0, -300));
+    quad2->setScale(Vector3(100.0f));
+    quad2->setTexture(perlinNoise);
+    quad2->setShader(quadShader);
 
     m_terrain = m_entitySystem->createEntity<TerrainEntity>();
     m_terrain->generateTerrainMesh(heightmap);

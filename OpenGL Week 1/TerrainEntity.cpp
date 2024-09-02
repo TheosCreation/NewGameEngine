@@ -164,6 +164,13 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
 
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+
+
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+    graphicsEngine.setTexture2D(nullptr, 1, "");
+    graphicsEngine.setTexture2D(nullptr, 2, "");
+    graphicsEngine.setTexture2D(nullptr, 3, "");
+    graphicsEngine.setTexture2D(nullptr, 4, "");
 }
 
 void TerrainEntity::smoothHeightMap(std::vector<float>& heightData, uint width, uint depth)

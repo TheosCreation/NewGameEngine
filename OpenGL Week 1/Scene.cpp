@@ -40,29 +40,6 @@ void Scene::onGraphicsUpdate(float deltaTime)
     m_skyBox->onGraphicsUpdate(data);
 
     m_entitySystem->onGraphicsUpdate(deltaTime, data);
-
-   //graphicsEngine.setStencil(StencilOperationType::Set);
-   //graphicsEngine.setStencil(StencilOperationType::ResetAlways);
-   //
-   //m_entitySystem->onGraphicsUpdate(deltaTime, data);
-   //
-   //graphicsEngine.setStencil(StencilOperationType::ResetNotEqual);
-   //
-   //for (auto& graphicEntity : m_entitySystem->getGraphicsEntities())
-   //{
-   //    Vector3 originalScale = graphicEntity->getScale();
-   //    graphicEntity->setScale(Vector3(originalScale * 1.1f));
-   //    graphicEntity->setColor(Color::Red);
-   //    ShaderPtr originalShader = graphicEntity->getShader();
-   //    graphicEntity->setShader(m_solidColorMeshShader);
-   //    graphicEntity->onGraphicsUpdate(data);
-   //    graphicEntity->setScale(originalScale);
-   //    graphicEntity->setShader(originalShader);
-   //}
-   ////m_entitySystem->onGraphicsUpdate(deltaTime, data);
-   //
-   //glDisable(GL_STENCIL_TEST);
-   //graphicsEngine.setStencil(StencilOperationType::ResetAlways);
 }
 
 void Scene::onCreate()

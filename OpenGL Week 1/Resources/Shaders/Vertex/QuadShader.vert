@@ -7,11 +7,11 @@ uniform mat4 modelMatrix;
 uniform mat4 VPMatrix;
 
 out vec2 FragTexcoord;
-//out vec3 FragPos;
+out vec3 FragPos;
 
 void main()
 {
     gl_Position = VPMatrix * modelMatrix * vec4(vertexPosition, 1.0f);
     FragTexcoord = vertexTexCoords;
-    //FragPos = vec3(modelMatrix * vec4(vertexPosition, 1.0f));
+    FragPos = vec3(modelMatrix * vec4(vertexPosition, 1.0f));
 }

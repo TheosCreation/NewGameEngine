@@ -21,7 +21,6 @@ Mail : theo.morris@mds.ac.nz
 #include "SkyBoxEntity.h"
 #include <glew.h>
 #include <glfw3.h>
-#include "MyScene.h"
 #include "Scene1.h"
 #include "Scene2.h"
 #include "Scene3.h"
@@ -139,8 +138,6 @@ void Game::onUpdateInternal()
     inputManager.onLateUpdate();
 
     double RenderTime_Begin = (double)glfwGetTime();
-
-    graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the default frame buffer
     m_framebuffer->Bind();
     m_currentScene->onGraphicsUpdate(deltaTime);
     m_framebuffer->UnBind();

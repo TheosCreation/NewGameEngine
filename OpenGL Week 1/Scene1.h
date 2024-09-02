@@ -54,6 +54,7 @@ public:
      */
     virtual void onLateUpdate(float deltaTime);
 
+    void onGraphicsUpdate(float deltaTime) override;
     virtual void onQuit() override;
 
 private:
@@ -61,4 +62,7 @@ private:
 
     // Initialize all VBOs here
     MyPlayer* m_player = nullptr; //Pointer to the player entity
+    MeshEntity* m_ship = nullptr; //Pointer to the ship entity
+
+    ShaderPtr m_outlineShader = nullptr;
 };

@@ -215,11 +215,9 @@ void Scene4::onUpdate(float deltaTime)
 
 	// Convert the Euler angles to a quaternion
 	Quaternion shipRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
-	Quaternion minesRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
 
 	// Set the rotations using quaternions
 	m_ship->setRotation(shipRotation);
-	m_instanceMines->setRotation(minesRotation);
 }
 
 void Scene4::onFixedUpdate(float _fixedDeltaTime)

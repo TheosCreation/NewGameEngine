@@ -81,6 +81,7 @@ public:
      * @param color A vec3 of rgb values.
      */
     void setColor(Vector3 color);
+    Vector3 getColor();
 
 protected:
     ShaderPtr m_shader = nullptr; //The shader used by this entity

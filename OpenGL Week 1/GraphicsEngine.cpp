@@ -225,17 +225,33 @@ void GraphicsEngine::setTexture2D(const TexturePtr& texture, uint slot, std::str
 {
     auto glSlot = GL_TEXTURE0 + slot;
     glActiveTexture(glSlot); // activate the texture unit first before binding texture
-    glBindTexture(GL_TEXTURE_2D, texture->getId());
-    currentShader->setInt(bindingName, slot);
+
+    if (texture != nullptr)
+    {
+        glBindTexture(GL_TEXTURE_2D, texture->getId());
+        currentShader->setInt(bindingName, slot);
+    }
+    else
+    {
+        //unbind the texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
 
 void GraphicsEngine::setTextureCubeMap(const TexturePtr& texture, uint slot, std::string bindingName)
 {
     auto glSlot = GL_TEXTURE0 + slot;
-    glActiveTexture(glSlot); // activate the texture unit first before binding texture
-    glBindTexture(GL_TEXTURE_CUBE_MAP, texture->getId());
-    currentShader->setInt(bindingName, slot);
-
+    glActiveTexture(glSlot); // activate the texture unit first before binding/unbinding texture
+    if (texture != nullptr)
+    {
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture->getId());
+        currentShader->setInt(bindingName, slot);
+    }
+    else
+    {
+        //unbind the texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }
 
 void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertexCount, uint offset)

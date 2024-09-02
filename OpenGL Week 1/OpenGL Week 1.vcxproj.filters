@@ -66,9 +66,6 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="MyScene.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Source Files\Input</Filter>
     </ClCompile>
@@ -135,9 +132,6 @@
     <ClCompile Include="Framebuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScreenQuad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -178,6 +172,9 @@
     <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />
     <None Include="Resources\Shaders\Vertex\TerrainShader.vert" />
     <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
+    <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
+    <None Include="Resources\Shaders\Vertex\OutlineShader.vert" />
+    <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -203,9 +200,6 @@
     </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="MyScene.h">
-      <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="All.h">
       <Filter>Header Files</Filter>
@@ -277,9 +271,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Framebuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScreenQuad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene4.h">

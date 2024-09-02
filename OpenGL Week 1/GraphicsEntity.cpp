@@ -117,3 +117,8 @@ void GraphicsEntity::setColor(Vector3 color)
 {
 	m_color = color;
 }
+
+Vector3 GraphicsEntity::getColor()
+{
+    return m_color;
+}

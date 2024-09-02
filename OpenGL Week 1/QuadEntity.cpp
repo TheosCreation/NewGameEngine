@@ -73,7 +73,7 @@ void QuadEntity::updateVertices(Vector2 size)
         //index buffer
         {
             (void*)indicesList,
-            sizeof(indicesList)
+            sizeof(indicesList) / sizeof(uint)
         }
     );
 }
@@ -119,6 +119,12 @@ void QuadEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+    graphicsEngine.setTexture2D(nullptr, 1, "");
+    graphicsEngine.setTexture2D(nullptr, 2, "");
+    graphicsEngine.setTexture2D(nullptr, 3, "");
+    graphicsEngine.setTexture2D(nullptr, 4, "");
 }
 
 void QuadEntity::onGraphicsUpdate(NewUniformData& _data)
@@ -149,6 +155,9 @@ void QuadEntity::onGraphicsUpdate(NewUniformData& _data, NewExtraTextureData& _t
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+    graphicsEngine.setTexture2D(nullptr, 1, "");
 }
 
 void QuadEntity::setTextureFromId(uint textureId)
