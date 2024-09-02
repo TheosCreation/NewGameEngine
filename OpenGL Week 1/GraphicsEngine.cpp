@@ -33,10 +33,25 @@ ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
     return std::make_shared<Shader>(desc);
 }
 
-void GraphicsEngine::clear(const glm::vec4& color)
+void GraphicsEngine::clear(const glm::vec4& color, bool clearDepth, bool clearStencil)
 {
     glClearColor(color.x, color.y, color.z, color.w);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    // Start with clearing the color buffer
+    GLbitfield clearFlags = GL_COLOR_BUFFER_BIT;
+
+    // Add depth and stencil buffer bits based on the provided booleans
+    if (clearDepth)
+    {
+        clearFlags |= GL_DEPTH_BUFFER_BIT;
+    }
+    if (clearStencil)
+    {
+        clearFlags |= GL_STENCIL_BUFFER_BIT;
+    }
+
+    // Clear the specified buffers
+    glClear(clearFlags);
 }
 
 void GraphicsEngine::setFaceCulling(const CullType& type)

@@ -12,8 +12,9 @@ Mail : theo.morris@mds.ac.nz
 
 #include "Window.h"
 #include "Utils.h"
+#include "Game.h"
 
-Window::Window()
+Window::Window(Game* game) : gameOwner(game)
 {
     // Set GLFW window hints
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -48,6 +49,17 @@ Window::Window()
 
     // Set GLFW user pointer to 'this' for access in callback functions
     glfwSetWindowUserPointer(m_windowPtr, this);
+
+    // Set the window resize callback
+    glfwSetWindowSizeCallback(m_windowPtr, [](GLFWwindow* window, int width, int height)
+        {
+            // Get the user pointer, which is the 'Window' instance
+            Window* display = static_cast<Window*>(glfwGetWindowUserPointer(window));
+            if (display)
+            {
+                display->onResize(width, height);
+            }
+        });
 
     // Show the window
     glfwShowWindow(m_windowPtr);
@@ -86,7 +98,17 @@ void Window::present()
     glfwSwapBuffers(m_windowPtr);
 }
 
+void Window::onResize(float _width, float _height)
+{
+    Debug::Log("Window resized to: " + ToString(_width) + "x" + ToString(_height));
+    m_size.width = _width;
+    m_size.height = _height;
+
+    gameOwner->onResize(_width, _height);
+}
+
 bool Window::shouldClose()
 {
     return glfwWindowShouldClose(m_windowPtr);
 }
+

@@ -78,6 +78,9 @@ public:
      * @return True if the directional light is enabled, false otherwise.
      */
     bool getDirectionalLightStatus();
+    Mat4 getLightSpaceMatrix();
+
+    TexturePtr getShadowMapTexture() const;
 
     /**
     * @brief Sets the status of the directional light.
@@ -134,6 +137,8 @@ private:
     DirectionalLight m_directionalLight; //The directional light
 
     SpotLight m_spotLight; //The spotlight
+
+    TexturePtr m_shadowMapTexture = nullptr;
 
     bool PointLightsStatus = true; //The status of point lights
     bool DirectionalLightStatus = true; //The status of the directional light

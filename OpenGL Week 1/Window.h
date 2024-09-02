@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include <glfw3.h>
 #include "Utils.h"
 
+class Game;
 /**
  * @class Window
  * @brief A wrapper for a GLFWwindow to display the rendering from the graphics engine.
@@ -26,7 +27,7 @@ public:
     /**
      * @brief Constructor for the Window class.
      */
-    Window();
+    Window(Game* game);
 
     /**
      * @brief Destructor for the Window class.
@@ -56,6 +57,8 @@ public:
      */
     void present();
 
+    void onResize(float _width, float _height);
+
     /**
      * @brief Checks if the window should close.
      * @return True if the window should close, false otherwise.
@@ -67,4 +70,6 @@ private:
     void* m_context = nullptr; //Pointer to the OpenGL context.
     bool vsync = false; //Flag for vertical synchronization.
     Rect m_size = Rect(800, 800); //The size of the window.
+
+    Game* gameOwner = nullptr;
 };

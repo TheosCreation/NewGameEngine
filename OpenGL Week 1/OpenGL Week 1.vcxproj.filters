@@ -147,6 +147,9 @@
     <ClCompile Include="PerlinNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Fragment\SkyBoxShader.frag" />
@@ -175,6 +178,8 @@
     <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
     <None Include="Resources\Shaders\Vertex\OutlineShader.vert" />
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
+    <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />
+    <None Include="Resources\Shaders\Vertex\ShadowShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -286,6 +291,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PerlinNoise.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

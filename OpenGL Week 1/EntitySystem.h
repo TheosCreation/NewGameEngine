@@ -76,6 +76,7 @@ public:
     void onUpdate(float deltaTime);
 
     void onLateUpdate(float deltaTime);
+    void onShadowPass();
     void onGraphicsUpdate(float deltaTime, UniformData _data);
 
     /**

@@ -7,6 +7,7 @@ public:
 	Framebuffer(Vector2 _windowSize);
 	~Framebuffer();
 
+	void resize(Vector2 _newWindowSize);
 	void Bind();
 	void UnBind();
 

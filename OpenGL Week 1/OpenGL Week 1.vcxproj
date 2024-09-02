@@ -165,6 +165,7 @@
     <ClCompile Include="Scene2.cpp" />
     <ClCompile Include="Scene3.cpp" />
     <ClCompile Include="Scene4.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkyboxEntity.cpp" />
     <ClCompile Include="TerrainEntity.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -199,6 +200,7 @@
     <None Include="Resources\Shaders\Fragment\InstancedMesh.frag" />
     <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
+    <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />
     <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />
     <None Include="Resources\Shaders\Vertex\InstancedMesh.vert" />
     <None Include="Resources\Shaders\Fragment\InvertColorFullRenderPass.frag" />
@@ -211,6 +213,7 @@
     <None Include="Resources\Shaders\Fragment\SolidColorMesh.frag" />
     <None Include="Resources\Shaders\Vertex\OutlineShader.vert" />
     <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
+    <None Include="Resources\Shaders\Vertex\ShadowShader.vert" />
     <None Include="Resources\Shaders\Vertex\SolidColorMesh.vert" />
     <None Include="Resources\Shaders\Fragment\QuadShader.frag" />
     <None Include="Resources\Shaders\Vertex\QuadShader.vert" />
@@ -229,6 +232,7 @@
     <ClInclude Include="Scene2.h" />
     <ClInclude Include="Scene3.h" />
     <ClInclude Include="Scene4.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkyboxEntity.h" />
     <ClInclude Include="TerrainEntity.h" />
     <ClInclude Include="Texture.h" />

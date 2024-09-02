@@ -36,9 +36,11 @@ Game::Game()
     }
 
     initRandomSeed();
-    m_display = std::make_unique<Window>();
+    m_display = std::make_unique<Window>(this);
+
     Vector2 windowSize = m_display->getInnerSize();
-    m_framebuffer = std::make_unique<Framebuffer>(windowSize);
+    m_postProcessingFramebuffer = std::make_unique<Framebuffer>(windowSize);
+    m_shadowMap = std::make_unique<ShadowMap>(windowSize);
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setViewport(windowSize);
@@ -74,7 +76,7 @@ void Game::onCreate()
 
     m_canvasQuad = std::make_unique<QuadEntity>();
     m_canvasQuad->onCreate();
-    m_canvasQuad->setTextureFromId(m_framebuffer->RenderTexture);
+    m_canvasQuad->setTextureFromId(m_postProcessingFramebuffer->RenderTexture);
     m_canvasQuad->setShader(defaultQuadShader);
 
     auto scene1 = std::make_shared<Scene1>(this);
@@ -138,9 +140,18 @@ void Game::onUpdateInternal()
     inputManager.onLateUpdate();
 
     double RenderTime_Begin = (double)glfwGetTime();
-    m_framebuffer->Bind();
+
+    m_shadowMap->Bind();  // Bind the shadow map framebuffer
+    graphicsEngine.clear(glm::vec4(1, 1, 1, 1), true, false);  // Clear only the depth buffer
+
+    // Render the scene from the light's perspective
+    m_currentScene->onShadowPass();
+
+    m_shadowMap->Unbind();
+
+    m_postProcessingFramebuffer->Bind();
     m_currentScene->onGraphicsUpdate(deltaTime);
-    m_framebuffer->UnBind();
+    m_postProcessingFramebuffer->UnBind();
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the scene
 
 
@@ -192,9 +203,15 @@ void Game::quit()
     m_display.release();
 }
 
+void Game::onResize(float _width, float _height)
+{
+    m_currentScene->onResize(_width, _height);
+    m_postProcessingFramebuffer->resize(Vector2(_width, _height));
+    GraphicsEngine::GetInstance().setViewport(Vector2(_width, _height));
+}
+
 void Game::SetScene(shared_ptr<Scene> _scene)
 {
-    //m_canvasQuad->setShader(defaultQuadShader);
     // if there is a current scene, call onQuit
     if (m_currentScene != nullptr)
     {

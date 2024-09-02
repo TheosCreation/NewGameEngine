@@ -57,6 +57,7 @@ void Scene4::onCreate()
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
+	m_ship->setShadowShader(m_shadowShader);
 
 	//Creating instanced tree obj
 	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
@@ -65,6 +66,7 @@ void Scene4::onCreate()
 	m_instanceMines->setShader(instancedMeshShader);
 	m_instanceMines->setMesh(mineMesh);
 	m_instanceMines->setReflectiveMapTexture(shipReflectiveMap);
+	m_instanceMines->setShadowShader(m_shadowShader);
 
 
 	//adds instances to the instanced mine mesh

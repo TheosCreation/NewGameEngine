@@ -63,6 +63,7 @@ void Scene1::onCreate()
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
+	m_ship->setShadowShader(m_shadowShader);
 
 	auto secondShip = m_entitySystem->createEntity<MeshEntity>();
 	secondShip->setScale(Vector3(0.1f));
@@ -72,6 +73,7 @@ void Scene1::onCreate()
 	secondShip->setReflectiveMapTexture(shipReflectiveMap);
 	secondShip->setMesh(fighterShip);
 	secondShip->setShader(meshShader);
+	secondShip->setShadowShader(m_shadowShader);
 
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;

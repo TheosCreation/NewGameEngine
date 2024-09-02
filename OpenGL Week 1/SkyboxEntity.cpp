@@ -16,10 +16,11 @@ void SkyboxEntity::onGraphicsUpdate(UniformData data)
 {
     GraphicsEntity::onGraphicsUpdate(data);
 
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setShader(m_shader);
     Mat4 viewNoTranslationMatrix = glm::mat3(data.viewMatrix);
     m_shader->setMat4("VPMatrix", data.projectionMatrix * viewNoTranslationMatrix);
 
-    auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::FrontFace);
     graphicsEngine.setDepthFunc(DepthType::LessEqual);
     if (m_texture != nullptr)

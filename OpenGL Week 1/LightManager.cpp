@@ -91,6 +91,32 @@ bool LightManager::getDirectionalLightStatus()
     return DirectionalLightStatus;
 }
 
+Mat4 LightManager::getLightSpaceMatrix()
+{
+    // Assuming m_directionalLight is already set
+    if (!DirectionalLightStatus) {
+        return Mat4();
+    }
+
+    Mat4 projection = glm::ortho(-300.0f, 300.0f, -300.0f, 300.0f, 0.1f, 2000.0f);
+
+    // Define the view matrix for the directional light
+    Vector3 lightDirection = m_directionalLight.Direction;
+    Vector3 lightPosition = -lightDirection; // Position light far away from the scene
+    Mat4 view = glm::lookAt(lightPosition, lightPosition + lightDirection, Vector3(0, 1, 0));
+
+    // Combine the projection and view matrices to get the light space matrix
+    Mat4 lightSpaceMatrix = projection * view;
+
+    return lightSpaceMatrix;
+}
+
+TexturePtr LightManager::getShadowMapTexture() const
+{
+    // Return the shadow map texture (assuming it's stored as a member)
+    return m_shadowMapTexture;
+}
+
 void LightManager::setDirectionalLightStatus(bool status)
 {
     DirectionalLightStatus = status;

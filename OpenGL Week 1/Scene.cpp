@@ -9,6 +9,11 @@ Scene::~Scene()
 {
 }
 
+void Scene::onShadowPass()
+{
+    m_entitySystem->onShadowPass();
+}
+
 void Scene::onGraphicsUpdate(float deltaTime)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -34,9 +39,6 @@ void Scene::onGraphicsUpdate(float deltaTime)
         }
     }
 
-    // Render skybox
-    ShaderPtr skyboxShader = m_skyBox->getShader();
-    graphicsEngine.setShader(skyboxShader);
     m_skyBox->onGraphicsUpdate(data);
 
     m_entitySystem->onGraphicsUpdate(deltaTime, data);
@@ -58,6 +60,11 @@ void Scene::onCreate()
     m_solidColorMeshShader = graphicsEngine.createShader({
             "SolidColorMesh",
             "SolidColorMesh"
+        }); 
+    
+    m_shadowShader = graphicsEngine.createShader({
+            "ShadowShader",
+            "ShadowShader"
         });
 
     m_skyBox->setEntitySystem(m_entitySystem.get());
@@ -98,6 +105,14 @@ void Scene::onFixedUpdate(float fixedDeltaTime)
 void Scene::onLateUpdate(float deltaTime)
 {
     m_entitySystem->onLateUpdate(deltaTime);
+}
+
+void Scene::onResize(float _width, float _height)
+{
+    for (auto camera : m_entitySystem->getCameras())
+    {
+        camera->setScreenArea(Vector2(_width, _height));
+    }
 }
 
 void Scene::onQuit()

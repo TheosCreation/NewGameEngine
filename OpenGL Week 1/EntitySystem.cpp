@@ -92,6 +92,14 @@ void EntitySystem::onLateUpdate(float deltaTime)
 	}
 }
 
+void EntitySystem::onShadowPass()
+{
+	for (auto& graphicsEntity : m_graphicsEntities)
+	{
+		graphicsEntity->onShadowPass();
+	}
+}
+
 void EntitySystem::onGraphicsUpdate(float deltaTime, UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)

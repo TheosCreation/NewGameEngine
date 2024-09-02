@@ -10,6 +10,7 @@ public:
 	Scene(Game* game);
 	~Scene();
 
+	virtual void onShadowPass();
 	virtual void onGraphicsUpdate(float deltaTime);
 
 
@@ -40,6 +41,7 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onLateUpdate(float deltaTime);
+    virtual void onResize(float _width, float _height);
 
     /**
      * @brief Called when the game is quitting.
@@ -48,6 +50,7 @@ public:
 
 protected:
     ShaderPtr m_solidColorMeshShader = nullptr;
+    ShaderPtr m_shadowShader = nullptr;
     unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
     unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     Game* gameOwner;

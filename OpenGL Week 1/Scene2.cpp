@@ -69,6 +69,7 @@ void Scene2::onCreate()
 	m_terrain->setTexture3(snowTexture);
 	m_terrain->setHeightMap(heightMapTexture);
 	m_terrain->setShader(terrainShader);
+	m_terrain->setShadowShader(m_shadowShader);
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(Vector3(0.05f));
@@ -78,6 +79,7 @@ void Scene2::onCreate()
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
+	m_ship->setShadowShader(m_shadowShader);
 
 
 	//Creating the player object

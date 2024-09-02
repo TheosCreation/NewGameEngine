@@ -132,12 +132,14 @@ void Scene3::onCreate()
     quad1->setTexture1(dirtTexture);
     quad1->setHeightMap(perlinNoise);
     quad1->setShader(quadBlendedShader);
+    quad1->setShadowShader(m_shadowShader);
 
     auto quad2 = m_entitySystem->createEntity<QuadEntity>();
     quad2->setPosition(Vector3(-100, 0, -300));
     quad2->setScale(Vector3(100.0f));
     quad2->setTexture(perlinNoise);
     quad2->setShader(quadShader);
+    quad2->setShadowShader(m_shadowShader);
 
     m_terrain = m_entitySystem->createEntity<TerrainEntity>();
     m_terrain->generateTerrainMesh(heightmap);
@@ -147,6 +149,7 @@ void Scene3::onCreate()
     m_terrain->setTexture2(stoneTexture);
     m_terrain->setTexture3(snowTexture);
     m_terrain->setShader(terrainShader);
+    m_terrain->setShadowShader(m_shadowShader);
 
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;

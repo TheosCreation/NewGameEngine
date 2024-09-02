@@ -81,6 +81,46 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 2, "");
 }
 
+void MeshEntity::onShadowPass()
+{
+    // Retrieve the instance of the graphics engine
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+
+    // Set the shader used for shadow mapping
+    if (m_shadowShader == nullptr) return;
+    graphicsEngine.setShader(m_shadowShader);
+
+    // Configure depth testing and culling settings
+    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+
+    // Set up the shadow-specific uniforms
+    // These uniforms include the light's view and projection matrices
+    auto& lightManager = LightManager::GetInstance();
+    m_shadowShader->setMat4("lightSpaceMatrix", lightManager.getLightSpaceMatrix());
+    // Get the shadow map texture and bind it
+    //auto shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
+    //if (shadowMapTexture)
+    //{
+    //    graphicsEngine.setTexture2D(shadowMapTexture, 3, "shadowMap"); // Assuming texture unit 3
+    //}
+
+    if (m_mesh == nullptr) return;
+    // Bind the vertex array object for the mesh
+    auto meshVBO = m_mesh->getVertexArrayObject();
+    
+    graphicsEngine.setVertexArrayObject(meshVBO);
+
+    // Draw the mesh to update the shadow map
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+
+    // Unbind textures if necessary
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+    graphicsEngine.setTextureCubeMap(nullptr, 1, "");
+    graphicsEngine.setTexture2D(nullptr, 2, "");
+}
+
 float MeshEntity::getShininess() const
 {
     return m_shininess;

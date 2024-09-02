@@ -73,6 +73,14 @@ void GraphicsEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setShader(m_shader);
 }
 
+void GraphicsEntity::onShadowPass()
+{
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+}
+
 ShaderPtr GraphicsEntity::getShader() const
 {
 	return m_shader;
@@ -81,6 +89,11 @@ ShaderPtr GraphicsEntity::getShader() const
 void GraphicsEntity::setShader(const ShaderPtr& shader)
 {
 	m_shader = shader;
+}
+
+void GraphicsEntity::setShadowShader(const ShaderPtr& shader)
+{
+	m_shadowShader = shader;
 }
 
 TexturePtr GraphicsEntity::getTexture() const

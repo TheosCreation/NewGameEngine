@@ -50,7 +50,7 @@ public:
      * @brief Clears the screen with the specified color.
      * @param color The color to clear the screen with.
      */
-    void clear(const glm::vec4& color);
+    void clear(const glm::vec4& color, bool clearDepth = true, bool clearStencil = true);
 
     /**
      * @brief Sets the face culling mode.
