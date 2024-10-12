@@ -15,6 +15,7 @@ Mail : theo.morris@mds.ac.nz
 #include "VertexArrayObject.h" 
 #include "Mesh.h"
 #include "Game.h"
+#include "ShadowMap.h"
 
 void MeshEntity::setMesh(const MeshPtr& mesh)
 {
@@ -72,6 +73,14 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
         graphicsEngine.setTexture2D(m_reflectiveMap, 2, "ReflectionMap");
     }
 
+    // Get the shadow map texture and bind it
+    ShadowMapPtr shadowMapTexture = LightManager::GetInstance().getShadowMapTexture(); // Function to get the shadow map texture
+    if (shadowMapTexture)
+    {
+        graphicsEngine.setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
+    }
+
+
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
@@ -79,6 +88,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 0, "");
     graphicsEngine.setTextureCubeMap(nullptr, 1, "");
     graphicsEngine.setTexture2D(nullptr, 2, "");
+    graphicsEngine.setTexture2D(nullptr, 3, "");
 }
 
 void MeshEntity::onShadowPass()
@@ -98,13 +108,7 @@ void MeshEntity::onShadowPass()
     // Set up the shadow-specific uniforms
     // These uniforms include the light's view and projection matrices
     auto& lightManager = LightManager::GetInstance();
-    m_shadowShader->setMat4("lightSpaceMatrix", lightManager.getLightSpaceMatrix());
-    // Get the shadow map texture and bind it
-    //auto shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
-    //if (shadowMapTexture)
-    //{
-    //    graphicsEngine.setTexture2D(shadowMapTexture, 3, "shadowMap"); // Assuming texture unit 3
-    //}
+    m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
 
     if (m_mesh == nullptr) return;
     // Bind the vertex array object for the mesh
@@ -114,11 +118,6 @@ void MeshEntity::onShadowPass()
 
     // Draw the mesh to update the shadow map
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
-
-    // Unbind textures if necessary
-    graphicsEngine.setTexture2D(nullptr, 0, "");
-    graphicsEngine.setTextureCubeMap(nullptr, 1, "");
-    graphicsEngine.setTexture2D(nullptr, 2, "");
 }
 
 float MeshEntity::getShininess() const

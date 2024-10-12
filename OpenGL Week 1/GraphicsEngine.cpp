@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include "VertexArrayObject.h"
 #include "Shader.h"
 #include "Texture2D.h"
+#include "ShadowMap.h"
 #include "TextureCubeMap.h"
 
 VertexArrayObjectPtr GraphicsEngine::createVertexArrayObject(const VertexBufferDesc& vbDesc)

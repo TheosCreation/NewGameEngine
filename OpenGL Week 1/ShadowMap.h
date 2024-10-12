@@ -1,9 +1,10 @@
 #pragma once
 #include "Utils.h"
+#include "Texture.h"
 #include <glew.h>
 #include <glfw3.h>
 
-class ShadowMap
+class ShadowMap : public Texture
 {
 public:
 	ShadowMap(Vector2 _windowSize);
@@ -14,10 +15,7 @@ public:
 
 	void resize(Vector2 _newWindowSize);
 
-	const uint GetShadowTexture() const { return ShadowTexture; };
-
 private:
 	uint FBO;
-	uint ShadowTexture;
 };
 

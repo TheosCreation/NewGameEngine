@@ -111,7 +111,12 @@ Mat4 LightManager::getLightSpaceMatrix()
     return lightSpaceMatrix;
 }
 
-TexturePtr LightManager::getShadowMapTexture() const
+void LightManager::setShadowMapTexture(ShadowMapPtr texture)
+{
+    m_shadowMapTexture = texture;
+}
+
+ShadowMapPtr LightManager::getShadowMapTexture() const
 {
     // Return the shadow map texture (assuming it's stored as a member)
     return m_shadowMapTexture;

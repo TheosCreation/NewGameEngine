@@ -1,13 +1,13 @@
 #include "ShadowMap.h"
 
-ShadowMap::ShadowMap(Vector2 _windowSize)
+ShadowMap::ShadowMap(Vector2 _windowSize) : Texture("", nullptr)
 {
     // Create the framebuffer object
     glGenFramebuffers(1, &FBO);
 
     // Create the depth texture
-    glGenTextures(1, &ShadowTexture);
-    glBindTexture(GL_TEXTURE_2D, ShadowTexture);
+    glGenTextures(1, &m_textureId);
+    glBindTexture(GL_TEXTURE_2D, m_textureId);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, _windowSize.x, _windowSize.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
 
     // Set texture parameters
@@ -17,7 +17,7 @@ ShadowMap::ShadowMap(Vector2 _windowSize)
 
     // Attach the depth texture to the framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowTexture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_textureId, 0);
 
     // Set the framebuffer to have no color attachment (only depth)
     glDrawBuffer(GL_NONE);
@@ -36,7 +36,7 @@ ShadowMap::ShadowMap(Vector2 _windowSize)
 ShadowMap::~ShadowMap()
 {
     glDeleteFramebuffers(1, &FBO);
-    glDeleteTextures(1, &ShadowTexture);
+    glDeleteTextures(1, &m_textureId);
 }
 
 void ShadowMap::Bind()
@@ -53,11 +53,11 @@ void ShadowMap::Unbind()
 void ShadowMap::resize(Vector2 _newWindowSize)
 {
     // Delete the old depth texture
-    glDeleteTextures(1, &ShadowTexture);
+    glDeleteTextures(1, &m_textureId);
 
     // Generate a new depth texture with the new size
-    glGenTextures(1, &ShadowTexture);
-    glBindTexture(GL_TEXTURE_2D, ShadowTexture);
+    glGenTextures(1, &m_textureId);
+    glBindTexture(GL_TEXTURE_2D, m_textureId);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, _newWindowSize.x, _newWindowSize.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
     
     // Set texture parameters again
@@ -67,7 +67,7 @@ void ShadowMap::resize(Vector2 _newWindowSize)
 
     // Attach the depth texture to the framebuffer
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowTexture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_textureId, 0);
 
     // Set the framebuffer to have no color attachment (only depth)
     glDrawBuffer(GL_NONE);

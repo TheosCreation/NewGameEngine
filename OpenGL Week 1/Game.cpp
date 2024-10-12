@@ -142,12 +142,12 @@ void Game::onUpdateInternal()
     double RenderTime_Begin = (double)glfwGetTime();
 
     m_shadowMap->Bind();  // Bind the shadow map framebuffer
-    graphicsEngine.clear(glm::vec4(1, 1, 1, 1), true, false);  // Clear only the depth buffer
 
     // Render the scene from the light's perspective
     m_currentScene->onShadowPass();
 
     m_shadowMap->Unbind();
+    LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 
     m_postProcessingFramebuffer->Bind();
     m_currentScene->onGraphicsUpdate(deltaTime);

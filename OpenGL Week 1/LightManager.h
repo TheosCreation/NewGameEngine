@@ -15,6 +15,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Utils.h"
 #include "Math.h"
 #include <vector>
+#include "ShadowMap.h"
 
 /**
  * @class LightManager
@@ -80,7 +81,8 @@ public:
     bool getDirectionalLightStatus();
     Mat4 getLightSpaceMatrix();
 
-    TexturePtr getShadowMapTexture() const;
+    void setShadowMapTexture(ShadowMapPtr texture);
+    ShadowMapPtr getShadowMapTexture() const;
 
     /**
     * @brief Sets the status of the directional light.
@@ -138,7 +140,7 @@ private:
 
     SpotLight m_spotLight; //The spotlight
 
-    TexturePtr m_shadowMapTexture = nullptr;
+    ShadowMapPtr m_shadowMapTexture = nullptr;
 
     bool PointLightsStatus = true; //The status of point lights
     bool DirectionalLightStatus = true; //The status of the directional light

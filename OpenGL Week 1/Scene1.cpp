@@ -66,7 +66,7 @@ void Scene1::onCreate()
 	m_ship->setShadowShader(m_shadowShader);
 
 	auto secondShip = m_entitySystem->createEntity<MeshEntity>();
-	secondShip->setScale(Vector3(0.1f));
+	secondShip->setScale(Vector3(0.5f));
 	secondShip->setPosition(Vector3(0, -100, 0));
 	secondShip->setShininess(32.0f);
 	secondShip->setTexture(sciFiSpace);
@@ -78,7 +78,7 @@ void Scene1::onCreate()
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
 	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
-	directionalLight.Color = Vector3(0.1f);
+	directionalLight.Color = Vector3(1.0f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);
 
