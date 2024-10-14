@@ -6,6 +6,8 @@
 // Constructor: Initialize the framebuffer and create a texture
 Framebuffer::Framebuffer(Vector2 _windowSize)
 {
+    m_size = _windowSize;
+
     // Generate and bind the framebuffer
     glGenFramebuffers(1, &FBO);
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -51,6 +53,8 @@ Framebuffer::~Framebuffer()
 
 void Framebuffer::resize(Vector2 _newWindowSize)
 {
+    m_size = _newWindowSize;
+
     // Bind the framebuffer to update its attachments
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 
@@ -94,6 +98,7 @@ void Framebuffer::resize(Vector2 _newWindowSize)
 void Framebuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+    glViewport(0, 0, m_size.x, m_size.y);
 }
 
 // Unbind the framebuffer

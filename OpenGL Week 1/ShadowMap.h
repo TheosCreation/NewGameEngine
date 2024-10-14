@@ -7,15 +7,14 @@
 class ShadowMap : public Texture
 {
 public:
-	ShadowMap(Vector2 _windowSize);
+	ShadowMap(Vector2 _resoulution);
 	~ShadowMap();
 
 	virtual void Bind();
 	virtual void Unbind();
 
-	void resize(Vector2 _newWindowSize);
-
 private:
 	uint FBO;
+	Vector2 m_resolution = Vector2(0);
 };
 

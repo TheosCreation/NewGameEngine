@@ -100,7 +100,7 @@ Mat4 LightManager::getLightSpaceMatrix()
 
     // Orthographic projection for shadow mapping
     float sceneExtent = 300.0f; // Adjust based on your scene's size
-    Mat4 projection = glm::ortho(-sceneExtent, sceneExtent, -sceneExtent, sceneExtent, 0.1f, 1000.0f);
+    Mat4 projection = glm::ortho(-sceneExtent, sceneExtent, -sceneExtent, sceneExtent, 0.1f, 2000.0f);
 
 
     // Normalize the direction vector

@@ -19,8 +19,8 @@ Mail : theo.morris@mds.ac.nz
 Shader::Shader(const ShaderDesc& desc)
 {
 	m_programId = glCreateProgram();
-	attach(desc.vertexShaderFileName, ShaderType::VertexShader);
-	attach(desc.fragmentShaderFileName, ShaderType::FragmentShader);
+    Attach(desc.vertexShaderFileName, ShaderType::VertexShader);
+    Attach(desc.fragmentShaderFileName, ShaderType::FragmentShader);
 	link();
 }
 
@@ -34,76 +34,107 @@ Shader::~Shader()
 	glDeleteProgram(m_programId);
 }
 
-void Shader::attach(string filename, const ShaderType& type)
+void Shader::Attach(const std::string& filename, const ShaderType& type)
 {
-	string filePath;
-	// Open the file for reading
-	std::ifstream shaderStream;
-	string shaderCode;
+    std::string filePath;
+    std::ifstream shaderStream;
+    std::string shaderCode;
 
-	if (type == ShaderType::VertexShader)
-	{
-		filePath = "Resources/Shaders/Vertex/" + filename + ".vert";
-	}
-	else if (type == ShaderType::FragmentShader)
-	{
-		filePath = "Resources/Shaders/Fragment/" + filename + ".frag";
-	}
-	else
-	{
-		Debug::LogWarning("Shader | Cannot find file: " + filePath);
+    // Set file path based on shader type
+    if (type == ShaderType::VertexShader)
+    {
+        filePath = "Resources/Shaders/Vertex/" + filename + ".vert";
+    }
+    else if (type == ShaderType::FragmentShader)
+    {
+        filePath = "Resources/Shaders/Fragment/" + filename + ".frag";
+    }
+    else
+    {
+        Debug::LogWarning("Shader | Cannot find file: " + filePath);
+        return;
+    }
 
-		return;
-	}
+    // Open the shader file
+    shaderStream.open(filePath.c_str(), std::ios::in);
+    if (!shaderStream.good()) {
+        Debug::LogWarning("Shader | Cannot read file: " + filePath);
+        shaderStream.close();
+        return;
+    }
 
-	shaderStream.open(filePath.c_str(), std::ios::in);
+    // Read the shader code into a string
+    shaderStream.seekg(0, std::ios::end);
+    shaderCode.resize(static_cast<size_t>(shaderStream.tellg()));
+    shaderStream.seekg(0, std::ios::beg);
+    shaderStream.read(&shaderCode[0], shaderCode.size());
+    shaderStream.close();
 
-	if (!shaderStream.good()) {
-		Debug::LogWarning("Shader | Cannot read file: " + filePath);
+    // Preprocess the shader code to handle includes
+    shaderCode = PreprocessShader(shaderCode);
 
-		shaderStream.close();
-		return;
-	}
+    // Create and compile the shader
+    uint shaderId = glCreateShader(type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    const char* sourcePointer = shaderCode.c_str();
+    glShaderSource(shaderId, 1, &sourcePointer, nullptr);
+    glCompileShader(shaderId);
 
-	// Determine the size of of the file in characters and resize the string variable to accomodate
-	shaderStream.seekg(0, std::ios::end);
-	shaderCode.resize((uint)shaderStream.tellg());
+    // Check for compile errors
+    int logLength = 0;
+    glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
+    if (logLength > 0)
+    {
+        std::vector<char> errorMessage(logLength + 1);
+        glGetShaderInfoLog(shaderId, logLength, nullptr, &errorMessage[0]);
+        Debug::LogError("Shader | " + filePath + " compiled with errors: " + std::string(errorMessage.data()));
+        return;
+    }
 
-	// Set the position of the next character to be read back to the beginning
-	shaderStream.seekg(0, std::ios::beg);
-	// Extract the contents of the file and store in the string variable
-	shaderStream.read(&shaderCode[0], shaderCode.size());
-	shaderStream.close();
+    // Attach the shader to the program
+    glAttachShader(m_programId, shaderId);
+    m_attachedShaders[static_cast<uint>(type)] = shaderId;
 
-	// Attach shaders with unique ids to the program
-	uint shaderId = 0;
-	if (type == ShaderType::VertexShader)
-	{
-		shaderId = glCreateShader(GL_VERTEX_SHADER);
-	}
-	else if (type == ShaderType::FragmentShader)
-	{
-		shaderId = glCreateShader(GL_FRAGMENT_SHADER);
-	}
-	auto sourcePointer = shaderCode.c_str();
-	glShaderSource(shaderId, 1, &sourcePointer, NULL);
-	glCompileShader(shaderId);
+    Debug::Log("Shader | " + filePath + " compiled successfully");
+}
 
-	//get compile errors
-	int logLength = 0;
-	glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &logLength);
-	if (logLength > 0)
-	{
-		std::vector<char> errorMessage(logLength + 1);
-		glGetShaderInfoLog(shaderId, logLength, NULL, &errorMessage[0]);
-		Debug::LogError("Shader | " + filePath + " compiled with errors: "  + errorMessage[0]);
-		return;
-	}
+// Function to read shader code from a file
+std::string Shader::ReadShaderFile(const std::string& filePath) {
+    std::ifstream shaderFile(filePath);
+    std::stringstream shaderStream;
 
-	glAttachShader(m_programId, shaderId);
-	m_attachedShaders[(uint)type] = shaderId;
+    if (shaderFile.is_open()) {
+        shaderStream << shaderFile.rdbuf();
+    }
+    else {
+        Debug::LogWarning("Shader | Could not open file: " + filePath);
+    }
 
-	Debug::Log("Shader | " + filePath + " compiled successfully");
+    return shaderStream.str();
+}
+
+// Function to preprocess shader code
+std::string Shader::PreprocessShader(const std::string& shaderCode) {
+    std::string processedCode;
+    std::istringstream stream(shaderCode);
+    std::string line;
+
+    while (std::getline(stream, line)) {
+        // Check for #include directive
+        if (line.find("#include") != std::string::npos) {
+            // Extract the file path from the line
+            std::string includeFilePath = line.substr(line.find('"') + 1);
+            includeFilePath = includeFilePath.substr(0, includeFilePath.find('"'));
+
+            // Read the included file
+            std::string includedCode = ReadShaderFile("Resources/Shaders/" + includeFilePath);
+            processedCode += includedCode + "\n"; // Add included code
+        }
+        else {
+            processedCode += line + "\n"; // Add original line
+        }
+    }
+
+    return processedCode;
 }
 
 void Shader::link()

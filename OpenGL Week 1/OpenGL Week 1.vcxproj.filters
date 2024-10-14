@@ -180,6 +180,9 @@
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
     <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />
     <None Include="Resources\Shaders\Vertex\ShadowShader.vert" />
+    <None Include="Resources\Shaders\ShaderUtils.glsl" />
+    <None Include="Resources\Shaders\Shadows.glsl" />
+    <None Include="Resources\Shaders\Lighting.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

@@ -191,15 +191,12 @@ void TerrainEntity::onShadowPass()
     // Retrieve the instance of the graphics engine
     auto& graphicsEngine = GraphicsEngine::GetInstance();
 
-    // Set the shader used for shadow mapping
-    if (m_shadowShader == nullptr) return;
-    graphicsEngine.setShader(m_shadowShader);
-
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
 
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    m_shadowShader->setMat4("modelMatrix", getModelMatrix());
 
     if (m_mesh == nullptr) return;
     graphicsEngine.setVertexArrayObject(m_mesh);

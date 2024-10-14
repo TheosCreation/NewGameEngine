@@ -111,7 +111,11 @@ private:
      * @param filename The filename of the shader source.
      * @param type The type of the shader (vertex, fragment, etc.).
      */
-	void attach(string, const ShaderType& type);
+	void Attach(const std::string& filename, const ShaderType& type);
+
+	std::string ReadShaderFile(const std::string& filePath);
+
+	std::string PreprocessShader(const std::string& shaderCode);
 
 	/**
 	 * @brief Links the shader program.

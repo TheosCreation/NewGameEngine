@@ -62,7 +62,6 @@ void InstancedMeshEntity::onGraphicsUpdate(UniformData data)
     
     auto& lightManager = LightManager::GetInstance();
     m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
-
     // Get the shadow map texture and bind it
     ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
     if (shadowMapTexture)
@@ -88,12 +87,9 @@ void InstancedMeshEntity::onShadowPass()
     // Retrieve the instance of the graphics engine
     auto& graphicsEngine = GraphicsEngine::GetInstance();
 
-    // Set the shader used for shadow mapping
-    if (m_shadowShader == nullptr) return;
-    graphicsEngine.setShader(m_shadowShader);
-
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    m_shadowShader->setMat4("modelMatrix", getModelMatrix());
 
     if (m_mesh == nullptr) return;
 

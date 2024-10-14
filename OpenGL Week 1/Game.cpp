@@ -40,7 +40,7 @@ Game::Game()
 
     Vector2 windowSize = m_display->getInnerSize();
     m_postProcessingFramebuffer = std::make_unique<Framebuffer>(windowSize);
-    m_shadowMap = std::make_unique<ShadowMap>(windowSize);
+    m_shadowMap = std::make_unique<ShadowMap>(Vector2(4096.0f));
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setViewport(windowSize);

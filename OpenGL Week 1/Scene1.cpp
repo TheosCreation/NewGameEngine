@@ -101,7 +101,7 @@ void Scene1::onCreate()
 
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
-	directionalLight.Direction = Vector3(0.0f, -1.0f, -0.5f);
+	directionalLight.Direction = Vector3(0.0f, -1.0f, -0.3f);
 	directionalLight.Color = Vector3(1.5f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);

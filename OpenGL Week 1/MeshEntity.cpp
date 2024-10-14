@@ -99,20 +99,17 @@ void MeshEntity::onShadowPass()
 {
     GraphicsEntity::onShadowPass();
 
-    // Retrieve the instance of the graphics engine
-    auto& graphicsEngine = GraphicsEngine::GetInstance();
-
-    // Set the shader used for shadow mapping
-    if (m_shadowShader == nullptr) return;
-    graphicsEngine.setShader(m_shadowShader);
 
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    m_shadowShader->setMat4("modelMatrix", getModelMatrix());
 
     if (m_mesh == nullptr) return;
     // Bind the vertex array object for the mesh
     auto meshVBO = m_mesh->getVertexArrayObject();
-    
+
+    // Retrieve the instance of the graphics engine
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setVertexArrayObject(meshVBO);
 
     // Draw the mesh to update the shadow map

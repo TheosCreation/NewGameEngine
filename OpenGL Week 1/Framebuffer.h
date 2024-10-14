@@ -15,5 +15,6 @@ public:
 private:
 	uint FBO;
 	uint RBO;
+	Vector2 m_size = Vector2(0);
 };
 

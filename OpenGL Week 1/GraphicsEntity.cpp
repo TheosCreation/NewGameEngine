@@ -79,6 +79,7 @@ void GraphicsEntity::onShadowPass()
     graphicsEngine.setFaceCulling(CullType::BackFace);
     graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
     graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setShader(m_shadowShader);
 }
 
 ShaderPtr GraphicsEntity::getShader() const

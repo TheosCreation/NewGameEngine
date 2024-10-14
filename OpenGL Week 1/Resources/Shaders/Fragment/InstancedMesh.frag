@@ -1,34 +1,7 @@
 #version 460 core
 #define MAX_POINT_LIGHTS 4
-
-struct Light {
-    vec3 Color;
-    float SpecularStrength;
-};
-
-struct DirectionalLight {
-    Light Base;
-    vec3 Direction;
-};
-
-struct PointLight {
-    Light Base;
-    vec3 Position;
-    float AttenuationConstant;
-    float AttenuationLinear;
-    float AttenuationExponent;
-};
-
-struct SpotLight {
-    Light Base;
-    vec3 Position;
-    vec3 Direction;
-    float CutOff;
-    float OuterCutOff;
-    float AttenuationConstant;
-    float AttenuationLinear;
-    float AttenuationExponent;
-};
+#include "Shadows.glsl"
+#include "Lighting.glsl"
 
 in vec3 FragPos;
 in vec2 FragTexcoord;
@@ -58,61 +31,6 @@ uniform float ObjectShininess = 32.0f;
 // Out
 out vec4 FinalColor;
 
-
-float CalculateShadow()
-{
-    vec3 NDC_Space = FragPos_LightSpace.xyz / FragPos_LightSpace.w;
-
-    vec3 ProjCoordinates = 0.5f * NDC_Space + 0.5f;
-    float CurrentDepth = ProjCoordinates.z;
-
-    float LightClosestDepth = texture(Texture_ShadowMap, ProjCoordinates.xy).r;
-
-    float Shadow = CurrentDepth > LightClosestDepth ? 1.0f : 0.0f;
-    return Shadow;
-}
-
-vec3 CalculateLight(Light baseLight, vec3 lightDir, vec3 viewDir, vec3 normal, float attenuation)
-{
-    // Diffuse shading
-    float DiffuseStrength = max(dot(normal, -lightDir), 0.0);
-    vec3 Diffuse = DiffuseStrength * baseLight.Color;
-
-    // Specular shading
-    vec3 HalfwayDir = normalize(lightDir - viewDir);
-    float SpecularReflection = pow(max(dot(normal, HalfwayDir), 0.0), ObjectShininess);
-    vec3 Specular = baseLight.SpecularStrength * SpecularReflection * baseLight.Color;
-
-    // Combine results
-    vec3 result = (Diffuse + Specular) / attenuation;
-    return result;
-}
-
-vec3 CalculateDirectionalLight(DirectionalLight light, vec3 viewDir)
-{
-    vec3 LightDir = normalize(light.Direction);
-    return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), 1.0);
-}
-
-vec3 CalculatePointLight(PointLight light, vec3 viewDir)
-{
-    vec3 LightDir = normalize(FragPos - light.Position);
-    float Distance = length(light.Position - FragPos);
-    float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
-    return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), Attenuation);
-}
-
-vec3 CalculateSpotLight(SpotLight light, vec3 viewDir)
-{
-    vec3 LightDir = normalize(FragPos - light.Position);
-    float theta = dot(LightDir, normalize(light.Direction));
-    float epsilon   = light.CutOff - light.OuterCutOff;
-    float intensity = clamp((theta - light.OuterCutOff) / epsilon, 0.0, 1.0);  
-    float Distance = length(light.Position - FragPos);
-    float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
-    return CalculateLight(light.Base, LightDir, viewDir, normalize(FragNormal), Attenuation) * intensity;
-}
-
 void main()
 {
     // Normalize the normal and calculate view and reflection directions
@@ -126,20 +44,20 @@ void main()
     vec3 TotalLightOutput = vec3(0.0);
     for (uint i = 0; i < PointLightCount; ++i)
     {
-        TotalLightOutput += CalculatePointLight(PointLightArray[i], ViewDir);
+        TotalLightOutput += CalculatePointLight(PointLightArray[i], ViewDir, ObjectShininess, FragNormal, FragPos);
     }
 
     if (DirectionalLightStatus == 1)
     {
-        TotalLightOutput += CalculateDirectionalLight(DirLight, ViewDir);
+        TotalLightOutput += CalculateDirectionalLight(DirLight, ViewDir, ObjectShininess, FragNormal);
     }
 
     if (SpotLightStatus == 1)
     {
-        TotalLightOutput += CalculateSpotLight(SpotLight1, ViewDir);
+        TotalLightOutput += CalculateSpotLight(SpotLight1, ViewDir, ObjectShininess, FragNormal, FragPos);
     }
-
-    float Shadow = CalculateShadow();
+    
+    float Shadow = CalculateShadow(FragPos_LightSpace, Texture_ShadowMap);
     vec3 LightShadow = Ambient + ((1.0f - Shadow) * TotalLightOutput);
 
     // Sample textures
