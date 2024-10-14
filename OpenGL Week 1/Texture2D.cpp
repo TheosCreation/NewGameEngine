@@ -43,12 +43,12 @@ Texture2D::Texture2D(const Texture2DDesc& desc, const char* path, ResourceManage
     m_desc = desc;
 }
 
-float Texture2D::getHeight()
+int Texture2D::getHeight()
 {
     return m_desc.textureSize.height;
 }
 
-float Texture2D::getWidth()
+int Texture2D::getWidth()
 {
     return m_desc.textureSize.width;
 }

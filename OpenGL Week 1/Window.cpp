@@ -98,7 +98,7 @@ void Window::present()
     glfwSwapBuffers(m_windowPtr);
 }
 
-void Window::onResize(float _width, float _height)
+void Window::onResize(int _width, int _height)
 {
     Debug::Log("Window resized to: " + ToString(_width) + "x" + ToString(_height));
     m_size.width = _width;

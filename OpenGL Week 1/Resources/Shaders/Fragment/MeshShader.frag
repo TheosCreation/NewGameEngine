@@ -150,5 +150,5 @@ void main()
     vec4 MixedTexture = mix(ObjectTexture, ReflectionTexture, Reflectivity);
 
     // Calculate the final color
-    FinalColor = vec4(TotalLightOutput, 1.0) * MixedTexture;
+    FinalColor = vec4(LightShadow, 1.0) * MixedTexture;
 }

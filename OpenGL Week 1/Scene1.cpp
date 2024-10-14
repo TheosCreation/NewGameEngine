@@ -41,12 +41,17 @@ void Scene1::onCreate()
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
 
+	Texture2DPtr heightMapTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Heightmap0.jpg");
 
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 
 	ShaderPtr meshShader = graphicsEngine.createShader({
 			"MeshShader",
 			"MeshShader"
+		});
+	ShaderPtr terrainShader = graphicsEngine.createShader({
+			"TerrainShader",
+			"TerrainShader"
 		});
 
 	m_outlineShader = graphicsEngine.createShader({
@@ -57,28 +62,47 @@ void Scene1::onCreate()
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(Vector3(0.05f));
-	m_ship->setPosition(Vector3(0, 0, 0));
-	m_ship->setShininess(32.0f);
+	m_ship->setPosition(Vector3(0, -60, 0));
+	m_ship->setShininess(64.0f);
 	m_ship->setTexture(sciFiSpace);
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
 	m_ship->setShadowShader(m_shadowShader);
 
-	auto secondShip = m_entitySystem->createEntity<MeshEntity>();
-	secondShip->setScale(Vector3(0.5f));
-	secondShip->setPosition(Vector3(0, -100, 0));
-	secondShip->setShininess(32.0f);
-	secondShip->setTexture(sciFiSpace);
-	secondShip->setReflectiveMapTexture(shipReflectiveMap);
-	secondShip->setMesh(fighterShip);
-	secondShip->setShader(meshShader);
-	secondShip->setShadowShader(m_shadowShader);
+	auto ship2 = m_entitySystem->createEntity<MeshEntity>();
+	ship2->setScale(Vector3(0.05f));
+	ship2->setPosition(Vector3(0, -100, 0));
+	ship2->setShininess(64.0f);
+	ship2->setTexture(sciFiSpace);
+	ship2->setReflectiveMapTexture(shipReflectiveMap);
+	ship2->setMesh(fighterShip);
+	ship2->setShader(meshShader);
+	ship2->setShadowShader(m_shadowShader);
+
+	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 1.0f };
+	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
+
+	Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/grass.png");
+	Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/dirt.png");
+	Texture2DPtr stoneTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
+	Texture2DPtr snowTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/snow.png");
+
+	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
+	m_terrain->generateTerrainMesh(heightmap);
+	m_terrain->setPosition(Vector3(0, -150, 0));
+	m_terrain->setTexture(grassTexture);
+	m_terrain->setTexture1(dirtTexture);
+	m_terrain->setTexture2(stoneTexture);
+	m_terrain->setTexture3(snowTexture);
+	m_terrain->setHeightMap(heightMapTexture);
+	m_terrain->setShader(terrainShader);
+	m_terrain->setShadowShader(m_shadowShader);
 
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
-	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
-	directionalLight.Color = Vector3(1.0f);
+	directionalLight.Direction = Vector3(0.0f, -1.0f, -0.5f);
+	directionalLight.Color = Vector3(1.5f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);
 
@@ -94,6 +118,7 @@ void Scene1::onCreate()
 	spotLight.AttenuationLinear = 0.014f;
 	spotLight.AttenuationExponent = 0.0007f;
 	lightManager.createSpotLight(spotLight);
+	lightManager.setSpotlightStatus(false);
 }
 
 void Scene1::onUpdate(float deltaTime)
@@ -116,59 +141,6 @@ void Scene1::onFixedUpdate(float _fixedDeltaTime)
 void Scene1::onLateUpdate(float deltaTime)
 {
 	Scene::onLateUpdate(deltaTime);
-}
-
-void Scene1::onGraphicsUpdate(float deltaTime)
-{
-	auto& graphicsEngine = GraphicsEngine::GetInstance();
-	auto& lightManager = LightManager::GetInstance();
-
-	graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
-	UniformData data = {};
-	data.currentTime = gameOwner->GetCurrentTime();
-	for (auto& camera : m_entitySystem->getCameras())
-	{
-		if (camera->getCameraType() == CameraType::Perspective)
-		{
-			camera->getViewMatrix(data.viewMatrix);
-			camera->getProjectionMatrix(data.projectionMatrix);
-			data.cameraPosition = camera->getPosition();
-			lightManager.setSpotlightPosition(data.cameraPosition);
-			lightManager.setSpotlightDirection(camera->getForwardDirection());
-		}
-		else
-		{
-			camera->getViewMatrix(data.uiViewMatrix);
-			camera->getProjectionMatrix(data.uiProjectionMatrix);
-		}
-	}
-
-	// Render skybox
-	ShaderPtr skyboxShader = m_skyBox->getShader();
-	graphicsEngine.setShader(skyboxShader);
-	m_skyBox->onGraphicsUpdate(data);
-
-	graphicsEngine.setStencil(StencilOperationType::Set);
-	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	glStencilMask(0xFF);
-	
-	m_entitySystem->onGraphicsUpdate(deltaTime, data);
-	
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(0x00);
-	
-	for (auto& graphicEntity : m_entitySystem->getGraphicsEntities())
-	{
-		ShaderPtr originalShader = graphicEntity->getShader();
-	    graphicEntity->setShader(m_outlineShader);
-	    graphicEntity->onGraphicsUpdate(data);
-	    graphicEntity->setShader(originalShader);
-	}
-
-	m_entitySystem->onGraphicsUpdate(deltaTime, data);
-	
-	glDisable(GL_STENCIL_TEST);
-	graphicsEngine.setStencil(StencilOperationType::ResetAlways);
 }
 
 void Scene1::onQuit()

@@ -53,7 +53,7 @@ public:
      * @brief Quits the game.
      */
     void quit();
-    void onResize(float _width, float _height);
+    void onResize(int _width, int _height);
 
     void SetScene(shared_ptr<Scene> _scene);
 

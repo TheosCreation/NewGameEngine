@@ -57,7 +57,7 @@ public:
      */
     void present();
 
-    void onResize(float _width, float _height);
+    void onResize(int _width, int _height);
 
     /**
      * @brief Checks if the window should close.

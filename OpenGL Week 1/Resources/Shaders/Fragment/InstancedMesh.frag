@@ -33,10 +33,12 @@ struct SpotLight {
 in vec3 FragPos;
 in vec2 FragTexcoord;
 in vec3 FragNormal;
+in vec4 FragPos_LightSpace;
 
 uniform sampler2D Texture0;
 uniform samplerCube Texture_Skybox;
 uniform sampler2D ReflectionMap;
+uniform sampler2D Texture_ShadowMap;
 
 uniform float AmbientStrength = 0.15f;
 uniform vec3 AmbientColor = vec3(1.0f, 1.0f, 1.0f);
@@ -55,6 +57,20 @@ uniform float ObjectShininess = 32.0f;
 
 // Out
 out vec4 FinalColor;
+
+
+float CalculateShadow()
+{
+    vec3 NDC_Space = FragPos_LightSpace.xyz / FragPos_LightSpace.w;
+
+    vec3 ProjCoordinates = 0.5f * NDC_Space + 0.5f;
+    float CurrentDepth = ProjCoordinates.z;
+
+    float LightClosestDepth = texture(Texture_ShadowMap, ProjCoordinates.xy).r;
+
+    float Shadow = CurrentDepth > LightClosestDepth ? 1.0f : 0.0f;
+    return Shadow;
+}
 
 vec3 CalculateLight(Light baseLight, vec3 lightDir, vec3 viewDir, vec3 normal, float attenuation)
 {
@@ -123,7 +139,8 @@ void main()
         TotalLightOutput += CalculateSpotLight(SpotLight1, ViewDir);
     }
 
-    TotalLightOutput += Ambient;
+    float Shadow = CalculateShadow();
+    vec3 LightShadow = Ambient + ((1.0f - Shadow) * TotalLightOutput);
 
     // Sample textures
     vec4 ObjectTexture = texture(Texture0, FragTexcoord);
@@ -134,5 +151,5 @@ void main()
     vec4 MixedTexture = mix(ObjectTexture, ReflectionTexture, Reflectivity);
 
     // Calculate the final color
-    FinalColor = vec4(TotalLightOutput, 1.0) * MixedTexture;
+    FinalColor = vec4(LightShadow, 1.0) * MixedTexture;
 }

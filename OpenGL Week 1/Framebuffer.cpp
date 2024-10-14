@@ -15,7 +15,7 @@ Framebuffer::Framebuffer(Vector2 _windowSize)
     glBindTexture(GL_TEXTURE_2D, RenderTexture);
 
     // Define the texture parameters
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -25,7 +25,7 @@ Framebuffer::Framebuffer(Vector2 _windowSize)
     // Generate and bind the renderbuffer for depth and stencil
     glGenRenderbuffers(1, &RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _windowSize.x, _windowSize.y);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (int)_windowSize.x, (int)_windowSize.y);
 
     // Attach the renderbuffer to the framebuffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);
@@ -60,7 +60,7 @@ void Framebuffer::resize(Vector2 _newWindowSize)
     // Generate and bind a new texture with the updated size
     glGenTextures(1, &RenderTexture);
     glBindTexture(GL_TEXTURE_2D, RenderTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _newWindowSize.x, _newWindowSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)_newWindowSize.x, (int)_newWindowSize.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -73,7 +73,7 @@ void Framebuffer::resize(Vector2 _newWindowSize)
     // Generate and bind a new renderbuffer for depth and stencil with the updated size
     glGenRenderbuffers(1, &RBO);
     glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, _newWindowSize.x, _newWindowSize.y);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, (int)_newWindowSize.x, (int)_newWindowSize.y);
 
     // Attach the new renderbuffer to the framebuffer
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO);

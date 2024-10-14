@@ -41,7 +41,7 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onLateUpdate(float deltaTime);
-    virtual void onResize(float _width, float _height);
+    virtual void onResize(int _width, int _height);
 
     /**
      * @brief Called when the game is quitting.

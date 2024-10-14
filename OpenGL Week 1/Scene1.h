@@ -53,8 +53,6 @@ public:
      * @param deltaTime The time elapsed since the last frame.
      */
     virtual void onLateUpdate(float deltaTime);
-
-    void onGraphicsUpdate(float deltaTime) override;
     virtual void onQuit() override;
 
 private:
@@ -62,6 +60,7 @@ private:
 
     // Initialize all VBOs here
     MyPlayer* m_player = nullptr; //Pointer to the player entity
+    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     MeshEntity* m_ship = nullptr; //Pointer to the ship entity
 
     ShaderPtr m_outlineShader = nullptr;

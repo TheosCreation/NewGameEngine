@@ -7,6 +7,5 @@ uniform mat4 VPLight;
 
 void main()
 {
-    vec4 worldPos = modelMatrix * vec4(vertexPosition, 1.0f);
-    gl_Position = VPLight * worldPos;
+    gl_Position = VPLight * modelMatrix * vec4(vertexPosition, 1.0f);
 }

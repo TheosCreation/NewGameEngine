@@ -52,6 +52,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     m_shader->setFloat("ObjectShininess", getShininess());
     LightManager::GetInstance().applyLighting(m_shader);
 
+
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     if (m_texture != nullptr)
     {
@@ -73,8 +74,11 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
         graphicsEngine.setTexture2D(m_reflectiveMap, 2, "ReflectionMap");
     }
 
+    auto& lightManager = LightManager::GetInstance();
+    m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+
     // Get the shadow map texture and bind it
-    ShadowMapPtr shadowMapTexture = LightManager::GetInstance().getShadowMapTexture(); // Function to get the shadow map texture
+    ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
     if (shadowMapTexture)
     {
         graphicsEngine.setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
@@ -93,6 +97,8 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
 
 void MeshEntity::onShadowPass()
 {
+    GraphicsEntity::onShadowPass();
+
     // Retrieve the instance of the graphics engine
     auto& graphicsEngine = GraphicsEngine::GetInstance();
 
@@ -100,13 +106,6 @@ void MeshEntity::onShadowPass()
     if (m_shadowShader == nullptr) return;
     graphicsEngine.setShader(m_shadowShader);
 
-    // Configure depth testing and culling settings
-    graphicsEngine.setFaceCulling(CullType::BackFace);
-    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
-    graphicsEngine.setDepthFunc(DepthType::Less);
-
-    // Set up the shadow-specific uniforms
-    // These uniforms include the light's view and projection matrices
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
 

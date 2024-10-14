@@ -16,10 +16,8 @@ void Scene::onShadowPass()
 
 void Scene::onGraphicsUpdate(float deltaTime)
 {
-    auto& graphicsEngine = GraphicsEngine::GetInstance();
     auto& lightManager = LightManager::GetInstance();
 
-    graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
     UniformData data = {};
     data.currentTime = gameOwner->GetCurrentTime();
     for (auto& camera : m_entitySystem->getCameras())
@@ -107,7 +105,7 @@ void Scene::onLateUpdate(float deltaTime)
     m_entitySystem->onLateUpdate(deltaTime);
 }
 
-void Scene::onResize(float _width, float _height)
+void Scene::onResize(int _width, int _height)
 {
     for (auto camera : m_entitySystem->getCameras())
     {

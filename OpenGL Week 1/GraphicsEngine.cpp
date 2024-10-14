@@ -203,7 +203,7 @@ void GraphicsEngine::setStencil(const StencilOperationType& type)
 
 void GraphicsEngine::setViewport(const Vector2& size)
 {
-    glViewport(0, 0, size.x, size.y);
+    glViewport(0, 0, (int)size.x, (int)size.y);
 }
 
 void GraphicsEngine::setMultiSampling(bool enabled)

@@ -8,7 +8,7 @@ ShadowMap::ShadowMap(Vector2 _windowSize) : Texture("", nullptr)
     // Create the depth texture
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, _windowSize.x, _windowSize.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, (int)_windowSize.x, (int)_windowSize.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
 
     // Set texture parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -42,7 +42,7 @@ ShadowMap::~ShadowMap()
 void ShadowMap::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    glClear(GL_DEPTH_BUFFER_BIT);  // Clear depth buffer
+    glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 void ShadowMap::Unbind()
@@ -58,7 +58,7 @@ void ShadowMap::resize(Vector2 _newWindowSize)
     // Generate a new depth texture with the new size
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, _newWindowSize.x, _newWindowSize.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, (int)_newWindowSize.x, (int)_newWindowSize.y, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, nullptr);
     
     // Set texture parameters again
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

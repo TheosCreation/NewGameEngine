@@ -141,6 +141,7 @@ void Game::onUpdateInternal()
 
     double RenderTime_Begin = (double)glfwGetTime();
 
+    graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
     m_shadowMap->Bind();  // Bind the shadow map framebuffer
 
     // Render the scene from the light's perspective
@@ -150,12 +151,15 @@ void Game::onUpdateInternal()
     LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 
     m_postProcessingFramebuffer->Bind();
+    graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
+
     m_currentScene->onGraphicsUpdate(deltaTime);
+
     m_postProcessingFramebuffer->UnBind();
+
+
+
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the scene
-
-
-
     NewUniformData uniformData;
     uniformData.CreateData<float>("Time", m_currentTime);
     uniformData.CreateData<Vector2>("Resolution", m_display->getInnerSize());
@@ -203,7 +207,7 @@ void Game::quit()
     m_display.release();
 }
 
-void Game::onResize(float _width, float _height)
+void Game::onResize(int _width, int _height)
 {
     m_currentScene->onResize(_width, _height);
     m_postProcessingFramebuffer->resize(Vector2(_width, _height));

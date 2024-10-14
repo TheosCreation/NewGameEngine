@@ -59,6 +59,16 @@ void InstancedMeshEntity::onGraphicsUpdate(UniformData data)
     {
         graphicsEngine.setTexture2D(m_reflectiveMap, 2, "ReflectionMap");
     }
+    
+    auto& lightManager = LightManager::GetInstance();
+    m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+
+    // Get the shadow map texture and bind it
+    ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
+    if (shadowMapTexture)
+    {
+        graphicsEngine.setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
+    }
 
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
@@ -68,4 +78,26 @@ void InstancedMeshEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 0, "");
     graphicsEngine.setTextureCubeMap(nullptr, 1, "");
     graphicsEngine.setTexture2D(nullptr, 2, "");
+    graphicsEngine.setTexture2D(nullptr, 3, "");
+}
+
+void InstancedMeshEntity::onShadowPass()
+{
+    GraphicsEntity::onShadowPass();
+
+    // Retrieve the instance of the graphics engine
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+
+    // Set the shader used for shadow mapping
+    if (m_shadowShader == nullptr) return;
+    graphicsEngine.setShader(m_shadowShader);
+
+    auto& lightManager = LightManager::GetInstance();
+    m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+
+    if (m_mesh == nullptr) return;
+
+    auto meshVBO = m_mesh->getVertexArrayObject();
+    graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 }

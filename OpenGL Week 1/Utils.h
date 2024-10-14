@@ -44,7 +44,8 @@ typedef unsigned int uint;
 typedef glm::mat4 Mat4;
 typedef glm::quat Quaternion;
 typedef glm::vec3 Vector3;
-typedef glm::vec2 Vector2;
+typedef glm::vec2 Vector2; 
+
 
 // Type definitions for shared pointers
 typedef std::shared_ptr<VertexArrayObject> VertexArrayObjectPtr;
@@ -432,6 +433,12 @@ struct SpotLight
     float AttenuationLinear;
     float AttenuationExponent;
 };
+
+template<glm::length_t L, typename T, glm::qualifier Q>
+GLM_FUNC_QUALIFIER glm::vec<L, T, Q> Normalize(glm::vec<L, T, Q> const& vector)
+{
+    return glm::normalize(vector);
+}
 
 template <typename T>
 std::string ToString(const T& value) {

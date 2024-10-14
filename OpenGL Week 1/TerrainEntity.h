@@ -26,12 +26,15 @@ public:
 
     void generateTerrainMesh(HeightMapPtr _heightMap);
 
-protected:
     /**
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
-    virtual void onGraphicsUpdate(UniformData data);
+    void onGraphicsUpdate(UniformData data) override;
+
+    void onShadowPass() override;
+
+protected:
 
     void smoothHeightMap(std::vector<float>& heightData, uint width, uint depth);
 

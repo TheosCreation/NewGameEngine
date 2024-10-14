@@ -98,14 +98,21 @@ Mat4 LightManager::getLightSpaceMatrix()
         return Mat4();
     }
 
-    Mat4 projection = glm::ortho(-300.0f, 300.0f, -300.0f, 300.0f, 0.1f, 2000.0f);
+    // Orthographic projection for shadow mapping
+    float sceneExtent = 300.0f; // Adjust based on your scene's size
+    Mat4 projection = glm::ortho(-sceneExtent, sceneExtent, -sceneExtent, sceneExtent, 0.1f, 1000.0f);
+
+
+    // Normalize the direction vector
+    Vector3 lightDirection = Normalize(m_directionalLight.Direction);
+
+    // Position the light far from the scene
+    Vector3 lightPosition = -lightDirection * 700.0f; // Move the light far away along the direction
 
     // Define the view matrix for the directional light
-    Vector3 lightDirection = m_directionalLight.Direction;
-    Vector3 lightPosition = -lightDirection; // Position light far away from the scene
-    Mat4 view = glm::lookAt(lightPosition, lightPosition + lightDirection, Vector3(0, 1, 0));
+    Mat4 view = glm::lookAt(lightPosition, Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
 
-    // Combine the projection and view matrices to get the light space matrix
+    // Combine the projection and view matrices to get the light-space matrix
     Mat4 lightSpaceMatrix = projection * view;
 
     return lightSpaceMatrix;

@@ -29,9 +29,9 @@ public:
      */
     Texture2D(const Texture2DDesc& desc, const char* path, ResourceManager* manager);
 
-    float getHeight();
+    int getHeight();
 
-    float getWidth();
+    int getWidth();
 
 
     unsigned char* getData() const;

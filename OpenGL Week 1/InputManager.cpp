@@ -103,7 +103,7 @@ void InputManager::enablePlayMode(bool enable)
 
 void InputManager::setScreenArea(const Vector2& area)
 {
-	m_screenArea = Rect(0, 0, area.x, area.y);
+	m_screenArea = Rect(0, 0, (int)area.x, (int)area.y);
 }
 
 void InputManager::onUpdate()
