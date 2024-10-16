@@ -33,7 +33,6 @@ void Scene4::onCreate()
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
-	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 
 	//Loading Shaders into the graphics engine
 	ShaderPtr meshShader = graphicsEngine.createShader({
@@ -59,6 +58,7 @@ void Scene4::onCreate()
 	m_ship->setShader(meshShader);
 	m_ship->setShadowShader(m_shadowShader);
 
+	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
 	//Creating instanced tree obj
 	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
 	m_instanceMines->setShininess(32.0f);

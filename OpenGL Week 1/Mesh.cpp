@@ -31,10 +31,21 @@ Mesh::Mesh(const char* path, ResourceManager* manager) : Resource(path, manager)
     auto inputfile = std::filesystem::path(path).string();
     
     bool res = tinyobj::LoadObj(&attribs, &shapes, nullptr, &warn, &err, inputfile.c_str(), nullptr);
-    
-    if (!err.empty()) Debug::LogError("Mesh | creation failed with the following errors:");
-    
-    if (!res) Debug::LogError("Mesh | not created successfully");
+
+    // Log any warnings if they exist
+    if (!warn.empty()) {
+        Debug::LogWarning("Mesh | Warning(s): " + warn);
+    }
+
+    // Log any errors if they exist
+    if (!err.empty()) {
+        Debug::LogError("Mesh | Creation failed with the following error(s): " + err);
+    }
+
+    // Check if the result was unsuccessful and log an additional message if needed
+    if (!res) {
+        Debug::LogError("Mesh | not created successfully.");
+    }
     
     std::vector<VertexMesh> list_vertices;
     std::vector<uint> list_indices;

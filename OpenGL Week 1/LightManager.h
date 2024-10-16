@@ -60,13 +60,13 @@ public:
      * @brief Apply lighting to the shader.
      * @param shader A shared pointer to the shader.
      */
-    void applyLighting(ShaderPtr shader);
+    void applyLighting(ShaderPtr shader) const;
 
     /**
      * @brief Gets the status of point lights.
      * @return True if point lights are enabled, false otherwise.
      */
-    bool getPointLightsStatus();
+    bool getPointLightsStatus() const;
 
     /**
      * @brief Sets the status of point lights.
@@ -78,8 +78,8 @@ public:
      * @brief Gets the status of the directional light.
      * @return True if the directional light is enabled, false otherwise.
      */
-    bool getDirectionalLightStatus();
-    Mat4 getLightSpaceMatrix();
+    bool getDirectionalLightStatus() const;
+    Mat4 getLightSpaceMatrix() const;
 
     void setShadowMapTexture(ShadowMapPtr texture);
     ShadowMapPtr getShadowMapTexture() const;
@@ -94,7 +94,7 @@ public:
      * @brief Gets the status of the spotlight.
      * @return True if the spotlight is enabled, false otherwise.
      */
-    bool getSpotlightStatus();
+    bool getSpotlightStatus() const;
 
     /**
      * @brief Sets the status of the spotlight.

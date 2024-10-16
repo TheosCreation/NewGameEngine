@@ -17,7 +17,7 @@ void LightManager::createSpotLight(const SpotLight& newSpotLight)
     m_spotLight = newSpotLight;
 }
 
-void LightManager::applyLighting(ShaderPtr shader)
+void LightManager::applyLighting(ShaderPtr shader) const
 {
     shader->setFloat("AmbientStrength", AmbientStrength);
     shader->setVec3("AmbientColor", AmbientColor);
@@ -76,7 +76,7 @@ void LightManager::applyLighting(ShaderPtr shader)
     }
 }
 
-bool LightManager::getPointLightsStatus()
+bool LightManager::getPointLightsStatus() const
 {
     return PointLightsStatus;
 }
@@ -86,12 +86,12 @@ void LightManager::setPointLightsStatus(bool status)
     PointLightsStatus = status;
 }
 
-bool LightManager::getDirectionalLightStatus()
+bool LightManager::getDirectionalLightStatus() const
 {
     return DirectionalLightStatus;
 }
 
-Mat4 LightManager::getLightSpaceMatrix()
+Mat4 LightManager::getLightSpaceMatrix() const
 {
     // Assuming m_directionalLight is already set
     if (!DirectionalLightStatus) {
@@ -134,7 +134,7 @@ void LightManager::setDirectionalLightStatus(bool status)
     DirectionalLightStatus = status;
 }
 
-bool LightManager::getSpotlightStatus()
+bool LightManager::getSpotlightStatus() const
 {
     return SpotlightStatus;
 }

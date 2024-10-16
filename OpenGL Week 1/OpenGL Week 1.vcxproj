@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
+    <ClCompile Include="GeometryBuffer.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -228,6 +229,7 @@
     <ClInclude Include="All.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="GeometryBuffer.h" />
     <ClInclude Include="HeightMap.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Scene.h" />
