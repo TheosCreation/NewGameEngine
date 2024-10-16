@@ -25,6 +25,8 @@ Mail : theo.morris@mds.ac.nz
 #include "Scene2.h"
 #include "Scene3.h"
 #include "Scene4.h"
+#include "Framebuffer.h"
+#include "GeometryBuffer.h"
 
 Game::Game()
 {
@@ -40,6 +42,7 @@ Game::Game()
 
     Vector2 windowSize = m_display->getInnerSize();
     m_postProcessingFramebuffer = std::make_unique<Framebuffer>(windowSize);
+    m_geometryBuffer = std::make_unique<GeometryBuffer>(windowSize);
     m_shadowMap = std::make_unique<ShadowMap>(Vector2(4096.0f));
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -141,13 +144,19 @@ void Game::onUpdateInternal()
 
     double RenderTime_Begin = (double)glfwGetTime();
 
+    graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the existing stuff first is a must
+
+    //Geometry Pass
+    m_geometryBuffer->Bind(); 
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
-    m_shadowMap->Bind();  // Bind the shadow map framebuffer
+    m_currentScene->onGeometryPass();
+    m_geometryBuffer->UnBind();
 
-    // Render the scene from the light's perspective
+    //Shadow Pass
+    m_shadowMap->Bind();
     m_currentScene->onShadowPass();
+    m_shadowMap->UnBind();
 
-    m_shadowMap->Unbind();
     LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 
     m_postProcessingFramebuffer->Bind();
@@ -211,6 +220,7 @@ void Game::onResize(int _width, int _height)
 {
     m_currentScene->onResize(_width, _height);
     m_postProcessingFramebuffer->resize(Vector2(_width, _height));
+    m_geometryBuffer->Resize(Vector2(_width, _height));
     GraphicsEngine::GetInstance().setViewport(Vector2(_width, _height));
 }
 

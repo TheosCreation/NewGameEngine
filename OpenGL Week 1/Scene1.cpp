@@ -79,6 +79,7 @@ void Scene1::onCreate()
 	m_ship->setMesh(fighterShip);
 	m_ship->setShader(meshShader);
 	m_ship->setShadowShader(m_shadowShader);
+	m_ship->setGeometryShader(m_meshGeometryShader);
 
 	auto ship2 = m_entitySystem->createEntity<MeshEntity>();
 	ship2->setScale(Vector3(0.05f));
@@ -89,8 +90,7 @@ void Scene1::onCreate()
 	ship2->setMesh(fighterShip);
 	ship2->setShader(meshShader);
 	ship2->setShadowShader(m_shadowShader);
-
-
+	ship2->setGeometryShader(m_meshGeometryShader);
 
 	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 5.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
@@ -104,7 +104,8 @@ void Scene1::onCreate()
 	m_terrain->setTexture3(snowTexture);
 	m_terrain->setHeightMap(heightMapTexture);
 	m_terrain->setShader(terrainShader);
-	m_terrain->setShadowShader(m_shadowShader);
+	m_terrain->setShadowShader(m_shadowInstancedShader);
+	m_terrain->setGeometryShader(m_terrainGeometryShader);
 
 	//Creating instanced tree obj
 	auto statues = m_entitySystem->createEntity<InstancedMeshEntity>();
@@ -114,6 +115,7 @@ void Scene1::onCreate()
 	statues->setMesh(statueMesh);
 	statues->setReflectiveMapTexture(shipReflectiveMap); //this is wrong
 	statues->setShadowShader(m_shadowShader);
+	statues->setGeometryShader(m_instancedmeshGeometryShader);
 
 
 	//adds instances to the instanced mine mesh

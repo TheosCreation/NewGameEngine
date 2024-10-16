@@ -80,6 +80,31 @@ void InstancedMeshEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 3, "");
 }
 
+void InstancedMeshEntity::onGeometryPass(UniformData data)
+{
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setShader(m_geometryShader);
+
+    m_geometryShader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
+    m_geometryShader->setFloat("ObjectShininess", getShininess());
+
+    auto& lightManager = LightManager::GetInstance();
+    m_geometryShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    if (m_texture != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
+    }
+
+    auto meshVBO = m_mesh->getVertexArrayObject();
+    graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
+
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+}
+
 void InstancedMeshEntity::onShadowPass()
 {
     GraphicsEntity::onShadowPass();
@@ -89,7 +114,6 @@ void InstancedMeshEntity::onShadowPass()
 
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
-    m_shadowShader->setMat4("modelMatrix", getModelMatrix());
 
     if (m_mesh == nullptr) return;
 

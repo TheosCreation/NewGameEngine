@@ -14,6 +14,34 @@ void Scene::onShadowPass()
     m_entitySystem->onShadowPass();
 }
 
+void Scene::onGeometryPass()
+{
+    auto& lightManager = LightManager::GetInstance();
+
+    UniformData data = {};
+    data.currentTime = gameOwner->GetCurrentTime();
+    for (auto& camera : m_entitySystem->getCameras())
+    {
+        if (camera->getCameraType() == CameraType::Perspective)
+        {
+            camera->getViewMatrix(data.viewMatrix);
+            camera->getProjectionMatrix(data.projectionMatrix);
+            data.cameraPosition = camera->getPosition();
+            lightManager.setSpotlightPosition(data.cameraPosition);
+            lightManager.setSpotlightDirection(camera->getForwardDirection());
+        }
+        else
+        {
+            camera->getViewMatrix(data.uiViewMatrix);
+            camera->getProjectionMatrix(data.uiProjectionMatrix);
+        }
+    }
+
+    //m_skyBox->onGeometryPass(data);
+
+    m_entitySystem->onGeometryPass(data);
+}
+
 void Scene::onGraphicsUpdate(float deltaTime)
 {
     auto& lightManager = LightManager::GetInstance();
@@ -63,6 +91,25 @@ void Scene::onCreate()
     m_shadowShader = graphicsEngine.createShader({
             "ShadowShader",
             "ShadowShader"
+        });
+    
+    m_shadowInstancedShader = graphicsEngine.createShader({
+            "ShadowShaderInstanced",
+            "ShadowShader"
+        });
+
+    m_meshGeometryShader = graphicsEngine.createShader({
+            "MeshShader",
+            "GeometryPass"
+        });
+    m_instancedmeshGeometryShader = graphicsEngine.createShader({
+            "InstancedMesh",
+            "GeometryPass"
+        });
+    
+    m_terrainGeometryShader = graphicsEngine.createShader({
+            "TerrainShader",
+            "GeometryPassTerrian"
         });
 
     m_skyBox->setEntitySystem(m_entitySystem.get());

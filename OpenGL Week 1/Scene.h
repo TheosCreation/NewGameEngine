@@ -11,6 +11,7 @@ public:
 	~Scene();
 
 	virtual void onShadowPass();
+	virtual void onGeometryPass();
 	virtual void onGraphicsUpdate(float deltaTime);
 
 
@@ -51,6 +52,10 @@ public:
 protected:
     ShaderPtr m_solidColorMeshShader = nullptr;
     ShaderPtr m_shadowShader = nullptr;
+    ShaderPtr m_shadowInstancedShader = nullptr;
+    ShaderPtr m_meshGeometryShader = nullptr;
+    ShaderPtr m_instancedmeshGeometryShader = nullptr;
+    ShaderPtr m_terrainGeometryShader = nullptr;
     unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
     unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     Game* gameOwner;

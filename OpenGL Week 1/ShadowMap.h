@@ -11,7 +11,7 @@ public:
 	~ShadowMap();
 
 	virtual void Bind();
-	virtual void Unbind();
+	virtual void UnBind();
 
 private:
 	uint FBO;

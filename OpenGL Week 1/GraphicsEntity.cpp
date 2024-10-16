@@ -82,6 +82,9 @@ void GraphicsEntity::onShadowPass()
     graphicsEngine.setShader(m_shadowShader);
 }
 
+void GraphicsEntity::onGeometryPass(UniformData data)
+{
+}
 ShaderPtr GraphicsEntity::getShader() const
 {
 	return m_shader;
@@ -95,6 +98,11 @@ void GraphicsEntity::setShader(const ShaderPtr& shader)
 void GraphicsEntity::setShadowShader(const ShaderPtr& shader)
 {
 	m_shadowShader = shader;
+}
+
+void GraphicsEntity::setGeometryShader(const ShaderPtr& shader)
+{
+    m_geometryShader = shader;
 }
 
 TexturePtr GraphicsEntity::getTexture() const

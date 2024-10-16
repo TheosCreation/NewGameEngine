@@ -48,7 +48,7 @@ void ShadowMap::Bind()
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void ShadowMap::Unbind()
+void ShadowMap::UnBind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

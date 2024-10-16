@@ -100,6 +100,14 @@ void EntitySystem::onShadowPass()
 	}
 }
 
+void EntitySystem::onGeometryPass(UniformData _data)
+{
+	for (auto& graphicsEntity : m_graphicsEntities)
+	{
+		graphicsEntity->onGeometryPass(_data);
+	}
+}
+
 void EntitySystem::onGraphicsUpdate(float deltaTime, UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)

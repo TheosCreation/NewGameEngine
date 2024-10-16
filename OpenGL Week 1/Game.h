@@ -18,7 +18,6 @@ Mail : theo.morris@mds.ac.nz
 #include "Entity.h"
 #include "LightManager.h"
 #include "Scene.h"
-#include "Framebuffer.h"
 #include "QuadEntity.h"
 #include "ShadowMap.h"
 
@@ -26,6 +25,8 @@ Mail : theo.morris@mds.ac.nz
 class Window;
 class EntitySystem;
 class SkyboxEntity;
+class GeometryBuffer;
+class Framebuffer;
 
 /**
  * @class Game
@@ -97,6 +98,7 @@ protected:
     bool m_isRunning = true; //Indicates whether the game is running
     std::unique_ptr<Window> m_display; //Pointer to the window instance
     std::unique_ptr<Framebuffer> m_postProcessingFramebuffer; //Pointer to the framebuffer instance
+    std::unique_ptr<GeometryBuffer> m_geometryBuffer; //Pointer to the framebuffer instance
     ShadowMapPtr m_shadowMap; //Pointer to the framebuffer instance
     std::unique_ptr<QuadEntity> m_canvasQuad; //Pointer to the framebuffer instance
 

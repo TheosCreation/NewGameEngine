@@ -184,6 +184,54 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 5, "");
 }
 
+void TerrainEntity::onGeometryPass(UniformData data)
+{
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::None);
+    graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setShader(m_geometryShader);
+
+    m_geometryShader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
+    m_geometryShader->setMat4("modelMatrix", getModelMatrix());
+
+    if (m_texture != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
+
+    }
+    if (m_texture1 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture1, 1, "Texture1");
+    }
+    if (m_texture2 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture2, 2, "Texture2");
+    }
+    if (m_texture3 != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_texture3, 3, "Texture3");
+    }
+
+    if (m_heightMap != nullptr)
+    {
+        graphicsEngine.setTexture2D(m_heightMap, 4, "HeightMap");
+    }
+    auto& lightManager = LightManager::GetInstance();
+    m_geometryShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+
+
+    graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
+
+
+    graphicsEngine.setTexture2D(nullptr, 0, "");
+    graphicsEngine.setTexture2D(nullptr, 1, "");
+    graphicsEngine.setTexture2D(nullptr, 2, "");
+    graphicsEngine.setTexture2D(nullptr, 3, "");
+    graphicsEngine.setTexture2D(nullptr, 4, "");
+}
+
 void TerrainEntity::onShadowPass()
 {
     GraphicsEntity::onShadowPass();

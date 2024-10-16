@@ -67,10 +67,13 @@ GeometryBuffer::~GeometryBuffer()
 
 void GeometryBuffer::Bind()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glViewport(0, 0, m_size.x, m_size.y);
 }
 
 void GeometryBuffer::UnBind()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void GeometryBuffer::PopulateShader(Shader _shader)

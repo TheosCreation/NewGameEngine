@@ -6,7 +6,6 @@ layout(location = 2) in vec3 vertexNormal;
 
 uniform mat4 modelMatrix;
 uniform mat4 VPMatrix;
-
 uniform mat4 VPLight;
 
 out vec2 FragTexcoord;
