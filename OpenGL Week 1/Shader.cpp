@@ -11,6 +11,7 @@ Mail : theo.morris@mds.ac.nz
 **/
 
 #include "Shader.h"
+#include "Texture.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -156,4 +157,45 @@ void Shader::link()
 uint Shader::getId()
 {
 	return m_programId;
+}
+
+void Shader::setTexture2D(const uint textureId, uint slot, std::string bindingName)
+{
+    auto glSlot = GL_TEXTURE0 + slot;
+    glActiveTexture(glSlot); // activate the texture unit first before binding texture
+    glBindTexture(GL_TEXTURE_2D, textureId);
+    setInt(bindingName, slot);
+}
+
+void Shader::setTexture2D(const TexturePtr& texture, uint slot, std::string bindingName)
+{
+    auto glSlot = GL_TEXTURE0 + slot;
+    glActiveTexture(glSlot); // activate the texture unit first before binding texture
+
+    if (texture != nullptr)
+    {
+        glBindTexture(GL_TEXTURE_2D, texture->getId());
+        setInt(bindingName, slot);
+    }
+    else
+    {
+        //unbind the texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+}
+
+void Shader::setTextureCubeMap(const TexturePtr& texture, uint slot, std::string bindingName)
+{
+    auto glSlot = GL_TEXTURE0 + slot;
+    glActiveTexture(glSlot); // activate the texture unit first before binding/unbinding texture
+    if (texture != nullptr)
+    {
+        glBindTexture(GL_TEXTURE_CUBE_MAP, texture->getId());
+        setInt(bindingName, slot);
+    }
+    else
+    {
+        //unbind the texture
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 }

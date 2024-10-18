@@ -39,6 +39,22 @@ public:
 	*/
 	uint getId();
 
+	void setTexture2D(const uint textureId, uint slot, std::string bindingName);
+	
+	/**
+	 * @brief Sets the active 2D Texture.
+	 * @param texture A shared pointer to the Texture2D to set.
+	 * @param slot The texture slot to bind the texture to.
+	 */
+	void setTexture2D(const TexturePtr& texture, uint slot, std::string bindingName);
+	
+	/**
+	 * @brief Sets the active Cube Map Texture.
+	 * @param texture A shared pointer to the Texture2D to set.
+	 * @param slot The texture slot to bind the texture to.
+	 */
+	void setTextureCubeMap(const TexturePtr& texture, uint slot, std::string bindingName);
+
 	/**
 	 * @brief Sends a mat4 into the shader.
 	 * @param name The name of the uniform variable in the shader.

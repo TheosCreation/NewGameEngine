@@ -42,7 +42,7 @@ Game::Game()
 
     Vector2 windowSize = m_display->getInnerSize();
     m_postProcessingFramebuffer = std::make_unique<Framebuffer>(windowSize);
-    m_geometryBuffer = std::make_unique<GeometryBuffer>(windowSize);
+    GeometryBuffer::GetInstance().Init(windowSize);
     m_shadowMap = std::make_unique<ShadowMap>(Vector2(4096.0f));
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -147,10 +147,12 @@ void Game::onUpdateInternal()
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the existing stuff first is a must
 
     //Geometry Pass
-    m_geometryBuffer->Bind(); 
+
+    auto& geometryBuffer = GeometryBuffer::GetInstance();
+    geometryBuffer.Bind();
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
     m_currentScene->onGeometryPass();
-    m_geometryBuffer->UnBind();
+    geometryBuffer.UnBind();
 
     //Shadow Pass
     m_shadowMap->Bind();
@@ -220,7 +222,7 @@ void Game::onResize(int _width, int _height)
 {
     m_currentScene->onResize(_width, _height);
     m_postProcessingFramebuffer->resize(Vector2(_width, _height));
-    m_geometryBuffer->Resize(Vector2(_width, _height));
+    GeometryBuffer::GetInstance().Resize(Vector2(_width, _height));
     GraphicsEngine::GetInstance().setViewport(Vector2(_width, _height));
 }
 

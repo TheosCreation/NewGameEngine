@@ -68,6 +68,11 @@ void Scene1::onCreate()
 			"InstancedMesh",
 			"InstancedMesh"
 		});
+	
+	ShaderPtr SSRMeshShader = graphicsEngine.createShader({
+			"ScreenSpaceRenderShader",
+			"SSRMeshShader"
+		});
 
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
@@ -77,7 +82,7 @@ void Scene1::onCreate()
 	m_ship->setTexture(sciFiSpaceTexture2D);
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
-	m_ship->setShader(meshShader);
+	m_ship->setShader(SSRMeshShader);
 	m_ship->setShadowShader(m_shadowShader);
 	m_ship->setGeometryShader(m_meshGeometryShader);
 
@@ -88,7 +93,7 @@ void Scene1::onCreate()
 	ship2->setTexture(sciFiSpaceTexture2D);
 	ship2->setReflectiveMapTexture(shipReflectiveMap);
 	ship2->setMesh(fighterShip);
-	ship2->setShader(meshShader);
+	ship2->setShader(SSRMeshShader);
 	ship2->setShadowShader(m_shadowShader);
 	ship2->setGeometryShader(m_meshGeometryShader);
 
@@ -104,7 +109,7 @@ void Scene1::onCreate()
 	m_terrain->setTexture3(snowTexture);
 	m_terrain->setHeightMap(heightMapTexture);
 	m_terrain->setShader(terrainShader);
-	m_terrain->setShadowShader(m_shadowInstancedShader);
+	m_terrain->setShadowShader(m_shadowShader);
 	m_terrain->setGeometryShader(m_terrainGeometryShader);
 
 	//Creating instanced tree obj
@@ -114,7 +119,7 @@ void Scene1::onCreate()
 	statues->setShader(instancedMeshShader);
 	statues->setMesh(statueMesh);
 	statues->setReflectiveMapTexture(shipReflectiveMap); //this is wrong
-	statues->setShadowShader(m_shadowShader);
+	statues->setShadowShader(m_shadowInstancedShader);
 	statues->setGeometryShader(m_instancedmeshGeometryShader);
 
 
@@ -143,7 +148,7 @@ void Scene1::onCreate()
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;
 	directionalLight.Direction = Vector3(0.0f, -1.0f, -0.3f);
-	directionalLight.Color = Vector3(1.5f);
+	directionalLight.Color = Vector3(1.0f);
 	directionalLight.SpecularStrength = 0.5f;
 	lightManager.createDirectionalLight(directionalLight);
 

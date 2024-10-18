@@ -189,6 +189,8 @@
     <None Include="Resources\Shaders\Fragment\GeometryPass.frag" />
     <None Include="Resources\Shaders\Vertex\ShadowShaderInstanced.vert" />
     <None Include="Resources\Shaders\Fragment\GeometryPassTerrian.frag" />
+    <None Include="Resources\Shaders\Vertex\ScreenSpaceRenderShader.vert" />
+    <None Include="Resources\Shaders\Fragment\SSRMeshShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

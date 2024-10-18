@@ -203,6 +203,7 @@
     <None Include="Resources\Shaders\Fragment\InstancedMesh.frag" />
     <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
+    <None Include="Resources\Shaders\Fragment\SSRMeshShader.frag" />
     <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />
     <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />
     <None Include="Resources\Shaders\Lighting.glsl" />
@@ -219,6 +220,7 @@
     <None Include="Resources\Shaders\Fragment\SolidColorMesh.frag" />
     <None Include="Resources\Shaders\Vertex\OutlineShader.vert" />
     <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
+    <None Include="Resources\Shaders\Vertex\ScreenSpaceRenderShader.vert" />
     <None Include="Resources\Shaders\Vertex\ShadowShader.vert" />
     <None Include="Resources\Shaders\Vertex\ShadowShaderInstanced.vert" />
     <None Include="Resources\Shaders\Vertex\SolidColorMesh.vert" />

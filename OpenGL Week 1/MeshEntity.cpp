@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Mesh.h"
 #include "Game.h"
 #include "ShadowMap.h"
+#include "GeometryBuffer.h"
 
 void MeshEntity::setMesh(const MeshPtr& mesh)
 {
@@ -51,6 +52,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
 
     m_shader->setFloat("ObjectShininess", getShininess());
     LightManager::GetInstance().applyLighting(m_shader);
+    GeometryBuffer::GetInstance().PopulateShader(m_shader);
 
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();

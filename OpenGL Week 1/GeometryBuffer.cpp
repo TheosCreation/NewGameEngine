@@ -1,13 +1,13 @@
 #include "GeometryBuffer.h"
 #include "Shader.h"
 
-GeometryBuffer::GeometryBuffer(Vector2 _windowSize)
+void GeometryBuffer::Init(Vector2 _windowSize)
 {
 	m_size = _windowSize;
 
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	
+
 	// Create the Position texture
 	glGenTextures(1, &Texture_Position);
 	glBindTexture(GL_TEXTURE_2D, Texture_Position);
@@ -44,7 +44,7 @@ GeometryBuffer::GeometryBuffer(Vector2 _windowSize)
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Texture_Position, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, Texture_Normal, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, Texture_AlbedoShininess, 0); 
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, Texture_AlbedoShininess, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, Texture_Depth, 0);
 
 	// Define the color buffers as output targets for the fragment shader
@@ -61,10 +61,6 @@ GeometryBuffer::GeometryBuffer(Vector2 _windowSize)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-GeometryBuffer::~GeometryBuffer()
-{
-}
-
 void GeometryBuffer::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -76,8 +72,11 @@ void GeometryBuffer::UnBind()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void GeometryBuffer::PopulateShader(Shader _shader)
+void GeometryBuffer::PopulateShader(ShaderPtr _shader)
 {
+	_shader->setTexture2D(Texture_Position, 0, "Texture_Position");
+	_shader->setTexture2D(Texture_Normal, 1, "Texture_Normal");
+	_shader->setTexture2D(Texture_AlbedoShininess, 2, "Texture_AlbedoShininess");
 }
 
 void GeometryBuffer::Resize(Vector2 _windowSize)

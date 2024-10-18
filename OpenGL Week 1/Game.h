@@ -98,7 +98,6 @@ protected:
     bool m_isRunning = true; //Indicates whether the game is running
     std::unique_ptr<Window> m_display; //Pointer to the window instance
     std::unique_ptr<Framebuffer> m_postProcessingFramebuffer; //Pointer to the framebuffer instance
-    std::unique_ptr<GeometryBuffer> m_geometryBuffer; //Pointer to the framebuffer instance
     ShadowMapPtr m_shadowMap; //Pointer to the framebuffer instance
     std::unique_ptr<QuadEntity> m_canvasQuad; //Pointer to the framebuffer instance
 

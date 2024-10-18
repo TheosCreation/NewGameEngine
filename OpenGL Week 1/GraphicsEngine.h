@@ -103,7 +103,7 @@ public:
      */
     void setShader(const ShaderPtr& program);
 
-    void setTexture(const uint textureId, uint slot, std::string bindingName);
+    void setTexture2D(const uint textureId, uint slot, std::string bindingName);
 
 
     /**
