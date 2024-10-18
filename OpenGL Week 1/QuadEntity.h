@@ -46,12 +46,12 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
 
-    void onGraphicsUpdate(UniformData data) override;
+    virtual void onGraphicsUpdate(UniformData data) override;
     void onGraphicsUpdate(NewUniformData& _data);
     void onGraphicsUpdate(NewUniformData& _data, NewExtraTextureData& _textureData);
 
     void setTextureFromId(uint textureId);
 
-private:
+protected:
     VertexArrayObjectPtr m_mesh; //A shared pointer to the vertex array object representing the quad mesh.
 };

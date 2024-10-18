@@ -70,7 +70,7 @@ void Scene1::onCreate()
 		});
 	
 	ShaderPtr SSRMeshShader = graphicsEngine.createShader({
-			"ScreenSpaceRenderShader",
+			"ScreenQuad",
 			"SSRMeshShader"
 		});
 
@@ -82,7 +82,7 @@ void Scene1::onCreate()
 	m_ship->setTexture(sciFiSpaceTexture2D);
 	m_ship->setReflectiveMapTexture(shipReflectiveMap);
 	m_ship->setMesh(fighterShip);
-	m_ship->setShader(SSRMeshShader);
+	m_ship->setShader(meshShader);
 	m_ship->setShadowShader(m_shadowShader);
 	m_ship->setGeometryShader(m_meshGeometryShader);
 

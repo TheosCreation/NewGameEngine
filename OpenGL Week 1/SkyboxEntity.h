@@ -37,4 +37,6 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     void onGraphicsUpdate(UniformData data) override;
+
+    void onGeometryPass(UniformData data) override;
 };

@@ -37,9 +37,9 @@ void Scene::onGeometryPass()
         }
     }
 
-    //m_skyBox->onGeometryPass(data);
 
     m_entitySystem->onGeometryPass(data);
+    m_skyBox->onGeometryPass(data);
 }
 
 void Scene::onGraphicsUpdate(float deltaTime)
@@ -98,6 +98,10 @@ void Scene::onCreate()
             "ShadowShader"
         });
 
+    m_skyboxGeometryShader = graphicsEngine.createShader({
+            "SkyBoxShader",
+            "GeometryPassSkybox"
+        });
     m_meshGeometryShader = graphicsEngine.createShader({
             "MeshShader",
             "GeometryPass"
@@ -115,6 +119,7 @@ void Scene::onCreate()
     m_skyBox->setEntitySystem(m_entitySystem.get());
     m_skyBox->setMesh(gameOwner->getCubeMesh());
     m_skyBox->setShader(skyboxShader);
+    m_skyBox->setGeometryShader(m_skyboxGeometryShader);
 
     // create a cube map texture and set the texture of the skybox to the cubemap texture
     std::vector<std::string> skyboxCubeMapTextureFilePaths;

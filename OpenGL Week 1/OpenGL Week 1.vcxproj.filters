@@ -153,6 +153,9 @@
     <ClCompile Include="GeometryBuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SSRQuad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Fragment\SkyBoxShader.frag" />
@@ -189,8 +192,9 @@
     <None Include="Resources\Shaders\Fragment\GeometryPass.frag" />
     <None Include="Resources\Shaders\Vertex\ShadowShaderInstanced.vert" />
     <None Include="Resources\Shaders\Fragment\GeometryPassTerrian.frag" />
-    <None Include="Resources\Shaders\Vertex\ScreenSpaceRenderShader.vert" />
     <None Include="Resources\Shaders\Fragment\SSRMeshShader.frag" />
+    <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
+    <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -308,6 +312,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GeometryBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SSRQuad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

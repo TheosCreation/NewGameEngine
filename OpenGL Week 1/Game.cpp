@@ -27,6 +27,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Scene4.h"
 #include "Framebuffer.h"
 #include "GeometryBuffer.h"
+#include "SSRQuad.h"
 
 Game::Game()
 {
@@ -76,6 +77,14 @@ void Game::onCreate()
             "ScreenQuad",
             "QuadShader"
         });
+    ssrQuadShader = graphicsEngine.createShader({
+            "ScreenQuad",
+            "SSRShader"
+        });
+
+    m_SSRQuad = std::make_unique<SSRQuad>();
+    m_SSRQuad->onCreate();
+    m_SSRQuad->setShader(ssrQuadShader);
 
     m_canvasQuad = std::make_unique<QuadEntity>();
     m_canvasQuad->onCreate();
@@ -154,37 +163,37 @@ void Game::onUpdateInternal()
     m_currentScene->onGeometryPass();
     geometryBuffer.UnBind();
 
-    //Shadow Pass
-    m_shadowMap->Bind();
-    m_currentScene->onShadowPass();
-    m_shadowMap->UnBind();
+    m_SSRQuad->onGraphicsUpdate(UniformData{});
+    ////Shadow Pass
+    //m_shadowMap->Bind();
+    //m_currentScene->onShadowPass();
+    //m_shadowMap->UnBind();
+    //
+    //LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 
-    LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
+    //m_postProcessingFramebuffer->Bind();
+    //graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
 
-    m_postProcessingFramebuffer->Bind();
-    graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
+    //m_currentScene->onGraphicsUpdate(deltaTime);
 
-    m_currentScene->onGraphicsUpdate(deltaTime);
-
-    m_postProcessingFramebuffer->UnBind();
+    //m_postProcessingFramebuffer->UnBind();
 
 
-
-    graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the scene
-    NewUniformData uniformData;
-    uniformData.CreateData<float>("Time", m_currentTime);
-    uniformData.CreateData<Vector2>("Resolution", m_display->getInnerSize());
-    if (currentTexture1)
-    {
-        //if the current shader needs a second texture we pass that into it
-        NewExtraTextureData textureData;
-        textureData.AddTexture("Texture1", currentTexture1, 1);
-        m_canvasQuad->onGraphicsUpdate(uniformData, textureData);
-    }
-    else
-    {
-        m_canvasQuad->onGraphicsUpdate(uniformData);
-    }
+    //graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the scene
+    //NewUniformData uniformData;
+    //uniformData.CreateData<float>("Time", m_currentTime);
+    //uniformData.CreateData<Vector2>("Resolution", m_display->getInnerSize());
+    //if (currentTexture1)
+    //{
+    //    //if the current shader needs a second texture we pass that into it
+    //    NewExtraTextureData textureData;
+    //    textureData.AddTexture("Texture1", currentTexture1, 1);
+    //    m_canvasQuad->onGraphicsUpdate(uniformData, textureData);
+    //}
+    //else
+    //{
+    //    m_canvasQuad->onGraphicsUpdate(uniformData);
+    //}
 
     double RenderTime_End = (double)glfwGetTime();
 

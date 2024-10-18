@@ -168,6 +168,7 @@
     <ClCompile Include="Scene4.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkyboxEntity.cpp" />
+    <ClCompile Include="SSRQuad.cpp" />
     <ClCompile Include="TerrainEntity.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureCubeMap.cpp" />
@@ -197,6 +198,7 @@
     <None Include="Resources\Meshes\teapot.mtl" />
     <None Include="Resources\Shaders\Fragment\ChromaticAberrationRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPass.frag" />
+    <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPassTerrian.frag" />
     <None Include="Resources\Shaders\Fragment\GreyScaleFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\GreyScaleLuminosityFullRenderPass.frag" />
@@ -205,6 +207,7 @@
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
     <None Include="Resources\Shaders\Fragment\SSRMeshShader.frag" />
     <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />
+    <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
     <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />
     <None Include="Resources\Shaders\Lighting.glsl" />
     <None Include="Resources\Shaders\ShaderUtils.glsl" />
@@ -220,7 +223,6 @@
     <None Include="Resources\Shaders\Fragment\SolidColorMesh.frag" />
     <None Include="Resources\Shaders\Vertex\OutlineShader.vert" />
     <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
-    <None Include="Resources\Shaders\Vertex\ScreenSpaceRenderShader.vert" />
     <None Include="Resources\Shaders\Vertex\ShadowShader.vert" />
     <None Include="Resources\Shaders\Vertex\ShadowShaderInstanced.vert" />
     <None Include="Resources\Shaders\Vertex\SolidColorMesh.vert" />
@@ -244,6 +246,7 @@
     <ClInclude Include="Scene4.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkyboxEntity.h" />
+    <ClInclude Include="SSRQuad.h" />
     <ClInclude Include="TerrainEntity.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureCubeMap.h" />

@@ -27,6 +27,7 @@ class EntitySystem;
 class SkyboxEntity;
 class GeometryBuffer;
 class Framebuffer;
+class SSRQuad;
 
 /**
  * @class Game
@@ -100,6 +101,7 @@ protected:
     std::unique_ptr<Framebuffer> m_postProcessingFramebuffer; //Pointer to the framebuffer instance
     ShadowMapPtr m_shadowMap; //Pointer to the framebuffer instance
     std::unique_ptr<QuadEntity> m_canvasQuad; //Pointer to the framebuffer instance
+    std::unique_ptr<SSRQuad> m_SSRQuad; //Pointer to
 
     float m_previousTime = 0; //The previous frame's time
     float m_previousFixedUpdateTime = 0; //The previous fixedUpdate frame time
@@ -113,6 +115,7 @@ protected:
     MeshPtr m_sphereMesh;
 
     ShaderPtr defaultQuadShader = nullptr;
+    ShaderPtr ssrQuadShader = nullptr;
     Texture2DPtr currentTexture1 = nullptr;
 
     shared_ptr<Scene> m_currentScene;
