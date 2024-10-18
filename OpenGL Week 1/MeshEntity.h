@@ -44,12 +44,6 @@ public:
     virtual void onCreate();
 
     /**
-     * @brief Sets the uniform data for the shader.
-     * @param data The uniform data to set.
-     */
-    virtual void setUniformData(UniformData data);
-
-    /**
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */

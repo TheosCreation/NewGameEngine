@@ -37,28 +37,19 @@ void MeshEntity::onCreate()
 {
 }
 
-void MeshEntity::setUniformData(UniformData data)
-{
-}
 
 void MeshEntity::onGraphicsUpdate(UniformData data)
 {
     GraphicsEntity::onGraphicsUpdate(data);
 
-    m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
-
     m_shader->setVec3("CameraPos", data.cameraPosition);
-
-    m_shader->setFloat("ObjectShininess", getShininess());
     LightManager::GetInstance().applyLighting(m_shader);
     GeometryBuffer::GetInstance().PopulateShader(m_shader);
 
 
-    auto& graphicsEngine = GraphicsEngine::GetInstance();
     if (m_texture != nullptr)
     {
-        graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
+        m_shader->setTexture2D(m_texture, 0, "Texture0");
     }
     else
     {
@@ -68,33 +59,30 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     auto skyboxTexture = ResourceManager::GetInstance().getSkyboxTexture();
     if (skyboxTexture)
     {
-        graphicsEngine.setTextureCubeMap(skyboxTexture, 1, "Texture_Skybox");
+        m_shader->setTextureCubeMap(skyboxTexture, 1, "Texture_Skybox");
     }
 
     if (m_reflectiveMap)
     {
-        graphicsEngine.setTexture2D(m_reflectiveMap, 2, "ReflectionMap");
+        m_shader->setTexture2D(m_reflectiveMap, 2, "ReflectionMap");
     }
 
     auto& lightManager = LightManager::GetInstance();
-    m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    //m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
 
     // Get the shadow map texture and bind it
-    ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
-    if (shadowMapTexture)
-    {
-        graphicsEngine.setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
-    }
+    //ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
+    //if (shadowMapTexture)
+    //{
+    //    m_shader->setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
+    //}
 
 
     auto meshVBO = m_mesh->getVertexArrayObject();
+
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
-
-    graphicsEngine.setTexture2D(nullptr, 0, "");
-    graphicsEngine.setTextureCubeMap(nullptr, 1, "");
-    graphicsEngine.setTexture2D(nullptr, 2, "");
-    graphicsEngine.setTexture2D(nullptr, 3, "");
 }
 
 void MeshEntity::onShadowPass()

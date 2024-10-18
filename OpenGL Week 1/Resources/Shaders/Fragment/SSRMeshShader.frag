@@ -3,17 +3,16 @@
 #include "Shadows.glsl"
 #include "Lighting.glsl"
 
-in vec2 FragTexcoord;
+in vec2 FragTexCoords;
+//in vec4 FragPos_LightSpace;
 
-uniform sampler2D Texture_Position;
-uniform sampler2D Texture_Normal;
-uniform sampler2D Texture_AlbedoShininess;
 uniform sampler2D Texture0;
 uniform samplerCube Texture_Skybox;
 uniform sampler2D ReflectionMap;
 //uniform sampler2D Texture_ShadowMap;
-
-uniform mat4 VPLight;
+uniform sampler2D Texture_Position;
+uniform sampler2D Texture_Normal;
+uniform sampler2D Texture_AlbedoShininess;
 
 uniform float AmbientStrength = 0.15f;
 uniform vec3 AmbientColor = vec3(1.0f, 1.0f, 1.0f);
@@ -32,16 +31,15 @@ uniform vec3 CameraPos;
 // Out
 out vec4 FinalColor;
 
+
 void main()
 {
-	vec3 FragPos = texture(Texture_Position, FragTexcoord).xyz;
-	vec3 FragNormal = texture(Texture_Normal, FragTexcoord).xyz;
-	vec3 FragAlbedo = texture(Texture_AlbedoShininess, FragTexcoord).rgb;
-	float ObjectShininess = texture(Texture_AlbedoShininess, FragTexcoord).a;
-    
-    vec4 FragPos_LightSpace = VPLight * vec4(FragPos, 1.0f);
+	vec3 FragPos = texture(Texture_Position, FragTexCoords).xyz;
+	vec3 FragNormal = texture(Texture_Normal, FragTexCoords).xyz;
+	vec3 FragAlbedo = texture(Texture_AlbedoShininess, FragTexCoords).rgb;
+	float ObjectShininess = texture(Texture_AlbedoShininess, FragTexCoords).a;
 
-	// Normalize the normal and calculate view and reflection directions
+    // Normalize the normal and calculate view and reflection directions
     vec3 Normal = normalize(FragNormal);
     vec3 ViewDir = normalize(FragPos - CameraPos);
     vec3 ReflectDir = reflect(ViewDir, Normal);
@@ -67,12 +65,12 @@ void main()
 
     //float Shadow = CalculateShadow(FragPos_LightSpace, Texture_ShadowMap);
     //vec3 LightShadow = Ambient + ((1.0f - Shadow) * TotalLightOutput);
-    vec3 Lighting = TotalLightOutput + Ambient;
+    vec3 Lighting = Ambient + TotalLightOutput;
 
     // Sample textures
-    vec4 ObjectTexture = texture(Texture0, FragTexcoord);
+    vec4 ObjectTexture = texture(Texture0, FragTexCoords);
     vec4 ReflectionTexture = texture(Texture_Skybox, ReflectDir);
-    float Reflectivity = texture(ReflectionMap, FragTexcoord).r; // Sample the red channel of the reflection map
+    float Reflectivity = texture(ReflectionMap, FragTexCoords).r; // Sample the red channel of the reflection map
 
     // Mix object texture and reflection texture based on reflectivity
     vec4 MixedTexture = mix(ObjectTexture, ReflectionTexture, Reflectivity);

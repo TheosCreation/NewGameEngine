@@ -93,7 +93,7 @@ void Scene1::onCreate()
 	ship2->setTexture(sciFiSpaceTexture2D);
 	ship2->setReflectiveMapTexture(shipReflectiveMap);
 	ship2->setMesh(fighterShip);
-	ship2->setShader(SSRMeshShader);
+	ship2->setShader(meshShader);
 	ship2->setShadowShader(m_shadowShader);
 	ship2->setGeometryShader(m_meshGeometryShader);
 

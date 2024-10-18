@@ -74,9 +74,9 @@ void GeometryBuffer::UnBind()
 
 void GeometryBuffer::PopulateShader(ShaderPtr _shader)
 {
-	_shader->setTexture2D(Texture_Position, 0, "Texture_Position");
-	_shader->setTexture2D(Texture_Normal, 1, "Texture_Normal");
-	_shader->setTexture2D(Texture_AlbedoShininess, 2, "Texture_AlbedoShininess");
+	_shader->setTexture2D(Texture_Position, 3, "Texture_Position");
+	_shader->setTexture2D(Texture_Normal, 4, "Texture_Normal");
+	_shader->setTexture2D(Texture_AlbedoShininess, 5, "Texture_AlbedoShininess");
 }
 
 void GeometryBuffer::Resize(Vector2 _windowSize)

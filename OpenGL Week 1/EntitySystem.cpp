@@ -113,8 +113,6 @@ void EntitySystem::onGraphicsUpdate(float deltaTime, UniformData _data)
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
 		// Apply other uniform data to the shader
-		graphicsEntity->setUniformData(_data);
-
 		graphicsEntity->onGraphicsUpdate(_data);
 	}
 }
