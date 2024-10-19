@@ -73,6 +73,8 @@ public:
 
     void SetFullScreenShader(ShaderPtr _shader = nullptr, Texture2DPtr _texture = nullptr);
 
+    SSRQuadPtr getScreenSpaceQuad();
+
 protected:
     /**
      * @brief Called when the game is created.
@@ -101,7 +103,7 @@ protected:
     std::unique_ptr<Framebuffer> m_postProcessingFramebuffer; //Pointer to the framebuffer instance
     ShadowMapPtr m_shadowMap; //Pointer to the framebuffer instance
     std::unique_ptr<QuadEntity> m_canvasQuad; //Pointer to the framebuffer instance
-    std::unique_ptr<SSRQuad> m_SSRQuad; //Pointer to
+    SSRQuadPtr m_SSRQuad; //Pointer to
 
     float m_previousTime = 0; //The previous frame's time
     float m_previousFixedUpdateTime = 0; //The previous fixedUpdate frame time
@@ -116,6 +118,8 @@ protected:
 
     ShaderPtr defaultQuadShader = nullptr;
     ShaderPtr ssrQuadShader = nullptr;
+    ShaderPtr ssrQuadLightingShader = nullptr;
+    ShaderPtr ssrQuadShadowShader = nullptr;
     Texture2DPtr currentTexture1 = nullptr;
 
     shared_ptr<Scene> m_currentScene;

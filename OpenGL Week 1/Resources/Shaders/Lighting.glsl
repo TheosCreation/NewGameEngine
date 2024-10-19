@@ -47,7 +47,7 @@ vec3 CalculateLight(Light baseLight, vec3 lightDir, vec3 viewDir, vec3 normal, f
 vec3 CalculateDirectionalLight(DirectionalLight light, vec3 viewDir, float objectShininess, vec3 fragNormal)
 {
     vec3 LightDir = normalize(light.Direction);
-    return CalculateLight(light.Base, LightDir, viewDir, normalize(fragNormal), 1.0, objectShininess);
+    return CalculateLight(light.Base, LightDir, viewDir, fragNormal, 1.0, objectShininess);
 }
 
 vec3 CalculatePointLight(PointLight light, vec3 viewDir, float objectShininess, vec3 fragNormal, vec3 fragPos)
@@ -55,7 +55,7 @@ vec3 CalculatePointLight(PointLight light, vec3 viewDir, float objectShininess, 
     vec3 LightDir = normalize(fragPos - light.Position);
     float Distance = length(light.Position - fragPos);
     float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
-    return CalculateLight(light.Base, LightDir, viewDir, normalize(fragNormal), Attenuation, objectShininess);
+    return CalculateLight(light.Base, LightDir, viewDir, fragNormal, Attenuation, objectShininess);
 }
 
 vec3 CalculateSpotLight(SpotLight light, vec3 viewDir, float objectShininess, vec3 fragNormal, vec3 fragPos)
@@ -66,5 +66,5 @@ vec3 CalculateSpotLight(SpotLight light, vec3 viewDir, float objectShininess, ve
     float intensity = clamp((theta - light.OuterCutOff) / epsilon, 0.0, 1.0);  
     float Distance = length(light.Position - fragPos);
     float Attenuation = light.AttenuationConstant + (light.AttenuationLinear * Distance) + (light.AttenuationExponent * Distance * Distance);
-    return CalculateLight(light.Base, LightDir, viewDir, normalize(fragNormal), Attenuation, objectShininess) * intensity;
+    return CalculateLight(light.Base, LightDir, viewDir, fragNormal, Attenuation, objectShininess) * intensity;
 }

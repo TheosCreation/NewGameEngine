@@ -38,6 +38,7 @@ class Texture;
 class HeightMap;
 class Mesh;
 class InstancedMesh;
+class SSRQuad;
 
 // Type definitions for variables
 typedef unsigned int uint;
@@ -58,6 +59,7 @@ typedef std::shared_ptr<TextureCubeMap> TextureCubeMapPtr;
 typedef std::shared_ptr<Mesh> MeshPtr;
 typedef std::shared_ptr<InstancedMesh> InstancedMeshPtr;
 typedef std::shared_ptr<HeightMap> HeightMapPtr;
+typedef std::shared_ptr<SSRQuad> SSRQuadPtr;
 
 using std::shared_ptr;
 using std::unique_ptr;

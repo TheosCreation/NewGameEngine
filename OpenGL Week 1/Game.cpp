@@ -81,10 +81,21 @@ void Game::onCreate()
             "ScreenQuad",
             "SSRShader"
         });
+    ssrQuadLightingShader = graphicsEngine.createShader({
+            "ScreenQuad",
+            "SSRLightingShader"
+        });
+    
+    ssrQuadShadowShader = graphicsEngine.createShader({
+            "ScreenQuad",
+            "SSRLightingShader"
+        });
 
     m_SSRQuad = std::make_unique<SSRQuad>();
     m_SSRQuad->onCreate();
     m_SSRQuad->setShader(ssrQuadShader);
+    m_SSRQuad->setLightingShader(ssrQuadLightingShader);
+    m_SSRQuad->setShadowShader(ssrQuadShadowShader);
 
     m_canvasQuad = std::make_unique<QuadEntity>();
     m_canvasQuad->onCreate();
@@ -155,22 +166,14 @@ void Game::onUpdateInternal()
 
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the existing stuff first is a must
 
-    //Geometry Pass
-    auto& geometryBuffer = GeometryBuffer::GetInstance();
-    geometryBuffer.Bind();
-    m_currentScene->onGeometryPass();
-    geometryBuffer.UnBind();
-    
+    m_currentScene->onGraphicsUpdate(deltaTime);
 
-    m_SSRQuad->onGraphicsUpdate(UniformData{});
-    
-    geometryBuffer.WriteDepth();
-    m_currentScene->onLightingPass();
+    //m_SSRQuad->onGraphicsUpdate(UniformData{});
+
+
+    //m_currentScene->onLightingPass();
 
     //Shadow Pass
-    //m_shadowMap->Bind();
-    //m_currentScene->onShadowPass();
-    //m_shadowMap->UnBind();
     //
     //LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 
@@ -284,4 +287,9 @@ void Game::SetFullScreenShader(ShaderPtr _shader, Texture2DPtr _texture)
         m_canvasQuad->setShader(_shader);
     }
     currentTexture1 = _texture;
+}
+
+SSRQuadPtr Game::getScreenSpaceQuad()
+{
+    return m_SSRQuad;
 }

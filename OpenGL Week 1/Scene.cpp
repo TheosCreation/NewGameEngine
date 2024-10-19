@@ -1,4 +1,6 @@
 #include "Scene.h"
+#include "SSRQuad.h"
+#include "GeometryBuffer.h"
 
 Scene::Scene(Game* game)
 {
@@ -39,7 +41,6 @@ void Scene::onGeometryPass()
 
 
     m_entitySystem->onGeometryPass(data);
-    m_skyBox->onGeometryPass(data);
 }
 
 void Scene::onLightingPass()
@@ -64,14 +65,24 @@ void Scene::onLightingPass()
             camera->getProjectionMatrix(data.uiProjectionMatrix);
         }
     }
-
+    gameOwner->getScreenSpaceQuad()->onLightingPass(data);
     //m_skyBox->onLightingPass(data);
 
-    m_entitySystem->onLightingPass(data);
+    //m_entitySystem->onLightingPass(data);
 }
 
 void Scene::onGraphicsUpdate(float deltaTime)
 {
+    //Geometry Pass
+    auto& geometryBuffer = GeometryBuffer::GetInstance();
+    geometryBuffer.Bind();
+    onGeometryPass();
+    geometryBuffer.UnBind();
+
+    onLightingPass();
+
+    geometryBuffer.WriteDepth();
+
     auto& lightManager = LightManager::GetInstance();
 
     UniformData data = {};
@@ -94,8 +105,6 @@ void Scene::onGraphicsUpdate(float deltaTime)
     }
 
     m_skyBox->onGraphicsUpdate(data);
-
-    m_entitySystem->onGraphicsUpdate(deltaTime, data);
 }
 
 void Scene::onCreate()
@@ -144,16 +153,16 @@ void Scene::onCreate()
             "GeometryPassTerrian"
         });
     
-    m_meshLightingShader = graphicsEngine.createShader({
-            "MeshShader",
-            "MeshLightingShader"
-        });
+    //m_meshLightingShader = graphicsEngine.createShader({
+    //        "MeshShader",
+    //        "MeshLightingShader"
+    //    });
 
     m_skyBox->setEntitySystem(m_entitySystem.get());
     m_skyBox->setMesh(gameOwner->getCubeMesh());
     m_skyBox->setShader(skyboxShader);
     m_skyBox->setGeometryShader(m_skyboxGeometryShader);
-    m_skyBox->setLightingShader(m_meshLightingShader);
+    //m_skyBox->setLightingShader(m_meshLightingShader);
 
     // create a cube map texture and set the texture of the skybox to the cubemap texture
     std::vector<std::string> skyboxCubeMapTextureFilePaths;

@@ -135,10 +135,10 @@
     <ClCompile Include="Scene4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene2.cpp">
+    <ClCompile Include="Scene1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene1.cpp">
+    <ClCompile Include="Scene2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene3.cpp">
@@ -194,7 +194,7 @@
     <None Include="Resources\Shaders\Fragment\GeometryPassTerrian.frag" />
     <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
-    <None Include="Resources\Shaders\Fragment\MeshLightingShader.frag" />
+    <None Include="Resources\Shaders\Fragment\SSRLightingShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -296,10 +296,10 @@
     <ClInclude Include="Scene4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene2.h">
+    <ClInclude Include="Scene1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene1.h">
+    <ClInclude Include="Scene2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene3.h">

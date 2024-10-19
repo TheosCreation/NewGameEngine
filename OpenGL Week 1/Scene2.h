@@ -4,8 +4,8 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : MyGame.h
-Description : MyGame class is a stripped down class of the base game class to be able for end user to create their own entities
+File Name : Scene1.h
+Description : 
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -16,18 +16,18 @@ Mail : theo.morris@mds.ac.nz
 
 /**
  * @class Scene2
- * @brief A stripped-down class of the scene class to allow end user to create their own entities.
+ * @brief 
  */
 class Scene2 : public Scene
 {
 public:
     /**
-     * @brief Constructor for the MyGame class.
+     * @brief Constructor for the Scene2 class.
      */
     Scene2(Game* game);
 
     /**
-     * @brief Destructor for the MyGame class.
+     * @brief Destructor for the Scene2 class.
      */
     ~Scene2();
 
@@ -53,14 +53,15 @@ public:
      * @param deltaTime The time elapsed since the last frame.
      */
     virtual void onLateUpdate(float deltaTime);
-
     virtual void onQuit() override;
 
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 
     // Initialize all VBOs here
-    MeshEntity* m_ship = nullptr; //Pointer to the statue entity
-    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
+    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
+    MeshEntity* m_ship = nullptr; //Pointer to the ship entity
+
+    ShaderPtr m_outlineShader = nullptr;
 };

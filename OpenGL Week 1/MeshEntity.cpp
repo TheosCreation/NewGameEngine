@@ -150,7 +150,6 @@ void MeshEntity::onLightingPass(UniformData data)
 
     auto& lightManager = LightManager::GetInstance();
     lightManager.applyLighting(m_lightingShader);
-    //m_lightingShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
 
     if (m_mesh == nullptr) return;
     // Bind the vertex array object for the mesh
