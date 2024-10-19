@@ -192,7 +192,6 @@
     <None Include="Resources\Shaders\Fragment\GeometryPass.frag" />
     <None Include="Resources\Shaders\Vertex\ShadowShaderInstanced.vert" />
     <None Include="Resources\Shaders\Fragment\GeometryPassTerrian.frag" />
-    <None Include="Resources\Shaders\Fragment\SSRMeshShader.frag" />
     <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
   </ItemGroup>

@@ -28,6 +28,7 @@ public:
 	void Bind();
 	void UnBind();
 
+	void WriteDepth();
 	void PopulateShader(ShaderPtr _shader);
 	void Resize(Vector2 _windowSize);
 

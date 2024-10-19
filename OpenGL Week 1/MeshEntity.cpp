@@ -119,12 +119,31 @@ void MeshEntity::onGeometryPass(UniformData data)
     m_geometryShader->setMat4("modelMatrix", getModelMatrix());
     m_geometryShader->setFloat("ObjectShininess", getShininess());
 
-    auto& lightManager = LightManager::GetInstance();
-    m_geometryShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
     if (m_texture != nullptr)
     {
         graphicsEngine.setTexture2D(m_texture, 0, "Texture0");
     }
+
+    // Bind the vertex array object for the mesh
+    auto meshVBO = m_mesh->getVertexArrayObject();
+
+    // Retrieve the instance of the graphics engine
+    graphicsEngine.setVertexArrayObject(meshVBO);
+
+    // Draw the mesh to update the shadow map
+    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+}
+
+void MeshEntity::onLightingPass()
+{
+    auto& graphicsEngine = GraphicsEngine::GetInstance();
+    graphicsEngine.setFaceCulling(CullType::BackFace);
+    graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);
+    graphicsEngine.setDepthFunc(DepthType::Less);
+    graphicsEngine.setShader(m_lightingShader);
+
+    auto& lightManager = LightManager::GetInstance();
+    m_lightingShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
 
     // Bind the vertex array object for the mesh
     auto meshVBO = m_mesh->getVertexArrayObject();

@@ -205,7 +205,6 @@
     <None Include="Resources\Shaders\Fragment\InstancedMesh.frag" />
     <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
-    <None Include="Resources\Shaders\Fragment\SSRMeshShader.frag" />
     <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />
     <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
     <None Include="Resources\Shaders\Fragment\TerrainShader.frag" />

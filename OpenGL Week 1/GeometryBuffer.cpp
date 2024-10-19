@@ -11,7 +11,7 @@ void GeometryBuffer::Init(Vector2 _windowSize)
 	// Create the Position texture
 	glGenTextures(1, &Texture_Position);
 	glBindTexture(GL_TEXTURE_2D, Texture_Position);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -19,7 +19,7 @@ void GeometryBuffer::Init(Vector2 _windowSize)
 	// Create the Normal texture
 	glGenTextures(1, &Texture_Normal);
 	glBindTexture(GL_TEXTURE_2D, Texture_Normal);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -27,7 +27,7 @@ void GeometryBuffer::Init(Vector2 _windowSize)
 	// Create the Albedo/Shininess texture
 	glGenTextures(1, &Texture_AlbedoShininess);
 	glBindTexture(GL_TEXTURE_2D, Texture_AlbedoShininess);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -35,7 +35,7 @@ void GeometryBuffer::Init(Vector2 _windowSize)
 	// Create the Depth texture
 	glGenTextures(1, &Texture_Depth);
 	glBindTexture(GL_TEXTURE_2D, Texture_Depth);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, _windowSize.x, _windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, (int)_windowSize.x, (int)_windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glGenerateMipmap(GL_TEXTURE_2D);
@@ -72,6 +72,16 @@ void GeometryBuffer::UnBind()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void GeometryBuffer::WriteDepth()
+{
+	glBindFramebuffer(GL_READ_BUFFER, FBO);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+	glBlitFramebuffer(0, 0, m_size.x, m_size.y, //Source
+					  0, 0, m_size.x, m_size.y, //Destination
+					  GL_DEPTH_BUFFER_BIT, GL_NEAREST); //Mask and filter
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void GeometryBuffer::PopulateShader(ShaderPtr _shader)
 {
 	_shader->setTexture2D(Texture_Position, 0, "Texture_Position");
@@ -85,22 +95,22 @@ void GeometryBuffer::Resize(Vector2 _windowSize)
 
 	// Update the Position texture
 	glBindTexture(GL_TEXTURE_2D, Texture_Position);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	// Update the Normal texture
 	glBindTexture(GL_TEXTURE_2D, Texture_Normal);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	// Update the Albedo/Shininess texture
 	glBindTexture(GL_TEXTURE_2D, Texture_AlbedoShininess);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _windowSize.x, _windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (int)_windowSize.x, (int)_windowSize.y, 0, GL_RGBA, GL_FLOAT, NULL);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	// Update the Depth texture
 	glBindTexture(GL_TEXTURE_2D, Texture_Depth);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, _windowSize.x, _windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, (int)_windowSize.x, (int)_windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	// Bind the framebuffer to update its attachments

@@ -50,6 +50,7 @@ public:
     virtual void onGraphicsUpdate(UniformData data) override;
     virtual void onShadowPass() override;
     virtual void onGeometryPass(UniformData data) override;
+    virtual void onLightingPass() override;
     /**
      * @brief Gets the Shininess used by this entity.
      * @return A float of the amount of shininess.

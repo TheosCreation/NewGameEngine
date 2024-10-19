@@ -68,11 +68,6 @@ void Scene1::onCreate()
 			"InstancedMesh",
 			"InstancedMesh"
 		});
-	
-	ShaderPtr SSRMeshShader = graphicsEngine.createShader({
-			"ScreenQuad",
-			"SSRMeshShader"
-		});
 
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();

@@ -163,11 +163,14 @@ void Game::onUpdateInternal()
     m_currentScene->onGeometryPass();
     geometryBuffer.UnBind();
 
+
     m_SSRQuad->onGraphicsUpdate(UniformData{});
-    ////Shadow Pass
-    //m_shadowMap->Bind();
-    //m_currentScene->onShadowPass();
-    //m_shadowMap->UnBind();
+    geometryBuffer.WriteDepth();
+
+    //Shadow Pass
+    m_shadowMap->Bind();
+    m_currentScene->onShadowPass();
+    m_shadowMap->UnBind();
     //
     //LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 
