@@ -42,6 +42,34 @@ void Scene::onGeometryPass()
     m_skyBox->onGeometryPass(data);
 }
 
+void Scene::onLightingPass()
+{
+    auto& lightManager = LightManager::GetInstance();
+
+    UniformData data = {};
+    data.currentTime = gameOwner->GetCurrentTime();
+    for (auto& camera : m_entitySystem->getCameras())
+    {
+        if (camera->getCameraType() == CameraType::Perspective)
+        {
+            camera->getViewMatrix(data.viewMatrix);
+            camera->getProjectionMatrix(data.projectionMatrix);
+            data.cameraPosition = camera->getPosition();
+            lightManager.setSpotlightPosition(data.cameraPosition);
+            lightManager.setSpotlightDirection(camera->getForwardDirection());
+        }
+        else
+        {
+            camera->getViewMatrix(data.uiViewMatrix);
+            camera->getProjectionMatrix(data.uiProjectionMatrix);
+        }
+    }
+
+    //m_skyBox->onLightingPass(data);
+
+    m_entitySystem->onLightingPass(data);
+}
+
 void Scene::onGraphicsUpdate(float deltaTime)
 {
     auto& lightManager = LightManager::GetInstance();
@@ -115,11 +143,17 @@ void Scene::onCreate()
             "TerrainShader",
             "GeometryPassTerrian"
         });
+    
+    m_meshLightingShader = graphicsEngine.createShader({
+            "MeshShader",
+            "MeshLightingShader"
+        });
 
     m_skyBox->setEntitySystem(m_entitySystem.get());
     m_skyBox->setMesh(gameOwner->getCubeMesh());
     m_skyBox->setShader(skyboxShader);
     m_skyBox->setGeometryShader(m_skyboxGeometryShader);
+    m_skyBox->setLightingShader(m_meshLightingShader);
 
     // create a cube map texture and set the texture of the skybox to the cubemap texture
     std::vector<std::string> skyboxCubeMapTextureFilePaths;

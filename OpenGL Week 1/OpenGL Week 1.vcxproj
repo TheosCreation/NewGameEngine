@@ -203,6 +203,7 @@
     <None Include="Resources\Shaders\Fragment\GreyScaleFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\GreyScaleLuminosityFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\InstancedMesh.frag" />
+    <None Include="Resources\Shaders\Fragment\MeshLightingShader.frag" />
     <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
     <None Include="Resources\Shaders\Fragment\ShadowShader.frag" />

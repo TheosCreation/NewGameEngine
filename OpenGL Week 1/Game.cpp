@@ -156,21 +156,21 @@ void Game::onUpdateInternal()
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the existing stuff first is a must
 
     //Geometry Pass
-
     auto& geometryBuffer = GeometryBuffer::GetInstance();
     geometryBuffer.Bind();
-    graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
     m_currentScene->onGeometryPass();
     geometryBuffer.UnBind();
-
+    
 
     m_SSRQuad->onGraphicsUpdate(UniformData{});
+    
     geometryBuffer.WriteDepth();
+    m_currentScene->onLightingPass();
 
     //Shadow Pass
-    m_shadowMap->Bind();
-    m_currentScene->onShadowPass();
-    m_shadowMap->UnBind();
+    //m_shadowMap->Bind();
+    //m_currentScene->onShadowPass();
+    //m_shadowMap->UnBind();
     //
     //LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
 

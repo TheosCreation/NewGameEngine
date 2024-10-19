@@ -100,6 +100,14 @@ void EntitySystem::onShadowPass()
 	}
 }
 
+void EntitySystem::onLightingPass(UniformData _data)
+{
+	for (auto& graphicsEntity : m_graphicsEntities)
+	{
+		graphicsEntity->onLightingPass(_data);
+	}
+}
+
 void EntitySystem::onGeometryPass(UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)

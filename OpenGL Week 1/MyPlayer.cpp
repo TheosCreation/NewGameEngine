@@ -103,19 +103,19 @@ void MyPlayer::onUpdate(float deltaTime)
     //    lightManager.setSpotlightStatus(!currentLightStatus);
     //}
 
-    //// Toggle wireframe mode on/off
-    //if (inputManager.isKeyPressed(Key::Key4))
-    //{
-    //    m_wireframeMode = !m_wireframeMode;
-    //    if (m_wireframeMode)
-    //    {
-    //        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    //    }
-    //    else
-    //    {
-    //        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    //    }
-    //}
+    // Toggle wireframe mode on/off
+    if (inputManager.isKeyPressed(Key::Key0))
+    {
+        m_wireframeMode = !m_wireframeMode;
+        if (m_wireframeMode)
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        else
+        {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+    }
 
     //// Get the mouse position from the input manager
     //glm::vec2 cursorPosition = inputManager.getMousePosition();

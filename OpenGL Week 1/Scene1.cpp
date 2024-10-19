@@ -80,6 +80,7 @@ void Scene1::onCreate()
 	m_ship->setShader(meshShader);
 	m_ship->setShadowShader(m_shadowShader);
 	m_ship->setGeometryShader(m_meshGeometryShader);
+	m_ship->setLightingShader(m_meshLightingShader);
 
 	auto ship2 = m_entitySystem->createEntity<MeshEntity>();
 	ship2->setScale(Vector3(0.05f));
@@ -91,6 +92,7 @@ void Scene1::onCreate()
 	ship2->setShader(meshShader);
 	ship2->setShadowShader(m_shadowShader);
 	ship2->setGeometryShader(m_meshGeometryShader);
+	ship2->setLightingShader(m_meshLightingShader);
 
 	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 5.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
@@ -116,6 +118,7 @@ void Scene1::onCreate()
 	statues->setReflectiveMapTexture(shipReflectiveMap); //this is wrong
 	statues->setShadowShader(m_shadowInstancedShader);
 	statues->setGeometryShader(m_instancedmeshGeometryShader);
+	statues->setLightingShader(m_meshLightingShader);
 
 
 	//adds instances to the instanced mine mesh
@@ -160,6 +163,10 @@ void Scene1::onCreate()
 	spotLight.AttenuationExponent = 0.0007f;
 	lightManager.createSpotLight(spotLight);
 	lightManager.setSpotlightStatus(false);
+
+	//create point lights and dont forget these lines
+	//m_ship->setGeometryShader(m_meshGeometryShader);
+	//m_ship->setLightingShader(m_meshLightingShader);
 }
 
 void Scene1::onUpdate(float deltaTime)

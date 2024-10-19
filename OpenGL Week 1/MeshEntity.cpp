@@ -134,7 +134,7 @@ void MeshEntity::onGeometryPass(UniformData data)
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
 }
 
-void MeshEntity::onLightingPass()
+void MeshEntity::onLightingPass(UniformData data)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::BackFace);
@@ -142,9 +142,17 @@ void MeshEntity::onLightingPass()
     graphicsEngine.setDepthFunc(DepthType::Less);
     graphicsEngine.setShader(m_lightingShader);
 
-    auto& lightManager = LightManager::GetInstance();
-    m_lightingShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    GeometryBuffer::GetInstance().PopulateShader(m_lightingShader);
 
+    m_lightingShader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
+    m_lightingShader->setMat4("ModelMatrix", getModelMatrix());
+    m_lightingShader->setVec3("CameraPos", data.cameraPosition);
+
+    auto& lightManager = LightManager::GetInstance();
+    lightManager.applyLighting(m_lightingShader);
+    //m_lightingShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+
+    if (m_mesh == nullptr) return;
     // Bind the vertex array object for the mesh
     auto meshVBO = m_mesh->getVertexArrayObject();
 

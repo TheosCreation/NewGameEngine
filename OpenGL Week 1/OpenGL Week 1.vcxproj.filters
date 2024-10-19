@@ -194,6 +194,7 @@
     <None Include="Resources\Shaders\Fragment\GeometryPassTerrian.frag" />
     <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
+    <None Include="Resources\Shaders\Fragment\MeshLightingShader.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

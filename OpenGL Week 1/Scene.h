@@ -12,6 +12,7 @@ public:
 
 	virtual void onShadowPass();
 	virtual void onGeometryPass();
+	virtual void onLightingPass();
 	virtual void onGraphicsUpdate(float deltaTime);
 
 
@@ -54,6 +55,7 @@ protected:
     ShaderPtr m_shadowShader = nullptr;
     ShaderPtr m_shadowInstancedShader = nullptr;
     ShaderPtr m_meshGeometryShader = nullptr;
+    ShaderPtr m_meshLightingShader = nullptr;
     ShaderPtr m_skyboxGeometryShader = nullptr;
     ShaderPtr m_instancedmeshGeometryShader = nullptr;
     ShaderPtr m_terrainGeometryShader = nullptr;
