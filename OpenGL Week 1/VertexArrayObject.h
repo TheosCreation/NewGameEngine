@@ -22,16 +22,16 @@ class VertexArrayObject
 public:
     /**
      * @brief Constructor for the VertexArrayObject class with vertex buffer data.
-     * @param data Description of the vertex buffer.
+     * @param _data Description of the vertex buffer.
      */
-    VertexArrayObject(const VertexBufferDesc& data);
+    VertexArrayObject(const VertexBufferDesc& _data);
 
     /**
      * @brief Constructor for the VertexArrayObject class with vertex and index buffer data.
-     * @param vbDesc Description of the vertex buffer.
-     * @param ibDesc Description of the index buffer.
+     * @param _vbDesc Description of the vertex buffer.
+     * @param _ibDesc Description of the index buffer.
      */
-    VertexArrayObject(const VertexBufferDesc& vbDesc, const IndexBufferDesc& ibDesc);
+    VertexArrayObject(const VertexBufferDesc& _vbDesc, const IndexBufferDesc& _ibDesc);
 
     /**
      * @brief Destructor for the VertexArrayObject class.
@@ -64,10 +64,10 @@ public:
     uint getNumIndices();
 
 private:
-    uint m_vertexBufferID = 0; //The ID of the vertex buffer.
-    uint m_elementBufferId = 0; //The ID of the element (index) buffer.
-    uint m_vertexArrayObjectID = 0; //The ID of the vertex array object.
-    uint m_instanceBufferID = 0; //The ID of the instance buffer.
-    VertexBufferDesc m_vertexBufferData; //Description of the vertex buffer.
-    IndexBufferDesc m_indexBufferDesc; //Description of the index buffer.
+    uint m_vertexBufferID = 0;              // The ID of the vertex buffer.
+    uint m_elementBufferId = 0;             // The ID of the element (index) buffer.
+    uint m_vertexArrayObjectID = 0;         // The ID of the vertex array object.
+    uint m_instanceBufferID = 0;            // The ID of the instance buffer.
+    VertexBufferDesc m_vertexBufferData;    // Description of the vertex buffer.
+    IndexBufferDesc m_indexBufferDesc;      // Description of the index buffer.
 };

@@ -17,6 +17,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Utils.h"
 
 class Game;
+
 /**
  * @class Window
  * @brief A wrapper for a GLFWwindow to display the rendering from the graphics engine.
@@ -27,7 +28,7 @@ public:
     /**
      * @brief Constructor for the Window class.
      */
-    Window(Game* game);
+    Window(Game* _game);
 
     /**
      * @brief Destructor for the Window class.
@@ -48,9 +49,9 @@ public:
 
     /**
      * @brief Makes the window the current OpenGL context.
-     * @param vsync Enables or disables vertical synchronization.
+     * @param _vsync Enables or disables vertical synchronization.
      */
-    void makeCurrentContext(bool vsync);
+    void makeCurrentContext(bool _vsync);
 
     /**
      * @brief Presents the rendered content to the window.
@@ -66,10 +67,9 @@ public:
     bool shouldClose();
 
 private:
-    GLFWwindow* m_windowPtr; //Pointer to the GLFWwindow.
-    void* m_context = nullptr; //Pointer to the OpenGL context.
-    bool vsync = false; //Flag for vertical synchronization.
-    Rect m_size = Rect(800, 800); //The size of the window.
-
-    Game* gameOwner = nullptr;
+    GLFWwindow* m_windowPtr;        // Pointer to the GLFWwindow.
+    void* m_context = nullptr;      // Pointer to the OpenGL context.
+    bool vsync = false;             // Flag for vertical synchronization.
+    Rect m_size = Rect(800, 800);   // The size of the window.
+    Game* gameOwner = nullptr;      // The Game Owner of the window.
 };

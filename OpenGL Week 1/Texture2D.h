@@ -29,28 +29,42 @@ public:
      */
     Texture2D(const Texture2DDesc& desc, const char* path, ResourceManager* manager);
 
+    /**
+     * @brief Gets the height of the texture.
+     * @return Height of the texture in pixels.
+     */
     int getHeight();
 
+    /**
+     * @brief Gets the width of the texture.
+     * @return Width of the texture in pixels.
+     */
     int getWidth();
 
-
+    /**
+     * @brief Retrieves the raw pixel data of the texture.
+     * @return Pointer to the texture data.
+     */
     unsigned char* getData() const;
 
     /**
      * @brief Sets the texture wrapping mode to mirrored.
+     * This mode mirrors the texture when it reaches its boundaries.
      */
     void setMirrored();
 
     /**
      * @brief Sets the texture wrapping mode to clamp to edge.
+     * This mode clamps the texture to the edge pixel, preventing it from repeating.
      */
     void setClampToEdge();
 
     /**
      * @brief Destructor for the Texture2D class.
+     * Cleans up resources associated with the texture.
      */
     ~Texture2D();
 
 private:
-    Texture2DDesc m_desc = {}; //Description of the 2D texture.
+    Texture2DDesc m_desc = {}; // Description of the 2D texture.
 };

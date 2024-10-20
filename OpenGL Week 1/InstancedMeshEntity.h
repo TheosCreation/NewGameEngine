@@ -50,9 +50,18 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     void onGraphicsUpdate(UniformData data) override;
-    void onGeometryPass(UniformData data) override;
+    /**
+     * @brief Handles the shadow pass rendering for the graphics entity.
+     * @param index The index of the light source for which shadows are being rendered.
+     */
+    virtual void onShadowPass(uint index) override;
 
-    void onShadowPass(int index) override;
+    /**
+     * @brief Handles the geometry pass rendering for the graphics entity.
+     * @param data Contains uniform data needed for rendering, such as transformation
+     * matrices and other parameters relevant to the geometry pass.
+     */
+    virtual void onGeometryPass(UniformData data) override;
 
 private:
     InstancedMeshPtr m_mesh; //A shared pointer to the instanced mesh.

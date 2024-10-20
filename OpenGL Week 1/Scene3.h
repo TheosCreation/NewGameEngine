@@ -54,15 +54,22 @@ public:
      */
     virtual void onLateUpdate(float deltaTime);
 
+    /**
+     * @brief Called every frame to update the graphics.
+     */
     virtual void onGraphicsUpdate() override;
 
+    /**
+     * @brief Called when quitting the scene.
+     * Cleans up resources or performs necessary finalization.
+     */
     virtual void onQuit() override;
 
 private:
-    float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
+    float m_elapsedSeconds = 0.0f; // Elapsed time in seconds
 
     // Initialize all VBOs here
-    MeshEntity* m_ship = nullptr; //Pointer to the statue entity
-    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
-    MyPlayer* m_player = nullptr; //Pointer to the player entity
+    MeshEntity* m_ship = nullptr; // Pointer to the statue entity
+    TerrainEntity* m_terrain = nullptr; // Pointer to the terrain entity
+    MyPlayer* m_player = nullptr; // Pointer to the player entity
 };

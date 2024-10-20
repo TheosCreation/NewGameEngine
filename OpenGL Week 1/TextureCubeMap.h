@@ -34,5 +34,5 @@ public:
     ~TextureCubeMap();
 
 private:
-    TextureCubeMapDesc m_desc = {}; //Description of the 2D texture.
+    TextureCubeMapDesc m_desc = {};     // Description of the 2D texture.
 };

@@ -24,7 +24,6 @@ Texture::~Texture()
 {
 }
 
-// Returns the OpenGL texture ID.
 uint Texture::getId() const
 {
     return m_textureId;

@@ -4,8 +4,8 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : Scene1.h
-Description : 
+File Name : Scene2.h
+Description : A stripped-down class of the scene class to allow the end user to create their own entities.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -16,7 +16,7 @@ Mail : theo.morris@mds.ac.nz
 
 /**
  * @class Scene2
- * @brief 
+ * @brief A stripped-down class of the scene class to allow the end user to create their own entities.
  */
 class Scene2 : public Scene
 {
@@ -53,15 +53,19 @@ public:
      * @param deltaTime The time elapsed since the last frame.
      */
     virtual void onLateUpdate(float deltaTime);
+
+    /**
+     * @brief Called when quitting the scene.
+     * Cleans up resources or performs necessary finalization.
+     */
     virtual void onQuit() override;
 
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 
     // Initialize all VBOs here
-    MyPlayer* m_player = nullptr; //Pointer to the player entity
-    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
-    MeshEntity* m_ship = nullptr; //Pointer to the ship entity
-
-    ShaderPtr m_outlineShader = nullptr;
+    MyPlayer* m_player = nullptr; // Pointer to the player entity
+    TerrainEntity* m_terrain = nullptr; // Pointer to the terrain entity
+    MeshEntity* m_ship = nullptr; // Pointer to the ship entity
+    ShaderPtr m_outlineShader = nullptr; // Pointer to the outline shader
 };

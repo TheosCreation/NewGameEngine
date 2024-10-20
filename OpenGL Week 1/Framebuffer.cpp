@@ -1,9 +1,20 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : Framebuffer.cpp
+Description : A class representing a frame buffer for rendering.
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "Framebuffer.h"
 #include "GraphicsEngine.h"
 #include <glew.h>
 #include <glfw3.h>
 
-// Constructor: Initialize the framebuffer and create a texture
 Framebuffer::Framebuffer(Vector2 _windowSize)
 {
     m_size = _windowSize;
@@ -43,7 +54,6 @@ Framebuffer::Framebuffer(Vector2 _windowSize)
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
-// Destructor: Clean up resources
 Framebuffer::~Framebuffer()
 {
     glDeleteFramebuffers(1, &FBO);
@@ -51,7 +61,7 @@ Framebuffer::~Framebuffer()
     glDeleteRenderbuffers(1, &RBO);
 }
 
-void Framebuffer::resize(Vector2 _newWindowSize)
+void Framebuffer::Resize(Vector2 _newWindowSize)
 {
     m_size = _newWindowSize;
 

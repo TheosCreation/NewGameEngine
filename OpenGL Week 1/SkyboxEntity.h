@@ -31,12 +31,15 @@ public:
      */
     void setUniformData(UniformData data) override;
 
-
     /**
      * @brief Called every frame to update the graphics.
      * @param deltaTime The time elapsed since the last update.
      */
     void onGraphicsUpdate(UniformData data) override;
 
+    /**
+    * @brief Called during the geometry pass.
+    * @param data The uniform data for the pass.
+    */
     void onGeometryPass(UniformData data) override;
 };

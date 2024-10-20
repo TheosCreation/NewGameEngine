@@ -33,10 +33,10 @@ public:
      * @param texcoord The texture coordinate of the vertex.
      * @param normal The normal vector of the vertex.
      */
-    VertexMesh(const Vector3& position, const glm::vec2& texcoord, const Vector3& normal) :
-        m_position(position),
-        m_texcoord(texcoord),
-        m_normal(normal)
+    VertexMesh(const Vector3& _position, const glm::vec2& _texcoord, const Vector3& _normal) :
+        m_position(_position),
+        m_texcoord(_texcoord),
+        m_normal(_normal)
     {
     }
 
@@ -44,15 +44,15 @@ public:
      * @brief Copy constructor for the VertexMesh class.
      * @param vertex The vertex to copy.
      */
-    VertexMesh(const VertexMesh& vertex) :
-        m_position(vertex.m_position),
-        m_texcoord(vertex.m_texcoord),
-        m_normal(vertex.m_normal)
+    VertexMesh(const VertexMesh& _vertex) :
+        m_position(_vertex.m_position),
+        m_texcoord(_vertex.m_texcoord),
+        m_normal(_vertex.m_normal)
     {
     }
 
 public:
-    Vector3 m_position; //The position of the vertex.
-    glm::vec2 m_texcoord; //The texture coordinate of the vertex.
-    Vector3 m_normal; //The normal vector of the vertex.
+    Vector3 m_position;     // The position of the vertex.
+    glm::vec2 m_texcoord;   // The texture coordinate of the vertex.
+    Vector3 m_normal;       // The normal vector of the vertex.
 };

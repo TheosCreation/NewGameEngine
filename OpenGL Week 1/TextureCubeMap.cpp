@@ -39,5 +39,5 @@ TextureCubeMap::TextureCubeMap(const TextureCubeMapDesc& desc, const char* path,
 
 TextureCubeMap::~TextureCubeMap()
 {
-    glDeleteTextures(1, &m_textureId);
+    glDeleteTextures(1, &m_textureId); // Destroys the cubemap texture
 }

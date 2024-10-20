@@ -43,5 +43,5 @@ public:
     VertexArrayObjectPtr getVertexArrayObject();
 
 private:
-    VertexArrayObjectPtr m_vao; //The Vertex Array Object associated with this mesh.
+    VertexArrayObjectPtr m_vao; // The Vertex Array Object associated with this mesh.
 };

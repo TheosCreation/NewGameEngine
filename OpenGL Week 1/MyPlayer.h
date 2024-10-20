@@ -53,20 +53,20 @@ public:
     virtual void onLateUpdate(float deltaTime);
 
 private:
-    float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
-    Entity* m_entity = nullptr; //Pointer to the entity
+    float m_elapsedSeconds = 0.0f; // Elapsed time in seconds
+    Entity* m_entity = nullptr; // Pointer to the entity
     
-    float m_movementSpeed = 50.0f; //Movement speed of the movable object
-    float m_originalMovementSpeed = m_movementSpeed; //Original movement speed
-    float m_yaw = 0.0f; //Yaw angle for rotation of the camera
-    float m_pitch = 0.0f; //Pitch angle for rotation of the camera
-    float m_minFov = 1.0f; //Minimum fov for the camera
-    float m_fov = 90.0f; //Fov for the camera
-    float m_maxFov = 120.0f; //Maximum fov for the camera
-    float m_zoomSpeed = 0.5f; //Speed of zooming
-    bool m_playMode = false; //Flag for play mode
-    bool m_wireframeMode = false; //Flag for wireframe mode
+    float m_movementSpeed = 50.0f; // Movement speed of the movable object
+    float m_originalMovementSpeed = m_movementSpeed; // Original movement speed
+    float m_yaw = 0.0f; // Yaw angle for rotation of the camera
+    float m_pitch = 0.0f; // Pitch angle for rotation of the camera
+    float m_minFov = 1.0f; // Minimum fov for the camera
+    float m_fov = 90.0f; // Fov for the camera
+    float m_maxFov = 120.0f; // Maximum fov for the camera
+    float m_zoomSpeed = 0.5f; // Speed of zooming
+    bool m_playMode = false; // Flag for play mode
+    bool m_wireframeMode = false; // Flag for wireframe mode
 
-    Camera* m_cam = nullptr; //Pointer to the main camera
-    Camera* m_uiCamera = nullptr; //Pointer to the UI camera
+    Camera* m_cam = nullptr; // Pointer to the main camera
+    Camera* m_uiCamera = nullptr; // Pointer to the UI camera
 };

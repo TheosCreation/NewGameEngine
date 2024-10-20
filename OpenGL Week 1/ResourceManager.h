@@ -46,7 +46,7 @@ public:
 
 protected:
     std::map<std::string, ResourcePtr> m_mapResources; // Map of resources keyed by their file paths
-    TextureCubeMapPtr m_textureCubeMap;
+    TextureCubeMapPtr m_textureCubeMap; // Texture pointer for the skybox
 
 private:
     ResourceManager() = default;

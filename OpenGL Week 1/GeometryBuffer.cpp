@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : GeometryBuffer.cpp
+Description : A class representing a geometry buffer for rendering.
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "GeometryBuffer.h"
 #include "Shader.h"
 
@@ -64,7 +76,7 @@ void GeometryBuffer::Init(Vector2 _windowSize)
 void GeometryBuffer::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glViewport(0, 0, m_size.x, m_size.y);
+	glViewport(0, 0, (int)m_size.x, (int)m_size.y);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

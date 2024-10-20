@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : LightManager.cpp
+Description : Handles lighting and passing into shaders
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "LightManager.h"
 #include "Shader.h"
 #include "ShadowMap.h"
@@ -96,7 +108,7 @@ void LightManager::applyLighting(ShaderPtr shader) const
 void LightManager::applyShadows(ShaderPtr shader) const
 {
     //bindings 5 - 6
-    for (unsigned int i = 0; i < m_directionalLightCount; i++)
+    for (uint i = 0; i < m_directionalLightCount; i++)
     {
         std::string index = std::to_string(i);
         shader->setTexture2D(m_shadowMapTexture[i]->getId(), 5 + i, "Texture_ShadowMap[" + index + "]");
@@ -136,7 +148,7 @@ uint LightManager::getDirectionalLightCount() const
     return m_directionalLightCount;
 }
 
-Mat4 LightManager::getLightSpaceMatrix(int index) const
+Mat4 LightManager::getLightSpaceMatrix(uint index) const
 {
     // Validate index
     if (index < 0 || index >= m_directionalLightCount) {

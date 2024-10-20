@@ -97,7 +97,7 @@ void InstancedMeshEntity::onGeometryPass(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 0, "");
 }
 
-void InstancedMeshEntity::onShadowPass(int index)
+void InstancedMeshEntity::onShadowPass(uint index)
 {
     GraphicsEntity::onShadowPass(index);
 

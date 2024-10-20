@@ -41,7 +41,7 @@ public:
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onGraphicsUpdate(UniformData data);
-    virtual void onShadowPass(int index);
+    virtual void onShadowPass(uint index);
     virtual void onGeometryPass(UniformData data);
     virtual void onLightingPass(UniformData data);
 

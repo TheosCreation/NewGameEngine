@@ -4,8 +4,8 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : MyGame.h
-Description : MyGame class is a stripped down class of the base game class to be able for end user to create their own entities
+File Name : Scene1.h
+Description : Scene1 class is a stripped-down class of the scene class to allow end user to create their own entities.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -54,8 +54,15 @@ public:
      */
     virtual void onLateUpdate(float deltaTime);
 
+    /**
+     * @brief Called every frame to update the graphics.
+     */
     virtual void onGraphicsUpdate() override;
 
+    /**
+     * @brief Called when quitting the scene.
+     * Cleans up resources or performs necessary finalization.
+     */
     virtual void onQuit() override;
 
 private:

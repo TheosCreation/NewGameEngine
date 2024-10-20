@@ -47,8 +47,8 @@ public:
     Rect(const Rect& rect) : left(rect.left), top(rect.top), width(rect.width), height(rect.height) {}
 
 public:
-    int width = 0; //The width of the rectangle
-    int height = 0; //The height of the rectangle
-    int left = 0; //The left position of the rectangle
-    int top = 0; //The top position of the rectangle
+    int width = 0;  // The width of the rectangle
+    int height = 0; // The height of the rectangle
+    int left = 0;   // The left position of the rectangle
+    int top = 0;    // The top position of the rectangle
 };

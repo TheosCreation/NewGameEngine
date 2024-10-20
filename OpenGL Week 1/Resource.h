@@ -44,5 +44,5 @@ public:
     std::string getPath();
 
 protected:
-    std::string m_path; //The file path of the resource
+    std::string m_path; // The file path of the resource
 };

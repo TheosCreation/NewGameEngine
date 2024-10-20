@@ -1,3 +1,15 @@
+/***
+Bachelor of Software Engineering
+Media Design School
+Auckland
+New Zealand
+(c) 2024 Media Design School
+File Name : ParticleSystem.cpp
+Description : Represents a particle system that manages and renders particles in a graphics scene.
+Author : Theo Morris
+Mail : theo.morris@mds.ac.nz
+**/
+
 #include "ParticleSystem.h"
 #include "GraphicsEngine.h"
 #include "Shader.h"

@@ -53,6 +53,9 @@ public:
      */
     int getInstanceCount();
 
+    /**
+     * @brief Clears all the instances from the instance buffers and transform array
+     */
     void clearInstances();
 
 private:

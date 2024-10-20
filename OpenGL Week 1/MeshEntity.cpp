@@ -33,11 +33,6 @@ void MeshEntity::setReflectiveMapTexture(const TexturePtr& texture)
     m_reflectiveMap = texture;
 }
 
-void MeshEntity::onCreate()
-{
-}
-
-
 void MeshEntity::onGraphicsUpdate(UniformData data)
 {
     GraphicsEntity::onGraphicsUpdate(data);
@@ -75,23 +70,6 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
 
     auto& lightManager = LightManager::GetInstance();
     lightManager.applyShadows(m_shader);
-    //m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix(0));
-    //m_shader->setMat4("VPLight2", lightManager.getLightSpaceMatrix(1));
-    //
-    //// Get the shadow map texture and bind it
-    //ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture1(); // Function to get the shadow map texture
-    //if (shadowMapTexture)
-    //{
-    //    graphicsEngine.setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
-    //}
-    //
-    //// Get the shadow map texture and bind it
-    //ShadowMapPtr shadowMapTexture2 = lightManager.getShadowMapTexture2(); // Function to get the shadow map texture
-    //if (shadowMapTexture2)
-    //{
-    //    graphicsEngine.setTexture2D(shadowMapTexture2, 4, "Texture_ShadowMap2");
-    //}
-
 
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
@@ -103,7 +81,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 3, "");
 }
 
-void MeshEntity::onShadowPass(int index)
+void MeshEntity::onShadowPass(uint index)
 {
     GraphicsEntity::onShadowPass(index);
 

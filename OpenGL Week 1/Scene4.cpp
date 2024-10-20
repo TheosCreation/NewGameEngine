@@ -4,8 +4,8 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : MyGame.cpp
-Description : MyGame class is a stripped down class of the base game class to be able for end user to create their own entities
+File Name : Scene4.cpp
+Description : A stripped-down class of the scene class to allow end user to create their own entities.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
@@ -28,13 +28,20 @@ void Scene4::onCreate()
 	auto& resourceManager = ResourceManager::GetInstance();
 	auto& lightManager = LightManager::GetInstance();
 	auto& graphicsEngine = GraphicsEngine::GetInstance();
-	//Loading texture resources
 
+	gameOwner->SetFullScreenShader();
+
+	// Loading texture resources
 	Texture2DPtr sciFiSpace = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
-	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
+	m_oldRipple = resourceManager.createTexture2DFromFile("Resources/Textures/old.png");
+	m_grayNoiseSmall = resourceManager.createTexture2DFromFile("Resources/Textures/grayNoiseSmall.png");
 
-	//Loading Shaders into the graphics engine
+	// Loading mesh resources
+	MeshPtr fighterShip = resourceManager.createMeshFromFile("Resources/Meshes/Space/SM_Ship_Fighter_02.obj");
+	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
+
+	// Loading Shaders
 	ShaderPtr meshShader = graphicsEngine.createShader({
 			"MeshShader",
 			"MeshShader"
@@ -43,115 +50,6 @@ void Scene4::onCreate()
 			"InstancedMesh",
 			"InstancedMesh"
 		});
-
-	m_ship = m_entitySystem->createEntity<MeshEntity>();
-	m_ship->setScale(Vector3(0.05f));
-	m_ship->setPosition(Vector3(0, 0, 0));
-	m_ship->setShininess(32.0f);
-	m_ship->setTexture(sciFiSpace);
-	m_ship->setReflectiveMapTexture(shipReflectiveMap);
-	m_ship->setMesh(fighterShip);
-	m_ship->setShader(meshShader);
-	m_ship->setShadowShader(m_shadowShader);
-
-	InstancedMeshPtr mineMesh = resourceManager.createInstancedMeshFromFile("Resources/Meshes/Space/SM_Prop_Mine_01.obj");
-	//Creating instanced tree obj
-	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
-	m_instanceMines->setShininess(32.0f);
-	m_instanceMines->setTexture(sciFiSpace);
-	m_instanceMines->setShader(instancedMeshShader);
-	m_instanceMines->setMesh(mineMesh);
-	m_instanceMines->setReflectiveMapTexture(shipReflectiveMap);
-	m_instanceMines->setShadowShader(m_shadowShader);
-
-
-	//adds instances to the instanced mine mesh
-	float spacing = 50.0f;
-	for (int row = -4; row < 4; ++row) {
-		for (int col = -4; col < 4; ++col) {
-			for (int seg = -4; seg < 4; ++seg) {
-
-				// Calculate the position of the current tree based on the grid and spacing
-				Vector3 position = Vector3(col * spacing, seg * spacing, row * spacing);
-
-				if (position == Vector3(0.0f)) break;
-
-				// Generate random rotation angles
-				float angleX = randomNumber(360.0f);
-				float angleY = randomNumber(360.0f);
-				float angleZ = randomNumber(360.0f);
-
-				float randomScale = randomNumber(0.15f);
-
-				// Add the tree instance with random rotations
-				mineMesh->addInstance(position, Vector3(0.05f + randomScale), Vector3(angleX, angleY, angleZ));
-			}
-		}
-	}
-
-	//Init instance buffer
-	mineMesh->initInstanceBuffer();
-
-	//Creating the player object
-	//all the input managements, creation of camera are inside Player class
-	m_player = m_entitySystem->createEntity<MyPlayer>();
-	m_player->setScale(Vector3(0.0f));
-	m_player->setPosition(Vector3(0.0f, 20.0f, 0.0f));
-
-	//// Initialize point lights 
-	//{
-	//	auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-	//	pointLightObject->setPosition(Vector3(25.0f, 15.0f, 0.0f));
-	//	pointLightObject->setColor(Color::Blue);
-	//	pointLightObject->setMesh(gameOwner->getSphereMesh());
-	//	pointLightObject->setShader(solidColorMeshShader);
-	//
-	//	PointLight pointLight;
-	//	pointLight.Position = pointLightObject->getPosition();
-	//	pointLight.Color = Color::Blue;
-	//	pointLight.SpecularStrength = 1.0f;
-	//	pointLight.AttenuationConstant = 1.0f;
-	//	pointLight.AttenuationLinear = 0.045f;
-	//	pointLight.AttenuationExponent = 0.0075f;
-	//	lightManager.createPointLight(pointLight);
-	//}
-	//
-	//{
-	//	auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-	//	pointLightObject->setPosition(Vector3(-25.0f, 15.0f, 0.0f));
-	//	pointLightObject->setColor(Color::Red);
-	//	pointLightObject->setMesh(gameOwner->getSphereMesh());
-	//	pointLightObject->setShader(solidColorMeshShader);
-	//
-	//	PointLight pointLight;
-	//	pointLight.Position = pointLightObject->getPosition();
-	//	pointLight.Color = Color::Red;
-	//	pointLight.SpecularStrength = 1.0f;
-	//	pointLight.AttenuationConstant = 1.0f;
-	//	pointLight.AttenuationLinear = 0.045f;
-	//	pointLight.AttenuationExponent = 0.0075f;
-	//	lightManager.createPointLight(pointLight);
-	//}
-
-	// Create and initialize DirectionalLight struct
-	DirectionalLight directionalLight;
-	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
-	directionalLight.Color = Vector3(0.1f);
-	directionalLight.SpecularStrength = 0.5f;
-	lightManager.createDirectionalLight(directionalLight);
-
-	// Create and initialize SpotLight struct
-	SpotLight spotLight;
-	spotLight.Position = Vector3(0.0f);
-	spotLight.Direction = Vector3(0.0f, 0.0f, -1.0f);
-	spotLight.Color = Color::White;
-	spotLight.SpecularStrength = 1.0f;
-	spotLight.CutOff = glm::cos(glm::radians(25.0f));
-	spotLight.OuterCutOff = glm::cos(glm::radians(35.0f));
-	spotLight.AttenuationConstant = 1.0f;
-	spotLight.AttenuationLinear = 0.014f;
-	spotLight.AttenuationExponent = 0.0007f;
-	lightManager.createSpotLight(spotLight);
 
 	ShaderPtr colorInversionShader = graphicsEngine.createShader({
 			"ScreenQuad",
@@ -195,9 +93,79 @@ void Scene4::onCreate()
 		});
 	m_fullScreenShaders.push_back(scanLinesShader);
 
-	m_oldRipple = resourceManager.createTexture2DFromFile("Resources/Textures/old.png");
-	m_grayNoiseSmall = resourceManager.createTexture2DFromFile("Resources/Textures/grayNoiseSmall.png");
-	gameOwner->SetFullScreenShader();
+	// Creating a ship
+	m_ship = m_entitySystem->createEntity<MeshEntity>();
+	m_ship->setScale(Vector3(0.05f));
+	m_ship->setPosition(Vector3(0, 0, 0));
+	m_ship->setShininess(32.0f);
+	m_ship->setTexture(sciFiSpace);
+	m_ship->setReflectiveMapTexture(shipReflectiveMap);
+	m_ship->setMesh(fighterShip);
+	m_ship->setShader(meshShader);
+	m_ship->setShadowShader(m_shadowShader);
+
+	// Creating a instanced mine obj
+	m_instanceMines = m_entitySystem->createEntity<InstancedMeshEntity>();
+	m_instanceMines->setShininess(32.0f);
+	m_instanceMines->setTexture(sciFiSpace);
+	m_instanceMines->setShader(instancedMeshShader);
+	m_instanceMines->setMesh(mineMesh);
+	m_instanceMines->setReflectiveMapTexture(shipReflectiveMap);
+	m_instanceMines->setShadowShader(m_shadowShader);
+
+
+	// Adds instances to the instanced mine mesh
+	float spacing = 50.0f;
+	for (int row = -4; row < 4; ++row) {
+		for (int col = -4; col < 4; ++col) {
+			for (int seg = -4; seg < 4; ++seg) {
+
+				// Calculate the position of the current tree based on the grid and spacing
+				Vector3 position = Vector3(col * spacing, seg * spacing, row * spacing);
+
+				if (position == Vector3(0.0f)) break;
+
+				// Generate random rotation angles
+				float angleX = randomNumber(360.0f);
+				float angleY = randomNumber(360.0f);
+				float angleZ = randomNumber(360.0f);
+
+				float randomScale = randomNumber(0.15f);
+
+				// Add the tree instance with random rotations
+				mineMesh->addInstance(position, Vector3(0.05f + randomScale), Vector3(angleX, angleY, angleZ));
+			}
+		}
+	}
+
+	// Init instance buffer
+	mineMesh->initInstanceBuffer();
+
+	// Creating the player object
+	// all the input managements, creation of camera are inside Player class
+	m_player = m_entitySystem->createEntity<MyPlayer>();
+	m_player->setScale(Vector3(0.0f));
+	m_player->setPosition(Vector3(0.0f, 20.0f, 0.0f));
+
+	// Create and initialize a DirectionalLight
+	DirectionalLight directionalLight;
+	directionalLight.Direction = Vector3(0.5f, -1.0f, -0.5f);
+	directionalLight.Color = Vector3(0.1f);
+	directionalLight.SpecularStrength = 0.5f;
+	lightManager.createDirectionalLight(directionalLight);
+
+	// Create and initialize a SpotLight
+	SpotLight spotLight;
+	spotLight.Position = Vector3(0.0f);
+	spotLight.Direction = Vector3(0.0f, 0.0f, -1.0f);
+	spotLight.Color = Color::White;
+	spotLight.SpecularStrength = 1.0f;
+	spotLight.CutOff = glm::cos(glm::radians(25.0f));
+	spotLight.OuterCutOff = glm::cos(glm::radians(35.0f));
+	spotLight.AttenuationConstant = 1.0f;
+	spotLight.AttenuationLinear = 0.014f;
+	spotLight.AttenuationExponent = 0.0007f;
+	lightManager.createSpotLight(spotLight);
 }
 
 void Scene4::onUpdate(float deltaTime)

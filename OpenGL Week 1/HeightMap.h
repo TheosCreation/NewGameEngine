@@ -42,6 +42,6 @@ public:
     ~HeightMap();
 
 private:
-    HeightMapDesc m_desc = {}; //Description of the HeightMap texture.
-    HeightMapInfo m_buildInfo;
+    HeightMapDesc m_desc = {}; // Description of the HeightMap texture.
+    HeightMapInfo m_buildInfo; // HeightMap build info.
 };
