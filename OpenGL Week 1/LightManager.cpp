@@ -1,5 +1,14 @@
 #include "LightManager.h"
 #include "Shader.h"
+#include "ShadowMap.h"
+
+void LightManager::Init()
+{
+    for (int i = 0; i < MAX_DIRECTIONAL_LIGHTS; i++)
+    {
+        m_shadowMapTexture[i] = std::make_shared<ShadowMap>(Vector2(4096.0f));
+    }
+}
 
 void LightManager::createPointLight(const PointLight& newPointLight)
 {
@@ -95,6 +104,38 @@ void LightManager::applyShadows(ShaderPtr shader) const
     }
 }
 
+void LightManager::BindShadowMap(int index)
+{
+    if (index >= 0 && index < MAX_DIRECTIONAL_LIGHTS) // Check bounds
+    {
+        if (m_shadowMapTexture[index]) // Check if the pointer is valid
+        {
+            m_shadowMapTexture[index]->Bind();
+        }
+        else
+        {
+            // Handle error: shadow map at index is null
+            Debug::LogError("Error: Shadow map at index " + ToString(index) + " is null.");
+        }
+    }
+    else
+    {
+        // Handle error: index is out of bounds
+        Debug::LogError("Error: Index " + ToString(index) + " is out of bounds.");
+    }
+}
+
+
+void LightManager::UnBindShadowMap(int index)
+{
+    m_shadowMapTexture[index]->UnBind();
+}
+
+uint LightManager::getDirectionalLightCount() const
+{
+    return m_directionalLightCount;
+}
+
 Mat4 LightManager::getLightSpaceMatrix(int index) const
 {
     // Validate index
@@ -129,24 +170,9 @@ Mat4 LightManager::getLightSpaceMatrix(int index) const
     return lightSpaceMatrix;
 }
 
-void LightManager::setShadowMapTexture1(ShadowMapPtr texture)
+void LightManager::setShadowMapTexture(ShadowMapPtr shadowMap, int index)
 {
-    m_shadowMapTexture[0] = texture;
-}
-
-ShadowMapPtr LightManager::getShadowMapTexture1() const
-{
-    return m_shadowMapTexture[0];
-}
-
-void LightManager::setShadowMapTexture2(ShadowMapPtr texture)
-{
-    m_shadowMapTexture[1] = texture;
-}
-
-ShadowMapPtr LightManager::getShadowMapTexture2() const
-{
-    return m_shadowMapTexture[1];
+    m_shadowMapTexture[index] = shadowMap;
 }
 
 void LightManager::setDirectionalLightStatus(bool status)

@@ -82,24 +82,12 @@ void Scene2::onCreate()
 	m_ship->setGeometryShader(m_meshGeometryShader);
 	//m_ship->setLightingShader(m_meshLightingShader);
 
-	auto ship2 = m_entitySystem->createEntity<MeshEntity>();
-	ship2->setScale(Vector3(0.05f));
-	ship2->setPosition(Vector3(0, 70, 0));
-	ship2->setShininess(64.0f);
-	ship2->setTexture(sciFiSpaceTexture2D);
-	ship2->setReflectiveMapTexture(shipReflectiveMap);
-	ship2->setMesh(fighterShip);
-	ship2->setShader(meshShader);
-	ship2->setShadowShader(m_shadowShader);
-	ship2->setGeometryShader(m_meshGeometryShader);
-	//ship2->setLightingShader(m_meshLightingShader);
-
-	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 5.0f };
+	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 20.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
 	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
 	m_terrain->generateTerrainMesh(heightmap);
-	m_terrain->setPosition(Vector3(0, -50, 0));
+	m_terrain->setPosition(Vector3(0, -55, 0));
 	m_terrain->setTexture(grassTexture);
 	m_terrain->setTexture1(dirtTexture);
 	m_terrain->setTexture2(stoneTexture);
@@ -122,7 +110,7 @@ void Scene2::onCreate()
 
 
 	//adds instances to the instanced mine mesh
-	float spacing = 50.0f;
+	float spacing = 75.0f;
 	for (int row = -4; row < 4; ++row) {
 		for (int col = -4; col < 4; ++col) {
 			// Calculate the position of the current tree based on the grid and spacing
@@ -133,22 +121,27 @@ void Scene2::onCreate()
 			// Generate random rotation angles
 			float angleY = randomNumber(360.0f);
 
-			float randomScale = randomNumber(0.15f);
-
 			// Add the tree instance with random rotations
-			statueMesh->addInstance(position, Vector3(0.05f + randomScale), Vector3(0, angleY, 0));
+			statueMesh->addInstance(position, Vector3(0.2f), Vector3(0, angleY, 0));
 		}
 	}
 
 	//Init instance buffer
 	statueMesh->initInstanceBuffer();
 
-	// Create and initialize DirectionalLight struct
-	DirectionalLight directionalLight;
-	directionalLight.Direction = Vector3(0.0f, -1.0f, -0.3f);
-	directionalLight.Color = Vector3(0.5f);
-	directionalLight.SpecularStrength = 0.1f;
-	lightManager.createDirectionalLight(directionalLight);
+	// Create and initialize a DirectionalLight struct
+	DirectionalLight directionalLight1;
+	directionalLight1.Direction = Vector3(0.0f, -1.0f, -0.5f);
+	directionalLight1.Color = Vector3(0.1f);
+	directionalLight1.SpecularStrength = 0.1f;
+	lightManager.createDirectionalLight(directionalLight1);
+
+	// Create and initialize a DirectionalLight struct
+	DirectionalLight directionalLight2;
+	directionalLight2.Direction = Vector3(0.0f, -1.0f, 0.5f);
+	directionalLight2.Color = Vector3(0.1f);
+	directionalLight2.SpecularStrength = 0.1f;
+	lightManager.createDirectionalLight(directionalLight2);
 
 	// Create and initialize SpotLight struct
 	SpotLight spotLight;
@@ -163,6 +156,50 @@ void Scene2::onCreate()
 	spotLight.AttenuationExponent = 0.0007f;
 	lightManager.createSpotLight(spotLight);
 	lightManager.setSpotlightStatus(false);
+	
+	float pointLightSpacing = 100.0f;
+	int gridRows = 4; // Number of rows in the grid
+	int gridCols = 5; // Number of columns in the grid
+
+	// Initialize 20 point lights in a 4x5 grid
+	for (int row = 0; row < gridRows; ++row) {
+		for (int col = 0; col < gridCols; ++col) {
+			// Create a new point light entity
+			auto pointLightObject = new MeshEntity();
+			pointLightObject->onCreate();
+			pointLightObject->setTransparency(0.75f);
+			m_lights.push_back(pointLightObject);
+
+			// Randomly set color to either red or blue
+			int randomColorChoice = randomNumber(2); // Generates 0 or 1
+			Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
+			pointLightObject->setColor(lightColor);
+
+			// Calculate the position based on row and column, center the grid around (0,0)
+			float xPosition = (col - gridCols / 2) * pointLightSpacing; // Center horizontally
+			float yPosition = 15.0f; // Fixed Y position
+			float zPosition = (row - gridRows / 2) * pointLightSpacing; // Center vertically
+			pointLightObject->setPosition(Vector3(xPosition, yPosition, zPosition));
+			pointLightObject->setScale(Vector3(3.0f));
+			// Set mesh and shaders
+			pointLightObject->setMesh(gameOwner->getSphereMesh());
+			pointLightObject->setShader(m_solidColorMeshShader);
+			pointLightObject->setShadowShader(m_shadowShader);
+			pointLightObject->setGeometryShader(m_meshGeometryShader);
+
+			// Configure point light properties
+			PointLight pointLight;
+			pointLight.Position = pointLightObject->getPosition();
+			pointLight.Color = pointLightObject->getColor();
+			pointLight.SpecularStrength = 1.0f;
+			pointLight.AttenuationConstant = 1.0f;
+			pointLight.AttenuationLinear = 0.022f;
+			pointLight.AttenuationExponent = 0.0019f;
+
+			// Add the point light to the light manager
+			lightManager.createPointLight(pointLight);
+		}
+	}
 
 	//create point lights and dont forget these lines
 	//m_ship->setGeometryShader(m_meshGeometryShader);

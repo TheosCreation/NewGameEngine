@@ -143,6 +143,11 @@ void GraphicsEntity::setHeightMap(const TexturePtr& heightMapTexture)
     m_heightMap = heightMapTexture;
 }
 
+void GraphicsEntity::setTransparency(float transparency)
+{
+    m_transparentAlpha = transparency;
+}
+
 void GraphicsEntity::setColor(Vector3 color)
 {
 	m_color = color;

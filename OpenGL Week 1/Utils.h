@@ -41,10 +41,10 @@ class Mesh;
 class InstancedMesh;
 class SSRQuad;
 
-// Type definitions for variables
+// Type definitions for common engine variables
 typedef unsigned int uint;
-typedef glm::mat4 Mat4;
 typedef glm::quat Quaternion;
+typedef glm::mat4 Mat4; 
 typedef glm::vec3 Vector3;
 typedef glm::vec2 Vector2; 
 
@@ -136,6 +136,29 @@ struct Transform
         return rotation * Vector3(0.0f, 1.0f, 0.0f);
     }
 };
+
+namespace QuaternionUtils
+{
+    // Inline function to create a quaternion that looks in the specified direction
+    inline Quaternion LookAt(const glm::vec3& direction, const glm::vec3& up = glm::vec3(0.0f, 1.0f, 0.0f))
+    {
+        // Ensure the direction is normalized
+        glm::vec3 forward = glm::normalize(direction);
+
+        // Compute the right vector
+        glm::vec3 right = glm::normalize(glm::cross(up, forward));
+
+        // Recalculate the up vector to make sure it is orthogonal
+        glm::vec3 recalculatedUp = glm::cross(forward, right);
+
+        // Create a 3x3 rotation matrix
+        glm::mat3 rotationMatrix(right, recalculatedUp, forward);
+
+        // Convert the matrix to a quaternion
+        return glm::quat_cast(rotationMatrix);
+    }
+}
+
 
 struct Vertex
 {

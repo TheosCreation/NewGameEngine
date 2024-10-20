@@ -5,7 +5,6 @@
 Scene::Scene(Game* game)
 {
     gameOwner = game;
-    m_shadowMap = std::make_unique<ShadowMap>(Vector2(4096.0f));
     m_postProcessingFramebuffer = std::make_unique<Framebuffer>(gameOwner->getWindow()->getInnerSize());
 }
 
@@ -73,7 +72,7 @@ void Scene::onLightingPass()
     //m_entitySystem->onLightingPass(data);
 }
 
-void Scene::onGraphicsUpdate(float deltaTime)
+void Scene::onGraphicsUpdate()
 {
     //Geometry Pass
     auto& geometryBuffer = GeometryBuffer::GetInstance();
@@ -81,10 +80,14 @@ void Scene::onGraphicsUpdate(float deltaTime)
     onGeometryPass();
     geometryBuffer.UnBind();
 
-    //Shadow Pass
-    m_shadowMap->Bind();
-    m_entitySystem->onShadowPass(0);
-    m_shadowMap->UnBind();
+    auto& lightManager = LightManager::GetInstance();
+    for (int i = 0; i < lightManager.getDirectionalLightCount(); i++)
+    {
+        //Shadow Pass
+        lightManager.BindShadowMap(i);
+        m_entitySystem->onShadowPass(i);
+        lightManager.UnBindShadowMap(i);
+    }
 
     GraphicsEngine::GetInstance().setViewport(gameOwner->getWindow()->getInnerSize());
 
@@ -92,8 +95,6 @@ void Scene::onGraphicsUpdate(float deltaTime)
 
     geometryBuffer.WriteDepth();
 
-    auto& lightManager = LightManager::GetInstance();
-    lightManager.setShadowMapTexture1(m_shadowMap);
 
     UniformData data = {};
     data.currentTime = gameOwner->GetCurrentTime();
@@ -114,6 +115,11 @@ void Scene::onGraphicsUpdate(float deltaTime)
         }
     }
 
+    m_skyBox->onGraphicsUpdate(data);
+    for(auto& light : m_lights)
+    {
+        light->onGraphicsUpdate(data);
+    }
     m_skyBox->onGraphicsUpdate(data);
 }
 
@@ -162,7 +168,11 @@ void Scene::onCreate()
             "TerrainShader",
             "GeometryPassTerrian"
         });
-    
+
+    m_solidColorMeshShader = graphicsEngine.createShader({
+            "SolidColorMesh",
+            "SolidColorMesh"
+        });
     //m_meshLightingShader = graphicsEngine.createShader({
     //        "MeshShader",
     //        "MeshLightingShader"

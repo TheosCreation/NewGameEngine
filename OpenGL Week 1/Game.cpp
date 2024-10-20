@@ -57,6 +57,7 @@ Game::Game()
     inputManger.setGameWindow(m_display->getWindow());
     inputManger.setScreenArea(windowSize);
 
+    LightManager::GetInstance().Init();
 }
 
 Game::~Game()
@@ -163,18 +164,11 @@ void Game::onUpdateInternal()
     double RenderTime_Begin = (double)glfwGetTime();
 
     graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the existing stuff first is a must
+    m_currentScene->onGraphicsUpdate(); //Render the scene
 
-    m_currentScene->onGraphicsUpdate(deltaTime);
+    double RenderTime_End = (double)glfwGetTime();
 
-    //m_SSRQuad->onGraphicsUpdate(UniformData{});
-
-
-    //m_currentScene->onLightingPass();
-
-    //Shadow Pass
-    //
-    //LightManager::GetInstance().setShadowMapTexture(m_shadowMap);
-
+    //Example of post processing for later development
     //m_postProcessingFramebuffer->Bind();
     //graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
 
@@ -199,7 +193,6 @@ void Game::onUpdateInternal()
     //    m_canvasQuad->onGraphicsUpdate(uniformData);
     //}
 
-    double RenderTime_End = (double)glfwGetTime();
 
     // Render to window
     m_display->present();
@@ -234,7 +227,7 @@ void Game::quit()
 void Game::onResize(int _width, int _height)
 {
     m_currentScene->onResize(_width, _height);
-    m_postProcessingFramebuffer->resize(Vector2(_width, _height));
+    //m_postProcessingFramebuffer->resize(Vector2(_width, _height));
     GeometryBuffer::GetInstance().Resize(Vector2(_width, _height));
     GraphicsEngine::GetInstance().setViewport(Vector2(_width, _height));
 }

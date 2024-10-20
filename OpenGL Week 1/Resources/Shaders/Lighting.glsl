@@ -35,7 +35,7 @@ vec3 CalculateLight(Light baseLight, vec3 lightDir, vec3 viewDir, vec3 normal, f
     vec3 Diffuse = DiffuseStrength * baseLight.Color;
 
     // Specular shading
-    vec3 HalfwayDir = normalize(lightDir - viewDir);
+    vec3 HalfwayDir = normalize(lightDir + viewDir);
     float SpecularReflection = pow(max(dot(normal, HalfwayDir), 0.0), objectShininess);
     vec3 Specular = baseLight.SpecularStrength * SpecularReflection * baseLight.Color;
 

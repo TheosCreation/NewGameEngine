@@ -83,6 +83,8 @@ public:
     void setTexture3(const TexturePtr& texture);
     void setHeightMap(const TexturePtr& heightMapTexture);
 
+    void setTransparency(float transparency);
+
     /**
      * @brief Sets the color to be used by this entity.
      * @param color A vec3 of rgb values.
@@ -101,6 +103,7 @@ protected:
     TexturePtr m_texture2 = nullptr;
     TexturePtr m_texture3 = nullptr;
     TexturePtr m_heightMap = nullptr;
+    float m_transparentAlpha = 1.0f;
 
     void ProcessUniformData(const std::string& name, const std::any& value);
     void ProcessTextureData(const std::string& name, const std::tuple<TexturePtr, uint>& value);

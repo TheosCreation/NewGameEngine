@@ -79,7 +79,7 @@ public:
     void onShadowPass(int index);
     void onLightingPass(UniformData _data);
     void onGeometryPass(UniformData _data);
-    void onGraphicsUpdate(float deltaTime, UniformData _data);
+    void onGraphicsUpdate(UniformData _data);
 
     /**
      * @brief Called every frame to update the entity system at a fixed frame rate.

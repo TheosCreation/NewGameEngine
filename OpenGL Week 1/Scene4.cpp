@@ -43,10 +43,6 @@ void Scene4::onCreate()
 			"InstancedMesh",
 			"InstancedMesh"
 		});
-	ShaderPtr solidColorMeshShader = graphicsEngine.createShader({
-			"SolidColorMesh",
-			"SolidColorMesh"
-		});
 
 	m_ship = m_entitySystem->createEntity<MeshEntity>();
 	m_ship->setScale(Vector3(0.05f));
@@ -102,40 +98,40 @@ void Scene4::onCreate()
 	m_player->setScale(Vector3(0.0f));
 	m_player->setPosition(Vector3(0.0f, 20.0f, 0.0f));
 
-	// Initialize point lights 
-	{
-		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setPosition(Vector3(25.0f, 15.0f, 0.0f));
-		pointLightObject->setColor(Color::Blue);
-		pointLightObject->setMesh(gameOwner->getSphereMesh());
-		pointLightObject->setShader(solidColorMeshShader);
-
-		PointLight pointLight;
-		pointLight.Position = pointLightObject->getPosition();
-		pointLight.Color = Color::Blue;
-		pointLight.SpecularStrength = 1.0f;
-		pointLight.AttenuationConstant = 1.0f;
-		pointLight.AttenuationLinear = 0.045f;
-		pointLight.AttenuationExponent = 0.0075f;
-		lightManager.createPointLight(pointLight);
-	}
-
-	{
-		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setPosition(Vector3(-25.0f, 15.0f, 0.0f));
-		pointLightObject->setColor(Color::Red);
-		pointLightObject->setMesh(gameOwner->getSphereMesh());
-		pointLightObject->setShader(solidColorMeshShader);
-
-		PointLight pointLight;
-		pointLight.Position = pointLightObject->getPosition();
-		pointLight.Color = Color::Red;
-		pointLight.SpecularStrength = 1.0f;
-		pointLight.AttenuationConstant = 1.0f;
-		pointLight.AttenuationLinear = 0.045f;
-		pointLight.AttenuationExponent = 0.0075f;
-		lightManager.createPointLight(pointLight);
-	}
+	//// Initialize point lights 
+	//{
+	//	auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
+	//	pointLightObject->setPosition(Vector3(25.0f, 15.0f, 0.0f));
+	//	pointLightObject->setColor(Color::Blue);
+	//	pointLightObject->setMesh(gameOwner->getSphereMesh());
+	//	pointLightObject->setShader(solidColorMeshShader);
+	//
+	//	PointLight pointLight;
+	//	pointLight.Position = pointLightObject->getPosition();
+	//	pointLight.Color = Color::Blue;
+	//	pointLight.SpecularStrength = 1.0f;
+	//	pointLight.AttenuationConstant = 1.0f;
+	//	pointLight.AttenuationLinear = 0.045f;
+	//	pointLight.AttenuationExponent = 0.0075f;
+	//	lightManager.createPointLight(pointLight);
+	//}
+	//
+	//{
+	//	auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
+	//	pointLightObject->setPosition(Vector3(-25.0f, 15.0f, 0.0f));
+	//	pointLightObject->setColor(Color::Red);
+	//	pointLightObject->setMesh(gameOwner->getSphereMesh());
+	//	pointLightObject->setShader(solidColorMeshShader);
+	//
+	//	PointLight pointLight;
+	//	pointLight.Position = pointLightObject->getPosition();
+	//	pointLight.Color = Color::Red;
+	//	pointLight.SpecularStrength = 1.0f;
+	//	pointLight.AttenuationConstant = 1.0f;
+	//	pointLight.AttenuationLinear = 0.045f;
+	//	pointLight.AttenuationExponent = 0.0075f;
+	//	lightManager.createPointLight(pointLight);
+	//}
 
 	// Create and initialize DirectionalLight struct
 	DirectionalLight directionalLight;

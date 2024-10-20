@@ -59,6 +59,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     else
     {
         m_shader->setVec3("uColor", m_color);
+        m_shader->setFloat("alpha", m_transparentAlpha);
     }
 
     auto skyboxTexture = ResourceManager::GetInstance().getSkyboxTexture();

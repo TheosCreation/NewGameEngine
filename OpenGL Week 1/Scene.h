@@ -13,7 +13,11 @@ public:
 	virtual void onShadowPass();
 	virtual void onGeometryPass();
 	virtual void onLightingPass();
-	virtual void onGraphicsUpdate(float deltaTime);
+
+    /**
+     * @brief Default rendering mode is deffered rendering
+     */
+	virtual void onGraphicsUpdate();
 
 
     /**
@@ -61,8 +65,8 @@ protected:
     ShaderPtr m_terrainGeometryShader = nullptr;
     unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
     unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
-    ShadowMapPtr m_shadowMap; //Pointer to the shadowmap instance
     FramebufferPtr m_postProcessingFramebuffer; //Pointer to the framebuffer instance
     Game* gameOwner;
+    vector<MeshEntity*> m_lights; //Pointers to the lights objects in the scene (point and spotlights)
 };
 

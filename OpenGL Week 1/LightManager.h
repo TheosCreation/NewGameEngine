@@ -37,6 +37,11 @@ public:
     // Delete copy constructor and assignment operator to prevent copying.
     LightManager(const LightManager&) = delete;
     LightManager& operator=(const LightManager&) = delete;
+    
+    /**
+    * @brief Initilizes the lightmanager on program start only and creates the shadowmaps
+    */
+    void Init();
 
     /**
     * @brief Creates a point light and adds it to the manager.
@@ -80,12 +85,12 @@ public:
      * @return True if the directional light is enabled, false otherwise.
      */
     bool getDirectionalLightStatus() const;
+    void BindShadowMap(int index);
+    void UnBindShadowMap(int index);
+    uint getDirectionalLightCount() const;
     Mat4 getLightSpaceMatrix(int index) const;
 
-    void setShadowMapTexture1(ShadowMapPtr texture);
-    ShadowMapPtr getShadowMapTexture1() const;
-    void setShadowMapTexture2(ShadowMapPtr texture);
-    ShadowMapPtr getShadowMapTexture2() const;
+    void setShadowMapTexture(ShadowMapPtr shadowMap, int index);
 
     /**
     * @brief Sets the status of the directional light.
@@ -135,7 +140,7 @@ private:
 
     float AmbientStrength = 0.2f; //The strength of the ambient light
     Vector3 AmbientColor = Vector3(1.0f, 1.0f, 1.0f); //The color of the ambient light
-    static const int MAX_POINT_LIGHTS = 4; //The maximum number of point lights
+    static const int MAX_POINT_LIGHTS = 20; //The maximum number of point lights
     PointLight m_pointLights[MAX_POINT_LIGHTS] = {}; //Array of point lights
     uint m_pointLightCount = 0; //The current count of point lights
 

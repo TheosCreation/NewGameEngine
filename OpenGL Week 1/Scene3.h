@@ -54,12 +54,15 @@ public:
      */
     virtual void onLateUpdate(float deltaTime);
 
+    virtual void onGraphicsUpdate() override;
+
     virtual void onQuit() override;
 
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds
 
     // Initialize all VBOs here
+    MeshEntity* m_ship = nullptr; //Pointer to the statue entity
     TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
 };

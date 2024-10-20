@@ -1,5 +1,5 @@
 #version 460 core
-#define MAX_POINT_LIGHTS 4
+#define MAX_POINT_LIGHTS 20
 #define MAX_DIR_LIGHTS 2
 #include "Shadows.glsl"
 #include "Lighting.glsl"
@@ -44,7 +44,7 @@ void main()
     //vec3 ReflectDir = reflect(ViewDir, FragNormal);
 
     // Ambient Component
-    vec3 Ambient = FragAlbedo * AmbientStrength;
+    vec3 Ambient = AmbientColor * FragAlbedo * AmbientStrength;
 
     // Calculate lighting
     vec3 TotalLightOutput = vec3(0.0);
@@ -63,15 +63,8 @@ void main()
     {
         TotalLightOutput += CalculateSpotLight(SpotLight1, ViewDir, ObjectShininess, Normal, FragPos);
     }
-    
-    //vec4 FragPos_LightSpace = VPLight * vec4(FragPos, 1.0f);
 
-    //float Shadow = CalculateShadow(FragPos_LightSpace, Texture_ShadowMap);
-    //vec3 LightShadow = Ambient + ((1.0f - Shadow) * TotalLightOutput);
     vec3 Lighting = Ambient + TotalLightOutput;
-
-    // Combine the results
-    //vec3 Color = FragAlbedo;
 
     // Output final color
     FinalColor = vec4(Lighting, 1.0);

@@ -21,7 +21,6 @@ Mail : theo.morris@mds.ac.nz
 
 Scene1::Scene1(Game* game) : Scene(game)
 {
-	m_shadowMap1 = std::make_unique<ShadowMap>(Vector2(4096.0f));
 }
 
 Scene1::~Scene1()
@@ -48,7 +47,7 @@ void Scene1::onCreate()
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	Texture2DPtr sciFiSpaceTexture2D = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr ancientWorldsTexture2D = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png");
-	Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/grass.png");
+	Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
 	Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/dirt.png");
 	Texture2DPtr stoneTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
 	Texture2DPtr snowTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/snow.png");
@@ -83,12 +82,12 @@ void Scene1::onCreate()
 	m_ship->setGeometryShader(m_meshGeometryShader);
 	//m_ship->setLightingShader(m_meshLightingShader);
 
-	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 5.0f };
+	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 256, 256, 4.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
 	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
 	m_terrain->generateTerrainMesh(heightmap);
-	m_terrain->setPosition(Vector3(0, -50, 0));
+	m_terrain->setPosition(Vector3(0, -20, 0));
 	m_terrain->setTexture(grassTexture);
 	m_terrain->setTexture1(dirtTexture);
 	m_terrain->setTexture2(stoneTexture);
@@ -122,10 +121,8 @@ void Scene1::onCreate()
 			// Generate random rotation angles
 			float angleY = randomNumber(360.0f);
 
-			float randomScale = randomNumber(0.15f);
-
 			// Add the tree instance with random rotations
-			statueMesh->addInstance(position, Vector3(0.05f + randomScale), Vector3(0, angleY, 0));
+			statueMesh->addInstance(position, Vector3(0.2f), Vector3(0, angleY, 0));
 		}
 	}
 
@@ -160,6 +157,44 @@ void Scene1::onCreate()
 	lightManager.createSpotLight(spotLight);
 	lightManager.setSpotlightStatus(false);
 
+	float pointLightSpacing = 30.0f;
+	// Initialize 2 point lights
+	for (int i = 0; i < 2; i++) {
+		// Create a new point light entity
+		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
+		pointLightObject->setTransparency(0.75f);
+
+		// Randomly set color to either red or blue
+		int randomColorChoice = randomNumber(2); // Generates 0 or 1
+		Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
+		pointLightObject->setColor(lightColor);
+
+		// Calculate the position based on row and column, center the grid around (0,0)
+		float xPosition = i * pointLightSpacing; // Center horizontally
+		float yPosition = 15.0f; // Fixed Y position
+		float zPosition = 0;
+		pointLightObject->setPosition(Vector3(xPosition, yPosition, zPosition));
+		pointLightObject->setScale(Vector3(3.0f));
+
+		// Set mesh and shaders
+		pointLightObject->setMesh(gameOwner->getSphereMesh());
+		pointLightObject->setShader(m_solidColorMeshShader);
+		pointLightObject->setShadowShader(m_shadowShader);
+		pointLightObject->setGeometryShader(m_meshGeometryShader);
+
+		// Configure point light properties
+		PointLight pointLight;
+		pointLight.Position = pointLightObject->getPosition();
+		pointLight.Color = pointLightObject->getColor();
+		pointLight.SpecularStrength = 1.0f;
+		pointLight.AttenuationConstant = 1.0f;
+		pointLight.AttenuationLinear = 0.022f;
+		pointLight.AttenuationExponent = 0.0019f;
+
+		// Add the point light to the light manager
+		lightManager.createPointLight(pointLight);
+	}
+
 	//create point lights and dont forget these lines
 	//m_ship->setGeometryShader(m_meshGeometryShader);
 	//m_ship->setLightingShader(m_meshLightingShader);
@@ -171,13 +206,28 @@ void Scene1::onUpdate(float deltaTime)
 	Scene::onUpdate(deltaTime);
 	m_elapsedSeconds += deltaTime;
 
+	// Parameters for the circular path
+	float radius = 50.0f; // Radius of the circle
+	float speed = 1.0f;   // Speed of the ship's movement
 
-	// Convert the Euler angles to a quaternion
-	Quaternion shipRotation = Quaternion(glm::radians(glm::vec3(0.0f, m_elapsedSeconds * 10.0f, 0.0f)));
+	// Calculate the position on the circular path
+	float angle = m_elapsedSeconds * speed; // Angle in radians
+	float x = radius * cos(angle);
+	float z = radius * sin(angle);
 
-	// Set the rotations using quaternions
+	// Update the ship's position
+	m_ship->setPosition(glm::vec3(x, 50.0f, z));
+
+	// Make the ship face the direction it's moving by calculating the forward vector
+	glm::vec3 forward = glm::normalize(glm::vec3(-sin(angle), 0.0f, cos(angle)));
+
+	// Convert the forward vector to a rotation quaternion
+	Quaternion shipRotation = QuaternionUtils::LookAt(forward, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	// Set the ship's rotation
 	m_ship->setRotation(shipRotation);
 }
+
 
 void Scene1::onFixedUpdate(float _fixedDeltaTime)
 {
@@ -189,7 +239,7 @@ void Scene1::onLateUpdate(float deltaTime)
 	Scene::onLateUpdate(deltaTime);
 }
 
-void Scene1::onGraphicsUpdate(float deltaTime)
+void Scene1::onGraphicsUpdate()
 {
 
 	auto& lightManager = LightManager::GetInstance();
@@ -217,23 +267,18 @@ void Scene1::onGraphicsUpdate(float deltaTime)
 		}
 	}
 
-	//Shadow Pass 1
-	m_shadowMap->Bind();
-	m_entitySystem->onShadowPass(0);
-	m_shadowMap->UnBind();
-
-	//Shadow Pass 1
-	m_shadowMap1->Bind();
-	m_entitySystem->onShadowPass(1);
-	m_shadowMap1->UnBind();
-
-	lightManager.setShadowMapTexture1(m_shadowMap);
-	lightManager.setShadowMapTexture2(m_shadowMap1);
+	for (int i = 0; i < lightManager.getDirectionalLightCount(); i++)
+	{
+		//Shadow Pass
+		lightManager.BindShadowMap(i);
+		m_entitySystem->onShadowPass(i);
+		lightManager.UnBindShadowMap(i);
+	}
 
 	graphicsEngine.setViewport(gameOwner->getWindow()->getInnerSize());
 
 	graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
-	m_entitySystem->onGraphicsUpdate(deltaTime, data);
+	m_entitySystem->onGraphicsUpdate(data);
 	m_skyBox->onGraphicsUpdate(data);
 	//m_postProcessingFramebuffer->UnBind();
 

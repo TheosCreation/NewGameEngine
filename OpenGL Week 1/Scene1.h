@@ -22,12 +22,12 @@ class Scene1 : public Scene
 {
 public:
     /**
-     * @brief Constructor for the MyGame class.
+     * @brief Constructor for the Scene class.
      */
     Scene1(Game* game);
 
     /**
-     * @brief Destructor for the MyGame class.
+     * @brief Destructor for the Scene class.
      */
     ~Scene1();
 
@@ -37,13 +37,13 @@ public:
     virtual void onCreate();
 
     /**
-     * @brief Called every frame to update the game logic.
+     * @brief Called every frame to update the scene logic.
      * @param deltaTime The time elapsed since the last update.
      */
     virtual void onUpdate(float deltaTime);
 
     /**
-     * @brief Called every frame to update the game at a fixed frame rate.
+     * @brief Called every frame to update the scene at a fixed frame rate.
      */
     virtual void onFixedUpdate(float fixedDeltaTime);
 
@@ -54,7 +54,7 @@ public:
      */
     virtual void onLateUpdate(float deltaTime);
 
-    virtual void onGraphicsUpdate(float deltaTime) override;
+    virtual void onGraphicsUpdate() override;
 
     virtual void onQuit() override;
 
@@ -65,6 +65,4 @@ private:
     MeshEntity* m_ship = nullptr; //Pointer to the statue entity
     TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
-
-    ShadowMapPtr m_shadowMap1; //Pointer to the shadowmap instance
 };
