@@ -82,12 +82,12 @@ void Scene2::onCreate()
 	m_ship->setGeometryShader(m_meshGeometryShader);
 	//m_ship->setLightingShader(m_meshLightingShader);
 
-	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 20.0f };
+	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 256, 256, 4.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
 	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
 	m_terrain->generateTerrainMesh(heightmap);
-	m_terrain->setPosition(Vector3(0, -55, 0));
+	m_terrain->setPosition(Vector3(0, -10, 0));
 	m_terrain->setTexture(grassTexture);
 	m_terrain->setTexture1(dirtTexture);
 	m_terrain->setTexture2(stoneTexture);
@@ -130,18 +130,18 @@ void Scene2::onCreate()
 	statueMesh->initInstanceBuffer();
 
 	// Create and initialize a DirectionalLight struct
-	DirectionalLight directionalLight1;
-	directionalLight1.Direction = Vector3(0.0f, -1.0f, -0.5f);
-	directionalLight1.Color = Vector3(0.1f);
-	directionalLight1.SpecularStrength = 0.1f;
-	lightManager.createDirectionalLight(directionalLight1);
+	//DirectionalLight directionalLight1;
+	//directionalLight1.Direction = Vector3(0.0f, -1.0f, -0.5f);
+	//directionalLight1.Color = Vector3(0.1f);
+	//directionalLight1.SpecularStrength = 0.1f;
+	//lightManager.createDirectionalLight(directionalLight1);
 
 	// Create and initialize a DirectionalLight struct
-	DirectionalLight directionalLight2;
-	directionalLight2.Direction = Vector3(0.0f, -1.0f, 0.5f);
-	directionalLight2.Color = Vector3(0.1f);
-	directionalLight2.SpecularStrength = 0.1f;
-	lightManager.createDirectionalLight(directionalLight2);
+	//DirectionalLight directionalLight2;
+	//directionalLight2.Direction = Vector3(0.0f, -1.0f, 0.5f);
+	//directionalLight2.Color = Vector3(0.1f);
+	//directionalLight2.SpecularStrength = 0.1f;
+	//lightManager.createDirectionalLight(directionalLight2);
 
 	// Create and initialize SpotLight struct
 	SpotLight spotLight;
@@ -158,10 +158,10 @@ void Scene2::onCreate()
 	lightManager.setSpotlightStatus(false);
 	
 	float pointLightSpacing = 100.0f;
-	int gridRows = 4; // Number of rows in the grid
-	int gridCols = 5; // Number of columns in the grid
+	int gridRows = 3; // Number of rows in the grid
+	int gridCols = 4; // Number of columns in the grid
 
-	// Initialize 20 point lights in a 4x5 grid
+	// Initialize 10 point lights in a 4x5 grid
 	for (int row = 0; row < gridRows; ++row) {
 		for (int col = 0; col < gridCols; ++col) {
 			// Create a new point light entity

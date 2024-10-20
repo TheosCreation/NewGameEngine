@@ -48,7 +48,7 @@ void Scene3::onCreate()
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
 	Texture2DPtr sciFiSpaceTexture2D = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonSciFiSpace_Texture_01_A.png");
 	Texture2DPtr ancientWorldsTexture2D = resourceManager.createTexture2DFromFile("Resources/Textures/PolygonAncientWorlds_Texture_01_A.png");
-	Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/grass.png");
+	Texture2DPtr grassTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
 	Texture2DPtr dirtTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/dirt.png");
 	Texture2DPtr stoneTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/stone.png");
 	Texture2DPtr snowTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Terrain/snow.png");
@@ -158,46 +158,44 @@ void Scene3::onCreate()
 	lightManager.createSpotLight(spotLight);
 	lightManager.setSpotlightStatus(false);
 
-	// Initialize point lights 
-	{
+	float pointLightSpacing = 30.0f;
+	// Initialize 2 point lights
+	for (int i = 0; i < 2; i++) {
+		// Create a new point light entity
 		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setPosition(Vector3(25.0f, 15.0f, 0.0f));
-		pointLightObject->setColor(Color::Blue * 10.0f);
+		pointLightObject->setTransparency(0.75f);
+
+		// Randomly set color to either red or blue
+		int randomColorChoice = randomNumber(2); // Generates 0 or 1
+		Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
+		pointLightObject->setColor(lightColor);
+
+		// Calculate the position based on row and column, center the grid around (0,0)
+		float xPosition = i * pointLightSpacing; // Center horizontally
+		float yPosition = 15.0f; // Fixed Y position
+		float zPosition = 0;
+		pointLightObject->setPosition(Vector3(xPosition, yPosition, zPosition));
+		pointLightObject->setScale(Vector3(3.0f));
+
+		// Set mesh and shaders
 		pointLightObject->setMesh(gameOwner->getSphereMesh());
 		pointLightObject->setShader(m_solidColorMeshShader);
 		pointLightObject->setShadowShader(m_shadowShader);
+		pointLightObject->setGeometryShader(m_meshGeometryShader);
 
+		// Configure point light properties
 		PointLight pointLight;
 		pointLight.Position = pointLightObject->getPosition();
 		pointLight.Color = pointLightObject->getColor();
 		pointLight.SpecularStrength = 1.0f;
 		pointLight.AttenuationConstant = 1.0f;
-		pointLight.AttenuationLinear = 0.045f;
-		pointLight.AttenuationExponent = 0.0075f;
+		pointLight.AttenuationLinear = 0.022f;
+		pointLight.AttenuationExponent = 0.0019f;
+
+		// Add the point light to the light manager
 		lightManager.createPointLight(pointLight);
 	}
 
-	{
-		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setPosition(Vector3(-25.0f, 15.0f, 0.0f));
-		pointLightObject->setColor(Color::Red * 10.0f);
-		pointLightObject->setMesh(gameOwner->getSphereMesh());
-		pointLightObject->setShader(m_solidColorMeshShader);
-		pointLightObject->setShadowShader(m_shadowShader);
-
-		PointLight pointLight;
-		pointLight.Position = pointLightObject->getPosition();
-		pointLight.Color = pointLightObject->getColor();
-		pointLight.SpecularStrength = 1.0f;
-		pointLight.AttenuationConstant = 1.0f;
-		pointLight.AttenuationLinear = 0.045f;
-		pointLight.AttenuationExponent = 0.0075f;
-		lightManager.createPointLight(pointLight);
-	}
-
-	//create point lights and dont forget these lines
-	//m_ship->setGeometryShader(m_meshGeometryShader);
-	//m_ship->setLightingShader(m_meshLightingShader);
 }
 
 void Scene3::onUpdate(float deltaTime)
