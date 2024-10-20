@@ -61,6 +61,8 @@ protected:
     ShaderPtr m_terrainGeometryShader = nullptr;
     unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
     unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
+    ShadowMapPtr m_shadowMap; //Pointer to the shadowmap instance
+    FramebufferPtr m_postProcessingFramebuffer; //Pointer to the framebuffer instance
     Game* gameOwner;
 };
 

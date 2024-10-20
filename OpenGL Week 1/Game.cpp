@@ -42,9 +42,7 @@ Game::Game()
     m_display = std::make_unique<Window>(this);
 
     Vector2 windowSize = m_display->getInnerSize();
-    m_postProcessingFramebuffer = std::make_unique<Framebuffer>(windowSize);
     GeometryBuffer::GetInstance().Init(windowSize);
-    m_shadowMap = std::make_unique<ShadowMap>(Vector2(4096.0f));
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setViewport(windowSize);
@@ -98,9 +96,9 @@ void Game::onCreate()
     m_SSRQuad->setShadowShader(ssrQuadShadowShader);
 
     m_canvasQuad = std::make_unique<QuadEntity>();
-    m_canvasQuad->onCreate();
-    m_canvasQuad->setTextureFromId(m_postProcessingFramebuffer->RenderTexture);
-    m_canvasQuad->setShader(defaultQuadShader);
+    //m_canvasQuad->onCreate();
+    //m_canvasQuad->setTextureFromId(m_postProcessingFramebuffer->RenderTexture);
+    //m_canvasQuad->setShader(defaultQuadShader);
 
     auto scene1 = std::make_shared<Scene1>(this);
     SetScene(scene1);

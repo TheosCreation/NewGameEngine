@@ -36,9 +36,9 @@ public:
 
     /**
      * @brief Gets the inner size of the window.
-     * @return A Rect representing the inner size of the window.
+     * @return A Vector2 representing the inner size of the window.
      */
-    glm::vec2 getInnerSize();
+    Vector2 getInnerSize();
 
     /**
      * @brief Gets the GLFWwindow pointer.

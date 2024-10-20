@@ -38,13 +38,7 @@ void SSRQuad::onLightingPass(UniformData data)
     m_lightingShader->setVec3("CameraPos", data.cameraPosition); 
     
     auto& lightManager = LightManager::GetInstance();
-    m_lightingShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
-
-    ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture();
-    if (shadowMapTexture)
-    {
-        m_shader->setTexture2D(shadowMapTexture, 3, "Texture_ShadowMap");
-    }
+    lightManager.applyShadows(m_lightingShader);
 
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
@@ -52,12 +46,12 @@ void SSRQuad::onLightingPass(UniformData data)
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
 }
 
-void SSRQuad::onShadowPass()
+void SSRQuad::onShadowPass(int index)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setShader(m_shadowShader);
 
-    m_shadowShader->setMat4("VPLight", LightManager::GetInstance().getLightSpaceMatrix());
+    m_shadowShader->setMat4("VPLight", LightManager::GetInstance().getLightSpaceMatrix(index));
 
     graphicsEngine.setFaceCulling(CullType::None);
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);

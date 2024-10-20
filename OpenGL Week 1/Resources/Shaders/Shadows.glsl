@@ -1,5 +1,6 @@
 
-float CalculateShadow(vec4 FragPos_LightSpace, sampler2D Texture_ShadowMap) {
+float CalculateShadow(mat4 VPLight, sampler2D Texture_ShadowMap, vec3 FragPos) {
+    vec4 FragPos_LightSpace = VPLight * vec4(FragPos, 1.0f);
     vec3 NDC_Space = FragPos_LightSpace.xyz / FragPos_LightSpace.w;
     vec3 ProjCoordinates = 0.5f * NDC_Space + 0.5f; // Convert to [0, 1] range
 

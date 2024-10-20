@@ -52,7 +52,7 @@ public:
     void onGraphicsUpdate(UniformData data) override;
     void onGeometryPass(UniformData data) override;
 
-    void onShadowPass() override;
+    void onShadowPass(int index) override;
 
 private:
     InstancedMeshPtr m_mesh; //A shared pointer to the instanced mesh.

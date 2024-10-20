@@ -73,7 +73,7 @@ void GraphicsEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setShader(m_shader);
 }
 
-void GraphicsEntity::onShadowPass()
+void GraphicsEntity::onShadowPass(int index)
 {
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::BackFace);

@@ -61,6 +61,7 @@ public:
      * @param shader A shared pointer to the shader.
      */
     void applyLighting(ShaderPtr shader) const;
+    void applyShadows(ShaderPtr shader) const;
 
     /**
      * @brief Gets the status of point lights.
@@ -79,10 +80,12 @@ public:
      * @return True if the directional light is enabled, false otherwise.
      */
     bool getDirectionalLightStatus() const;
-    Mat4 getLightSpaceMatrix() const;
+    Mat4 getLightSpaceMatrix(int index) const;
 
-    void setShadowMapTexture(ShadowMapPtr texture);
-    ShadowMapPtr getShadowMapTexture() const;
+    void setShadowMapTexture1(ShadowMapPtr texture);
+    ShadowMapPtr getShadowMapTexture1() const;
+    void setShadowMapTexture2(ShadowMapPtr texture);
+    ShadowMapPtr getShadowMapTexture2() const;
 
     /**
     * @brief Sets the status of the directional light.
@@ -136,11 +139,13 @@ private:
     PointLight m_pointLights[MAX_POINT_LIGHTS] = {}; //Array of point lights
     uint m_pointLightCount = 0; //The current count of point lights
 
-    DirectionalLight m_directionalLight; //The directional light
+    static const int MAX_DIRECTIONAL_LIGHTS = 2; //The maximum number of point lights
+    DirectionalLight m_directionalLights[MAX_DIRECTIONAL_LIGHTS] = {};
+    uint m_directionalLightCount = 0; //The current count of directional lights
 
     SpotLight m_spotLight; //The spotlight
 
-    ShadowMapPtr m_shadowMapTexture = nullptr;
+    ShadowMapPtr m_shadowMapTexture[MAX_DIRECTIONAL_LIGHTS] = {};
 
     bool PointLightsStatus = true; //The status of point lights
     bool DirectionalLightStatus = true; //The status of the directional light

@@ -92,11 +92,11 @@ void EntitySystem::onLateUpdate(float deltaTime)
 	}
 }
 
-void EntitySystem::onShadowPass()
+void EntitySystem::onShadowPass(int index)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
-		graphicsEntity->onShadowPass();
+		graphicsEntity->onShadowPass(index);
 	}
 }
 

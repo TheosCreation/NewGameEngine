@@ -9,7 +9,8 @@ void LightManager::createPointLight(const PointLight& newPointLight)
 
 void LightManager::createDirectionalLight(const DirectionalLight& newDirectionalLight)
 {
-    m_directionalLight = newDirectionalLight;
+    m_directionalLights[m_directionalLightCount] = newDirectionalLight;
+    m_directionalLightCount++;
 }
 
 void LightManager::createSpotLight(const SpotLight& newSpotLight)
@@ -45,15 +46,22 @@ void LightManager::applyLighting(ShaderPtr shader) const
 
     if (DirectionalLightStatus)
     {
+        for (unsigned int i = 0; i < m_directionalLightCount; i++)
+        {
+            std::string index = std::to_string(i);
+            shader->setVec3("DirLightArray[" + index + "].Base.Color", m_directionalLights[i].Color);
+            shader->setFloat("DirLightArray[" + index + "].Base.SpecularStrength", m_directionalLights[i].SpecularStrength);
+
+            shader->setVec3("DirLightArray[" + index + "].Direction", m_directionalLights[i].Direction);
+
+            shader->setFloat("DirLightArray[" + index + "].Base.SpecularStrength", m_directionalLights[i].SpecularStrength);
+        }
         //apply directional light to shader
-        shader->setVec3("DirLight.Base.Color", m_directionalLight.Color);
-        shader->setFloat("DirLight.Base.SpecularStrength", m_directionalLight.SpecularStrength);
-        shader->setVec3("DirLight.Direction", m_directionalLight.Direction);
-        shader->setInt("DirectionalLightStatus", 1);
+        shader->setUint("DirectionalLightCount", m_directionalLightCount);
     }
     else
     {
-        shader->setInt("DirectionalLightStatus", 0);
+        shader->setUint("DirectionalLightCount", 0);
     }
     
     // Make this so i can have multiple spotlights
@@ -76,38 +84,41 @@ void LightManager::applyLighting(ShaderPtr shader) const
     }
 }
 
-bool LightManager::getPointLightsStatus() const
+void LightManager::applyShadows(ShaderPtr shader) const
 {
-    return PointLightsStatus;
+    //bindings 5 - 6
+    for (unsigned int i = 0; i < m_directionalLightCount; i++)
+    {
+        std::string index = std::to_string(i);
+        shader->setTexture2D(m_shadowMapTexture[i]->getId(), 5 + i, "Texture_ShadowMap[" + index + "]");
+        shader->setMat4("VPLight[" + index + "]", getLightSpaceMatrix(i));
+    }
 }
 
-void LightManager::setPointLightsStatus(bool status)
+Mat4 LightManager::getLightSpaceMatrix(int index) const
 {
-    PointLightsStatus = status;
-}
-
-bool LightManager::getDirectionalLightStatus() const
-{
-    return DirectionalLightStatus;
-}
-
-Mat4 LightManager::getLightSpaceMatrix() const
-{
-    // Assuming m_directionalLight is already set
-    if (!DirectionalLightStatus) {
-        return Mat4();
+    // Validate index
+    if (index < 0 || index >= m_directionalLightCount) {
+        return Mat4(); // Return identity matrix if index is out of range
     }
 
+    // Check if the directional light is active
+    if (!DirectionalLightStatus) {
+        return Mat4(); // Return identity matrix if the light is inactive
+    }
+
+    // Get the directional light properties
+    const DirectionalLight& light = m_directionalLights[index];
+
     // Orthographic projection for shadow mapping
-    float sceneExtent = 300.0f; // Adjust based on your scene's size
+    float sceneExtent = 1500.0f; // Adjust based on your scene's size
     Mat4 projection = glm::ortho(-sceneExtent, sceneExtent, -sceneExtent, sceneExtent, 0.1f, 2000.0f);
 
-
     // Normalize the direction vector
-    Vector3 lightDirection = Normalize(m_directionalLight.Direction);
+    Vector3 lightDirection = Normalize(light.Direction);
 
     // Position the light far from the scene
-    Vector3 lightPosition = -lightDirection * 700.0f; // Move the light far away along the direction
+    Vector3 lightPosition = -lightDirection * 450.0f; // Move the light far away along the direction
 
     // Define the view matrix for the directional light
     Mat4 view = glm::lookAt(lightPosition, Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
@@ -118,15 +129,24 @@ Mat4 LightManager::getLightSpaceMatrix() const
     return lightSpaceMatrix;
 }
 
-void LightManager::setShadowMapTexture(ShadowMapPtr texture)
+void LightManager::setShadowMapTexture1(ShadowMapPtr texture)
 {
-    m_shadowMapTexture = texture;
+    m_shadowMapTexture[0] = texture;
 }
 
-ShadowMapPtr LightManager::getShadowMapTexture() const
+ShadowMapPtr LightManager::getShadowMapTexture1() const
 {
-    // Return the shadow map texture (assuming it's stored as a member)
-    return m_shadowMapTexture;
+    return m_shadowMapTexture[0];
+}
+
+void LightManager::setShadowMapTexture2(ShadowMapPtr texture)
+{
+    m_shadowMapTexture[1] = texture;
+}
+
+ShadowMapPtr LightManager::getShadowMapTexture2() const
+{
+    return m_shadowMapTexture[1];
 }
 
 void LightManager::setDirectionalLightStatus(bool status)
@@ -174,6 +194,10 @@ void LightManager::clearLights()
     // Reset the spot light
     m_spotLight = SpotLight(); // Reset the spot light to its default state
 
-    // Reset the directional light
-    m_directionalLight = DirectionalLight(); // Reset the directional light to its default state
+    // Reset the directional lights
+    m_directionalLightCount = 0;
+    for (auto& dirLight : m_directionalLights)
+    {
+        dirLight = DirectionalLight(); // Reset each directional light to its default state
+    }
 }

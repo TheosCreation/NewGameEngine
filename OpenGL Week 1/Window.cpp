@@ -74,11 +74,11 @@ Window::~Window()
     glfwTerminate();
 }
 
-glm::vec2 Window::getInnerSize()
+Vector2 Window::getInnerSize()
 {
     int width, height;
     glfwGetFramebufferSize(m_windowPtr, &width, &height);
-    return glm::vec2(width, height);
+    return Vector2(width, height);
 }
 
 GLFWwindow* Window::getWindow()

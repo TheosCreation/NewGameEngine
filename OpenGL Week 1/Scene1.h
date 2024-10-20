@@ -65,4 +65,6 @@ private:
     MeshEntity* m_ship = nullptr; //Pointer to the statue entity
     TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     MyPlayer* m_player = nullptr; //Pointer to the player entity
+
+    ShadowMapPtr m_shadowMap1; //Pointer to the shadowmap instance
 };

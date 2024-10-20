@@ -13,9 +13,15 @@ Mail : theo.morris@mds.ac.nz
 #include "Scene1.h"
 #include "MyPlayer.h"
 #include "Game.h"
+#include "GeometryBuffer.h"
+#include "Framebuffer.h"
+#include "Window.h"
+#include "GraphicsEngine.h"
+#include "LightManager.h"
 
 Scene1::Scene1(Game* game) : Scene(game)
 {
+	m_shadowMap1 = std::make_unique<ShadowMap>(Vector2(4096.0f));
 }
 
 Scene1::~Scene1()
@@ -59,11 +65,6 @@ void Scene1::onCreate()
 			"TerrainShader"
 		});
 
-	m_outlineShader = graphicsEngine.createShader({
-			"OutlineShader",
-			"OutlineShader"
-		});
-
 	ShaderPtr instancedMeshShader = graphicsEngine.createShader({
 			"InstancedMesh",
 			"InstancedMesh"
@@ -81,18 +82,6 @@ void Scene1::onCreate()
 	m_ship->setShadowShader(m_shadowShader);
 	m_ship->setGeometryShader(m_meshGeometryShader);
 	//m_ship->setLightingShader(m_meshLightingShader);
-
-	auto ship2 = m_entitySystem->createEntity<MeshEntity>();
-	ship2->setScale(Vector3(0.05f));
-	ship2->setPosition(Vector3(0, 70, 0));
-	ship2->setShininess(64.0f);
-	ship2->setTexture(sciFiSpaceTexture2D);
-	ship2->setReflectiveMapTexture(shipReflectiveMap);
-	ship2->setMesh(fighterShip);
-	ship2->setShader(meshShader);
-	ship2->setShadowShader(m_shadowShader);
-	ship2->setGeometryShader(m_meshGeometryShader);
-	//ship2->setLightingShader(m_meshLightingShader);
 
 	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 5.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
@@ -143,12 +132,19 @@ void Scene1::onCreate()
 	//Init instance buffer
 	statueMesh->initInstanceBuffer();
 
-	// Create and initialize DirectionalLight struct
-	DirectionalLight directionalLight;
-	directionalLight.Direction = Vector3(0.0f, -1.0f, -0.3f);
-	directionalLight.Color = Vector3(0.5f);
-	directionalLight.SpecularStrength = 0.1f;
-	lightManager.createDirectionalLight(directionalLight);
+	// Create and initialize a DirectionalLight struct
+	DirectionalLight directionalLight1;
+	directionalLight1.Direction = Vector3(0.0f, -1.0f, -0.5f);
+	directionalLight1.Color = Vector3(0.6f);
+	directionalLight1.SpecularStrength = 0.1f;
+	lightManager.createDirectionalLight(directionalLight1);
+
+	// Create and initialize a DirectionalLight struct
+	DirectionalLight directionalLight2;
+	directionalLight2.Direction = Vector3(0.0f, -1.0f, 0.5f);
+	directionalLight2.Color = Vector3(0.6f);
+	directionalLight2.SpecularStrength = 0.1f;
+	lightManager.createDirectionalLight(directionalLight2);
 
 	// Create and initialize SpotLight struct
 	SpotLight spotLight;
@@ -195,6 +191,70 @@ void Scene1::onLateUpdate(float deltaTime)
 
 void Scene1::onGraphicsUpdate(float deltaTime)
 {
+
+	auto& lightManager = LightManager::GetInstance();
+	auto& graphicsEngine = GraphicsEngine::GetInstance();
+
+	//m_postProcessingFramebuffer->Bind();
+	//graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
+	
+	UniformData data = {};
+	data.currentTime = gameOwner->GetCurrentTime();
+	for (auto& camera : m_entitySystem->getCameras())
+	{
+		if (camera->getCameraType() == CameraType::Perspective)
+		{
+			camera->getViewMatrix(data.viewMatrix);
+			camera->getProjectionMatrix(data.projectionMatrix);
+			data.cameraPosition = camera->getPosition();
+			lightManager.setSpotlightPosition(data.cameraPosition);
+			lightManager.setSpotlightDirection(camera->getForwardDirection());
+		}
+		else
+		{
+			camera->getViewMatrix(data.uiViewMatrix);
+			camera->getProjectionMatrix(data.uiProjectionMatrix);
+		}
+	}
+
+	//Shadow Pass 1
+	m_shadowMap->Bind();
+	m_entitySystem->onShadowPass(0);
+	m_shadowMap->UnBind();
+
+	//Shadow Pass 1
+	m_shadowMap1->Bind();
+	m_entitySystem->onShadowPass(1);
+	m_shadowMap1->UnBind();
+
+	lightManager.setShadowMapTexture1(m_shadowMap);
+	lightManager.setShadowMapTexture2(m_shadowMap1);
+
+	graphicsEngine.setViewport(gameOwner->getWindow()->getInnerSize());
+
+	graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
+	m_entitySystem->onGraphicsUpdate(deltaTime, data);
+	m_skyBox->onGraphicsUpdate(data);
+	//m_postProcessingFramebuffer->UnBind();
+
+
+
+	//graphicsEngine.clear(glm::vec4(0, 0, 0, 1)); //clear the scene
+	//NewUniformData uniformData;
+	//uniformData.CreateData<float>("Time", m_currentTime);
+	//uniformData.CreateData<Vector2>("Resolution", m_display->getInnerSize());
+	//if (currentTexture1)
+	//{
+	//	//if the current shader needs a second texture we pass that into it
+	//	NewExtraTextureData textureData;
+	//	textureData.AddTexture("Texture1", currentTexture1, 1);
+	//	m_canvasQuad->onGraphicsUpdate(uniformData, textureData);
+	//}
+	//else
+	//{
+	//	m_canvasQuad->onGraphicsUpdate(uniformData);
+	//}
+	//
 }
 
 void Scene1::onQuit()

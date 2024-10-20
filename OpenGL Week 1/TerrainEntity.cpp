@@ -160,17 +160,9 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
     {
         graphicsEngine.setTexture2D(m_heightMap, 4, "HeightMap");
     }
-    
+
     auto& lightManager = LightManager::GetInstance();
-    m_shader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
-
-    // Get the shadow map texture and bind it
-    ShadowMapPtr shadowMapTexture = lightManager.getShadowMapTexture(); // Function to get the shadow map texture
-    if (shadowMapTexture)
-    {
-        graphicsEngine.setTexture2D(shadowMapTexture, 5, "Texture_ShadowMap");
-    }
-
+    lightManager.applyShadows(m_shader);
 
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
@@ -217,9 +209,6 @@ void TerrainEntity::onGeometryPass(UniformData data)
     {
         graphicsEngine.setTexture2D(m_heightMap, 4, "HeightMap");
     }
-    auto& lightManager = LightManager::GetInstance();
-    m_geometryShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
-
 
     graphicsEngine.setVertexArrayObject(m_mesh); //bind vertex buffer to graphics pipeline
     graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());//draw triangles through the usage of index buffer
@@ -232,9 +221,9 @@ void TerrainEntity::onGeometryPass(UniformData data)
     graphicsEngine.setTexture2D(nullptr, 4, "");
 }
 
-void TerrainEntity::onShadowPass()
+void TerrainEntity::onShadowPass(int index)
 {
-    GraphicsEntity::onShadowPass();
+    GraphicsEntity::onShadowPass(index);
 
     // Retrieve the instance of the graphics engine
     auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -243,7 +232,7 @@ void TerrainEntity::onShadowPass()
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise);
 
     auto& lightManager = LightManager::GetInstance();
-    m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix());
+    m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix(index));
     m_shadowShader->setMat4("modelMatrix", getModelMatrix());
 
     if (m_mesh == nullptr) return;

@@ -7,6 +7,6 @@ public:
 
 	void onGraphicsUpdate(UniformData data) override;
 	void onLightingPass(UniformData data) override;
-	void onShadowPass() override;
+	void onShadowPass(int index) override;
 };
 

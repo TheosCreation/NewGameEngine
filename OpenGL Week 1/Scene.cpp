@@ -5,6 +5,8 @@
 Scene::Scene(Game* game)
 {
     gameOwner = game;
+    m_shadowMap = std::make_unique<ShadowMap>(Vector2(4096.0f));
+    m_postProcessingFramebuffer = std::make_unique<Framebuffer>(gameOwner->getWindow()->getInnerSize());
 }
 
 Scene::~Scene()
@@ -13,7 +15,7 @@ Scene::~Scene()
 
 void Scene::onShadowPass()
 {
-    m_entitySystem->onShadowPass();
+    
 }
 
 void Scene::onGeometryPass()
@@ -79,11 +81,19 @@ void Scene::onGraphicsUpdate(float deltaTime)
     onGeometryPass();
     geometryBuffer.UnBind();
 
+    //Shadow Pass
+    m_shadowMap->Bind();
+    m_entitySystem->onShadowPass(0);
+    m_shadowMap->UnBind();
+
+    GraphicsEngine::GetInstance().setViewport(gameOwner->getWindow()->getInnerSize());
+
     onLightingPass();
 
     geometryBuffer.WriteDepth();
 
     auto& lightManager = LightManager::GetInstance();
+    lightManager.setShadowMapTexture1(m_shadowMap);
 
     UniformData data = {};
     data.currentTime = gameOwner->GetCurrentTime();
