@@ -156,6 +156,9 @@
     <ClCompile Include="SSRQuad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\Fragment\SkyBoxShader.frag" />
@@ -195,6 +198,9 @@
     <None Include="Resources\Shaders\Fragment\SSRShader.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
     <None Include="Resources\Shaders\Fragment\SSRLightingShader.frag" />
+    <None Include="Resources\Shaders\Compute\ComputeParticles.comp" />
+    <None Include="Resources\Shaders\Vertex\ParticleSystem.vert" />
+    <None Include="Resources\Shaders\Fragment\ParticleSystem.frag" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
@@ -315,6 +321,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SSRQuad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

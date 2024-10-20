@@ -77,8 +77,8 @@ void GeometryBuffer::WriteDepth()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);  // Source framebuffer
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);    // Default framebuffer as destination
-	glBlitFramebuffer(0, 0, m_size.x, m_size.y,    // Source dimensions
-					  0, 0, m_size.x, m_size.y,    // Destination dimensions
+	glBlitFramebuffer(0, 0, (int)m_size.x, (int)m_size.y,    // Source dimensions
+					  0, 0, (int)m_size.x, (int)m_size.y,    // Destination dimensions
 					  GL_DEPTH_BUFFER_BIT, GL_NEAREST);  // Mask and filter
 }
 

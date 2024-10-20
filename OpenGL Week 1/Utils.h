@@ -25,7 +25,6 @@ Mail : theo.morris@mds.ac.nz
 #include <algorithm>
 
 // Forward declarations of classes
-
 class UniformBuffer;
 class VertexArrayObject;
 class Shader;
@@ -45,6 +44,7 @@ class SSRQuad;
 typedef unsigned int uint;
 typedef glm::quat Quaternion;
 typedef glm::mat4 Mat4; 
+typedef glm::vec4 Vector4;
 typedef glm::vec3 Vector3;
 typedef glm::vec2 Vector2; 
 
@@ -71,9 +71,9 @@ using std::string;
 
 struct Transform
 {
-    Vector3 position;   // Position of the object in world space
-    Quaternion rotation;   // Rotation of the object in world space
-    Vector3 scale;      // Scale of the object in world space
+    Vector3 position;       // Position of the object in world space
+    Quaternion rotation;    // Rotation of the object in world space
+    Vector3 scale;          // Scale of the object in world space
 
     Transform()
         : position(Vector3(0.0f, 0.0f, 0.0f)),
@@ -170,49 +170,49 @@ struct Vertex
 // Struct representing a vertex attribute
 struct VertexAttribute
 {
-    uint numElements = 0; //Number of elements in the vertex attribute
+    uint numElements = 0; // Number of elements in the vertex attribute
 };
 
 // Struct representing a vertex buffer description
 struct VertexBufferDesc
 {
-    void* verticesList = nullptr; //Pointer to the list of vertices
-    uint vertexSize = 0; //Size of a single vertex
-    uint listSize = 0; //Size of the vertex list
+    void* verticesList = nullptr;               // Pointer to the list of vertices
+    uint vertexSize = 0;                        // Size of a single vertex
+    uint listSize = 0;                          // Size of the vertex list
 
-    VertexAttribute* attributesList = nullptr; //Pointer to the list of vertex attributes
-    uint attributesListSize = 0; //Size of the vertex attributes list
+    VertexAttribute* attributesList = nullptr;  // Pointer to the list of vertex attributes
+    uint attributesListSize = 0;                // Size of the vertex attributes list
 };
 
 // Struct representing an index buffer description
 struct IndexBufferDesc
 {
-    void* indicesList = nullptr; //Pointer to the list of indices
-    uint listSize = 0; //Size of the index list
+    void* indicesList = nullptr;    // Pointer to the list of indices
+    uint listSize = 0;              // Size of the index list
 };
 
 // Struct representing a shader description
 struct ShaderDesc
 {
-    string vertexShaderFileName; //Filename of the vertex shader
-    string fragmentShaderFileName; //Filename of the fragment shader
+    string vertexShaderFileName;    // Filename of the vertex shader
+    string fragmentShaderFileName;  // Filename of the fragment shader
 };
 
 // Struct representing a uniform buffer description
 struct UniformBufferDesc
 {
-    uint size = 0; //Size of the uniform buffer
+    uint size = 0; // Size of the uniform buffer
 };
 
 // Struct representing uniform data
 struct UniformData
 {
-    Mat4 viewMatrix; //View matrix
-    Mat4 projectionMatrix; //Projection matrix
-    Mat4 uiViewMatrix; //UI view matrix
-    Mat4 uiProjectionMatrix; //UI projection matrix
-    float currentTime; //Current time
-    Vector3 cameraPosition; //Camera Position
+    Mat4 viewMatrix;            // View matrix
+    Mat4 projectionMatrix;      // Projection matrix
+    Mat4 uiViewMatrix;          // UI view matrix
+    Mat4 uiProjectionMatrix;    // UI projection matrix
+    float currentTime;          // Current time
+    Vector3 cameraPosition;     // Camera Position
 };
 
 struct NewExtraTextureData {
@@ -242,9 +242,9 @@ struct NewUniformData {
 // Struct representing a texture 2D description
 struct Texture2DDesc
 {
-    unsigned char* textureData = nullptr; //Pointer to the texture data
-    Rect textureSize = {}; //Size of the texture
-    uint numChannels = 0; //Number of channels in the texture
+    unsigned char* textureData = nullptr;   // Pointer to the texture data
+    Rect textureSize = {};                  // Size of the texture
+    uint numChannels = 0;                   // Number of channels in the texture
 };
 
 struct HeightMapInfo {
@@ -264,31 +264,32 @@ struct HeightMapDesc
 struct TextureCubeMapDesc
 {
     std::vector<void*> textureData; // Pointers to the texture data for each face
-    Rect textureSize = {}; // Size of each texture face
-    uint numChannels = 0; // Number of channels in each texture face
+    Rect textureSize = {};          // Size of each texture face
+    uint numChannels = 0;           // Number of channels in each texture face
 };
 
 // Enum representing camera types
 enum class CameraType
 {
-    Orthogonal = 0, //Orthogonal camera
-    Perspective //Perspective camera
+    Orthogonal = 0, // Orthogonal camera
+    Perspective     // Perspective camera
 };
 
 // Enum representing triangle types
 enum class TriangleType
 {
-    TriangleList = 0, //Triangle list
-    TriangleStrip //Triangle strip
+    TriangleList = 0,   // Triangle list
+    TriangleStrip,      // Triangle strip
+    Points              // Points
 };
 
 // Enum representing cull types
 enum class CullType
 {
-    BackFace = 0, //Cull back face
-    FrontFace, //Cull front face
-    Both, //Cull both faces
-    None //Cull no faces
+    BackFace = 0,   //Cull back face
+    FrontFace,      //Cull front face
+    Both,           //Cull both faces
+    None            //Cull no faces
 };
 
 // Enum representing blend types
@@ -339,15 +340,16 @@ enum class StencilOperationType
 // Enum representing winding orders
 enum class WindingOrder
 {
-    ClockWise = 0, //Clockwise winding order
-    CounterClockWise //Counter-clockwise winding order
+    ClockWise = 0,      // Clockwise winding order
+    CounterClockWise    // Counter-clockwise winding order
 };
 
 // Enum representing shader types
 enum class ShaderType
 {
-    VertexShader = 0, //Vertex shader
-    FragmentShader //Fragment shader
+    VertexShader = 0,   // Vertex shader
+    FragmentShader,     // Fragment shader
+    ComputeShader       // Compute shader
 };
 
 // Enum representing key codes
@@ -413,9 +415,9 @@ enum Key
 // Enum representing mouse buttons
 enum MouseButton
 {
-    MouseButtonLeft, //Left mouse button
-    MouseButtonRight, //Right mouse button
-    MouseButtonMiddle, //Middle mouse button
+    MouseButtonLeft,    // Left mouse button
+    MouseButtonRight,   // Right mouse button
+    MouseButtonMiddle,  // Middle mouse button
 };
 
 // Struct of predefined color constants.

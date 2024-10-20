@@ -75,6 +75,8 @@ void GraphicsEntity::onGraphicsUpdate(UniformData data)
 
 void GraphicsEntity::onShadowPass(int index)
 {
+    if (m_shadowShader == nullptr) return;
+
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     graphicsEngine.setFaceCulling(CullType::BackFace);
     graphicsEngine.setWindingOrder(WindingOrder::CounterClockWise);

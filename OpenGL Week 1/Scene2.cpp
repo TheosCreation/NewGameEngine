@@ -171,7 +171,7 @@ void Scene2::onCreate()
 			m_lights.push_back(pointLightObject);
 
 			// Randomly set color to either red or blue
-			int randomColorChoice = randomNumber(2); // Generates 0 or 1
+			int randomColorChoice = (int)randomNumber(2.0f); // Generates 0 or 1
 			Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
 			pointLightObject->setColor(lightColor);
 

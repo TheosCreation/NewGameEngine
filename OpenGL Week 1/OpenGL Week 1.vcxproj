@@ -160,6 +160,7 @@
     <ClCompile Include="Framebuffer.cpp" />
     <ClCompile Include="GeometryBuffer.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Scene2.cpp" />
@@ -196,6 +197,7 @@
   <ItemGroup>
     <None Include="Resources\Meshes\sphere.mtl" />
     <None Include="Resources\Meshes\teapot.mtl" />
+    <None Include="Resources\Shaders\Compute\ComputeParticles.comp" />
     <None Include="Resources\Shaders\Fragment\ChromaticAberrationRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPass.frag" />
     <None Include="Resources\Shaders\Fragment\GeometryPassSkybox.frag" />
@@ -203,6 +205,7 @@
     <None Include="Resources\Shaders\Fragment\GreyScaleFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\GreyScaleLuminosityFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\InstancedMesh.frag" />
+    <None Include="Resources\Shaders\Fragment\ParticleSystem.frag" />
     <None Include="Resources\Shaders\Fragment\SSRLightingShader.frag" />
     <None Include="Resources\Shaders\Fragment\OutlineShader.frag" />
     <None Include="Resources\Shaders\Fragment\QuadBlendingShader.frag" />
@@ -222,6 +225,7 @@
     <None Include="Resources\Shaders\Fragment\ScanLineFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\SolidColorMesh.frag" />
     <None Include="Resources\Shaders\Vertex\OutlineShader.vert" />
+    <None Include="Resources\Shaders\Vertex\ParticleSystem.vert" />
     <None Include="Resources\Shaders\Vertex\ScreenQuad.vert" />
     <None Include="Resources\Shaders\Vertex\ShadowShader.vert" />
     <None Include="Resources\Shaders\Vertex\ShadowShaderInstanced.vert" />
@@ -238,6 +242,7 @@
     <ClInclude Include="Framebuffer.h" />
     <ClInclude Include="GeometryBuffer.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Scene2.h" />

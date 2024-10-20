@@ -54,7 +54,7 @@ VertexArrayObject::VertexArrayObject(const VertexBufferDesc& vbDesc, const Index
 
 	if (!ibDesc.listSize) Debug::LogError("VertexArrayObject | indexBuffer.listSize is NULL");
 	if (!ibDesc.indicesList) Debug::LogError("VertexArrayObject | indexBuffer.indicesList is NULL");
-
+	
 	glBindVertexArray(m_vertexArrayObjectID);
 
 	//init index buffer

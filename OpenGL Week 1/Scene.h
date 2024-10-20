@@ -56,6 +56,7 @@ public:
 
 protected:
     ShaderPtr m_solidColorMeshShader = nullptr;
+    ShaderPtr m_particleSystemShader = nullptr;
     ShaderPtr m_shadowShader = nullptr;
     ShaderPtr m_shadowInstancedShader = nullptr;
     ShaderPtr m_meshGeometryShader = nullptr;
@@ -63,6 +64,7 @@ protected:
     ShaderPtr m_skyboxGeometryShader = nullptr;
     ShaderPtr m_instancedmeshGeometryShader = nullptr;
     ShaderPtr m_terrainGeometryShader = nullptr;
+    ShaderPtr m_computeShader = nullptr;
     unique_ptr<SkyboxEntity> m_skyBox; //Pointer to the sky box instance
     unique_ptr<EntitySystem> m_entitySystem; //Pointer to the entity system instance
     FramebufferPtr m_postProcessingFramebuffer; //Pointer to the framebuffer instance

@@ -7,9 +7,6 @@ layout(location = 2) in vec3 vertexNormal;
 uniform mat4 modelMatrix;
 uniform mat4 VPMatrix;
 
-uniform mat4 VPLight;
-uniform mat4 VPLight2;
-
 out vec2 FragTexcoord;
 out vec3 FragNormal;
 out vec3 FragPos;

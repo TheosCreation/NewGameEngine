@@ -98,7 +98,7 @@ void Framebuffer::resize(Vector2 _newWindowSize)
 void Framebuffer::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    glViewport(0, 0, m_size.x, m_size.y);
+    glViewport(0, 0, (int)m_size.x, (int)m_size.y);
 }
 
 // Unbind the framebuffer

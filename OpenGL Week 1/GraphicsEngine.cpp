@@ -34,6 +34,11 @@ ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
     return std::make_shared<Shader>(desc);
 }
 
+ShaderPtr GraphicsEngine::createComputeShader(const string& computeShaderFilename)
+{
+    return std::make_shared<Shader>(computeShaderFilename);
+}
+
 void GraphicsEngine::clear(const glm::vec4& color, bool clearDepth, bool clearStencil)
 {
     glClearColor(color.x, color.y, color.z, color.w);
@@ -223,6 +228,11 @@ void GraphicsEngine::setVertexArrayObject(const VertexArrayObjectPtr& vao)
     glBindVertexArray(vao->getId());
 }
 
+void GraphicsEngine::setVertexArrayObject(const uint vaoId)
+{
+    glBindVertexArray(vaoId);
+}
+
 void GraphicsEngine::setShader(const ShaderPtr& program)
 {
     currentShader = program;
@@ -252,6 +262,7 @@ void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertex
     {
         case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
         case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+        case TriangleType::Points: { glTriType = GL_POINTS; break; }
     }
     glDrawArrays(glTriType, offset, vertexCount);
 }

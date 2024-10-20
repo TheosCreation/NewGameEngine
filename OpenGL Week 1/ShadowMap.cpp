@@ -44,7 +44,7 @@ ShadowMap::~ShadowMap()
 void ShadowMap::Bind()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-    glViewport(0, 0, m_resolution.x, m_resolution.y);
+    glViewport(0, 0, (int)m_resolution.x, (int)m_resolution.y);
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 

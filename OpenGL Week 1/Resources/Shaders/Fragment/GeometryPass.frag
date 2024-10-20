@@ -12,10 +12,6 @@ uniform sampler2D Texture0;
 
 uniform float ObjectShininess = 32.0f;
 
-// Out
-out vec4 FinalColor;
-
-
 void main()
 {
 	Texture_Position = vec4(FragPos, 1.0f);

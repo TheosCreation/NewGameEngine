@@ -81,7 +81,7 @@ void Scene::onGraphicsUpdate()
     geometryBuffer.UnBind();
 
     auto& lightManager = LightManager::GetInstance();
-    for (int i = 0; i < lightManager.getDirectionalLightCount(); i++)
+    for (uint i = 0; i < lightManager.getDirectionalLightCount(); i++)
     {
         //Shadow Pass
         lightManager.BindShadowMap(i);
@@ -115,7 +115,6 @@ void Scene::onGraphicsUpdate()
         }
     }
 
-    m_skyBox->onGraphicsUpdate(data);
     for(auto& light : m_lights)
     {
         light->onGraphicsUpdate(data);
@@ -173,6 +172,14 @@ void Scene::onCreate()
             "SolidColorMesh",
             "SolidColorMesh"
         });
+
+    m_particleSystemShader = graphicsEngine.createShader({
+            "ParticleSystem",
+            "ParticleSystem"
+        });
+    
+    m_computeShader = graphicsEngine.createComputeShader("ComputeParticles");
+
     //m_meshLightingShader = graphicsEngine.createShader({
     //        "MeshShader",
     //        "MeshLightingShader"

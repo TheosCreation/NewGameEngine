@@ -22,8 +22,6 @@ const float lowerMiddleHeight = 60;
 const float upperMiddleHeight = 90;
 const float upperHeight = 120;
 
-// Out
-out vec4 FinalColor;
 
 void main()
 {

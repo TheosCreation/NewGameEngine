@@ -25,6 +25,13 @@ Shader::Shader(const ShaderDesc& desc)
 	link();
 }
 
+Shader::Shader(const string computeFileName)
+{
+    m_programId = glCreateProgram();
+    Attach(computeFileName, ShaderType::ComputeShader);
+    link();
+}
+
 Shader::~Shader()
 {
 	for (uint i = 0; i < 2; i++)
@@ -50,6 +57,10 @@ void Shader::Attach(const std::string& filename, const ShaderType& type)
     {
         filePath = "Resources/Shaders/Fragment/" + filename + ".frag";
     }
+    else if (type == ShaderType::ComputeShader)
+    {
+        filePath = "Resources/Shaders/Compute/" + filename + ".comp";
+    }
     else
     {
         Debug::LogWarning("Shader | Cannot find file: " + filePath);
@@ -74,8 +85,24 @@ void Shader::Attach(const std::string& filename, const ShaderType& type)
     // Preprocess the shader code to handle includes
     shaderCode = PreprocessShader(shaderCode);
 
+    // Determine shader type for OpenGL
+    GLenum glShaderType;
+    if (type == ShaderType::VertexShader) {
+        glShaderType = GL_VERTEX_SHADER;
+    }
+    else if (type == ShaderType::FragmentShader) {
+        glShaderType = GL_FRAGMENT_SHADER;
+    }
+    else if (type == ShaderType::ComputeShader) {
+        glShaderType = GL_COMPUTE_SHADER;
+    }
+    else {
+        Debug::LogWarning("Shader | Unsupported shader type");
+        return;
+    }
+
     // Create and compile the shader
-    uint shaderId = glCreateShader(type == ShaderType::VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER);
+    uint shaderId = glCreateShader(glShaderType);
     const char* sourcePointer = shaderCode.c_str();
     glShaderSource(shaderId, 1, &sourcePointer, nullptr);
     glCompileShader(shaderId);

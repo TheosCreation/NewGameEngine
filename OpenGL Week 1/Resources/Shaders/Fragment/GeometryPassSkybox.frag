@@ -8,9 +8,6 @@ in vec3 FragTexcoord; // Input from vertex shader (texture coordinates for the s
 
 uniform samplerCube Texture_Skybox; // Skybox texture
 
-// Out
-out vec4 FinalColor; // Final color to be rendered
-
 void main()
 {
     // Skybox doesn't require actual position and normal for lighting

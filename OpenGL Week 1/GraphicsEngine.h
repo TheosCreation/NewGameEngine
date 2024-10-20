@@ -46,6 +46,8 @@ public:
      */
     ShaderPtr createShader(const ShaderDesc& desc);
 
+    ShaderPtr createComputeShader(const string& computeShaderFilename);
+
     /**
      * @brief Clears the screen with the specified color.
      * @param color The color to clear the screen with.
@@ -96,6 +98,7 @@ public:
      * @param vao A shared pointer to the Vertex Array Object to set.
      */
     void setVertexArrayObject(const VertexArrayObjectPtr& vao);
+    void setVertexArrayObject(const uint vaoId);
 
     /**
      * @brief Sets the active Shader program.

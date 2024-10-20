@@ -13,12 +13,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Scene3.h"
 #include "MyPlayer.h"
 #include "Game.h"
-#include "PerlinNoise.h"
-#include <fstream>
-
-#define STBI_MSC_SECURE_CRT
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
+#include "ParticleSystem.h"
 
 Scene3::Scene3(Game* game) : Scene(game)
 {
@@ -166,7 +161,7 @@ void Scene3::onCreate()
 		pointLightObject->setTransparency(0.75f);
 
 		// Randomly set color to either red or blue
-		int randomColorChoice = randomNumber(2); // Generates 0 or 1
+		int randomColorChoice = (int)randomNumber(2.0f); // Generates 0 or 1
 		Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
 		pointLightObject->setColor(lightColor);
 
@@ -196,6 +191,10 @@ void Scene3::onCreate()
 		lightManager.createPointLight(pointLight);
 	}
 
+	auto particleSystem = m_entitySystem->createEntity<ParticleSystem>();
+	particleSystem->setShader(m_particleSystemShader);
+	particleSystem->setOrigin(Vector3(0.0f));
+	particleSystem->setComputeShader(m_computeShader);
 }
 
 void Scene3::onUpdate(float deltaTime)
@@ -241,7 +240,7 @@ void Scene3::onGraphicsUpdate()
 		}
 	}
 
-	for (int i = 0; i < lightManager.getDirectionalLightCount(); i++)
+	for (uint i = 0; i < lightManager.getDirectionalLightCount(); i++)
 	{
 		//Shadow Pass
 		lightManager.BindShadowMap(i);

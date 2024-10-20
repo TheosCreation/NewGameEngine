@@ -23,10 +23,16 @@ class Shader
 {
 public:
 	/**
-     * @brief Constructor for the Shader class.
+     * @brief Constructor for the standard Shader class.
      * @param desc A description of the shader.
      */
 	Shader(const ShaderDesc& desc);
+
+	/**
+     * @brief Constructor for the compute Shader class.
+     * @param computeFileName File name of the compute shader.
+     */
+	Shader(const string computeFileName);
 
 	/**
 	 * @brief Destructor for the Shader class.
@@ -94,6 +100,16 @@ public:
 	void setVec3(const std::string& name, const Vector3& value) const
 	{
 		glUniform3fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
+	}
+	
+	/**
+	 * @brief Sends a vec4 into the shader.
+	 * @param name The name of the uniform variable in the shader.
+	 * @param value The vec4 value to send.
+	 */
+	void setVec4(const std::string& name, const Vector4& value) const
+	{
+		glUniform4fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
 	}
 	
 	void setVec2(const std::string& name, const Vector2& value) const

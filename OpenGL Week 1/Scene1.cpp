@@ -165,7 +165,7 @@ void Scene1::onCreate()
 		pointLightObject->setTransparency(0.75f);
 
 		// Randomly set color to either red or blue
-		int randomColorChoice = randomNumber(2); // Generates 0 or 1
+		int randomColorChoice = (int)randomNumber(2.0f); // Generates 0 or 1
 		Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
 		pointLightObject->setColor(lightColor);
 
@@ -267,7 +267,7 @@ void Scene1::onGraphicsUpdate()
 		}
 	}
 
-	for (int i = 0; i < lightManager.getDirectionalLightCount(); i++)
+	for (uint i = 0; i < lightManager.getDirectionalLightCount(); i++)
 	{
 		//Shadow Pass
 		lightManager.BindShadowMap(i);
