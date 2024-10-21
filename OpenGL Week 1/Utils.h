@@ -303,7 +303,8 @@ enum class TriangleType
 {
     TriangleList = 0,   // Triangle list
     TriangleStrip,      // Triangle strip
-    Points              // Points
+    Points,              // Points
+    Patch              // Patches
 };
 
 // Enum representing cull types

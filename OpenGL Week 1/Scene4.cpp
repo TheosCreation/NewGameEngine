@@ -125,48 +125,6 @@ void Scene4::onCreate()
 	lightManager.createSpotLight(spotLight);
 	lightManager.setSpotlightStatus(false);
 
-	float pointLightSpacing = 30.0f;
-	// Initialize 2 point lights
-	for (int i = 0; i < 2; i++) {
-		// Create a new point light entity
-		auto pointLightObject = m_entitySystem->createEntity<MeshEntity>();
-		pointLightObject->setTransparency(0.75f);
-
-		// Randomly set color to either red or blue
-		int randomColorChoice = (int)randomNumber(2.0f); // Generates 0 or 1
-		Vector3 lightColor = (randomColorChoice == 0) ? Color::Red * 2.0f : Color::Blue * 2.0f;
-		pointLightObject->setColor(lightColor);
-
-		// Calculate the position based on row and column, center the grid around (0,0)
-		float xPosition = i * pointLightSpacing; // Center horizontally
-		float yPosition = 15.0f; // Fixed Y position
-		float zPosition = 0;
-		pointLightObject->setPosition(Vector3(xPosition, yPosition, zPosition));
-		pointLightObject->setScale(Vector3(3.0f));
-
-		// Set mesh and shaders
-		pointLightObject->setMesh(gameOwner->getSphereMesh());
-		pointLightObject->setShader(m_solidColorMeshShader);
-		pointLightObject->setShadowShader(m_shadowShader);
-		pointLightObject->setGeometryShader(m_meshGeometryShader);
-
-		// Configure point light properties
-		PointLight pointLight;
-		pointLight.Position = pointLightObject->getPosition();
-		pointLight.Color = pointLightObject->getColor();
-		pointLight.SpecularStrength = 1.0f;
-		pointLight.AttenuationConstant = 1.0f;
-		pointLight.AttenuationLinear = 0.022f;
-		pointLight.AttenuationExponent = 0.0019f;
-
-		// Add the point light to the light manager
-		lightManager.createPointLight(pointLight);
-	}
-
-	//create point lights and dont forget these lines
-	//m_ship->setGeometryShader(m_meshGeometryShader);
-	//m_ship->setLightingShader(m_meshLightingShader);
-
 }
 
 void Scene4::onUpdate(float deltaTime)

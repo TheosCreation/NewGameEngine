@@ -263,6 +263,7 @@ void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertex
         case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
         case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
         case TriangleType::Points: { glTriType = GL_POINTS; break; }
+        case TriangleType::Patch: { glTriType = GL_PATCHES; break; }
     }
     glDrawArrays(glTriType, offset, vertexCount);
 }
@@ -275,6 +276,8 @@ void GraphicsEngine::drawIndexedTriangles(const TriangleType& triangleType, uint
     {
         case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
         case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+        case TriangleType::Points: { glTriType = GL_POINTS; break; }
+        case TriangleType::Patch: { glTriType = GL_PATCHES; break; }
     }
     glDrawElements(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr);
 }
@@ -287,6 +290,8 @@ void GraphicsEngine::drawIndexedTrianglesInstanced(const TriangleType& triangleT
     {
         case TriangleType::TriangleList: { glTriType = GL_TRIANGLES; break; }
         case TriangleType::TriangleStrip: { glTriType = GL_TRIANGLE_STRIP; break; }
+        case TriangleType::Points: { glTriType = GL_POINTS; break; }
+        case TriangleType::Patch: { glTriType = GL_PATCHES; break; }
     }
     glDrawElementsInstanced(glTriType, indicesCount, GL_UNSIGNED_INT, nullptr, instanceCount);
 }
