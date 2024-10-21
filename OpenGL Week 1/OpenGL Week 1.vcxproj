@@ -216,7 +216,9 @@
     <None Include="Resources\Shaders\ShaderUtils.glsl" />
     <None Include="Resources\Shaders\Shadows.glsl" />
     <None Include="Resources\Shaders\Tessellation\TessellationControl.tesc" />
+    <None Include="Resources\Shaders\Tessellation\TessellationControlQuad.tesc" />
     <None Include="Resources\Shaders\Tessellation\TessellationEvaluation.tese" />
+    <None Include="Resources\Shaders\Tessellation\TessellationEvaluationQuad.tese" />
     <None Include="Resources\Shaders\Vertex\InstancedMesh.vert" />
     <None Include="Resources\Shaders\Fragment\InvertColorFullRenderPass.frag" />
     <None Include="Resources\Shaders\Fragment\MattiasCRTRenderPass.frag" />

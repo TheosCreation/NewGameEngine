@@ -203,6 +203,8 @@
     <None Include="Resources\Shaders\Fragment\ParticleSystem.frag" />
     <None Include="Resources\Shaders\Tessellation\TessellationControl.tesc" />
     <None Include="Resources\Shaders\Tessellation\TessellationEvaluation.tese" />
+    <None Include="Resources\Shaders\Tessellation\TessellationControlQuad.tesc" />
+    <None Include="Resources\Shaders\Tessellation\TessellationEvaluationQuad.tese" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">

@@ -2,10 +2,10 @@
 
 layout(location = 0) in vec3 vertexPosition;
 
-uniform mat4 modelMatrix;
+uniform mat4 ModelMatrix;
 uniform mat4 VPLight;
 
 void main()
 {
-    gl_Position = VPLight * modelMatrix * vec4(vertexPosition, 1.0f);
+    gl_Position = VPLight * ModelMatrix * vec4(vertexPosition, 1.0f);
 }

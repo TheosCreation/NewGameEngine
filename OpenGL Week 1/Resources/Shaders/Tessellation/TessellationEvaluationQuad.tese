@@ -1,6 +1,6 @@
 #version 460 core
 
-layout (triangles, equal_spacing, ccw) in;
+layout (quads, equal_spacing, ccw) in;
 
 uniform mat4 ModelMatrix;
 uniform mat4 VPMatrix;

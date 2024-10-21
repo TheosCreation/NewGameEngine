@@ -69,7 +69,6 @@ void Game::onCreate()
     auto& resourceManager = ResourceManager::GetInstance();
     m_sphereMesh = resourceManager.createMeshFromFile("Resources/Meshes/sphere.obj");
     m_cubeMesh = resourceManager.createMeshFromFile("Resources/Meshes/cube.obj");
-    
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     defaultQuadShader = graphicsEngine.createShader({
