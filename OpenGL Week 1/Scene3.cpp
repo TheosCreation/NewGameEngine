@@ -53,16 +53,22 @@ void Scene3::onCreate()
 
 	ShaderPtr meshShader = graphicsEngine.createShader({
 			"MeshShader",
-			"MeshShader"
+			"MeshShader",
+			"TessellationControl",
+			"TessellationEvaluation"
 		});
 	ShaderPtr terrainShader = graphicsEngine.createShader({
 			"TerrainShader",
-			"TerrainShader"
+			"TerrainShader",
+			"TessellationControl",
+			"TessellationEvaluation"
 		});
 
 	ShaderPtr instancedMeshShader = graphicsEngine.createShader({
 			"InstancedMesh",
-			"InstancedMesh"
+			"InstancedMesh",
+			"TessellationControl",
+			"TessellationEvaluation"
 		});
 
 

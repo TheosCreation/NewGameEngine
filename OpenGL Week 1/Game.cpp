@@ -74,20 +74,28 @@ void Game::onCreate()
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     defaultQuadShader = graphicsEngine.createShader({
             "ScreenQuad",
-            "QuadShader"
+            "QuadShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     ssrQuadShader = graphicsEngine.createShader({
             "ScreenQuad",
-            "SSRShader"
+            "SSRShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     ssrQuadLightingShader = graphicsEngine.createShader({
             "ScreenQuad",
-            "SSRLightingShader"
+            "SSRLightingShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     
     ssrQuadShadowShader = graphicsEngine.createShader({
             "ScreenQuad",
-            "SSRLightingShader"
+            "SSRLightingShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
 
     m_SSRQuad = std::make_unique<SSRQuad>();

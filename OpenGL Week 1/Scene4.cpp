@@ -41,7 +41,7 @@ void Scene4::onCreate()
 	//all the input managements, creation of camera are inside Player class
 	m_player = m_entitySystem->createEntity<MyPlayer>();
 	m_player->setScale(Vector3(0.0f));
-	m_player->setPosition(Vector3(0.0f, 20.0f, 0.0f));
+	m_player->setPosition(Vector3(0.0f, 50.0f, 0.0f));
 
 	Texture2DPtr heightMapTexture = resourceManager.createTexture2DFromFile("Resources/Textures/Heightmap0.jpg");
 	Texture2DPtr shipReflectiveMap = resourceManager.createTexture2DFromFile("Resources/Textures/ReflectionMap_White.png");
@@ -57,16 +57,22 @@ void Scene4::onCreate()
 
 	ShaderPtr meshShader = graphicsEngine.createShader({
 			"MeshShader",
-			"MeshShader"
+			"MeshShader",
+			"TessellationControl",
+			"TessellationEvaluation"
 		});
 	ShaderPtr terrainShader = graphicsEngine.createShader({
 			"TerrainShader",
-			"TerrainShader"
+			"TerrainShader",
+			"TessellationControl",
+			"TessellationEvaluation"
 		});
 
 	ShaderPtr instancedMeshShader = graphicsEngine.createShader({
 			"InstancedMesh",
-			"InstancedMesh"
+			"InstancedMesh",
+			"TessellationControl",
+			"TessellationEvaluation"
 		});
 
 

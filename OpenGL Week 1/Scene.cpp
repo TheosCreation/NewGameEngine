@@ -144,50 +144,70 @@ void Scene::onCreate()
     m_skyBox = std::make_unique<SkyboxEntity>();
     ShaderPtr skyboxShader = graphicsEngine.createShader({
             "SkyBoxShader",
-            "SkyBoxShader"
+            "SkyBoxShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
 
     m_solidColorMeshShader = graphicsEngine.createShader({
             "SolidColorMesh",
-            "SolidColorMesh"
+            "SolidColorMesh",
+            "TessellationControl",
+            "TessellationEvaluation"
         }); 
     
     m_shadowShader = graphicsEngine.createShader({
             "ShadowShader",
-            "ShadowShader"
+            "ShadowShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     
     m_shadowInstancedShader = graphicsEngine.createShader({
             "ShadowShaderInstanced",
-            "ShadowShader"
+            "ShadowShader",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
 
     m_skyboxGeometryShader = graphicsEngine.createShader({
             "SkyBoxShader",
-            "GeometryPassSkybox"
+            "GeometryPassSkybox",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     m_meshGeometryShader = graphicsEngine.createShader({
             "MeshShader",
-            "GeometryPass"
+            "GeometryPass",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     m_instancedmeshGeometryShader = graphicsEngine.createShader({
             "InstancedMesh",
-            "GeometryPass"
+            "GeometryPass",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     
     m_terrainGeometryShader = graphicsEngine.createShader({
             "TerrainShader",
-            "GeometryPassTerrian"
+            "GeometryPassTerrian",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
 
     m_solidColorMeshShader = graphicsEngine.createShader({
             "SolidColorMesh",
-            "SolidColorMesh"
+            "SolidColorMesh",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
 
     m_particleSystemShader = graphicsEngine.createShader({
             "ParticleSystem",
-            "ParticleSystem"
+            "ParticleSystem",
+            "TessellationControl",
+            "TessellationEvaluation"
         });
     
     m_computeShader = graphicsEngine.createComputeShader("ComputeParticles");
