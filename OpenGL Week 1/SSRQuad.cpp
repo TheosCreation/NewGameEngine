@@ -18,7 +18,7 @@ void SSRQuad::onGraphicsUpdate(UniformData data)
     graphicsEngine.setFaceCulling(CullType::None); // Disable face culling
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise); // Set winding order
     graphicsEngine.setVertexArrayObject(m_mesh); // Bind the vertex array object for the mesh
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices()); // Draw the indexed triangles
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, m_mesh->getNumIndices()); // Draw the indexed triangles
 }
 
 void SSRQuad::onLightingPass(UniformData data)
@@ -44,7 +44,7 @@ void SSRQuad::onLightingPass(UniformData data)
     graphicsEngine.setFaceCulling(CullType::None); // Disable face culling
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise); // Set winding order
     graphicsEngine.setVertexArrayObject(m_mesh); // Bind the vertex array object for the mesh
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices()); // Draw the indexed triangles
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, m_mesh->getNumIndices()); // Draw the indexed triangles
 }
 
 void SSRQuad::onShadowPass(uint index)
@@ -60,5 +60,5 @@ void SSRQuad::onShadowPass(uint index)
     graphicsEngine.setFaceCulling(CullType::None); // Disable face culling
     graphicsEngine.setWindingOrder(WindingOrder::ClockWise); // Set winding order
     graphicsEngine.setVertexArrayObject(m_mesh); // Bind the vertex array object for the mesh
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices()); // Draw the indexed triangles
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, m_mesh->getNumIndices()); // Draw the indexed triangles
 }

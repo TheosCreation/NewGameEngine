@@ -73,7 +73,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
 
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, meshVBO->getNumIndices());//draw triangles through the usage of index buffer
 
     graphicsEngine.setTexture2D(nullptr, 0, "");
     graphicsEngine.setTextureCubeMap(nullptr, 1, "");
@@ -100,7 +100,7 @@ void MeshEntity::onShadowPass(uint index)
     graphicsEngine.setVertexArrayObject(meshVBO);
 
     // Draw the mesh to update the shadow map
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, meshVBO->getNumIndices());
 }
 
 void MeshEntity::onGeometryPass(UniformData data)
@@ -127,7 +127,7 @@ void MeshEntity::onGeometryPass(UniformData data)
     graphicsEngine.setVertexArrayObject(meshVBO);
 
     // Draw the mesh to update the shadow map
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, meshVBO->getNumIndices());
 }
 
 void MeshEntity::onLightingPass(UniformData data)
@@ -155,7 +155,7 @@ void MeshEntity::onLightingPass(UniformData data)
     graphicsEngine.setVertexArrayObject(meshVBO);
 
     // Draw the mesh to update the shadow map
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, meshVBO->getNumIndices());
 }
 
 float MeshEntity::getShininess() const

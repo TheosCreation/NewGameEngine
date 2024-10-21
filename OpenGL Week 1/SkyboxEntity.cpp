@@ -43,7 +43,7 @@ void SkyboxEntity::onGraphicsUpdate(UniformData data)
     graphicsEngine.setVertexArrayObject(meshVBO);
 
     // Draw the indexed triangles for the skybox
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, meshVBO->getNumIndices());
 
     // Unbind the skybox texture
     graphicsEngine.setTextureCubeMap(nullptr, 0, "");
@@ -72,7 +72,7 @@ void SkyboxEntity::onGeometryPass(UniformData data)
     graphicsEngine.setVertexArrayObject(meshVBO);
 
     // Draw the indexed triangles for the geometry pass
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, meshVBO->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, meshVBO->getNumIndices());
 
     // Unbind the skybox texture
     m_geometryShader->setTextureCubeMap(nullptr, 0, "");

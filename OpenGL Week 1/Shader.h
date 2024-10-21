@@ -189,5 +189,5 @@ private:
 
 private:
     uint m_programId = 0; // The ID of the shader program.
-    uint m_attachedShaders[2] = {}; // The IDs of the attached shaders.
+    uint m_attachedShaders[4] = {}; // The IDs of the attached shaders.
 };

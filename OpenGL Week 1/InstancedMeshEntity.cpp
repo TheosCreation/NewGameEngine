@@ -65,7 +65,7 @@ void InstancedMeshEntity::onGraphicsUpdate(UniformData data)
 
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
+    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::Patch, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 
 
     graphicsEngine.setTexture2D(nullptr, 0, "");
@@ -92,7 +92,7 @@ void InstancedMeshEntity::onGeometryPass(UniformData data)
 
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
+    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::Patch, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 
     graphicsEngine.setTexture2D(nullptr, 0, "");
 }
@@ -111,5 +111,5 @@ void InstancedMeshEntity::onShadowPass(uint index)
 
     auto meshVBO = m_mesh->getVertexArrayObject();
     graphicsEngine.setVertexArrayObject(meshVBO); //bind vertex buffer to graphics pipeline
-    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::TriangleList, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
+    graphicsEngine.drawIndexedTrianglesInstanced(TriangleType::Patch, meshVBO->getNumIndices(), m_mesh->getInstanceCount());
 }

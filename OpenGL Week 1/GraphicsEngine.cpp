@@ -265,6 +265,7 @@ void GraphicsEngine::drawTriangles(const TriangleType& triangleType, uint vertex
         case TriangleType::Points: { glTriType = GL_POINTS; break; }
         case TriangleType::Patch: { glTriType = GL_PATCHES; break; }
     }
+
     glDrawArrays(glTriType, offset, vertexCount);
 }
 

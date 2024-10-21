@@ -181,7 +181,7 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
     auto& lightManager = LightManager::GetInstance();
     lightManager.applyShadows(m_shader);
     graphicsEngine.setVertexArrayObject(m_mesh);
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, m_mesh->getNumIndices());
 
     // Unbind textures
     for (int i = 0; i <= 5; ++i)
@@ -219,7 +219,7 @@ void TerrainEntity::onGeometryPass(UniformData data)
 
     // Draw the terrain mesh
     graphicsEngine.setVertexArrayObject(m_mesh);
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, m_mesh->getNumIndices());
 
     // Unbind textures after rendering
     for (int i = 0; i <= 5; ++i)
@@ -244,7 +244,7 @@ void TerrainEntity::onShadowPass(uint index)
 
     // Draw the mesh to update the shadow map
     graphicsEngine.setVertexArrayObject(m_mesh);
-    graphicsEngine.drawIndexedTriangles(TriangleType::TriangleList, m_mesh->getNumIndices());
+    graphicsEngine.drawIndexedTriangles(TriangleType::Patch, m_mesh->getNumIndices());
 }
 
 void TerrainEntity::smoothHeightMap(std::vector<float>& heightData, uint width, uint depth)

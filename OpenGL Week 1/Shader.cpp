@@ -22,8 +22,8 @@ Shader::Shader(const ShaderDesc& desc)
 	m_programId = glCreateProgram();
     Attach(desc.vertexShaderFileName, ShaderTypes::VertexShader);
     Attach(desc.fragmentShaderFileName, ShaderTypes::FragmentShader);
-    //Attach(desc.tessellationControlFileName, ShaderTypes::TessellationControlShader);
-    //Attach(desc.tessellationEvaluationFileName, ShaderTypes::TessellationEvaluationShader);
+    Attach(desc.tessellationControlFileName, ShaderTypes::TessellationControlShader);
+    Attach(desc.tessellationEvaluationFileName, ShaderTypes::TessellationEvaluationShader);
 	link();
 }
 
@@ -135,7 +135,6 @@ void Shader::Attach(const std::string& filename, const ShaderTypes& type)
     // Attach the shader to the program
     glAttachShader(m_programId, shaderId);
     m_attachedShaders[static_cast<uint>(type)] = shaderId;
-
     Debug::Log("Shader | " + filePath + " compiled successfully");
 }
 
