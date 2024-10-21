@@ -6,11 +6,13 @@ void main()
 {
     if (gl_InvocationID == 0)
     {
-        gl_TessLevelOuter[0] = 5.0;
-        gl_TessLevelOuter[1] = 5.0;
-        gl_TessLevelOuter[2] = 5.0;
+        gl_TessLevelOuter[0] = 4.0f;
+        gl_TessLevelOuter[1] = 4.0f;
+        gl_TessLevelOuter[2] = 4.0f;
+        gl_TessLevelOuter[3] = 4.0f;
 
-        gl_TessLevelInner[0] = 3.0;
+        gl_TessLevelInner[0] = 4.0f;
+        gl_TessLevelInner[0] = 4.0f;
     }
 
     // Pass through input positions to output without any changes.
