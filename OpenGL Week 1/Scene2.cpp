@@ -4,8 +4,8 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : Scene1.cpp
-Description : 
+File Name : Scene2.cpp
+Description : Scene2 class is a stripped-down class of the scene class to allow end user to create their own entities.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/

@@ -4,8 +4,8 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : MyGame.cpp
-Description : MyGame class is a stripped down class of the base game class to be able for end user to create their own entities
+File Name : Scene1.cpp
+Description : Scene1 class is a stripped-down class of the scene class to allow end user to create their own entities.
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/

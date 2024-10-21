@@ -62,33 +62,21 @@ public:
     virtual void onLateUpdate(float deltaTime);
 
     /**
+     * @brief Called every frame to update the graphics.
+     */
+    void onGraphicsUpdate();
+
+    /**
      * @brief Called when quitting the scene.
      * Cleans up resources or performs necessary finalization.
      */
     virtual void onQuit() override;
-
-    /**
-     * @brief Switches the current fullscreen shader to the next one in the list.
-     * Resets to the default shader after reaching the last shader in the list.
-     */
-    void switchFullscreenShader();
 
 private:
     float m_elapsedSeconds = 0.0f; //Elapsed time in seconds since the scene started.
 
     // Initialize all VBOs here
     MeshEntity* m_ship = nullptr; // Pointer to the ship entity.
-    InstancedMeshEntity* m_instanceMines = nullptr; // Pointer to the instanced mine entity.
+    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
     MyPlayer* m_player = nullptr; // Pointer to the player entity.
-    QuadEntity* m_button = nullptr; // Pointer to the button entity (currently unused).
-
-    float m_uiScaleX = 2.0f; // UI scale factor for the x-axis.
-    float m_uiScaleY = -2.0f; // UI scale factor for the y-axis.
-
-    // Shader management
-    std::vector<ShaderPtr> m_fullScreenShaders; // Vector to store pointers to fullscreen shaders.
-    uint currentIndex = -1; // Current index for the active fullscreen shader.
-
-    Texture2DPtr m_oldRipple = nullptr; // Pointer to the old ripple texture for shader effects.
-    Texture2DPtr m_grayNoiseSmall = nullptr; // Pointer to the small gray noise texture for shader effects.
 };
