@@ -109,6 +109,16 @@ public:
     {
         glUniform3fv(glGetUniformLocation(m_programId, name.c_str()), 1, &value[0]);
     }
+    
+    /**
+    * @brief Sends a bool into the shader.
+    * @param name The name of the uniform variable in the shader.
+    * @param value The bool value to send.
+    */
+    void setBool(const std::string& name, const bool& value) const
+    {
+        glUniform1i(glGetUniformLocation(m_programId, name.c_str()), static_cast<int>(value));
+    }
 
     /**
      * @brief Sends a vec4 into the shader.

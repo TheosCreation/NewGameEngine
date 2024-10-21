@@ -14,6 +14,8 @@ Mail : theo.morris@mds.ac.nz
 #include "All.h"
 #include "MyPlayer.h"
 
+class ParticleSystem;
+
 /**
  * @class Scene3
  * @brief 
@@ -72,4 +74,5 @@ private:
     MeshEntity* m_ship = nullptr; // Pointer to the statue entity
     TerrainEntity* m_terrain = nullptr; // Pointer to the terrain entity
     MyPlayer* m_player = nullptr; // Pointer to the player entity
+    vector<ParticleSystem*> m_particleSystems; // Pointer to the particle system entity
 };

@@ -191,16 +191,41 @@ void Scene3::onCreate()
 		lightManager.createPointLight(pointLight);
 	}
 
-	auto particleSystem = m_entitySystem->createEntity<ParticleSystem>();
-	particleSystem->setShader(m_particleSystemShader);
-	particleSystem->setOrigin(Vector3(0.0f));
-	particleSystem->setComputeShader(m_computeShader);
+	float particleSystemSpacing = 30.0f;  // The space between each particle system in the grid
+	Vector3 basePosition(0.0f, 0.0f, 0.0f);  // Base position for the first particle system
+
+	// Loop to create 4 particle systems in a 2x2 grid
+	for (int i = 0; i < 2; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			// Create the particle system
+			auto particleSystem = m_entitySystem->createEntity<ParticleSystem>();
+			particleSystem->setShader(m_particleSystemShader);
+			particleSystem->setComputeShader(m_computeShader);
+			particleSystem->setDuration(0.8f + randomNumber(0.5f));
+
+			// Set the origin for each system based on grid position
+			Vector3 position = basePosition + Vector3(i * particleSystemSpacing, 0.0f, j * particleSystemSpacing);
+			particleSystem->setOrigin(position);
+
+			// Store the particle system
+			m_particleSystems.push_back(particleSystem);
+		}
+	}
 }
 
 void Scene3::onUpdate(float deltaTime)
 {
 	Scene::onUpdate(deltaTime);
 	m_elapsedSeconds += deltaTime;
+
+	// Play a particle system with the F key
+	if (InputManager::GetInstance().isKeyPressed(Key::KeyF))
+	{
+		for (auto particleSystem : m_particleSystems)
+		{
+			particleSystem->Play();
+		}
+	}
 }
 
 void Scene3::onFixedUpdate(float _fixedDeltaTime)

@@ -131,15 +131,15 @@ void Scene2::onCreate()
 
 	// Create and initialize a DirectionalLight struct
 	//DirectionalLight directionalLight1;
-	//directionalLight1.Direction = Vector3(0.0f, -1.0f, -0.5f);
-	//directionalLight1.Color = Vector3(0.1f);
+	//directionalLight1.Direction = Vector3(0.0f, -0.75f, -0.3f);
+	//directionalLight1.Color = Vector3(0.5f);
 	//directionalLight1.SpecularStrength = 0.1f;
 	//lightManager.createDirectionalLight(directionalLight1);
 
 	// Create and initialize a DirectionalLight struct
 	//DirectionalLight directionalLight2;
 	//directionalLight2.Direction = Vector3(0.0f, -1.0f, 0.5f);
-	//directionalLight2.Color = Vector3(0.1f);
+	//directionalLight2.Color = Vector3(0.3f);
 	//directionalLight2.SpecularStrength = 0.1f;
 	//lightManager.createDirectionalLight(directionalLight2);
 

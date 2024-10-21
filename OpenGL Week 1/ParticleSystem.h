@@ -56,17 +56,28 @@ public:
      */
     void setComputeShader(ShaderPtr shader);
 
+    void setDuration(float _duration);
+
+    void Play();
+    void StopPlaying();
+    void StopEmitting();
+
 private:
     uint VAO;                  // Vertex Array Object for the particle system.
     uint VBO_PositionLife;     // Vertex Buffer Object for storing particle positions and lifetimes.
     uint VBO_Velocity;         // Vertex Buffer Object for storing particle velocities.
+    uint VBO_Color;            // Vertex Buffer Object for storing particle colors.
 
     ShaderPtr m_computeShader; // Shared pointer to the compute shader used for simulating particles.
 
     Vector3 EmitterOrigin = Vector3(0.0f); // The origin point from which particles are emitted.
     Vector4 VelocityLifeChange;              // Stores the velocity and life change parameters for the particles.
 
-    int GroupCountX;       // Number of groups in the X dimension for compute shader dispatch.
-    int WorkGroupSizeX;    // Size of the work group in the X dimension for compute shader.
-    int NumParticles;      // Total number of particles managed by the system.
+    int GroupCountX;            // Number of groups in the X dimension for compute shader dispatch.
+    int WorkGroupSizeX;         // Size of the work group in the X dimension for compute shader.
+    int NumParticles;           // Total number of particles managed by the system.
+    bool isPlaying = false;     // Flag to check if the particle system is playing.
+    bool isEmitting = false;     // Flag to check if the particle system is emitting particles.
+    float m_elapsedTime = 0.0f;
+    float m_duration = 1.0f;    // Duration for the particle systems play time.
 };

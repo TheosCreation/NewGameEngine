@@ -53,7 +53,7 @@ vec3 CalculateLight(Light baseLight, vec3 lightDir, vec3 viewDir, vec3 normal, f
     vec3 Diffuse = DiffuseStrength * baseLight.Color;
 
     // Specular shading: calculates the contribution from the specular reflection.
-    vec3 HalfwayDir = normalize(lightDir + viewDir); // Halfway vector between light and view direction.
+    vec3 HalfwayDir = normalize(-lightDir - viewDir); // Halfway vector between light and view direction.
     float SpecularReflection = pow(max(dot(normal, HalfwayDir), 0.0), objectShininess); // Blinn-Phong specular reflection.
     vec3 Specular = baseLight.SpecularStrength * SpecularReflection * baseLight.Color;
 
