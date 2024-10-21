@@ -212,6 +212,8 @@ struct ShaderDesc
 {
     string vertexShaderFileName;    // Filename of the vertex shader
     string fragmentShaderFileName;  // Filename of the fragment shader
+    string tessellationControlFileName;  // Filename of the Tessellation Control shader
+    string tessellationEvaluationFileName;  // Filename of the Tessellation Evaluation shader
 };
 
 // Struct representing a uniform buffer description
@@ -368,11 +370,13 @@ enum class WindingOrder
 };
 
 // Enum representing shader types
-enum class ShaderType
+enum class ShaderTypes
 {
-    VertexShader = 0,   // Vertex shader
-    FragmentShader,     // Fragment shader
-    ComputeShader       // Compute shader
+    VertexShader = 0,               // Vertex shader
+    FragmentShader,                 // Fragment shader
+    ComputeShader,                  // Compute shader
+    TessellationControlShader,      // Tessellation control shader
+    TessellationEvaluationShader    // Tessellation Evaluation shader
 };
 
 // Enum representing key codes

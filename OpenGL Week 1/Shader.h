@@ -29,10 +29,10 @@ public:
     Shader(const ShaderDesc& desc);
 
     /**
-     * @brief Constructor for the compute Shader class.
-     * @param computeFileName File name of the compute shader.
+     * @brief Constructor for a generic Shader class.
+     * @param fileName File name of the shader.
      */
-    Shader(const string computeFileName);
+    Shader(const string fileName, ShaderTypes _shaderType);
 
     /**
      * @brief Destructor for the Shader class.
@@ -166,7 +166,7 @@ private:
      * @param filename The filename of the shader source.
      * @param type The type of the shader (vertex, fragment, etc.).
      */
-    void Attach(const std::string& filename, const ShaderType& type);
+    void Attach(const std::string& filename, const ShaderTypes& type);
 
     /**
      * @brief Reads the shader source file.

@@ -82,7 +82,7 @@ void Scene4::onCreate()
 	m_ship->setGeometryShader(m_meshGeometryShader);
 	//m_ship->setLightingShader(m_meshLightingShader);
 
-	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 256, 256, 4.0f };
+	HeightMapInfo buildInfo = { "Resources/Heightmaps/Heightmap0.raw", 512, 512, 4.0f };
 	HeightMapPtr heightmap = resourceManager.createHeightMap(buildInfo);
 
 	m_terrain = m_entitySystem->createEntity<TerrainEntity>();
@@ -96,38 +96,6 @@ void Scene4::onCreate()
 	m_terrain->setShader(terrainShader);
 	m_terrain->setShadowShader(m_shadowShader);
 	m_terrain->setGeometryShader(m_terrainGeometryShader);
-
-	//Creating instanced tree obj
-	auto statues = m_entitySystem->createEntity<InstancedMeshEntity>();
-	statues->setShininess(32.0f);
-	statues->setTexture(ancientWorldsTexture2D);
-	statues->setShader(instancedMeshShader);
-	statues->setMesh(statueMesh);
-	statues->setReflectiveMapTexture(shipReflectiveMap); //this is wrong
-	statues->setShadowShader(m_shadowInstancedShader);
-	statues->setGeometryShader(m_instancedmeshGeometryShader);
-	//statues->setLightingShader(m_meshLightingShader);
-
-
-	//adds instances to the instanced mine mesh
-	float spacing = 50.0f;
-	for (int row = -4; row < 4; ++row) {
-		for (int col = -4; col < 4; ++col) {
-			// Calculate the position of the current tree based on the grid and spacing
-			Vector3 position = Vector3(col * spacing, 0, row * spacing);
-
-			if (position == Vector3(0.0f)) break;
-
-			// Generate random rotation angles
-			float angleY = randomNumber(360.0f);
-
-			// Add the tree instance with random rotations
-			statueMesh->addInstance(position, Vector3(0.2f), Vector3(0, angleY, 0));
-		}
-	}
-
-	//Init instance buffer
-	statueMesh->initInstanceBuffer();
 
 	// Create and initialize a DirectionalLight struct
 	DirectionalLight directionalLight1;

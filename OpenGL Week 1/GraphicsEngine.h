@@ -46,6 +46,11 @@ public:
      */
     ShaderPtr createShader(const ShaderDesc& desc);
 
+    /**
+     * @brief Creates a Shader program.
+     * @param string Filename of the Compute Shader.
+     * @return A shared pointer to the created Shader.
+     */
     ShaderPtr createComputeShader(const string& computeShaderFilename);
 
     /**

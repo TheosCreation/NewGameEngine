@@ -36,7 +36,7 @@ ShaderPtr GraphicsEngine::createShader(const ShaderDesc& desc)
 
 ShaderPtr GraphicsEngine::createComputeShader(const string& computeShaderFilename)
 {
-    return std::make_shared<Shader>(computeShaderFilename);
+    return std::make_shared<Shader>(computeShaderFilename, ShaderTypes::ComputeShader);
 }
 
 void GraphicsEngine::clear(const glm::vec4& color, bool clearDepth, bool clearStencil)

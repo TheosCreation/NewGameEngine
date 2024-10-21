@@ -20,15 +20,17 @@ Mail : theo.morris@mds.ac.nz
 Shader::Shader(const ShaderDesc& desc)
 {
 	m_programId = glCreateProgram();
-    Attach(desc.vertexShaderFileName, ShaderType::VertexShader);
-    Attach(desc.fragmentShaderFileName, ShaderType::FragmentShader);
+    Attach(desc.vertexShaderFileName, ShaderTypes::VertexShader);
+    Attach(desc.fragmentShaderFileName, ShaderTypes::FragmentShader);
+    //Attach(desc.tessellationControlFileName, ShaderTypes::TessellationControlShader);
+    //Attach(desc.tessellationEvaluationFileName, ShaderTypes::TessellationEvaluationShader);
 	link();
 }
 
-Shader::Shader(const string computeFileName)
+Shader::Shader(const string fileName, ShaderTypes _shaderType)
 {
     m_programId = glCreateProgram();
-    Attach(computeFileName, ShaderType::ComputeShader);
+    Attach(fileName, _shaderType);
     link();
 }
 
@@ -42,27 +44,31 @@ Shader::~Shader()
 	glDeleteProgram(m_programId);
 }
 
-void Shader::Attach(const std::string& filename, const ShaderType& type)
+void Shader::Attach(const std::string& filename, const ShaderTypes& type)
 {
     std::string filePath;
     std::ifstream shaderStream;
     std::string shaderCode;
 
     // Set file path based on shader type
-    if (type == ShaderType::VertexShader)
+    switch (type)
     {
+    case ShaderTypes::VertexShader:
         filePath = "Resources/Shaders/Vertex/" + filename + ".vert";
-    }
-    else if (type == ShaderType::FragmentShader)
-    {
+        break;
+    case ShaderTypes::FragmentShader:
         filePath = "Resources/Shaders/Fragment/" + filename + ".frag";
-    }
-    else if (type == ShaderType::ComputeShader)
-    {
+        break;
+    case ShaderTypes::ComputeShader:
         filePath = "Resources/Shaders/Compute/" + filename + ".comp";
-    }
-    else
-    {
+        break;
+    case ShaderTypes::TessellationControlShader:
+        filePath = "Resources/Shaders/Tessellation/" + filename + ".tesc";
+        break;
+    case ShaderTypes::TessellationEvaluationShader:
+        filePath = "Resources/Shaders/Tessellation/" + filename + ".tese";
+        break;
+    default:
         Debug::LogWarning("Shader | Cannot find file: " + filePath);
         return;
     }
@@ -87,16 +93,24 @@ void Shader::Attach(const std::string& filename, const ShaderType& type)
 
     // Determine shader type for OpenGL
     GLenum glShaderType;
-    if (type == ShaderType::VertexShader) {
+    switch (type)
+    {
+    case ShaderTypes::VertexShader:
         glShaderType = GL_VERTEX_SHADER;
-    }
-    else if (type == ShaderType::FragmentShader) {
+        break;
+    case ShaderTypes::FragmentShader:
         glShaderType = GL_FRAGMENT_SHADER;
-    }
-    else if (type == ShaderType::ComputeShader) {
+        break;
+    case ShaderTypes::ComputeShader:
         glShaderType = GL_COMPUTE_SHADER;
-    }
-    else {
+        break;
+    case ShaderTypes::TessellationControlShader:
+        glShaderType = GL_TESS_CONTROL_SHADER;
+        break;
+    case ShaderTypes::TessellationEvaluationShader:
+        glShaderType = GL_TESS_EVALUATION_SHADER;
+        break;
+    default:
         Debug::LogWarning("Shader | Unsupported shader type");
         return;
     }

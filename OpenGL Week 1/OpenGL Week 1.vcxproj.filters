@@ -201,6 +201,8 @@
     <None Include="Resources\Shaders\Compute\ComputeParticles.comp" />
     <None Include="Resources\Shaders\Vertex\ParticleSystem.vert" />
     <None Include="Resources\Shaders\Fragment\ParticleSystem.frag" />
+    <None Include="Resources\Shaders\Tessellation\TessellationControl.tesc" />
+    <None Include="Resources\Shaders\Tessellation\TessellationEvaluation.tese" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Rect.h">
