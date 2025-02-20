@@ -72,14 +72,14 @@ float InputManager::getMouseYAxis()
 	return m_deltaMouse.y;
 }
 
-glm::vec2 InputManager::getMousePosition()
+Vector2 InputManager::getMousePosition()
 {
-	return glm::vec2(currentMouseX, currentMouseY);
+	return Vector2(currentMouseX, currentMouseY);
 }
 
-glm::vec2 InputManager::getMouseScroll()
+Vector2 InputManager::getMouseScroll()
 {
-	return glm::vec2(scrollX, scrollY);
+	return Vector2(scrollX, scrollY);
 }
 
 void InputManager::resetMouseScroll()
@@ -115,13 +115,13 @@ void InputManager::onUpdate()
 
 	if (m_playEnable) {
 		// Calculate delta mouse position
-		m_deltaMouse = glm::vec2(currentMouseX - m_screenArea.width / 2.0, currentMouseY - m_screenArea.height / 2.0);
+		m_deltaMouse = Vector2(currentMouseX - m_screenArea.width / 2.0, currentMouseY - m_screenArea.height / 2.0);
 		// Reset the cursor to the center of the window
 		glfwSetCursorPos(WindowPtr, m_screenArea.width / 2.0, m_screenArea.height / 2.0);
 	}
 	else {
 		// Calculate delta mouse position based on the previous frame's position
-		m_deltaMouse = glm::vec2(currentMouseX - m_oldMousePos.x, currentMouseY - m_oldMousePos.y);
+		m_deltaMouse = Vector2(currentMouseX - m_oldMousePos.x, currentMouseY - m_oldMousePos.y);
 	}
 }
 
@@ -140,7 +140,7 @@ void InputManager::onLateUpdate()
 	}
 
 	// Update old mouse position
-	m_oldMousePos = glm::vec2(currentMouseX, currentMouseY);
+	m_oldMousePos = Vector2(currentMouseX, currentMouseY);
 }
 
 void InputManager::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

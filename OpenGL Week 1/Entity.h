@@ -13,24 +13,65 @@ Mail : theo.morris@mds.ac.nz
 #pragma once
 #include "Utils.h"
 #include "Math.h"
+#include "Serializable.h"
+#include "Component.h"
 
-class EntitySystem;
+class GameObjectManager;
 /**
  * @class Entity
  * @brief Represents an object for OpenGl with its own update and onCreate functions.
  */
-class Entity
+class GameObject : Serializable
 {
 public:
     /**
      * @brief Constructor for the Entity class.
      */
-	Entity();
+	GameObject();
 
     /**
      * @brief Destructor for the Entity class.
      */
-	virtual ~Entity();
+	virtual ~GameObject();
+
+    Transform m_transform;
+
+    // Serialize the entity to JSON
+    virtual json serialize() const override
+    {
+        return {
+            {"type", getClassName(typeid(*this))}, // Use typeid to get the class name
+            {"transform", {
+                {"position", {m_transform.position.x, m_transform.position.y, m_transform.position.z}},
+                {"rotation", {m_transform.rotation.x, m_transform.rotation.y, m_transform.rotation.z, m_transform.rotation.w}},
+                {"scale", {m_transform.scale.x, m_transform.scale.y, m_transform.scale.z}}
+            }}
+        };
+    }
+
+    // Deserialize the entity from JSON
+    virtual void deserialize(const json& data) override
+    {
+        if (data.contains("transform"))
+        {
+            auto transformData = data["transform"];
+            if (transformData.contains("position"))
+            {
+                auto pos = transformData["position"];
+                m_transform.position = Vector3(pos[0], pos[1], pos[2]);
+            }
+            if (transformData.contains("rotation"))
+            {
+                auto rot = transformData["rotation"];
+                m_transform.rotation = Quaternion(rot[0], rot[1], rot[2], rot[3]);
+            }
+            if (transformData.contains("scale"))
+            {
+                auto scl = transformData["scale"];
+                m_transform.scale = Vector3(scl[0], scl[1], scl[2]);
+            }
+        }
+    }
 
     /**
      * @brief Gets the unique identifier of the entity.
@@ -44,59 +85,17 @@ public:
      */
     void setId(size_t id);
 
-	/**
-	 * @brief Gets the position of the entity in 3D space.
-	 * @return The position of the entity.
-	 */
-	Vector3 getPosition();
-
-    /**
-     * @brief Sets the position of the entity in 3D space.
-     * @param position The new position to set.
-     */
-    void setPosition(const Vector3& position);
-
-    /**
-     * @brief Gets the rotation of the entity in 3D space.
-     * @return The rotation of the entity.
-     */
-    Quaternion getRotation();
-
-    /**
-     * @brief Sets the rotation of the entity in 3D space.
-     * @param rotation The new rotation to set.
-     */
-    void setRotation(const Quaternion& rotation);
-
-    /**
-     * @brief Gets the scale of the entity.
-     * @return The scale of the entity.
-     */
-    Vector3 getScale();
-
-    /**
-     * @brief Sets the scale of the entity.
-     * @param scale The new scale to set.
-     */
-    void setScale(const Vector3& scale);
-
     /**
      * @brief Gets the EntitySystem that manages this entity.
      * @return A pointer to the EntitySystem.
      */
-	EntitySystem* getEntitySystem();
+	GameObjectManager* getGameObjectManager();
 
     /**
      * @brief Sets the EntitySystem that manages this entity.
      * @param entitySystem A pointer to the EntitySystem.
      */
-	void setEntitySystem(EntitySystem* entitySystem);
-
-    /**
-     * @brief Gets the model matrix representing the entity's transformation.
-     * @return The model matrix.
-     */
-	Mat4 getModelMatrix() const;
+	void setEntitySystem(GameObjectManager* entitySystem);
 
     /**
      * @brief Releases the entity, preparing it for destruction.
@@ -110,18 +109,23 @@ public:
 	virtual void onCreate() {}
 
     /**
-     * @brief Called every frame to update the entity.
-     * Can be overridden by derived classes to implement custom behavior.
-     * @param deltaTime The time elapsed since the last frame.
-     */
-	virtual void onUpdate(float deltaTime) {}
-
-    /**
      * @brief Called every frame to update the entity at a fixed frame rate.
      * Can be overridden by derived classes to implement custom behavior.
      * @param deltaTime The time elapsed since the last frame.
      */
     virtual void onFixedUpdate(float fixedDeltaTime) {}
+
+    /**
+     * @brief Called every frame to update the entity.
+     * Can be overridden by derived classes to implement custom behavior.
+     * @param deltaTime The time elapsed since the last frame.
+     */
+	virtual void onUpdate(float deltaTime) 
+    {
+        for (auto& pair : m_components) {
+            pair.second->onUpdate(deltaTime);
+        }
+    }
 
     /**
      * @brief Called every frame after all Update functions have been called.
@@ -130,11 +134,35 @@ public:
      */
     virtual void onLateUpdate(float deltaTime) {}
 
+    // Add components to the game object
+    template <typename Component>
+    void addComponent(Component* component) {
+        // Use type_index to store the component by its type
+        std::type_index typeIndex(typeid(Component));
+        m_components[typeIndex] = component;
+
+        // Set the owner of the component (game object itself)
+        component->setOwner(this);
+
+        // Call the component's onCreate method
+        component->onCreate();
+    }
+
+    template <typename Component>
+    Component* getComponent() {
+        std::type_index typeIndex(typeid(Component));
+        auto it = m_components.find(typeIndex);
+        if (it != m_components.end()) {
+            return static_cast<Component*>(it->second);
+        }
+        return nullptr;
+    }
+
 
 protected:
-    Transform m_transform;
+    std::map<std::type_index, Component*> m_components;
 
-	EntitySystem* m_entitySystem = nullptr; //Pointer to the EntitySystem managing this entity.
+	GameObjectManager* m_entitySystem = nullptr; //Pointer to the EntitySystem managing this entity.
 
 private:
 	size_t m_id = 0; //Unique identifier for the entity.

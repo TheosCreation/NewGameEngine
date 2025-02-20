@@ -16,39 +16,37 @@ Mail : theo.morris@mds.ac.nz
 #include "GraphicsEntity.h"
 #include "GraphicsEngine.h"
 
-EntitySystem::EntitySystem()
+GameObjectManager::GameObjectManager()
 {
+	m_entityFactory = std::make_unique<EntityFactory>();
 }
 
-EntitySystem::EntitySystem(Scene* scene)
+GameObjectManager::GameObjectManager(Scene* scene)
 {
+	m_entityFactory = std::make_unique<EntityFactory>();
 	m_scene = scene;
 }
 
-EntitySystem::~EntitySystem()
+GameObjectManager::~GameObjectManager()
 {
 }
 
-Scene* EntitySystem::getScene()
+Scene* GameObjectManager::getScene()
 {
 	return m_scene;
 }
 
-bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
+bool GameObjectManager::createGameObjectInternal(GameObject* entity, size_t id)
 {
-	auto ptr = std::unique_ptr<Entity>(entity);
+	auto ptr = std::unique_ptr<GameObject>(entity);
 
-	// Check if the entity is of type Camera
-	if (dynamic_cast<Camera*>(entity)) {
-		m_cameras.push_back(static_cast<Camera*>(entity));
-	}
 	// Check if the entity is of type GraphicsEntity
-	else if (dynamic_cast<GraphicsEntity*>(entity)) {
+	if (dynamic_cast<GraphicsEntity*>(entity)) {
 		m_graphicsEntities.push_back(static_cast<GraphicsEntity*>(entity));
 	}
 
 	// Add the entity to the internal map
-	m_entities[id].emplace(entity, std::move(ptr));
+	m_gameObjects[id].emplace(entity, std::move(ptr));
 
 	// Initialize the entity
 	entity->setId(id);
@@ -58,21 +56,108 @@ bool EntitySystem::createEntityInternal(Entity* entity, size_t id)
 	return true;
 }
 
-void EntitySystem::removeEntity(Entity* entity)
+void GameObjectManager::removeEntity(GameObject* entity)
 {
 	m_entitiesToDestroy.emplace(entity);
 }
 
-void EntitySystem::onUpdate(float deltaTime)
+void GameObjectManager::loadEntitiesFromFile(const std::string& filePath)
+{
+	std::ifstream file(filePath);
+	if (!file.is_open())
+	{
+		std::cerr << "Failed to open file: " << filePath << std::endl;
+		return;
+	}
+
+	nlohmann::json sceneData;
+	try
+	{
+		file >> sceneData;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Failed to parse JSON file: " << e.what() << std::endl;
+		return;
+	}
+
+	if (!sceneData.contains("entities"))
+	{
+		std::cerr << "Error: JSON does not contain 'entities' key!" << std::endl;
+		return;
+	}
+
+	if (!m_entityFactory)
+	{
+		std::cerr << "Error: m_entityFactory is null!" << std::endl;
+		return;
+	}
+
+	for (const auto& entityData : sceneData["entities"])
+	{
+		if (!entityData.contains("type") || !entityData["type"].is_string())
+		{
+			std::cerr << "Error: Entity does not have a valid 'type' field!" << std::endl;
+			continue;
+		}
+
+		std::string type = entityData["type"];
+		std::cout << "Trying to create entity of type: " << type << std::endl;
+
+		GameObject* entity = m_entityFactory->createEntity(type);
+		if (entity)
+		{
+			std::cout << "Entity created successfully: " << type << std::endl;
+			entity->deserialize(entityData);
+			std::cout << "Entity hash code: " << typeid(*entity).hash_code() << std::endl;
+			createGameObjectInternal(entity, typeid(*entity).hash_code());
+		}
+		else
+		{
+			std::cerr << "Unknown entity type: " << type << std::endl;
+		}
+	}
+}
+
+
+void GameObjectManager::saveEntitiesToFile(const std::string& filePath)
+{
+	json sceneData;
+	sceneData["entities"] = json::array();
+
+	for (auto&& [id, entities] : m_gameObjects)
+	{
+		for (auto&& [ptr, entity] : entities)
+		{
+			if (entity)
+			{
+				sceneData["entities"].push_back(entity->serialize());
+			}
+		}
+	}
+
+	std::ofstream file(filePath);
+	if (!file.is_open())
+	{
+		std::cerr << "Failed to open file for writing: " << filePath << std::endl;
+		return;
+	}
+
+	file << sceneData.dump(4); // Pretty-print JSON with indentation
+	file.close();
+}
+
+
+void GameObjectManager::onUpdate(float deltaTime)
 {
 	for (auto e : m_entitiesToDestroy)
 	{
-		m_entities[e->getId()].erase(e);
+		m_gameObjects[e->getId()].erase(e);
 	}
 	m_entitiesToDestroy.clear();
 
 
-	for (auto&& [id, entities] : m_entities)
+	for (auto&& [id, entities] : m_gameObjects)
 	{
 		for (auto&& [ptr, entity] : entities)
 		{
@@ -81,9 +166,9 @@ void EntitySystem::onUpdate(float deltaTime)
 	}
 }
 
-void EntitySystem::onLateUpdate(float deltaTime)
+void GameObjectManager::onLateUpdate(float deltaTime)
 {
-	for (auto&& [id, entities] : m_entities)
+	for (auto&& [id, entities] : m_gameObjects)
 	{
 		for (auto&& [ptr, entity] : entities)
 		{
@@ -92,7 +177,7 @@ void EntitySystem::onLateUpdate(float deltaTime)
 	}
 }
 
-void EntitySystem::onShadowPass(int index)
+void GameObjectManager::onShadowPass(int index)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
@@ -100,7 +185,7 @@ void EntitySystem::onShadowPass(int index)
 	}
 }
 
-void EntitySystem::onLightingPass(UniformData _data)
+void GameObjectManager::onLightingPass(UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
@@ -108,7 +193,7 @@ void EntitySystem::onLightingPass(UniformData _data)
 	}
 }
 
-void EntitySystem::onGeometryPass(UniformData _data)
+void GameObjectManager::onGeometryPass(UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
@@ -116,7 +201,7 @@ void EntitySystem::onGeometryPass(UniformData _data)
 	}
 }
 
-void EntitySystem::onGraphicsUpdate(UniformData _data)
+void GameObjectManager::onGraphicsUpdate(UniformData _data)
 {
 	for (auto& graphicsEntity : m_graphicsEntities)
 	{
@@ -125,9 +210,9 @@ void EntitySystem::onGraphicsUpdate(UniformData _data)
 	}
 }
 
-void EntitySystem::onFixedUpdate(float fixedDeltaTime)
+void GameObjectManager::onFixedUpdate(float fixedDeltaTime)
 {
-	for (auto&& [id, entities] : m_entities)
+	for (auto&& [id, entities] : m_gameObjects)
 	{
 		for (auto&& [ptr, entity] : entities)
 		{
@@ -136,20 +221,34 @@ void EntitySystem::onFixedUpdate(float fixedDeltaTime)
 	}
 }
 
-std::vector<GraphicsEntity*> EntitySystem::getGraphicsEntities() const
+std::vector<GraphicsEntity*> GameObjectManager::getGraphicsEntities() const
 {
 	return m_graphicsEntities;
 }
 
-std::vector<Camera*> EntitySystem::getCameras() const
+std::vector<Camera*> GameObjectManager::getCameras() const
 {
-	return m_cameras;
+	std::vector<Camera*> cameras;
+
+	// Iterate over all game objects and check if they have a Camera component
+	for (auto&& [id, gameObjects] : m_gameObjects)
+	{
+		for (auto&& [ptr, gameObject] : gameObjects)
+		{
+			Camera* camera = gameObject->getComponent<Camera>();
+			if (camera) {
+				cameras.push_back(camera);
+			}
+		}
+	}
+
+	return cameras;
 }
 
-void EntitySystem::clearEntities()
+void GameObjectManager::clearGameObjects()
 {
 	// Clear the entities in the map
-	m_entities.clear();
+	m_gameObjects.clear();
 
 	// Clear the graphics entities vector
 	m_graphicsEntities.clear();

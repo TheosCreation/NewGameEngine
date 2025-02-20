@@ -13,72 +13,37 @@ Mail : theo.morris@mds.ac.nz
 #include "Entity.h"
 #include "EntitySystem.h"
 
-Entity::Entity()
+GameObject::GameObject()
 {
 }
 
-Entity::~Entity()
+GameObject::~GameObject()
 {
 }
 
-size_t Entity::getId()
+size_t GameObject::getId()
 {
 	return m_id;
 }
 
-void Entity::setId(size_t id)
+void GameObject::setId(size_t id)
 {
 	m_id = id;
 }
 
-void Entity::setPosition(const Vector3& position)
-{
-	m_transform.position = position;
-}
-
-void Entity::setRotation(const Quaternion& rotation)
-{
-	m_transform.rotation = rotation;
-}
-
-void Entity::setScale(const Vector3& scale)
-{
-	m_transform.scale = scale;
-}
-
-Mat4 Entity::getModelMatrix() const
-{
-	return m_transform.GetMatrix();
-}
-
-void Entity::release()
+void GameObject::release()
 {
 	// Remove this entity from the EntitySystem
 	m_entitySystem->removeEntity(this);
 }
 
-Vector3 Entity::getPosition()
-{
-	return m_transform.position;
-}
-
-Quaternion Entity::getRotation()
-{
-	return m_transform.rotation;
-}
-
-Vector3 Entity::getScale()
-{
-	return m_transform.scale;
-}
-
-void Entity::setEntitySystem(EntitySystem* entitySystem)
+void GameObject::setEntitySystem(GameObjectManager* entitySystem)
 {
 	// Set the EntitySystem managing this entity
 	m_entitySystem = entitySystem;
 }
 
-EntitySystem* Entity::getEntitySystem()
+GameObjectManager* GameObject::getGameObjectManager()
 {
 	return m_entitySystem;
 }

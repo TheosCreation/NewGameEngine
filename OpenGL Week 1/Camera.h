@@ -15,7 +15,7 @@ Mail : theo.morris@mds.ac.nz
 #include "Math.h"
 #include "Rect.h"
 
-class Camera : public Entity
+class Camera : public Component
 {
 public:
     /**
@@ -72,32 +72,9 @@ public:
      * @param newTargetPosition The new target position.
      */
     void setTargetPosition(Vector3 newTargetPosition);
-
-    /**
-     * @brief Gets the forward direction of the camera.
-     * @return Forward vector of the camera.
-     */
-    Vector3 getForwardDirection();
-
-    /**
-     * @brief Sets the forward direction of the camera.
-     * @param newForwardDirection The new forward direction.
-     */
-    void setForwardDirection(Vector3 newForwardDirection);
-
-    /**
-     * @brief Gets the upward direction of the camera.
-     * @return Upward vector of the camera.
-     */
-    Vector3 getUpwardDirection();
-
-    Vector3 getRightwardDirection();
-
-    /**
-     * @brief Sets the upward direction of the camera.
-     * @param newUpwardDirection The new upward direction.
-     */
-    void setUpwardDirection(Vector3 newUpwardDirection);
+ 
+    Vector3 getPosition();
+    Vector3 getFacingDirection();
 
 private:
     /**
@@ -109,8 +86,8 @@ private:
     Mat4 m_view{};                 //The view matrix of the camera.
     Mat4 m_projection{};           //The projection matrix of the camera.
     Vector3 m_targetPosition{};       //The target position of the camera.
-    Vector3 m_forwardDirection{0.0f, 0.0f, -1.0f};  //The forwards direction of the camera.
-    Vector3 m_upwardDirection{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
+
+    // move this to some sort of manager class
     Vector3 m_worldUp{ 0.0f, 1.0f, 0.0f };  //The upwards direction of the camera.
 
     float m_farPlane = 10000.0f;       //The distance of the far plane.

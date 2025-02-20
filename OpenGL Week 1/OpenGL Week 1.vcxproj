@@ -72,7 +72,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/Dependencies/STB;$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/Dependencies/STB;$(ProjectDir)/Dependencies/tinyobjloader;$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(ProjectDir)/Dependencies/JSON;$(ProjectDir)/Dependencies/GLM;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)/Dependencies/GLFW;$(ProjectDir)/Dependencies/GLEW;$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)</OutDir>
   </PropertyGroup>
@@ -157,16 +157,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
+    <ClCompile Include="GameObjectRegistry.cpp" />
     <ClCompile Include="GeometryBuffer.cpp" />
     <ClCompile Include="HeightMap.cpp" />
+    <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Scene2.cpp" />
-    <ClCompile Include="Scene1.cpp" />
-    <ClCompile Include="Scene3.cpp" />
-    <ClCompile Include="Scene4.cpp" />
     <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="SkyboxEntity.cpp" />
     <ClCompile Include="SSRQuad.cpp" />
@@ -185,7 +184,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshEntity.cpp" />
-    <ClCompile Include="MyPlayer.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="QuadEntity.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -239,16 +238,17 @@
   <ItemGroup>
     <ClInclude Include="All.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="EntityFactory.h" />
     <ClInclude Include="Framebuffer.h" />
+    <ClInclude Include="GameObjectRegistry.h" />
     <ClInclude Include="GeometryBuffer.h" />
     <ClInclude Include="HeightMap.h" />
+    <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Scene2.h" />
-    <ClInclude Include="Scene1.h" />
-    <ClInclude Include="Scene3.h" />
-    <ClInclude Include="Scene4.h" />
+    <ClInclude Include="Serializable.h" />
     <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="SkyboxEntity.h" />
     <ClInclude Include="SSRQuad.h" />
@@ -267,7 +267,7 @@
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshEntity.h" />
-    <ClInclude Include="MyPlayer.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="QuadEntity.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Rect.h" />

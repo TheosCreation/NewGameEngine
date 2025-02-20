@@ -38,7 +38,7 @@ void MeshEntity::onGraphicsUpdate(UniformData data)
     GraphicsEntity::onGraphicsUpdate(data);
 
     m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
+    m_shader->setMat4("modelMatrix", m_transform.GetMatrix());
 
     m_shader->setVec3("CameraPos", data.cameraPosition);
 
@@ -88,7 +88,7 @@ void MeshEntity::onShadowPass(uint index)
 
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix(index));
-    m_shadowShader->setMat4("modelMatrix", getModelMatrix());
+    m_shadowShader->setMat4("modelMatrix", m_transform.GetMatrix());
 
     if (m_mesh == nullptr) return;
 
@@ -112,7 +112,7 @@ void MeshEntity::onGeometryPass(UniformData data)
     graphicsEngine.setShader(m_geometryShader);
 
     m_geometryShader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_geometryShader->setMat4("modelMatrix", getModelMatrix());
+    m_geometryShader->setMat4("modelMatrix", m_transform.GetMatrix());
     m_geometryShader->setFloat("ObjectShininess", getShininess());
 
     if (m_texture != nullptr)
@@ -141,7 +141,7 @@ void MeshEntity::onLightingPass(UniformData data)
     GeometryBuffer::GetInstance().PopulateShader(m_lightingShader);
 
     m_lightingShader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_lightingShader->setMat4("ModelMatrix", getModelMatrix());
+    m_lightingShader->setMat4("ModelMatrix", m_transform.GetMatrix());
     m_lightingShader->setVec3("CameraPos", data.cameraPosition);
 
     auto& lightManager = LightManager::GetInstance();

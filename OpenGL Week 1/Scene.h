@@ -36,6 +36,18 @@ public:
     ~Scene();
 
     /**
+     * @brief Called when the game is created.
+     * Use this method to initialize resources such as textures, meshes, and shaders.
+     */
+    virtual void onCreate();
+
+    /**
+     * @brief Called after onCreate when the game is created.
+     * Use this method for additional initialization tasks.
+     */
+    virtual void onCreateLate();
+
+    /**
      * @brief Called to execute the shadow rendering pass.
      * Override this method in derived classes to customize shadow rendering.
      */
@@ -58,18 +70,6 @@ public:
      * Default rendering mode is deferred rendering.
      */
     virtual void onGraphicsUpdate();
-
-    /**
-     * @brief Called when the game is created.
-     * Use this method to initialize resources such as textures, meshes, and shaders.
-     */
-    virtual void onCreate();
-
-    /**
-     * @brief Called after onCreate when the game is created.
-     * Use this method for additional initialization tasks.
-     */
-    virtual void onCreateLate();
 
     /**
      * @brief Called every frame to update the game logic.
@@ -120,9 +120,15 @@ protected:
     ShaderPtr m_computeShader = nullptr; /**< @brief Shader for compute operations. */
 
     unique_ptr<SkyboxEntity> m_skyBox; /**< @brief Pointer to the skybox instance used in the scene. */
-    unique_ptr<EntitySystem> m_entitySystem; /**< @brief Pointer to the entity system managing game entities. */
+    unique_ptr<GameObjectManager> m_gameObjectManager; /**< @brief Pointer to the entity system managing game entities. */
     FramebufferPtr m_postProcessingFramebuffer; /**< @brief Pointer to the framebuffer for post-processing effects. */
 
     Game* gameOwner; /**< @brief Pointer to the owner Game instance. */
     vector<MeshEntity*> m_lights; /**< @brief Pointers to the light objects (point and spotlights) in the scene. */
+
+    Player* m_player = nullptr; //Pointer to the player entity
+
+    float m_elapsedSeconds = 0;
+    MeshEntity* m_ship = nullptr; //Pointer to the statue entity
+    TerrainEntity* m_terrain = nullptr; //Pointer to the terrain entity
 };

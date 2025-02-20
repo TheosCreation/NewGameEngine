@@ -98,13 +98,13 @@ public:
      * @brief Returns the current mouse position as a vector2.
      * @return The current mouse position.
      */
-    glm::vec2 getMousePosition();
+    Vector2 getMousePosition();
 
     /**
      * @brief Returns the current mouse scroll as a vector2.
      * @return The current mouse scroll.
      */
-    glm::vec2 getMouseScroll();
+    Vector2 getMouseScroll();
 
     /**
      * @brief Enables or disables play mode, which hides the cursor and locks it at the center of the screen.
@@ -165,7 +165,7 @@ private:
     GLFWwindow* WindowPtr = nullptr; // Pointer to the GLFW window
 
     bool m_playEnable = false; // Indicates whether play mode is enabled
-    glm::vec2 m_oldMousePos{}; // Previous mouse position
+    Vector2 m_oldMousePos{}; // Previous mouse position
     Rect m_screenArea; // Screen area for cursor locking
-    glm::vec2 m_deltaMouse{}; // Mouse movement delta
+    Vector2 m_deltaMouse{}; // Mouse movement delta
 };

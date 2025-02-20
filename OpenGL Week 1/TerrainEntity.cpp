@@ -153,7 +153,7 @@ void TerrainEntity::onGraphicsUpdate(UniformData data)
 
     // Set uniform matrices for shader
     m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
+    m_shader->setMat4("modelMatrix", m_transform.GetMatrix());
 
     // Get graphics engine instance
     auto& graphicsEngine = GraphicsEngine::GetInstance();
@@ -199,7 +199,7 @@ void TerrainEntity::onGeometryPass(UniformData data)
 
     // Set shader matrices
     m_geometryShader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_geometryShader->setMat4("modelMatrix", getModelMatrix());
+    m_geometryShader->setMat4("modelMatrix", m_transform.GetMatrix());
 
     // Bind textures for geometry pass
     if (m_texture != nullptr)
@@ -238,7 +238,7 @@ void TerrainEntity::onShadowPass(uint index)
     // Set shader matrices
     auto& lightManager = LightManager::GetInstance();
     m_shadowShader->setMat4("VPLight", lightManager.getLightSpaceMatrix(index));
-    m_shadowShader->setMat4("modelMatrix", getModelMatrix());
+    m_shadowShader->setMat4("modelMatrix", m_transform.GetMatrix());
 
     if (m_mesh == nullptr) return;
 

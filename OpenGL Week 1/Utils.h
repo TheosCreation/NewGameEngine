@@ -16,6 +16,7 @@ Mail : theo.morris@mds.ac.nz
 #include <stdexcept>
 #include <memory>
 #include <vector>
+#include <map>
 #include <glm.hpp>
 #include "Rect.h"
 #include "Math.h"
@@ -23,6 +24,12 @@ Mail : theo.morris@mds.ac.nz
 #include <any>
 #include <functional>
 #include <algorithm>
+#include <typeinfo>
+#include <typeindex>
+#include <fstream>
+#include <nlohmann\json.hpp>
+
+using json = nlohmann::json; // will be using json to serialize classes and save entity objects and all
 
 // Forward declarations of classes
 class UniformBuffer;
@@ -136,7 +143,7 @@ struct Transform
     // Returns the forward direction of the object based on its rotation
     Vector3 GetForward() const
     {
-        return rotation * Vector3(0.0f, 0.0f, 1.0f); // Forward direction is along the z-axis
+        return rotation * Vector3(0.0f, 0.0f, -1.0f); // Forward direction is along the z-axis
     }
 
     // Returns the right direction of the object based on its rotation
@@ -526,3 +533,30 @@ private:
         printf("[%s] %s\n", type.c_str(), message.c_str());
     }
 };
+
+// Helper function to clean up the class name
+inline std::string getClassName(const std::type_info& typeInfo)
+{
+    std::string name = typeInfo.name();
+
+    // Clean up the name (compiler-specific)
+#ifdef _MSC_VER
+    // MSVC returns "class Player", so we remove the "class " prefix
+    size_t pos = name.find("class ");
+    if (pos != std::string::npos)
+    {
+        name.erase(pos, 6); // Remove "class "
+    }
+#else
+    // GCC/Clang returns mangled names like "6Player", so we demangle them
+    int status = 0;
+    char* demangled = abi::__cxa_demangle(name.c_str(), nullptr, nullptr, &status);
+    if (status == 0)
+    {
+        name = demangled;
+        free(demangled);
+    }
+#endif
+
+    return name;
+}

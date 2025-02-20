@@ -10,33 +10,31 @@ Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
-#include "MyPlayer.h"
+#include "Player.h"
 #include <algorithm>
 
-MyPlayer::MyPlayer()
+Player::Player()
 {
 }
 
-MyPlayer::~MyPlayer()
+Player::~Player()
 {
 }
 
-void MyPlayer::onCreate()
+void Player::onCreate()
 {
-	m_cam = getEntitySystem()->createEntity<Camera>();
-    m_cam->setPosition(m_transform.position);
+    m_cam = std::make_unique<Camera>();
+    addComponent<Camera>(m_cam.get());
 
-    m_uiCamera = getEntitySystem()->createEntity<Camera>();
-    m_uiCamera->setCameraType(CameraType::Orthogonal);
+    //m_uiCamera = std::make_unique<Camera>();
+    //addComponent<Camera>(m_uiCamera.get());
+    //m_uiCamera->setCameraType(CameraType::Orthogonal);
 }
 
-void MyPlayer::onUpdate(float deltaTime)
+void Player::onUpdate(float deltaTime)
 {
     auto& inputManager = InputManager::GetInstance();
     auto& lightManager = LightManager::GetInstance();
-
-    // Update the camera's position
-    m_cam->setPosition(m_transform.position);
 
     float sensitivity = 0.1f;  // Sensitivity factor for mouse movement
     m_yaw -= inputManager.getMouseXAxis() * sensitivity;
@@ -52,20 +50,8 @@ void MyPlayer::onUpdate(float deltaTime)
     glm::quat yawRotation = glm::angleAxis(glm::radians(m_yaw), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::quat pitchRotation = glm::angleAxis(glm::radians(m_pitch), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    // Combine yaw and pitch rotations
-    glm::quat orientation = yawRotation * pitchRotation;
-
-    // Update the camera's forward direction by rotating the default forward vector (0, 0, -1)
-    Vector3 forward = glm::normalize(orientation * glm::vec3(0.0f, 0.0f, -1.0f));
-    m_cam->setForwardDirection(forward);
-
-    // Calculate the right and up vectors based on the new forward direction
-    Vector3 right = glm::normalize(glm::cross(forward, glm::vec3(0.0f, 1.0f, 0.0f)));
-    Vector3 up = glm::normalize(glm::cross(right, forward));
-    m_cam->setUpwardDirection(up);
-
-    // Combine this yaw rotation with the existing rotation
-    m_transform.rotation = yawRotation * m_transform.rotation;
+    // Combine yaw and pitch rotations and apply to player transform
+    m_transform.rotation = yawRotation * pitchRotation;
 
     // Enable play mode when clicking on the window
     if (inputManager.isMousePressed(MouseButtonLeft) && !m_playMode)
@@ -133,6 +119,10 @@ void MyPlayer::onUpdate(float deltaTime)
         m_movementSpeed = m_originalMovementSpeed;
     }
 
+    Vector3 forward = m_transform.GetForward();
+    Vector3 right = m_transform.GetRight();
+    Vector3 up = m_transform.GetUp();
+    
     if (inputManager.isKeyDown(Key::KeyW))
         m_transform.position += forward * m_movementSpeed * deltaTime;
     if (inputManager.isKeyDown(Key::KeyS))
@@ -146,8 +136,9 @@ void MyPlayer::onUpdate(float deltaTime)
     if (inputManager.isKeyDown(Key::KeyQ))
         m_transform.position -= up * m_movementSpeed * deltaTime;
     if (inputManager.isKeyDown(Key::KeyE))
-        m_transform.position += up * m_movementSpeed * deltaTime; glm::vec2 mouseScroll = inputManager.getMouseScroll();
-
+        m_transform.position += up * m_movementSpeed * deltaTime; 
+    
+    Vector2 mouseScroll = inputManager.getMouseScroll();
     if (mouseScroll.y < 0 || mouseScroll.y > 0)
     {
         m_fov -= mouseScroll.y * m_zoomSpeed;
@@ -163,11 +154,11 @@ void MyPlayer::onUpdate(float deltaTime)
     }
 }
 
-void MyPlayer::onFixedUpdate(float fixedDeltaTime)
+void Player::onFixedUpdate(float fixedDeltaTime)
 {
     // do physics here
 }
 
-void MyPlayer::onLateUpdate(float deltaTime)
+void Player::onLateUpdate(float deltaTime)
 {
 }

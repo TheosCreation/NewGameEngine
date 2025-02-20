@@ -21,10 +21,7 @@ Mail : theo.morris@mds.ac.nz
 #include "SkyBoxEntity.h"
 #include <glew.h>
 #include <glfw3.h>
-#include "Scene1.h"
-#include "Scene2.h"
-#include "Scene3.h"
-#include "Scene4.h"
+#include "Scene.h"
 #include "Framebuffer.h"
 #include "GeometryBuffer.h"
 #include "SSRQuad.h"
@@ -101,8 +98,8 @@ void Game::onCreate()
     //m_canvasQuad->setTextureFromId(m_postProcessingFramebuffer->RenderTexture);
     //m_canvasQuad->setShader(defaultQuadShader);
 
-    auto scene1 = std::make_shared<Scene1>(this);
-    SetScene(scene1);
+    auto scene = std::make_shared<Scene>(this);
+    SetScene(scene);
 }
 
 void Game::onCreateLate()
@@ -126,29 +123,12 @@ void Game::onUpdateInternal()
 
     m_currentScene->onUpdate(deltaTime);
 
-    if (inputManager.isKeyPressed(Key::Key1))
-    {
-        auto scene1 = std::make_shared<Scene1>(this);
-        SetScene(scene1);
-    }
+    //if (inputManager.isKeyPressed(Key::Key1))
+    //{
+    //    auto scene1 = std::make_shared<Scene1>(this);
+    //    SetScene(scene1);
+    //}
     
-    if (inputManager.isKeyPressed(Key::Key2))
-    {
-        auto scene2 = std::make_shared<Scene2>(this);
-        SetScene(scene2);
-    }
-    
-    if (inputManager.isKeyPressed(Key::Key3))
-    {
-        auto scene3 = std::make_shared<Scene3>(this);
-        SetScene(scene3);
-    }
-    
-    if (inputManager.isKeyPressed(Key::Key4))
-    {
-        auto scene4 = std::make_shared<Scene4>(this);
-        SetScene(scene4);
-    }
     // Perform fixed updates
     while (m_accumulatedTime >= m_fixedTimeStep)
     {
@@ -172,7 +152,7 @@ void Game::onUpdateInternal()
     //m_postProcessingFramebuffer->Bind();
     //graphicsEngine.clear(glm::vec4(0, 0, 0, 1));
 
-    //m_currentScene->onGraphicsUpdate(deltaTime);
+    //m_currentScene->onGraphicsUpdate();
 
     //m_postProcessingFramebuffer->UnBind();
 

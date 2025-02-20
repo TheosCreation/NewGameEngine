@@ -92,7 +92,7 @@ void QuadEntity::onGraphicsUpdate(UniformData data)
     GraphicsEntity::onGraphicsUpdate(data);
 
     m_shader->setMat4("VPMatrix", data.projectionMatrix * data.viewMatrix);
-    m_shader->setMat4("modelMatrix", getModelMatrix());
+    m_shader->setMat4("modelMatrix", m_transform.GetMatrix());
 
     auto& graphicsEngine = GraphicsEngine::GetInstance();
     if (m_texture != nullptr)

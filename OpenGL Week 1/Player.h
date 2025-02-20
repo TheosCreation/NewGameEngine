@@ -4,33 +4,35 @@ Media Design School
 Auckland
 New Zealand
 (c) 2024 Media Design School
-File Name : MyPlayer.h
-Description : MyPlayer class is an entity that can be adjusted by the end user
+File Name : Player.h
+Description : Player class is an entity that can be adjusted by the end user
 Author : Theo Morris
 Mail : theo.morris@mds.ac.nz
 **/
 
 #pragma once
-#include "All.h"
-#include "InstancedMeshEntity.h"
-#include "QuadEntity.h"
+#include "InputManager.h"
+#include "LightManager.h"
+#include "EntitySystem.h"
+#include "Entity.h"
+#include "Camera.h"
 
 /**
- * @class MyPlayer
+ * @class Player
  * @brief An entity that can be adjusted by the end user.
  */
-class MyPlayer : public Entity
+class Player : public GameObject
 {
 public:
     /**
-     * @brief Constructor for the MyPlayer class.
+     * @brief Constructor for the Player class.
      */
-    MyPlayer();
+    Player();
 
     /**
-     * @brief Destructor for the MyPlayer class.
+     * @brief Destructor for the Player class.
      */
-    ~MyPlayer();
+    ~Player();
 
     /**
      * @brief Called when the player entity is created.
@@ -54,7 +56,6 @@ public:
 
 private:
     float m_elapsedSeconds = 0.0f; // Elapsed time in seconds
-    Entity* m_entity = nullptr; // Pointer to the entity
     
     float m_movementSpeed = 50.0f; // Movement speed of the movable object
     float m_originalMovementSpeed = m_movementSpeed; // Original movement speed
@@ -64,9 +65,9 @@ private:
     float m_fov = 90.0f; // Fov for the camera
     float m_maxFov = 120.0f; // Maximum fov for the camera
     float m_zoomSpeed = 0.5f; // Speed of zooming
-    bool m_playMode = false; // Flag for play mode
+    bool m_playMode = false; // Flag for locking the cursor
     bool m_wireframeMode = false; // Flag for wireframe mode
 
-    Camera* m_cam = nullptr; // Pointer to the main camera
-    Camera* m_uiCamera = nullptr; // Pointer to the UI camera
+    unique_ptr<Camera> m_cam = nullptr; // Pointer to the main camera
+    //unique_ptr<Camera> m_uiCamera = nullptr; // Pointer to the UI camera
 };

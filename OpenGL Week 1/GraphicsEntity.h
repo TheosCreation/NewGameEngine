@@ -17,13 +17,13 @@ Mail : theo.morris@mds.ac.nz
 #include "Shader.h"
 
 // Forward declaration of EntitySystem class
-class EntitySystem;
+class GameObjectManager;
 
 /**
  * @class GraphicsEntity
  * @brief An entity type to be rendered by the graphics engine.
  */
-class GraphicsEntity : public Entity
+class GraphicsEntity : public GameObject
 {
 public:
     /**

@@ -41,3 +41,4 @@ Mail : theo.morris@mds.ac.nz
 #include "EntitySystem.h"
 #include "GraphicsEntity.h"
 #include "Game.h"
+#include "Player.h"

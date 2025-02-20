@@ -13,11 +13,12 @@ Mail : theo.morris@mds.ac.nz
 #pragma once
 #include "Utils.h"
 #include "Math.h"
+#include "EntityFactory.h"
 #include <map>
 #include <set>
 
 // Forward declarations of classes
-class Entity;
+class GameObject;
 class GraphicsEntity;
 class Camera;
 class Scene;
@@ -26,24 +27,24 @@ class Scene;
  * @class EntitySystem
  * @brief A container and controller of the entities for the scene.
  */
-class EntitySystem
+class GameObjectManager
 {
 public:
     /**
      * @brief Default constructor for the EntitySystem class.
      */
-    EntitySystem();
+    GameObjectManager();
 
     /**
      * @brief Constructor for the EntitySystem class with a scene pointer.
      * @param scene Pointer to the Scene.
      */
-    EntitySystem(Scene* scene);
+    GameObjectManager(Scene* scene);
 
     /**
      * @brief Destructor for the EntitySystem class.
      */
-    ~EntitySystem();
+    ~GameObjectManager();
 
     Scene* getScene();
 
@@ -53,12 +54,12 @@ public:
      * @return A pointer to the created entity.
      */
     template <typename T>
-    T* createEntity()
+    T* createGameObject()
     {
-        static_assert(std::is_base_of<Entity, T>::value, "T must derive from Entity class");
+        static_assert(std::is_base_of<GameObject, T>::value, "T must derive from Game Object class");
         auto id = typeid(T).hash_code();
         auto e = new T();
-        if (createEntityInternal(e, id))
+        if (createGameObjectInternal(e, id))
             return e;
         return nullptr;
     }
@@ -67,7 +68,10 @@ public:
      * @brief Removes an entity from the system.
      * @param entity Pointer to the entity to remove.
      */
-    void removeEntity(Entity* entity);
+    void removeEntity(GameObject* entity);
+
+    void loadEntitiesFromFile(const std::string& filePath);
+    void saveEntitiesToFile(const std::string& filePath);
 
     /**
      * @brief Updates the entity system.
@@ -101,9 +105,12 @@ public:
     /**
      * @brief Map of entities categorized by their type ID.
      */
-    std::map<size_t, std::map<Entity*, std::unique_ptr<Entity>>> m_entities;
+    std::map<size_t, std::map<GameObject*, std::unique_ptr<GameObject>>> m_gameObjects;
 
-    void clearEntities();
+    void clearGameObjects();
+
+    //move later
+    std::unique_ptr<EntityFactory> m_entityFactory;
 
 private:
     /**
@@ -112,12 +119,13 @@ private:
      * @param id The type ID of the entity.
      * @return True if the entity was created successfully, false otherwise.
      */
-    bool createEntityInternal(Entity* entity, size_t id);
+    bool createGameObjectInternal(GameObject* entity, size_t id);
+    
 
     /**
      * @brief Set of entities scheduled for destruction.
      */
-    std::set<Entity*> m_entitiesToDestroy;
+    std::set<GameObject*> m_entitiesToDestroy;
 
     /**
      * @brief Vector of all graphics entities.
